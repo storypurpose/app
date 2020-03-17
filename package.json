@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "deploy": "ng deploy --cname=app.storypurpose.info --name='adhamankar' "
+    "deploy": "ng deploy --cname=app.storypurpose.info --name='adhamankar' --repo=https://github.com/adhamankar/storypurpose.git"
   },
   "private": true,
   "dependencies": {

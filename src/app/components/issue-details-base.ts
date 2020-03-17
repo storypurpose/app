@@ -8,6 +8,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
 import { PersistenceService } from '../lib/persistence.service';
 import { DataService, SharedDatatype } from '../lib/data.service';
+import { Store } from '@ngrx/store';
+import { PurposeState } from '../purpose/+state/purpose.state';
+import { SetPurposeAction, SetSetRecentlyViewedAction } from '../purpose/+state/purpose.actions';
 
 export class IssueDetailsBaseComponent {
     public title = 'text-matrix';
@@ -33,10 +36,12 @@ export class IssueDetailsBaseComponent {
     public menulist: any;
     public connectionDetails: any;
 
-    constructor(public router: Router, public activatedRoute: ActivatedRoute,
+    constructor(public router: Router,
+        public activatedRoute: ActivatedRoute,
         public jiraService: JiraService,
         public persistenceService: PersistenceService,
-        public dataService: DataService) {
+        public dataService: DataService,
+        public store$: Store<PurposeState>) {
     }
 
     public initiatize(): void {
@@ -125,7 +130,7 @@ export class IssueDetailsBaseComponent {
         this.expandPurpose(node);
 
         this.selectedIssue = { key: node.key, label: node.label, type: node.type };
-        this.dataService.updateSharedData(SharedDatatype.RecentlyVisited, this.selectedIssue);
+        this.store$.dispatch(new SetSetRecentlyViewedAction(this.selectedIssue));
     }
 
     canTrackProgress = (node) => (node && (node.type === CustomNodeTypes.TestSuite || node.type === CustomNodeTypes.Story));
@@ -134,7 +139,7 @@ export class IssueDetailsBaseComponent {
         this.purpose = [];
         this.populatePurpose(node);
         _.reverse(this.purpose);
-        this.dataService.updateSharedData(SharedDatatype.Purpose, this.purpose);
+        this.store$.dispatch(new SetPurposeAction(this.purpose));
     }
 
     public onIssueLoaded(issue) {

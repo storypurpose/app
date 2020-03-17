@@ -1,16 +1,18 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
-import { CustomNodeTypes } from '../lib/tree-utils';
 import * as _ from "lodash";
-import { PersistenceService } from '../lib/persistence.service';
-import { DataService, SharedDatatype } from '../lib/data.service';
 import { Subscription } from 'rxjs';
-import { withLatestFrom } from 'rxjs/operators';
+import { withLatestFrom, filter, map } from 'rxjs/operators';
+import { Purpose, PurposeState } from '../+state/purpose.state';
+import { Store } from '@ngrx/store';
+import { CustomNodeTypes } from 'src/app/lib/tree-utils';
+import { PersistenceService } from 'src/app/lib/persistence.service';
+import { DataService } from 'src/app/lib/data.service';
 
 @Component({
-    selector: 'app-purpose',
-    templateUrl: './purpose.component.html'
+    selector: 'app-purpose-details',
+    templateUrl: './details.component.html'
 })
-export class PurposeComponent implements OnInit, OnDestroy {
+export class PurposeDetailsComponent implements OnInit, OnDestroy {
     _purpose: any;
     @Input()
     set purpose(value: any) {
@@ -30,14 +32,17 @@ export class PurposeComponent implements OnInit, OnDestroy {
 
     public subscription: Subscription;
 
-    constructor(public persistenceService: PersistenceService, private dataService: DataService) {
+    constructor(public persistenceService: PersistenceService,
+        private dataService: DataService,
+        public store$: Store<PurposeState>
+    ) {
         this.organizationPurpose = this.persistenceService.getOrganizationDetails();
 
-        this.subscription = this.dataService.getSharedData(SharedDatatype.Purpose)
-            .pipe(withLatestFrom(p => p))
-            .subscribe(data => this.purpose = data)
     }
     ngOnInit(): void {
+        this.subscription = this.store$.select(p => p.purpose)
+            .pipe(filter(p => p && p.item), map(p => p.item))
+            .subscribe(data => this.purpose = data);
     }
     ngOnDestroy(): void {
         this.subscription.unsubscribe();

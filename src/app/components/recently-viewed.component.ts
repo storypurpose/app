@@ -4,7 +4,9 @@ import * as _ from "lodash";
 import { LoadingBarModule } from '@ngx-loading-bar/core';
 import { DataService, SharedDatatype } from '../lib/data.service';
 import { Subscription } from 'rxjs';
-import { withLatestFrom } from 'rxjs/operators';
+import { withLatestFrom, filter, map } from 'rxjs/operators';
+import { PurposeState } from '../purpose/+state/purpose.state';
+import { Store } from '@ngrx/store';
 
 @Component({
     selector: 'app-recently-viewed',
@@ -16,13 +18,13 @@ export class RecentlyViewedComponent implements OnInit, OnDestroy {
 
     subscription: Subscription;
 
-    constructor(public dataService: DataService) {
+    constructor(public dataService: DataService, public store$: Store<PurposeState>) {
 
     }
     ngOnInit(): void {
-        this.subscription = this.dataService.getSharedData(SharedDatatype.RecentlyVisited)
-            .pipe(withLatestFrom(p => p))
-            .subscribe(rv => this.setIssue(rv));
+        this.subscription = this.store$.select(p => p.purpose)
+            .pipe(filter(p => p && p.recentmostItem), map(p => p.recentmostItem))
+            .subscribe(data => this.setIssue(data));
     }
     ngOnDestroy(): void {
         this.subscription ? this.subscription.unsubscribe() : null;

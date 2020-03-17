@@ -15,12 +15,11 @@ import { TreeModule } from 'primeng/tree';
 import { EpicListComponent } from './components/obsolete/epiclist.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SliderModule } from 'primeng/slider';
-import { SubDetailsComponent } from './components/sub-details.component';
+import { SubDetailsComponent } from './components/sub-items.component';
 import { ConnectionDetailsComponent } from './components/setup/connection-details.component';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { AngularSplitModule } from 'angular-split';
 import { PageNotFoundComponent } from './components/page-not-found.component';
-import { PurposeComponent } from './components/purpose.component';
 import { IssueviewerComponent } from './components/issueviewer.component';
 import { IssueEntryComponent } from './components/issue-entry.component';
 import { CustomFieldsComponent } from './components/setup/custom-fields.component';
@@ -34,7 +33,6 @@ import { ErrorHandlingInterceptor } from './lib/error-handling.interceptor';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { ContextMenuModule } from 'primeng/contextmenu';
-import { RecentlyViewedComponent } from './components/recently-viewed.component';
 import { HierarchyFieldEditorComponent } from './components/setup/hierarchy-field.component';
 import { AboutComponent } from './components/help/about.component';
 import { WorkspaceComponent } from './components/workspace.component';
@@ -42,16 +40,19 @@ import { FooterComponent } from './components/footer.component';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { FileUploadModule } from 'primeng/fileupload';
 import { GoogleAnalyticsService } from './lib/google-analytics.service';
+import { StoreModule } from '@ngrx/store';
+import { PurposeModule } from './purpose/purpose.module';
+import { RecentlyViewedComponent } from './components/recently-viewed.component';
 
 @NgModule({
   declarations: [
     AboutComponent, WorkspaceComponent, FooterComponent,
 
-    ButtonPanelComponent, NodeTemplateComponent, RecentlyViewedComponent,
+    ButtonPanelComponent, NodeTemplateComponent,
 
     AppComponent, PageNotFoundComponent, EpicListComponent,
-    IssueviewerComponent, PurposeComponent,
-    SubDetailsComponent, IssueEntryComponent,
+    IssueviewerComponent,
+    SubDetailsComponent, IssueEntryComponent, RecentlyViewedComponent,
 
     ConnectionDetailsComponent, CustomFieldsComponent,
     OrganizationComponent, HierarchyFieldEditorComponent, MappingListComponent
@@ -78,7 +79,10 @@ import { GoogleAnalyticsService } from './lib/google-analytics.service';
     NgxMdModule.forRoot(),
     DisqusModule.forRoot('disqus_storypurpose'),
 
-    AppRoutingModule
+    PurposeModule,
+
+    AppRoutingModule,
+    StoreModule.forRoot({})
   ],
   providers: [
     GoogleAnalyticsService,

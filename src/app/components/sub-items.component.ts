@@ -2,14 +2,16 @@ import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { JiraService } from '../lib/jira.service';
 import { flattenNodes, appendExtendedFields } from '../lib/tree-utils';
 import * as _ from 'lodash';
-import { filter, withLatestFrom } from 'rxjs/operators';
+import { filter, withLatestFrom, map } from 'rxjs/operators';
 import { PersistenceService } from '../lib/persistence.service';
 import { Subscription } from 'rxjs';
 import { DataService, SharedDatatype } from '../lib/data.service';
+import { Purpose, PurposeState } from '../purpose/+state/purpose.state';
+import { Store } from '@ngrx/store';
 
 @Component({
-    selector: 'app-sub-details',
-    templateUrl: './sub-details.component.html'
+    selector: 'app-sub-items',
+    templateUrl: './sub-items.component.html'
 })
 export class SubDetailsComponent implements OnInit, OnDestroy {
     _issue: any;
@@ -33,14 +35,16 @@ export class SubDetailsComponent implements OnInit, OnDestroy {
 
     subscription: Subscription;
 
-    constructor(public jiraService: JiraService, public persistenceService: PersistenceService,
-        public dataService: DataService) {
+    constructor(public jiraService: JiraService,
+        public persistenceService: PersistenceService,
+        public dataService: DataService,
+        public store$: Store<PurposeState>) {
 
     }
     ngOnInit(): void {
-        this.subscription = this.dataService.getSharedData(SharedDatatype.RecentlyVisited)
-            .pipe(withLatestFrom(p => p))
-            .subscribe(rv => this.issue = rv);
+        this.subscription = this.store$.select(p => p.purpose)
+            .pipe(filter(p => p && p.recentmostItem), map(p => p.recentmostItem))
+            .subscribe(data => this.issue = data);
     }
     ngOnDestroy(): void {
         this.subscription ? this.subscription.unsubscribe() : null;

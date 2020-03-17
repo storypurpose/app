@@ -3,7 +3,6 @@ import * as _ from "lodash";
 import { Subject, Observable, BehaviorSubject } from 'rxjs';
 
 export const SharedDatatype = {
-  Purpose: 'Purpose',
   RecentlyVisited: 'RecentlyVisited',
   ConnectionDetails: 'ConnectionDetails'
 }

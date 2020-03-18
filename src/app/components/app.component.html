@@ -16,7 +16,7 @@
       <p-splitButton icon="pi pi-cog" [model]="menulist"></p-splitButton>
     </li>
     <li class="nav-item " *ngIf="!connectionDetails">
-      <a class="nav-link text-white" (click)="showConnectionDetailsSetup = true">
+      <a class="nav-link text-white" (click)="showConnectionEditor = true">
         <fa-icon icon="cog" size="lg"></fa-icon>
       </a>
     </li>
@@ -27,8 +27,8 @@
 
 <p-toast position="bottom-right"></p-toast>
 
-<p-sidebar [(visible)]="showConnectionDetailsSetup" styleClass="ui-sidebar-md" position="right">
-  <app-connection-details (close)="connectionDetailsSetupCompleted()"></app-connection-details>
+<p-sidebar [(visible)]="showConnectionEditor" styleClass="ui-sidebar-md" position="right">
+  <app-connection-details (close)="connectionDetailsSetupCompleted($event)"></app-connection-details>
 </p-sidebar>
 <p-sidebar [(visible)]="showCustomFieldSetup" styleClass="ui-sidebar-md" position="right">
   <app-custom-fields (close)="customFieldSetupCompleted()"></app-custom-fields>

@@ -4,9 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IssueDetailsBaseComponent } from './issue-details-base';
 import { PersistenceService } from '../lib/persistence.service';
 import { CustomNodeTypes } from '../lib/tree-utils';
-import { DataService } from '../lib/data.service';
 import { Store } from '@ngrx/store';
-import { PurposeState } from '../purpose/+state/purpose.state';
+import { AppState } from '../+state/app.state';
 
 @Component({
     selector: 'app-issueviewer',
@@ -20,9 +19,8 @@ export class IssueviewerComponent extends IssueDetailsBaseComponent implements O
         public activatedRoute: ActivatedRoute,
         public jiraService: JiraService,
         public persistenceService: PersistenceService,
-        public dataService: DataService,
-        public store$: Store<PurposeState>) {
-        super(router, activatedRoute, jiraService, persistenceService, dataService, store$);
+        public store$: Store<AppState>) {
+        super(router, activatedRoute, jiraService, persistenceService, store$);
     }
     ngOnInit(): void {
         this.includeHierarchy = true;

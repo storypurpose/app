@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import * as _ from 'lodash';
 import { PersistenceService } from '../lib/persistence.service';
-import { SharedDatatype, DataService } from '../lib/data.service';
 import { MessageService } from 'primeng/api';
+import { AppState } from '../+state/app.state';
+import { Store } from '@ngrx/store';
+import { ShowConnectionEditorAction } from '../+state/app.actions';
 
 @Component({
     selector: 'app-workspace',
@@ -11,14 +13,16 @@ import { MessageService } from 'primeng/api';
 export class WorkspaceComponent implements OnInit {
     public connectionDetails: any;
 
-    constructor(public persistenceService: PersistenceService, public dataService: DataService, public messageService: MessageService) {
+    constructor(public persistenceService: PersistenceService,
+        public messageService: MessageService,
+        public store$: Store<AppState>) {
     }
 
     ngOnInit() {
         this.connectionDetails = this.persistenceService.getConnectionDetails();
     }
     onShowSetup() {
-        this.dataService.updateSharedData(SharedDatatype.ConnectionDetails, true);
+        this.store$.dispatch(new ShowConnectionEditorAction(true));
     }
 
     handleConfigFileUpload(args, configUploader) {

@@ -24,9 +24,10 @@ export class ConnectionDetailsComponent implements OnInit {
     }
 
     canSave() {
-        return this.connectionDetails && this.connectionDetails.serverUrl && this.connectionDetails.serverUrl.length > 0
-            && this.connectionDetails.username && this.connectionDetails.username.length > 0
-            && this.connectionDetails.password && this.connectionDetails.password.length > 0
+        return this.connectionDetails.offlineMode ||
+            (this.connectionDetails && this.connectionDetails.serverUrl && this.connectionDetails.serverUrl.length > 0
+                && this.connectionDetails.username && this.connectionDetails.username.length > 0
+                && this.connectionDetails.password && this.connectionDetails.password.length > 0)
     }
     onSave() {
         this.connectionDetails.password = btoa(this.connectionDetails.password);

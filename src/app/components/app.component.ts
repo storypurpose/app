@@ -2,12 +2,13 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as _ from 'lodash';
 import { Router, NavigationEnd } from '@angular/router';
 import { PersistenceService } from '../lib/persistence.service';
-import { DataService, SharedDatatype } from '../lib/data.service';
 import { Subscription } from 'rxjs';
-import { withLatestFrom } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { DomSanitizer } from '@angular/platform-browser';
 
 import { environment } from '../../environments/environment';
+import { AppState } from '../+state/app.state';
+import { Store } from '@ngrx/store';
 
 declare let gtag: Function;
 
@@ -16,7 +17,7 @@ declare let gtag: Function;
   templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit, OnDestroy {
-  showConnectionDetailsSetup = false;
+  showConnectionEditor = false;
   showCustomFieldSetup = false;
   showConfigSetup = false;
   issue: string;
@@ -24,8 +25,11 @@ export class AppComponent implements OnInit, OnDestroy {
   subscription: Subscription;
 
   menulist: any;
-  constructor(public router: Router, public persistenceService: PersistenceService, public sanitizer: DomSanitizer,
-    public dataService: DataService) {
+  constructor(public router: Router,
+    public persistenceService: PersistenceService,
+    public sanitizer: DomSanitizer,
+    public store$: Store<AppState>) {
+
     if (environment.production) {
       this.router.events.subscribe(event => {
         if (event instanceof NavigationEnd) {
@@ -38,13 +42,13 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.menulist = [
-      { label: 'Setup connection', icon: 'pi pi-cog', command: () => this.showConnectionDetailsSetup = true },
+      { label: 'Setup connection', icon: 'pi pi-cog', command: () => this.showConnectionEditor = true },
       { label: 'Custom fields', icon: 'pi pi-sliders-h', command: () => this.showCustomFieldSetup = true },
     ];
 
-    this.subscription = this.dataService.getSharedData(SharedDatatype.ConnectionDetails)
-      .pipe(withLatestFrom(p => p))
-      .subscribe(cd => this.showConnectionDetailsSetup = cd);
+    this.subscription = this.store$.select(p => p.app)
+      .pipe(filter(p => p && p.connectionEditorVisible), map(p => p.connectionEditorVisible))
+      .subscribe(show => this.showConnectionEditor = show);
 
     this.connectionDetails = this.persistenceService.getConnectionDetails();
   }
@@ -57,9 +61,11 @@ export class AppComponent implements OnInit, OnDestroy {
     this.router.navigate([issue]);
   }
 
-  connectionDetailsSetupCompleted() {
-    this.showConnectionDetailsSetup = false;
-    window.location.reload();
+  connectionDetailsSetupCompleted(showReload) {
+    this.showConnectionEditor = false;
+    if (showReload) {
+      window.location.reload();
+    }
   }
 
   customFieldSetupCompleted() {

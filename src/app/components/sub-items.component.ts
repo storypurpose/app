@@ -2,11 +2,10 @@ import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { JiraService } from '../lib/jira.service';
 import { flattenNodes, appendExtendedFields } from '../lib/tree-utils';
 import * as _ from 'lodash';
-import { filter, withLatestFrom, map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { PersistenceService } from '../lib/persistence.service';
 import { Subscription } from 'rxjs';
-import { DataService, SharedDatatype } from '../lib/data.service';
-import { Purpose, PurposeState } from '../purpose/+state/purpose.state';
+import { PurposeState } from '../purpose/+state/purpose.state';
 import { Store } from '@ngrx/store';
 
 @Component({
@@ -37,7 +36,6 @@ export class SubDetailsComponent implements OnInit, OnDestroy {
 
     constructor(public jiraService: JiraService,
         public persistenceService: PersistenceService,
-        public dataService: DataService,
         public store$: Store<PurposeState>) {
 
     }
@@ -59,7 +57,6 @@ export class SubDetailsComponent implements OnInit, OnDestroy {
         this.hasExtendedFields = (extendedFields && extendedFields.length > 0);
 
         const codeList = _.map(extendedFields, (ef) => ef.code);
-        const jql = `issuetype in ('${this.childIssueType}') AND parent=${issue.key}`;
         this.jiraService.executeJql(`issuetype in ('ST-Technical task', 'ST-Test Case') AND parent=${issue.key}`, codeList, 'test-cases.json')
             .pipe(filter((data: any) => data && data.issues))
             .subscribe((data: any) => {

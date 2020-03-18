@@ -6,11 +6,14 @@
             <form>
                 <div class="alert bg-light mb-3">
                     <div class="form-group">
-                        <label for="jiraserver">Server url</label>
+                        <label for="jiraserver">
+                            Server url
+                            <i class="text-muted small">(e.g. https://jira.<u>yourcompany</u>.com)</i>
+                        </label>
                         <input type="url" class="form-control form-control-sm" id="serverUrl" name="serverUrl"
                             aria-describedby="jiraserver" placeholder="Jira server url"
                             [(ngModel)]="connectionDetails.serverUrl" (keydown.control.enter)="onSave()">
-                        <small class="text-muted">eg. https://jira.<i>yourcompany</i>.com</small>
+
                     </div>
                     <div class="form-group">
                         <label for="username">Username</label>
@@ -24,6 +27,20 @@
                             placeholder="Password" [(ngModel)]="connectionDetails.password"
                             (keydown.control.enter)="onSave()">
                     </div>
+
+                    <div class="form-group">
+                        <i class="text-muted small">
+                            <b>NOTE:</b> The user credentials are only cached locally on your
+                            <a target="_blank"
+                                href="https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage">
+                                browser's localStorage <fa-icon icon="external-link-alt"></fa-icon>
+                            </a>
+                            <br>
+                            Credentials are <u>not stored nor transmitted</u> to any server.
+                        </i>
+                    </div>
+
+
                     <div class="form-group form-check" *ngIf="allowOfflineMode">
                         <input type="checkbox" class="form-check-input" id="offlineMode" name="offlineMode"
                             [(ngModel)]="connectionDetails.offlineMode">
@@ -36,7 +53,7 @@
                     </button>
                 </div>
                 <hr>
-                <app-button-panel [showSave]="testSuccessful" [canSave]="canSave()" (save)="onSave()"
+                <app-button-panel [showSave]="testSuccessful || connectionDetails.offlineMode" [canSave]="canSave()" (save)="onSave()"
                     (close)="onClose(false)" (reset)="onReset()">
                 </app-button-panel>
             </form>

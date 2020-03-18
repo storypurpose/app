@@ -44,6 +44,9 @@ import { StoreModule } from '@ngrx/store';
 import { PurposeModule } from './purpose/purpose.module';
 import { RecentlyViewedComponent } from './components/recently-viewed.component';
 
+import { appInitialState } from './+state/app.init';
+import { appReducer } from './+state/app.reducer';
+
 @NgModule({
   declarations: [
     AboutComponent, WorkspaceComponent, FooterComponent,
@@ -82,7 +85,7 @@ import { RecentlyViewedComponent } from './components/recently-viewed.component'
     PurposeModule,
 
     AppRoutingModule,
-    StoreModule.forRoot({})
+    StoreModule.forRoot({ app: appReducer }, { initialState: { app: appInitialState } })
   ],
   providers: [
     GoogleAnalyticsService,

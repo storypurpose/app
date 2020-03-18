@@ -7,10 +7,10 @@ import * as _ from 'lodash';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
 import { PersistenceService } from '../lib/persistence.service';
-import { DataService, SharedDatatype } from '../lib/data.service';
 import { Store } from '@ngrx/store';
-import { PurposeState } from '../purpose/+state/purpose.state';
 import { SetPurposeAction, SetSetRecentlyViewedAction } from '../purpose/+state/purpose.actions';
+import { AppState } from '../+state/app.state';
+import { SetCurrentIssueKeyAction } from '../+state/app.actions';
 
 export class IssueDetailsBaseComponent {
     public title = 'text-matrix';
@@ -40,14 +40,13 @@ export class IssueDetailsBaseComponent {
         public activatedRoute: ActivatedRoute,
         public jiraService: JiraService,
         public persistenceService: PersistenceService,
-        public dataService: DataService,
-        public store$: Store<PurposeState>) {
+        public store$: Store<AppState>) {
     }
 
     public initiatize(): void {
         this.connectionDetails = this.persistenceService.getConnectionDetails();
         this.menulist = [{
-            label: 'Browse', icon: 'fa fa-external-link-alt', command: (event) => {
+            label: 'Browse', icon: 'fa fa-external-link-alt', command: () => {
                 if (this.contextIssueKey !== "") {
                     this.router.navigate(['/for', this.contextIssueKey]);
                 } else {
@@ -60,6 +59,8 @@ export class IssueDetailsBaseComponent {
             filter(p => p && p["issue"] && p["issue"].length > 0),
             map(p => p["issue"])
         ).subscribe(issue => {
+            this.store$.dispatch(new SetCurrentIssueKeyAction(issue));
+
             this.issueKey = issue;
             const extendedFields = this.getExtendedFields();
 

@@ -1,4 +1,4 @@
-<div *ngIf="!(connectionDetails && connectionDetails.username && connectionDetails.password)"
+<div *ngIf="!(connectionDetails && connectionDetails.username && connectionDetails.password) && !(connectionDetails && connectionDetails.offlineMode)"
     class="center-text p-3 bg-light">
     <b>Graphical representation of jira Issues</b>
 
@@ -20,8 +20,8 @@
             </a>
             <p-fileUpload #configUploader name="myfile[]" customUpload="true"
                 (uploadHandler)="handleConfigFileUpload($event, configUploader)" maxFileSize="10000" mode="basic"
-                accept="application/json" chooseLabel="Import" styleClass="ui-button-secondary"
-                [auto]="true"></p-fileUpload>
+                accept="application/json" chooseLabel="Import" styleClass="ui-button-secondary" [auto]="true">
+            </p-fileUpload>
 
         </div>
 
@@ -35,6 +35,6 @@
     </div>
 </div>
 
-<div *ngIf="connectionDetails && connectionDetails.username && connectionDetails.password">
+<div *ngIf="(connectionDetails && connectionDetails.username && connectionDetails.password) || (connectionDetails && connectionDetails.offlineMode)">
     <router-outlet></router-outlet>
 </div>

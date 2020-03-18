@@ -1,10 +1,7 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-import { PersistenceService } from '../lib/persistence.service';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as _ from "lodash";
-import { LoadingBarModule } from '@ngx-loading-bar/core';
-import { DataService, SharedDatatype } from '../lib/data.service';
 import { Subscription } from 'rxjs';
-import { withLatestFrom, filter, map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { PurposeState } from '../purpose/+state/purpose.state';
 import { Store } from '@ngrx/store';
 
@@ -18,7 +15,7 @@ export class RecentlyViewedComponent implements OnInit, OnDestroy {
 
     subscription: Subscription;
 
-    constructor(public dataService: DataService, public store$: Store<PurposeState>) {
+    constructor(public store$: Store<PurposeState>) {
 
     }
     ngOnInit(): void {

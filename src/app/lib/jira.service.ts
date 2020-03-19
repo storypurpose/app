@@ -36,17 +36,17 @@ export class JiraService {
                 })
             });
     }
-    getIssueDetails(keyId, extendedFields = [], srcJson = null) {
-        if (this.connectionDetails && this.connectionDetails.offlineMode && srcJson && srcJson.length > 0) {
-            return this.http.get(`${this.staticFileLocation}/${srcJson.toLowerCase()}`, this.httpOptions)
+    getIssueDetails(keyId, extendedFields = []) {
+        if (this.connectionDetails && this.connectionDetails.offlineMode) {
+            return this.http.get(`${this.staticFileLocation}/${keyId.toLowerCase()}.json`, this.httpOptions)
         }
         const fieldCodes = _.join(_.concat(this.fieldList, extendedFields));
         const url = `issue/${keyId}?fields=${fieldCodes}`;
         return this.http.get(`${this.proxyurl}/${this.baseUrl}/${url}`, this.httpOptions);
     }
-    getProjectDetails(projectKey, srcJson = null) {
-        if (this.connectionDetails && this.connectionDetails.offlineMode && srcJson && srcJson.length > 0) {
-            return this.http.get(`${this.staticFileLocation}/project-${srcJson}`, this.httpOptions)
+    getProjectDetails(projectKey) {
+        if (this.connectionDetails && this.connectionDetails.offlineMode) {
+            return this.http.get(`${this.staticFileLocation}/project-${projectKey}.json`, this.httpOptions)
         }
         const url = `project/${projectKey}`;
         return this.http.get(`${this.proxyurl}/${this.baseUrl}/${url}`, this.httpOptions);

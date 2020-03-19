@@ -95,7 +95,7 @@ body .ui-sidebar {
   width: 100%;
   bottom: 0;
   height: 30pt;
-  overflow: hidden;  
+  overflow: hidden;
 }
 
 .as-split-gutter {
@@ -144,4 +144,7 @@ body .ui-toast .ui-toast-message.ui-toast-message-error {
   top: 0;
   background-color: #fff;
   box-shadow: -1px 2px 4px #ccc;
+}
+ngx-md p {
+  margin-bottom: 0;
 }

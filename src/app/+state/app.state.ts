@@ -2,7 +2,7 @@ import { Purpose } from '../purpose/+state/purpose.state';
 
 export interface App {
   connectionEditorVisible: boolean;
-  customFieldEditorVisible: boolean;
+  customFieldEditorVisible: any;
   currentIssueKey: string;
 }
 

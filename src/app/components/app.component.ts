@@ -22,7 +22,10 @@ export class AppComponent implements OnInit, OnDestroy {
   showConfigSetup = false;
   issue: string;
   connectionDetails: any;
-  subscription: Subscription;
+  connectionSubscription: Subscription;
+
+  customFieldSubscription: Subscription;
+  issueTypeToConfigure: string;
 
   menulist: any;
   constructor(public router: Router,
@@ -46,15 +49,23 @@ export class AppComponent implements OnInit, OnDestroy {
       { label: 'Custom fields', icon: 'pi pi-sliders-h', command: () => this.showCustomFieldSetup = true },
     ];
 
-    this.subscription = this.store$.select(p => p.app)
+    this.connectionSubscription = this.store$.select(p => p.app)
       .pipe(filter(p => p && p.connectionEditorVisible), map(p => p.connectionEditorVisible))
       .subscribe(show => this.showConnectionEditor = show);
+
+    this.customFieldSubscription = this.store$.select(p => p.app)
+      .pipe(filter(p => p && p.customFieldEditorVisible), map(p => p.customFieldEditorVisible))
+      .subscribe(issueType => {
+        this.showCustomFieldSetup = true;
+        this.issueTypeToConfigure = issueType;
+      });
 
     this.connectionDetails = this.persistenceService.getConnectionDetails();
   }
 
   ngOnDestroy() {
-    this.subscription ? this.subscription.unsubscribe() : null;
+    this.connectionSubscription ? this.connectionSubscription.unsubscribe() : null;
+    this.customFieldSubscription ? this.customFieldSubscription.unsubscribe() : null;
   }
 
   navigateTo(issue) {

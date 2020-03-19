@@ -16,9 +16,9 @@ export class IssueEntryComponent implements OnInit, OnDestroy {
     constructor(public router: Router, public store$: Store<AppState>) {
     }
     ngOnInit(): void {
-        this.subscription = this.store$.select(p => p.app)
-            .pipe(filter(p => p && p.currentIssueKey && p.currentIssueKey.length > 0), map(p => p.currentIssueKey))
-            .subscribe(key => this.issue = key);
+        // this.subscription = this.store$.select(p => p.app)
+        //     .pipe(filter(p => p && p.currentIssueKey && p.currentIssueKey.length > 0), map(p => p.currentIssueKey))
+        //     .subscribe(key => this.issue = key);
     }
     ngOnDestroy(): void {
         this.subscription ? this.subscription.unsubscribe : null;

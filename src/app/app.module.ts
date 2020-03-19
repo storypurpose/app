@@ -15,7 +15,7 @@ import { TreeModule } from 'primeng/tree';
 import { EpicListComponent } from './components/obsolete/epiclist.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SliderModule } from 'primeng/slider';
-import { SubDetailsComponent } from './components/sub-items.component';
+import { SubItemsComponent } from './components/sub-items.component';
 import { ConnectionDetailsComponent } from './components/setup/connection-details.component';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { AngularSplitModule } from 'angular-split';
@@ -46,6 +46,7 @@ import { RecentlyViewedComponent } from './components/recently-viewed.component'
 
 import { appInitialState } from './+state/app.init';
 import { appReducer } from './+state/app.reducer';
+import { ExtendedFieldsComponent } from './components/extended-fields.component';
 
 @NgModule({
   declarations: [
@@ -54,8 +55,8 @@ import { appReducer } from './+state/app.reducer';
     ButtonPanelComponent, NodeTemplateComponent,
 
     AppComponent, PageNotFoundComponent, EpicListComponent,
-    IssueviewerComponent,
-    SubDetailsComponent, IssueEntryComponent, RecentlyViewedComponent,
+    IssueviewerComponent, ExtendedFieldsComponent,
+    SubItemsComponent, IssueEntryComponent, RecentlyViewedComponent,
 
     ConnectionDetailsComponent, CustomFieldsComponent,
     OrganizationComponent, HierarchyFieldEditorComponent, MappingListComponent

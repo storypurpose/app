@@ -42,17 +42,29 @@
                         {{selectedIssue.label}}
                     </h3>
 
-                    <a class="btn btn-sm btn-light mr-2" [routerLink]="['purpose']" title="View purpose"
+                    <div class="btn-group float-right">
+                        <button (click)="configureFields(selectedIssue.type)" class="btn btn-link text-muted"
+                            title="Configure custom fields">
+                            <fa-icon [icon]="['far','sun']"></fa-icon>
+                        </button>
+                        <a *ngIf="connectionDetails" class="btn btn-link text-muted" target="_blank"
+                            href="{{connectionDetails.serverUrl}}/browse/{{selectedIssue.key}}"
+                            title="Navigate to jira">
+                            <fa-icon [icon]="['fab','jira']"></fa-icon>
+                        </a>
+                    </div>
+
+                    <a class="btn btn-sm btn-light" [routerLink]="['purpose']" title="View purpose"
                         [routerLinkActive]="'active'" (click)="expandPurpose(loadedIssue)">
                         <fa-icon icon="binoculars"></fa-icon> Purpose
                     </a>
-                    <a class="btn btn-sm btn-light mr-2" *ngIf="canTrackProgress(selectedIssue)" routerLink="sub"
+                    <a class="btn btn-sm btn-light mr-1" *ngIf="hasExtendedFields" routerLink="details"
                         [routerLinkActive]="'active'">
                         <fa-icon icon="tasks"></fa-icon> Details
                     </a>
-                    <a *ngIf="connectionDetails" class="btn btn-sm btn-light" target="_blank"
-                        href="{{connectionDetails.serverUrl}}/browse/{{selectedIssue.key}}">
-                        <fa-icon [icon]="['fab','jira']"></fa-icon> Jira
+                    <a class="btn btn-sm btn-light mr-1" *ngIf="canTrackProgress(selectedIssue)" routerLink="items"
+                        [routerLinkActive]="'active'">
+                        <fa-icon icon="tasks"></fa-icon> Items
                     </a>
                 </div>
                 <div class="p-3">

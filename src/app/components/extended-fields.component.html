@@ -1,0 +1,14 @@
+<div *ngIf="issue">
+    <div *ngIf="!issue.extendedFields || issue.extendedFields.length === 0">
+        <fa-icon class="text-info" icon="exclamation-triangle"></fa-icon> There are no extended fields.
+    </div>
+
+    <div class="table small" *ngIf="issue.extendedFields && issue.extendedFields.length > 0">
+        <div class="row border-bottom mb-2" *ngFor="let ef of issue.extendedFields">
+            <div class="col-md-2">{{ef.name}}</div>
+            <div class="col-md-10">
+                <ngx-md> {{ef.value}} </ngx-md>
+            </div>
+        </div>
+    </div>
+</div>

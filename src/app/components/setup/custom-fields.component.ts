@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { JiraService } from '../../lib/jira.service';
 import * as _ from 'lodash';
 import { PersistenceService } from 'src/app/lib/persistence.service';
@@ -10,6 +10,15 @@ import { GoogleAnalyticsService } from 'src/app/lib/google-analytics.service';
     templateUrl: './custom-fields.component.html'
 })
 export class CustomFieldsComponent implements OnInit {
+    private _issueType: string;
+
+    @Input()
+    set issueType(value) {
+        this._issueType = value;
+        this.expandDefaultIssueType();
+    }
+    get issueType() { return this._issueType }
+
     @Output() close = new EventEmitter<any>();
     customFieldMaping: any;
 
@@ -23,7 +32,7 @@ export class CustomFieldsComponent implements OnInit {
 
     ngOnInit() {
         this.customFieldMaping = this.persistenceService.getFieldMapping();
-
+        this.expandDefaultIssueType();
         this.configurations = {};
         this.configurations.connectionDetails = this.persistenceService.getConnectionDetails() || {};
         this.configurations.connectionDetails.password = null;
@@ -61,5 +70,17 @@ export class CustomFieldsComponent implements OnInit {
     onReset() {
         this.persistenceService.resetFieldMapping();
         this.onClose();
+    }
+
+    expandDefaultIssueType() {
+        if (this.customFieldMaping && this.customFieldMaping.issueTypes && this.issueType && this.issueType.length > 0) {
+            this.customFieldMaping.issueTypes.forEach(it => it.hide = true);
+            const found = _.find(this.customFieldMaping.issueTypes, { name: this.issueType });
+            if (found) {
+                found.hide = false;
+            } else {
+                this.customFieldMaping.issueTypes.push({ name: this.issueType, list: [], hide: false })
+            }
+        }
     }
 }

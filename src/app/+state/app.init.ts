@@ -2,6 +2,6 @@ import { App } from './app.state';
 
 export const appInitialState: App = {
     connectionEditorVisible: false,
-    customFieldEditorVisible: false,
+    customFieldEditorVisible: null,
     currentIssueKey: null
 };

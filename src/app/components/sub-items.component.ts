@@ -5,14 +5,15 @@ import * as _ from 'lodash';
 import { filter, map } from 'rxjs/operators';
 import { PersistenceService } from '../lib/persistence.service';
 import { Subscription } from 'rxjs';
-import { PurposeState } from '../purpose/+state/purpose.state';
 import { Store } from '@ngrx/store';
+import { AppState } from '../+state/app.state';
+import { ShowCustomFieldEditorAction } from '../+state/app.actions';
 
 @Component({
     selector: 'app-sub-items',
     templateUrl: './sub-items.component.html'
 })
-export class SubDetailsComponent implements OnInit, OnDestroy {
+export class SubItemsComponent implements OnInit, OnDestroy {
     _issue: any;
     @Input()
     set issue(value: any) {
@@ -36,7 +37,7 @@ export class SubDetailsComponent implements OnInit, OnDestroy {
 
     constructor(public jiraService: JiraService,
         public persistenceService: PersistenceService,
-        public store$: Store<PurposeState>) {
+        public store$: Store<AppState>) {
 
     }
     ngOnInit(): void {
@@ -66,6 +67,9 @@ export class SubDetailsComponent implements OnInit, OnDestroy {
 
                 this.summary = _.mapValues(_.groupBy(_.map(this.testcases, 'status')), (s) => s.length);
             });
+    }
 
+    configureFields(issueType) {
+        this.store$.dispatch(new ShowCustomFieldEditorAction(issueType));
     }
 }

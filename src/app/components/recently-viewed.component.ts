@@ -32,7 +32,7 @@ export class RecentlyViewedComponent implements OnInit, OnDestroy {
     setIssue(value: any) {
         this._issue = value;
         if (value && value.key) {
-            _.remove(this.issues, { "key": value.key });
+             _.remove(this.issues, { "key": value.key });
             if (this.issues.length >= 5) {
                 this.issues.splice(5, 1);
             }

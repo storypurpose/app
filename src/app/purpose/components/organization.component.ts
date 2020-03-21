@@ -19,13 +19,13 @@ export class OrganizationComponent implements OnInit {
 
     onSave() {
         this.persistenceService.setOrganizationDetails(this.organization);
-        this.onClose();
+        this.onClose(true);
     }
-    onClose() {
-        this.close.emit(true);
+    onClose(shouldReload) {
+        this.close.emit(shouldReload);
     }
     onReset() {
         this.persistenceService.resetOrganizationDetails();
-        this.onClose();
+        this.onClose(true);
     }
 }

@@ -9,6 +9,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { environment } from '../../environments/environment';
 import { AppState } from '../+state/app.state';
 import { Store } from '@ngrx/store';
+import { ShowConnectionEditorAction } from '../+state/app.actions';
 
 declare let gtag: Function;
 
@@ -23,6 +24,7 @@ export class AppComponent implements OnInit, OnDestroy {
   issue: string;
   connectionDetails: any;
   connectionSubscription: Subscription;
+  isOnlineMode = true;
 
   customFieldSubscription: Subscription;
   issueTypeToConfigure: string;
@@ -61,6 +63,9 @@ export class AppComponent implements OnInit, OnDestroy {
       });
 
     this.connectionDetails = this.persistenceService.getConnectionDetails();
+    if (this.connectionDetails && this.connectionDetails.offlineMode) {
+      this.isOnlineMode = false;
+    }
   }
 
   ngOnDestroy() {
@@ -87,5 +92,15 @@ export class AppComponent implements OnInit, OnDestroy {
   configSetupCompleted() {
     this.showConfigSetup = false;
     window.location.reload();
+  }
+
+  onModeChange(isOnlineMode) {
+    this.connectionDetails.offlineMode = !isOnlineMode;
+    this.persistenceService.setConnectionDetails(this.connectionDetails);
+    if (isOnlineMode) {
+      this.store$.dispatch(new ShowConnectionEditorAction(true));
+    } else {
+      window.location.reload();
+    }
   }
 }

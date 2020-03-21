@@ -50,7 +50,7 @@ export class PurposeDetailsComponent implements OnInit, OnDestroy {
         if (item.type === CustomNodeTypes.Organization) {
             this.showOrganizationSetup = true;
         } else if (item.editable === true) {
-            this.hierarchyFieldPurpose = item;
+            this.hierarchyFieldPurpose = _.clone(item);
             this.showHierarchyFieldSetup = true;
         }
         this.edit.emit(item);
@@ -60,6 +60,7 @@ export class PurposeDetailsComponent implements OnInit, OnDestroy {
         this.showOrganizationSetup = true;
     }
     setupCompleted(shouldReload) {
+        console.log(shouldReload);
         if (shouldReload) {
             window.location.reload();
         } else {

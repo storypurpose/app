@@ -8,16 +8,28 @@ import { NgxMdModule } from 'ngx-md';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RecentlyViewedComponent } from '../components/recently-viewed.component';
 import { RouterModule } from '@angular/router';
+import { HierarchyFieldEditorComponent } from './components/hierarchy-field.component';
+import { OrganizationComponent } from './components/organization.component';
+import { CommonComponentsModule } from '../common-components/common-components.module';
+import { FormsModule } from '@angular/forms';
+import { SidebarModule } from 'primeng/sidebar';
 
 
 
 @NgModule({
-  declarations: [PurposeDetailsComponent],
+  declarations: [PurposeDetailsComponent,
+    OrganizationComponent, HierarchyFieldEditorComponent
+  ],
   imports: [
     CommonModule,
     RouterModule,
+    FormsModule,
     NgxMdModule,
     FontAwesomeModule,
+
+    SidebarModule,
+
+    CommonComponentsModule,
 
     StoreModule.forFeature("purpose", purposeReducer, { initialState: purposeInitialState })
   ]

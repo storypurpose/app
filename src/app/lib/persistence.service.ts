@@ -26,7 +26,11 @@ export class PersistenceService {
     encodeCredentials(connectionDetails): any {
         return btoa(`${connectionDetails.username}:${connectionDetails.password}`)
     }
-    setConnectionDetails(payload) {
+    setConnectionDetails(payload) {        console.log();
+        if (payload && payload.password && payload.password.length > 0) {
+            payload.password = btoa(payload.password);
+        }
+
         localStorage.setItem(DataTypes.ConnectionDetails, JSON.stringify(payload))
     }
     resetConnectionDetails() {
@@ -114,7 +118,7 @@ export class PersistenceService {
         const hierarchyFields = this.getHierarchyFields();
         const found = _.find(hierarchyFields, { key: payload.key, hfKey: payload.hfKey })
         if (found) {
-            found.description = payload.description;
+            found.purpose = payload.purpose;
         } else {
             hierarchyFields.push(payload);
         }

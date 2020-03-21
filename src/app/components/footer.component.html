@@ -1,10 +1,9 @@
 <div class="footer-container border-top bg-light">
-    <div class="float-right text-muted mt-2 mr-3">
-        <a class="text-muted small" target="_blank" href="https://www.linkedin.com/in/adhamankar/">&copy; AD</a>
-        <!-- <a class="text-muted ml-3" [routerLink]="['/about']">
-            <fa-icon [icon]="['far', 'question-circle']"></fa-icon>
-        </a> -->
-
-    </div>
+    <ui-switch *ngIf="connectionDetails" class="pt-2 mr-2 float-right" title="toggle mode" [(ngModel)]="connectionDetails.offlineMode"
+        (change)="onModeChange($event)" size="small">
+    </ui-switch>
+    <a class="float-right text-muted small pt-2 mr-3" target="_blank" href="https://www.linkedin.com/in/adhamankar/">
+        &copy; AD
+    </a>
     <app-recently-viewed></app-recently-viewed>
 </div>

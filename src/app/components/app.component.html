@@ -1,5 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark"
-  [ngClass]="{'bg-primary': !connectionDetails || !connectionDetails.offlineMode, 'bg-warning': connectionDetails && connectionDetails.offlineMode}">
+<nav class="navbar navbar-expand-lg navbar-dark" [ngClass]="{'bg-primary': isOnlineMode, 'bg-warning': !isOnlineMode}">
   <a class="navbar-brand" routerLink="/about">
     <fa-icon icon="sitemap"></fa-icon> <b class="ml-1">Purpose</b>
   </a>
@@ -36,4 +35,4 @@
 
 <router-outlet> </router-outlet>
 
-<app-footer></app-footer>
+<app-footer [connectionDetails]="connectionDetails" (modeChange)="onModeChange($event)"></app-footer>

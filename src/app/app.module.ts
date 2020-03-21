@@ -23,17 +23,15 @@ import { PageNotFoundComponent } from './components/page-not-found.component';
 import { IssueviewerComponent } from './components/issueviewer.component';
 import { IssueEntryComponent } from './components/issue-entry.component';
 import { CustomFieldsComponent } from './components/setup/custom-fields.component';
-import { ButtonPanelComponent } from './components/setup/button-panel.component';
+import { ButtonPanelComponent } from './common-components/components/button-panel.component';
 import { MappingListComponent } from './components/setup/mapping-list.component';
 import { NodeTemplateComponent } from './components/node-template.component';
 import { DisqusModule } from "ngx-disqus";
-import { OrganizationComponent } from './components/setup/organization.component';
 import { NgxMdModule } from 'ngx-md';
 import { ErrorHandlingInterceptor } from './lib/error-handling.interceptor';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { ContextMenuModule } from 'primeng/contextmenu';
-import { HierarchyFieldEditorComponent } from './components/setup/hierarchy-field.component';
 import { AboutComponent } from './components/help/about.component';
 import { WorkspaceComponent } from './components/workspace.component';
 import { FooterComponent } from './components/footer.component';
@@ -47,19 +45,21 @@ import { RecentlyViewedComponent } from './components/recently-viewed.component'
 import { appInitialState } from './+state/app.init';
 import { appReducer } from './+state/app.reducer';
 import { ExtendedFieldsComponent } from './components/extended-fields.component';
+import { UiSwitchModule } from 'ngx-ui-switch';
+import { CommonComponentsModule } from './common-components/common-components.module';
 
 @NgModule({
   declarations: [
     AboutComponent, WorkspaceComponent, FooterComponent,
 
-    ButtonPanelComponent, NodeTemplateComponent,
+    NodeTemplateComponent,
 
     AppComponent, PageNotFoundComponent, EpicListComponent,
     IssueviewerComponent, ExtendedFieldsComponent,
     SubItemsComponent, IssueEntryComponent, RecentlyViewedComponent,
 
     ConnectionDetailsComponent, CustomFieldsComponent,
-    OrganizationComponent, HierarchyFieldEditorComponent, MappingListComponent
+    MappingListComponent
   ],
   imports: [
     BrowserModule,
@@ -69,6 +69,7 @@ import { ExtendedFieldsComponent } from './components/extended-fields.component'
     LoadingBarHttpClientModule,
 
     FontAwesomeModule,
+    UiSwitchModule,
 
     SliderModule,
     SidebarModule,
@@ -83,6 +84,7 @@ import { ExtendedFieldsComponent } from './components/extended-fields.component'
     NgxMdModule.forRoot(),
     DisqusModule.forRoot('disqus_storypurpose'),
 
+    CommonComponentsModule,
     PurposeModule,
 
     AppRoutingModule,

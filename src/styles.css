@@ -145,6 +145,30 @@ body .ui-toast .ui-toast-message.ui-toast-message-error {
   background-color: #fff;
   box-shadow: -1px 2px 4px #ccc;
 }
+
 ngx-md p {
   margin-bottom: 0;
+}
+
+.hover-container {
+  position: relative;
+  display: block;
+  border-radius: 2pt;
+  padding: 1px 1px 6px 1px;
+}
+
+.hover-button {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.hover-container:not(.readonly):hover {
+  padding-right: 16pt;
+  box-shadow: 0 0 6px #ccc;
+}
+
+.hover-container:hover .hover-button {
+  display: block;
 }

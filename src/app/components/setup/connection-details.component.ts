@@ -30,7 +30,6 @@ export class ConnectionDetailsComponent implements OnInit {
                 && this.connectionDetails.password && this.connectionDetails.password.length > 0)
     }
     onSave() {
-        this.connectionDetails.password = btoa(this.connectionDetails.password);
         this.persistenceService.setConnectionDetails(this.connectionDetails);
         this.onClose(true);
     }

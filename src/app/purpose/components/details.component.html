@@ -6,11 +6,12 @@
     </button>
 
     <div class="list-group list-group-flush">
-        <div class="list-group-item border-0" *ngFor="let item of purpose">
+        <div class="list-group-item border-0 hover-container p-2 mb-1" [ngClass]="{'readonly': !item.editable}"
+            *ngFor="let item of purpose">
             <div style="overflow:auto">
                 <div class="small text-uppercase font-weight-bold text-info mr-2">{{item.type}} purpose</div>
                 <h5 class="font-weight-light mb-1">{{item.title}}
-                    <a class="small text-muted ml-2" *ngIf="item.editable" (click)="onEdit(item)">
+                    <a class="small text-muted ml-2 hover-button" *ngIf="item.editable" (click)="onEdit(item)">
                         <fa-icon icon="pencil-alt" size="sm"></fa-icon>
                     </a>
                 </h5>
@@ -21,10 +22,11 @@
         </div>
     </div>
 </div>
-<!-- <p-sidebar [(visible)]="showOrganizationSetup" styleClass="ui-sidebar-md" position="right">
+<p-sidebar [(visible)]="showOrganizationSetup" styleClass="ui-sidebar-md" position="right">
     <app-organization (close)="setupCompleted($event)"></app-organization>
 </p-sidebar>
 
 <p-sidebar [(visible)]="showHierarchyFieldSetup" styleClass="ui-sidebar-md" position="right">
-    <app-hierarchy-field [hierarchyField]="hierarchyFieldPurpose" (close)="setupCompleted($event)"></app-hierarchy-field>
-</p-sidebar> -->
+    <app-hierarchy-field [hierarchyField]="hierarchyFieldPurpose" (close)="setupCompleted($event)">
+    </app-hierarchy-field>
+</p-sidebar>

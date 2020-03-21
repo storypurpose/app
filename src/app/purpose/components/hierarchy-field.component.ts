@@ -23,7 +23,7 @@ export class HierarchyFieldEditorComponent implements OnInit {
         this.close.emit(shouldReload);
     }
     onReset() {
-        // this.persistenceService.resetInitiatives();
-        this.onClose(false);
+        this.persistenceService.resetHierarchyFields();
+        this.onClose(true);
     }
 }

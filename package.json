@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "deploy": "ng deploy --cname=app.storypurpose.info --name='adhamankar' --repo=https://github.com/adhamankar/storypurpose.git"
+    "deploy": "npm version patch && ng deploy --cname=app.storypurpose.info --name='adhamankar' --repo=https://github.com/adhamankar/storypurpose.git"
   },
   "private": true,
   "dependencies": {
@@ -35,6 +35,7 @@
     "ngrx": "0.0.1-security",
     "ngx-disqus": "^2.4.3",
     "ngx-md": "^8.1.6",
+    "ngx-ui-switch": "^9.0.1",
     "primeicons": "^2.0.0",
     "primeng": "^9.0.0",
     "rxjs": "~6.5.4",

@@ -38,7 +38,6 @@ export class IssueviewerComponent implements OnInit {
     public mappedHierarchyFields: any;
     public mappedIssuetypeFields: string;
     public relatedEpic: any;
-    public showOrganizationSetup = false;
     public organizationDetails: any;
 
     public purpose = [];
@@ -174,8 +173,6 @@ export class IssueviewerComponent implements OnInit {
     onPurposeNodeEdit(args) {
         if (args) {
             switch (args.type) {
-                case CustomNodeTypes.Organization: this.showOrganizationSetup = true;
-                    break;
                 case CustomNodeTypes.Hierarchy:
                     this.initiativeToEdit = args;
                     this.showInitiativeSetup = true;

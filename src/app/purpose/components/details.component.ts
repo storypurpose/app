@@ -47,7 +47,7 @@ export class PurposeDetailsComponent implements OnInit, OnDestroy {
     }
 
     onEdit(item) {
-        if (item.type === CustomNodeTypes.Organization) {
+        if (item.issueType === CustomNodeTypes.Organization) {
             this.showOrganizationSetup = true;
         } else if (item.editable === true) {
             this.hierarchyFieldPurpose = _.clone(item);

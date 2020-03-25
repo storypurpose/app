@@ -48,7 +48,7 @@ import { ExtendedFieldsComponent } from './components/extended-fields.component'
 import { UiSwitchModule } from 'ngx-ui-switch';
 import { CommonComponentsModule } from './common-components/common-components.module';
 import { CopyrightComponent } from './components/help/copyright.component';
-
+import { NgbDropdownModule } from "@ng-bootstrap/ng-bootstrap";
 @NgModule({
   declarations: [
     AboutComponent, CopyrightComponent, WorkspaceComponent, FooterComponent,
@@ -71,6 +71,8 @@ import { CopyrightComponent } from './components/help/copyright.component';
 
     FontAwesomeModule,
     UiSwitchModule,
+
+    NgbDropdownModule,
 
     SliderModule,
     SidebarModule,

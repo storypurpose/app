@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { JiraService } from '../lib/jira.service';
-import { flattenNodes, appendExtendedFields } from '../lib/tree-utils';
+import { flattenNodes, appendExtendedFields, CustomNodeTypes } from '../lib/tree-utils';
 import * as _ from 'lodash';
 import { filter, map } from 'rxjs/operators';
 import { PersistenceService } from '../lib/persistence.service';
@@ -50,9 +50,9 @@ export class SubItemsComponent implements OnInit, OnDestroy {
     }
 
     loadDetails(issue) {
-        this.childIssueType = 'ST-Technical task';
-        if (issue && issue.type === "Test Suite") {
-            this.childIssueType = 'ST-Test Case'
+        this.childIssueType = CustomNodeTypes.SubTask;
+        if (issue && issue.issueType === CustomNodeTypes.TestSuite) {
+            this.childIssueType = CustomNodeTypes.TestCase;
         }
         const extendedFields = this.persistenceService.getExtendedFieldByIssueType(this.childIssueType);
         this.hasExtendedFields = (extendedFields && extendedFields.length > 0);

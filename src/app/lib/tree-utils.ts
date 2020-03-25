@@ -8,22 +8,39 @@ export const CustomNodeTypes = {
     Hierarchy: "Hierarchy",
     Organization: "Organization",
     TestSuite: "Test Suite",
-    Story: "Story"
+    Epic: "Epic",
+    Story: "Story",
+    TestCase: "ST-Test Case",
+    SubTask: "ST-Technical task"
 };
+
+export function getIcon(issueType){
+    switch(issueType){
+        case CustomNodeTypes.Organization: return "fa fa-building text-dark";
+        case CustomNodeTypes.Project: return "far fa-snowflake text-dark";
+        case CustomNodeTypes.TestSuite: return "fa fa-flask text-warning";
+        case CustomNodeTypes.Epic: return "fa fa-book text-primary";
+        case CustomNodeTypes.Story: return "fa fa-file text-info";
+        default: "far fa-file"
+    }
+}
+
 export function isCustomNode(args) {
-    return args.type === CustomNodeTypes.EpicChildren || args.type === CustomNodeTypes.RelatedLink
-        || args.type === CustomNodeTypes.Organization || args.type === CustomNodeTypes.Project || args.type === CustomNodeTypes.Hierarchy
+    return args.issueType === CustomNodeTypes.EpicChildren || args.issueType === CustomNodeTypes.RelatedLink
+        || args.issueType === CustomNodeTypes.Organization || args.issueType === CustomNodeTypes.Project
+        || args.issueType === CustomNodeTypes.Hierarchy
 }
 
 export function populateFieldValues(node) {
     if (node && node.fields) {
         node.project = node.fields.project;
         node.issueParent = populateFieldValues(node.fields.parent);
-        node.type = node.fields.issuetype ? node.fields.issuetype.name : 'unknown';
+        node.issueType = node.fields.issuetype ? node.fields.issuetype.name : 'unknown';
         node.status = node.fields.status ? node.fields.status.name : 'unknown';
         node.label = _.truncate(node.fields.summary, { length: MAX_LENGTH });
         node.title = node.fields.summary;
         node.description = node.fields.description;
+        node.icon = getIcon(node.issueType);
     }
     return node;
 }
@@ -53,7 +70,7 @@ export function flattenNodes(issues) {
             key: item.key,
             title: item.fields.summary,
             label: _.truncate(item.fields.summary, { length: MAX_LENGTH }),
-            type: item.type,
+            issueType: item.issueType,
             status: item.status,
             project: item.project,
             issueParent: item.issueParent,
@@ -64,10 +81,10 @@ export function flattenNodes(issues) {
 }
 
 export function flattenAndTransformNodes(issues) {
-    return _.map(issues, (item) => transformParentNode(item, false));
+    return _.map(issues, (item) => transformParentNode(item));
 }
 export function transformToTreenode(node, issueLinks) {
-    if (!node.type) {
+    if (!node.issueType) {
         populateFieldValues(node);
     }
 
@@ -78,14 +95,17 @@ export function transformToTreenode(node, issueLinks) {
     return node;
 }
 
-export function transformParentNode(node, buildHeirarchy) {
-    if (!node.type) {
+export function transformParentNode(node) {
+    if (!node.issueType) {
         populateFieldValues(node);
     }
 
     let level1Nodes: any = [];
-    if (node.type === "Epic") {
-        level1Nodes.push({ "label": 'Epic Children', key: 'E_' + node.key, parentId: node.key, selectable: false, type: CustomNodeTypes.EpicChildren, leaf: false, children: null });
+    if (node.issueType === CustomNodeTypes.Epic) {
+        level1Nodes.push({
+            "label": 'Epic Children', key: 'E_' + node.key, parentId: node.key, selectable: false,
+            issueType: CustomNodeTypes.EpicChildren, leaf: false, children: null
+        });
     }
     let issueLinks = buildIssueLinks(node);
     if (issueLinks && issueLinks.length > 0) {
@@ -109,8 +129,8 @@ function buildIssueLinks(node: any) {
         }
         if (children.length > 0) {
             issueLinks.push({
-                "label": `Related links (${children.length})`, key: 'RL_' + node.key, parentId: node.key,
-                selectable: false, type: CustomNodeTypes.RelatedLink,
+                "label": `Related links`, title:`${children.length} items linked`, key: 'RL_' + node.key, parentId: node.key,
+                selectable: false, issueType: CustomNodeTypes.RelatedLink,
                 "children": children,
                 expanded: false
             });

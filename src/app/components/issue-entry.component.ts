@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import * as _ from 'lodash';
 import { Router } from '@angular/router';
 import { AppState } from '../+state/app.state';
@@ -11,14 +11,15 @@ import { filter, map } from 'rxjs/operators';
     templateUrl: './issue-entry.component.html'
 })
 export class IssueEntryComponent implements OnInit, OnDestroy {
+    @Input() showRecentlyVisited = false;
     issue: string;
     subscription: Subscription;
     constructor(public router: Router, public store$: Store<AppState>) {
     }
     ngOnInit(): void {
-        // this.subscription = this.store$.select(p => p.app)
-        //     .pipe(filter(p => p && p.currentIssueKey && p.currentIssueKey.length > 0), map(p => p.currentIssueKey))
-        //     .subscribe(key => this.issue = key);
+        this.subscription = this.store$.select(p => p.app)
+            .pipe(filter(p => p && p.currentIssueKey && p.currentIssueKey.length > 0), map(p => p.currentIssueKey))
+            .subscribe(key => this.issue = key);
     }
     ngOnDestroy(): void {
         this.subscription ? this.subscription.unsubscribe : null;

@@ -34,6 +34,9 @@ body .ui-tree {
 .ui-tree .ui-tree-container {
   white-space: normal !important;
 }
+body .ui-tree .ui-tree-container .ui-treenode .ui-treenode-content .ui-tree-toggler {
+  color: #bbb;
+}
 .custom-shadow {
   box-shadow: 0 0 6px #bbb;
   border: 1px solid #ccc;
@@ -48,8 +51,13 @@ body .custom-node {
   border-top: solid 4px #fff;
 }
 
+body .ui-tree .ui-tree-container .ui-treenode .ui-treenode-content .ui-treenode-label.ui-state-highlight {
+  background-color: #d9ebff;
+  color: #000;
+  border-radius: 0 10pt 10pt 0;
+}
 body .ui-tree.ui-tree-horizontal .ui-treenode .ui-treenode-content.ui-state-highlight .custom-node,
-.ui-treenode-content-selected .custom-node {
+.ui-treenode-content-selected {
   background-color: inherit;
   color: inherit;
   box-shadow: none;
@@ -88,10 +96,10 @@ body .ui-sidebar {
 .body-container {
   position: absolute;
   width: 100%;
-  top: 60pt;
-  height: calc(100% - 60pt);
+  top: 30pt;
+  height: calc(100% - 32pt);
   overflow: hidden;
-  background-color: #f8f9fa;
+  /* background-color: #f8f9fa; */
 }
 .footer-container {
   position: fixed;
@@ -147,7 +155,9 @@ body .ui-toast .ui-toast-message.ui-toast-message-error {
   position: sticky;
   z-index: 1;
   top: 0;
-  background-color: #f8f9fa;
+  background-color: #fff;
+
+  /* background-color: #f8f9fa; */
   /* box-shadow: -1px 2px 4px #ccc; */
 }
 
@@ -182,9 +192,22 @@ ngx-md p {
   display: block;
 }
 
+body .ui-tree .ui-tree-container .ui-treenode .ui-treenode-content {
+  white-space: nowrap;
+}
+body .ui-tree .ui-tree-container .ui-treenode .ui-treenode-content:focus {
+  box-shadow: none;
+}
+.btn:focus {
+  box-shadow: none;
+}
+
 .btn-default {
   background-color: #e8e8e8;
 }
 .btn-default:hover {
   background-color: #dddddd;
+}
+.hide-caret::after {
+  content: none;
 }

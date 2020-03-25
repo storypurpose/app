@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as _ from "lodash";
+import { CustomNodeTypes } from './tree-utils';
 
 const DataTypes = {
     Mode: "Mode",
@@ -71,7 +72,7 @@ export class PersistenceService {
             epicLink: { support: false, name: 'Epic Link', value: '' }
         };
 
-        fieldMapping.hierarchy = fieldMapping.hierarchy || { support: false, name: 'Hierarchy', list: [] };
+        fieldMapping.hierarchy = fieldMapping.hierarchy || { support: false, name: CustomNodeTypes.Hierarchy, list: [] };
         fieldMapping.issueTypes = fieldMapping.issueTypes || [];
         return fieldMapping;
 

@@ -1,6 +1,21 @@
-<div class="border-bottom bg-light clearfix" *ngIf="issues && issues.length > 0">
+<div ngbDropdown display="dynamic" placement="bottom-right" *ngIf="issues && issues.length > 1">
+    <button class="btn btn-light border bg-white rounded-0 hide-caret" id="dropdownBasic1" ngbDropdownToggle
+        title="recently viewed">
+        <fa-icon icon="ellipsis-v" size="fw"></fa-icon>
+    </button>
+    <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-menu-right">
+        <a ngbDropdownItem *ngFor="let issueKey of issues;let idx = index;" [routerLink]="['/for', issueKey.key]"
+            [disabled]="issueKey.active" [ngClass]="{'text-primary': !issueKey.active, 'bg-light': issueKey.active}"
+            [title]="issueKey.title">
+            <fa-icon *ngIf="issueKey.active" icon="chevron-right"></fa-icon>
+            {{issueKey.key}}
+        </a>
+    </div>
+</div>
+
+<!-- <div class="border-bottom bg-light clearfix" *ngIf="issues && issues.length > 0">
     <span *ngFor="let issueKey of issues;let idx = index;">
-        <a class="btn btn-light rounded-0 font-weight-light" [routerLink]="['/for', issueKey.key]"
+        <a class="btn btn-sm btn-light rounded-0 font-weight-light" [routerLink]="['/for', issueKey.key]"
             *ngIf="!issueKey.active" [title]="issueKey.title">{{issueKey.key}}</a>
         <a class="btn btn-light rounded-0 text-danger border-right" [ngClass]="{'active': issueKey.active}"
             (click)="forgetIssue(idx)" title="remove" *ngIf="!issueKey.active">
@@ -8,7 +23,4 @@
         </a>
     </span>
     <a class="btn btn-light rounded-0 active float-left" [title]="currentIssue.title">{{currentIssue.key}}</a>
-    <div class="float-left" style="width:200px">
-        <app-issue-entry></app-issue-entry>
-    </div>
-</div>
+</div> -->

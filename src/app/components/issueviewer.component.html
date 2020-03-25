@@ -1,22 +1,37 @@
+<!-- <app-recently-viewed></app-recently-viewed> -->
 <div class="main-container">
     <div class="body-container">
         <as-split direction="horizontal">
-            <as-split-area size="25">
+            <as-split-area size="25" class="bg-light border-right">
+                <app-issue-entry [showRecentlyVisited]="true"></app-issue-entry>
                 <div *ngIf="treeNodes">
                     <p-contextMenu #cm [model]="menulist" appendTo="body"></p-contextMenu>
                     <p-tree [value]="treeNodes" selectionMode="single" (onNodeExpand)="loadNode($event)"
                         [(selection)]="selectedNode" (onNodeSelect)="nodeSelected($event)" [contextMenu]="cm"
                         (onNodeContextMenuSelect)="nodeContextMenuSelect($event.node, cm)">
                         <ng-template let-node pTemplate="default">
-                            <app-node-template [node]="node"></app-node-template>
+                            <div class="mt-1" [title]="node.title">{{node.label}}</div>
                         </ng-template>
+                        <!-- <ng-template let-node pTemplate="default">
+                            <div class="custom-node">
+                                <b class="float-right small text-uppercase">{{node.status}}</b>
+                                <div class="text-bold">
+                                    <div class="badge mr-1 text-uppercase" [class]="node.badge">
+                                        <fa-icon [icon]="node.icon" class="mr-1"></fa-icon>
+                                        {{node.issueType}}
+                                    </div>
+                                    <small class="font-weight-bold mr-1">{{node.key}}</small>
+                                </div>
+                                <div class="mt-1">{{node.label}}</div>
+                            </div>
+                        </ng-template> -->
                     </p-tree>
                 </div>
             </as-split-area>
             <as-split-area size="75" class="split-area">
-                <div class="sticky-title pl-3 pr-3 pt-1 pb-3" *ngIf="selectedIssue">
+                <div class="sticky-title pl-3 pr-3 pt-2 pb-3" *ngIf="selectedIssue">
                     <div class="btn-group float-right">
-                        <button (click)="configureFields(selectedIssue.type)" class="btn btn-link text-muted"
+                        <button (click)="configureFields(selectedIssue.issueType)" class="btn btn-link text-muted"
                             title="Configure custom fields">
                             <fa-icon [icon]="['far','sun']"></fa-icon>
                         </button>

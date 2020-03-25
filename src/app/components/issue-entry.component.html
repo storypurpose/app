@@ -2,10 +2,15 @@
   <input type="text" class="form-control rounded-0" name="issueByKeyId" [(ngModel)]="issue" autofocus
     placeholder="Jira issue key" (keydown.enter)="navigateTo(issue)" />
   <div class="input-group-append">
-    <button [disabled]="!canNavigate()" class="btn btn-primary rounded-0" type="button" (click)="navigateTo(issue)">
-      <fa-icon icon="angle-right"></fa-icon>
+    <button [disabled]="!canNavigate()" class="btn btn-light bg-white border border-left-0 rounded-0" type="button"
+      (click)="navigateTo(issue)">
+      <fa-icon icon="search" [size]="['fw', 'sm']"></fa-icon>
     </button>
+
+    <app-recently-viewed *ngIf="showRecentlyVisited"></app-recently-viewed>
+
   </div>
+
 </div>
 
 <!-- <div class="ml-2 input-group">

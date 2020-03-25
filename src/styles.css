@@ -42,9 +42,10 @@ body .ui-tree {
 body .custom-node {
   width: 300px;
   background-color: #fff;
-  padding: 5pt;
-  box-shadow: -1px 2px 3px #999;
-  border-radius: 2px;
+  padding: 0 4pt 4pt 4pt;
+  box-shadow: -1px 2px 8px #ddd;
+  border-radius: 0 0 4px 4px;
+  border-top: solid 4px #fff;
 }
 
 body .ui-tree.ui-tree-horizontal .ui-treenode .ui-treenode-content.ui-state-highlight .custom-node,
@@ -87,8 +88,10 @@ body .ui-sidebar {
 .body-container {
   position: absolute;
   width: 100%;
-  height: calc(100% - 30pt);
+  top: 60pt;
+  height: calc(100% - 60pt);
   overflow: hidden;
+  background-color: #f8f9fa;
 }
 .footer-container {
   position: fixed;
@@ -100,11 +103,13 @@ body .ui-sidebar {
 
 .as-split-gutter {
   background-color: transparent !important;
+  /* background-color: #f8f9fa; */
   flex-basis: 8px !important;
 }
 
-.split-area {
-  height: calc(100% - 30pt) !important;
+.as-split-area {
+  /* height: calc(100% - 30pt) !important; */
+  /* background-color: #f8f9fa; */
   overflow: auto !important;
 }
 
@@ -142,8 +147,8 @@ body .ui-toast .ui-toast-message.ui-toast-message-error {
   position: sticky;
   z-index: 1;
   top: 0;
-  background-color: #fff;
-  box-shadow: -1px 2px 4px #ccc;
+  background-color: #f8f9fa;
+  /* box-shadow: -1px 2px 4px #ccc; */
 }
 
 ngx-md p {
@@ -169,6 +174,17 @@ ngx-md p {
   box-shadow: 0 0 6px #ccc;
 }
 
+.custom-shadow {
+  box-shadow: 0 0 6px #ccc;
+  border-radius: 2pt;
+}
 .hover-container:hover .hover-button {
   display: block;
+}
+
+.btn-default {
+  background-color: #e8e8e8;
+}
+.btn-default:hover {
+  background-color: #dddddd;
 }

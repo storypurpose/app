@@ -1,9 +1,6 @@
-<div class="footer-container border-top bg-light">
+<div class="border-bottom bg-light">
     <ui-switch *ngIf="connectionDetails" class="pt-2 mr-2 float-right" title="toggle mode" [(ngModel)]="connectionDetails.offlineMode"
         (change)="onModeChange($event)" size="small">
     </ui-switch>
-    <a class="float-right text-muted small pt-2 mr-3" target="_blank" href="https://www.linkedin.com/in/adhamankar/">
-        &copy; AD
-    </a>
     <app-recently-viewed></app-recently-viewed>
 </div>

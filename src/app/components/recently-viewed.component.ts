@@ -11,7 +11,7 @@ import { Store } from '@ngrx/store';
 })
 export class RecentlyViewedComponent implements OnInit, OnDestroy {
     public issues = [];
-    _issue: any;
+    public currentIssue: any;
 
     subscription: Subscription;
 
@@ -30,7 +30,7 @@ export class RecentlyViewedComponent implements OnInit, OnDestroy {
         this.issues.splice(index, 1);
     }
     setIssue(value: any) {
-        this._issue = value;
+        this.currentIssue = value;
         if (value && value.key) {
              _.remove(this.issues, { "key": value.key });
             if (this.issues.length >= 5) {

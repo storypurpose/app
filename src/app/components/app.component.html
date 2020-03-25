@@ -1,12 +1,10 @@
-<nav class="navbar navbar-expand-lg navbar-dark" [ngClass]="{'bg-primary': isOnlineMode, 'bg-warning': !isOnlineMode}">
-  <a class="navbar-brand" routerLink="/about">
+<nav class="navbar navbar-expand-lg border-bottom">
+  <a class="navbar-brand text-info" routerLink="/about">
     <fa-icon icon="sitemap"></fa-icon> <b class="ml-1">Purpose</b>
   </a>
 
-  <div class="form-inline mr-auto" *ngIf="connectionDetails">
-    <div style="width:200px">
-      <app-issue-entry></app-issue-entry>
-    </div>
+  <div class="form-inline mr-auto">
+
   </div>
   <ul class="navbar-nav">
     <li class="nav-item text-white" *ngIf="connectionDetails">
@@ -21,7 +19,8 @@
     </li>
   </ul>
 </nav>
-
+<!-- <app-footer [connectionDetails]="connectionDetails" (modeChange)="onModeChange($event)"></app-footer> -->
+<app-recently-viewed></app-recently-viewed>
 <ngx-loading-bar color="#FF8000" height="4pt" [includeSpinner]="false"></ngx-loading-bar>
 
 <p-toast position="bottom-right"></p-toast>
@@ -34,5 +33,3 @@
 </p-sidebar>
 
 <router-outlet> </router-outlet>
-
-<app-footer [connectionDetails]="connectionDetails" (modeChange)="onModeChange($event)"></app-footer>

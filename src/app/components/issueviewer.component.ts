@@ -184,7 +184,7 @@ export class IssueviewerComponent implements OnInit {
     private markIssueSelected(node: any) {
         this.expandPurpose(node);
 
-        this.selectedIssue = { key: node.key, label: node.label, type: node.type };
+        this.selectedIssue = { key: node.key, label: node.label, title: node.title, type: node.type };
 
         if (this.mappedIssuetypeFields) {
             const issueTypeFields: any = _.find(this.mappedIssuetypeFields, { name: node.type });
@@ -232,6 +232,7 @@ export class IssueviewerComponent implements OnInit {
                 return {
                     key: this.relatedEpic.key,
                     label: this.relatedEpic.label,
+                    title: this.relatedEpic.title,
                     description: this.relatedEpic.description,
                     type: 'Epic',
                     project: this.relatedEpic.project,
@@ -333,7 +334,7 @@ export class IssueviewerComponent implements OnInit {
         if (node) {
             if (node.type !== 'epic-children' && node.type !== 'Inward' && node.type !== 'Outward') {
                 this.purpose.push({
-                    key: node.key, type: node.type, title: node.label, purpose: node.description,
+                    key: node.key, type: node.type, title: node.title, purpose: node.description,
                     editable: node.editable, hfKey: node.hfKey
                 });
             }

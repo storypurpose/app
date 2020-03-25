@@ -1,4 +1,4 @@
-<div *ngIf="purpose && purpose.length > 0" class="mb-5">
+<div *ngIf="purpose && purpose.length > 0">
 
     <button class="btn btn-link text-primary btn-sm" *ngIf="!organizationPurpose"
         (click)="showOrganizationSetup = true">
@@ -6,7 +6,7 @@
     </button>
 
     <div class="list-group list-group-flush">
-        <div class="list-group-item border-0 hover-container p-2 mb-1" [ngClass]="{'readonly': !item.editable}"
+        <div class="list-group-item hover-container border-0 rounded-2 custom-shadow p-3 mb-3" [ngClass]="{'readonly': !item.editable}"
             *ngFor="let item of purpose">
             <div style="overflow:auto">
                 <div class="small text-uppercase font-weight-bold text-info mr-2">{{item.type}} purpose</div>

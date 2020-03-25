@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import * as _ from "lodash";
 
 const DataTypes = {
+    Mode: "Mode",
     ConnectionDetails: "connectionDetails",
     Organization: "organization",
     FieldMapping: "FieldMapping",
@@ -35,6 +36,19 @@ export class PersistenceService {
     }
     resetConnectionDetails() {
         localStorage.removeItem(DataTypes.ConnectionDetails);
+    }
+    //#endregion
+
+    //#region mode
+    getMode() {
+        const payload = localStorage.getItem(DataTypes.Mode);
+        return JSON.parse(payload);
+    }
+    setMode(payload) {
+        localStorage.setItem(DataTypes.Mode, JSON.stringify(payload))
+    }
+    resetMode() {
+        localStorage.removeItem(DataTypes.Mode);
     }
     //#endregion
 

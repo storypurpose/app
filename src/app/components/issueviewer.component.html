@@ -1,47 +1,20 @@
 <div class="main-container">
     <div class="body-container">
         <as-split direction="horizontal">
-            <as-split-area size="30" class="split-area bg-light border-right">
+            <as-split-area size="25">
                 <div *ngIf="treeNodes">
                     <p-contextMenu #cm [model]="menulist" appendTo="body"></p-contextMenu>
                     <p-tree [value]="treeNodes" selectionMode="single" (onNodeExpand)="loadNode($event)"
                         [(selection)]="selectedNode" (onNodeSelect)="nodeSelected($event)" [contextMenu]="cm"
                         (onNodeContextMenuSelect)="nodeContextMenuSelect($event.node, cm)">
-                        <ng-template let-node pTemplate="Epic">
-                            <app-node-template [node]="node" icon="book" badge="badge-primary"></app-node-template>
-                        </ng-template>
-                        <ng-template let-node pTemplate="Organization">
-                            <h3 class="m-0 font-weight-light">{{node.label}}</h3>
-                        </ng-template>
-                        <ng-template let-node pTemplate="Project">
-                            <h4 class="m-0 font-weight-light">{{node.label}}</h4>
-                        </ng-template>
-                        <ng-template let-node pTemplate="Initiative">
-                            <h5 class="m-0 font-weight-light">{{node.label}}</h5>
-                        </ng-template>
-                        <ng-template let-node pTemplate="Story">
-                            <app-node-template [node]="node" icon="file-alt" badge="badge-info"></app-node-template>
-                        </ng-template>
-                        <ng-template let-node pTemplate="Test Suite">
-                            <app-node-template [node]="node" icon="flask" badge="badge-warning"></app-node-template>
-                        </ng-template>
-                        <ng-template let-node pTemplate="ST-Test Case">
-                            <app-node-template [node]="node" [icon]="['far','bookmark']" badge="badge-success">
-                            </app-node-template>
-                        </ng-template>
-                        <ng-template let-node pTemplate="Task">
-                            <app-node-template [node]="node" icon="check" badge="badge-success"></app-node-template>
+                        <ng-template let-node pTemplate="default">
+                            <app-node-template [node]="node"></app-node-template>
                         </ng-template>
                     </p-tree>
                 </div>
             </as-split-area>
-            <as-split-area size="70" class="split-area">
-                <div class="sticky-title pl-2 pb-2 pr-2" *ngIf="selectedIssue">
-                    <div class="badge badge-light">{{selectedIssue.key}}</div>
-                    <h3 class="font-weight-light">
-                        {{selectedIssue.label}}
-                    </h3>
-
+            <as-split-area size="75" class="split-area">
+                <div class="sticky-title pl-3 pr-3 pt-1 pb-3" *ngIf="selectedIssue">
                     <div class="btn-group float-right">
                         <button (click)="configureFields(selectedIssue.type)" class="btn btn-link text-muted"
                             title="Configure custom fields">
@@ -54,21 +27,28 @@
                         </a>
                     </div>
 
-                    <a class="btn btn-sm btn-light" [routerLink]="['purpose']" title="View purpose"
-                        [routerLinkActive]="'active'" (click)="expandPurpose(loadedIssue)">
-                        <fa-icon icon="binoculars"></fa-icon> Purpose
-                    </a>
-                    <a class="btn btn-sm btn-light mr-1" *ngIf="hasExtendedFields" routerLink="details"
-                        [routerLinkActive]="'active'">
-                        <fa-icon icon="tasks"></fa-icon> Details
-                    </a>
-                    <a class="btn btn-sm btn-light mr-1" *ngIf="canTrackProgress(selectedIssue)" routerLink="items"
-                        [routerLinkActive]="'active'">
-                        <fa-icon icon="tasks"></fa-icon> Items
-                    </a>
+                    <h3 class="font-weight-light">
+                        {{selectedIssue.title}}
+                    </h3>
+
+                    <div>
+                        <a class="btn btn-sm btn-default mr-1" [routerLink]="['purpose']" title="View purpose"
+                            [routerLinkActive]="'active'" (click)="expandPurpose(loadedIssue)">
+                            <fa-icon icon="binoculars"></fa-icon> Purpose
+                        </a>
+                        <a class="btn btn-sm btn-default mr-1" *ngIf="hasExtendedFields" routerLink="details"
+                            [routerLinkActive]="'active'">
+                            <fa-icon icon="tasks"></fa-icon> Details
+                        </a>
+                        <a class="btn btn-sm btn-default mr-1" *ngIf="canTrackProgress(selectedIssue)"
+                            routerLink="items" [routerLinkActive]="'active'">
+                            <fa-icon icon="tasks"></fa-icon> Items
+                        </a>
+                    </div>
                 </div>
-                <div class="p-3">
+                <div class="pl-3 pr-3 pb-4 pt-1">
                     <router-outlet></router-outlet>
+                    <app-copyright></app-copyright>
                 </div>
             </as-split-area>
         </as-split>

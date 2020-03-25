@@ -47,10 +47,11 @@ import { appReducer } from './+state/app.reducer';
 import { ExtendedFieldsComponent } from './components/extended-fields.component';
 import { UiSwitchModule } from 'ngx-ui-switch';
 import { CommonComponentsModule } from './common-components/common-components.module';
+import { CopyrightComponent } from './components/help/copyright.component';
 
 @NgModule({
   declarations: [
-    AboutComponent, WorkspaceComponent, FooterComponent,
+    AboutComponent, CopyrightComponent, WorkspaceComponent, FooterComponent,
 
     NodeTemplateComponent,
 

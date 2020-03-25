@@ -1,9 +1,9 @@
 import * as _ from 'lodash';
+const MAX_LENGTH = 40;
 
 export const CustomNodeTypes = {
     EpicChildren: "epic-children",
-    InwardLink: "Inward",
-    OutwardLink: "Outward",
+    RelatedLink: "RelatedLink",
     Project: "Project",
     Hierarchy: "Hierarchy",
     Organization: "Organization",
@@ -11,7 +11,7 @@ export const CustomNodeTypes = {
     Story: "Story"
 };
 export function isCustomNode(args) {
-    return args.type === CustomNodeTypes.EpicChildren || args.type === CustomNodeTypes.InwardLink || args.type === CustomNodeTypes.OutwardLink
+    return args.type === CustomNodeTypes.EpicChildren || args.type === CustomNodeTypes.RelatedLink
         || args.type === CustomNodeTypes.Organization || args.type === CustomNodeTypes.Project || args.type === CustomNodeTypes.Hierarchy
 }
 
@@ -21,7 +21,8 @@ export function populateFieldValues(node) {
         node.issueParent = populateFieldValues(node.fields.parent);
         node.type = node.fields.issuetype ? node.fields.issuetype.name : 'unknown';
         node.status = node.fields.status ? node.fields.status.name : 'unknown';
-        node.label = node.fields.summary;
+        node.label = _.truncate(node.fields.summary, { length: MAX_LENGTH });
+        node.title = node.fields.summary;
         node.description = node.fields.description;
     }
     return node;
@@ -51,7 +52,7 @@ export function flattenNodes(issues) {
         const node = {
             key: item.key,
             title: item.fields.summary,
-            label: item.fields.summary,
+            label: _.truncate(item.fields.summary, { length: MAX_LENGTH }),
             type: item.type,
             status: item.status,
             project: item.project,
@@ -98,22 +99,22 @@ function buildIssueLinks(node: any) {
     if (node && node.fields && node.fields.issuelinks && node.fields.issuelinks.length > 0) {
         const issueLinks: any = [];
         const inwardIssues = _.filter(node.fields.issuelinks, (il) => il.inwardIssue);
+        let children: any = [];
         if (inwardIssues && inwardIssues.length > 0) {
-            issueLinks.push({
-                "label": `Inward links (${inwardIssues.length})`, key: 'IW_' + node.key, parentId: node.key,
-                selectable: false, type: CustomNodeTypes.InwardLink,
-                "children": _.map(inwardIssues, (il) => populateFieldValues(il.inwardIssue)),
-                expanded: false
-            });
+            children = _.union(children, _.map(inwardIssues, (il) => populateFieldValues(il.inwardIssue)));
         }
         const outwardIssues = _.filter(node.fields.issuelinks, (il) => il.outwardIssue);
         if (outwardIssues && outwardIssues.length > 0) {
+            children = _.union(children, _.map(outwardIssues, (il) => populateFieldValues(il.outwardIssue)));
+        }
+        if (children.length > 0) {
             issueLinks.push({
-                "label": `Outward links (${outwardIssues.length})`, key: 'OW_' + node.key, parentId: node.key,
-                selectable: false, type: CustomNodeTypes.OutwardLink,
-                "children": _.map(outwardIssues, (il) => populateFieldValues(il.outwardIssue)),
+                "label": `Related links (${children.length})`, key: 'RL_' + node.key, parentId: node.key,
+                selectable: false, type: CustomNodeTypes.RelatedLink,
+                "children": children,
                 expanded: false
             });
+
         }
         return issueLinks;
     }

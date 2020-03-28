@@ -56,16 +56,16 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     }
     ngOnInit(): void {
         this.includeHierarchy = true;
-        this.initiatize();
+        this.connectionDetailsSubscription = this.store$.select(p => p.app.connectionDetails)
+            .subscribe(p => this.connectionDetails = p);
+
+            this.initiatize();
     }
     ngOnDestroy(): void {
         this.connectionDetailsSubscription ? this.connectionDetailsSubscription.unsubscribe() : null;
     }
 
     public initiatize(): void {
-        this.connectionDetailsSubscription = this.store$.select(p => p.app.connectionDetails)
-            .subscribe(p => this.connectionDetails = p);
-        //this.connectionDetails = this.persistenceService.get1ConnectionDetails();
         this.menulist = [{
             label: 'Browse', icon: 'fa fa-external-link-alt', command: () => {
                 if (this.contextIssueKey !== "") {
@@ -80,6 +80,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
             filter(p => p && p["issue"] && p["issue"].length > 0),
             map(p => p["issue"])
         ).subscribe(issue => {
+            console.log('activatedRoute.params', issue);
             this.store$.dispatch(new SetCurrentIssueKeyAction(issue));
 
             this.issueKey = issue;

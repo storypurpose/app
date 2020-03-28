@@ -8,7 +8,7 @@ import { filter } from 'rxjs/operators';
 import { AppState } from 'src/app/+state/app.state';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { SetConnectionDetailsAction } from 'src/app/+state/app.actions';
+import { SetConnectionDetailsAction, ConnectionDetailsVerifiedAction } from 'src/app/+state/app.actions';
 
 @Component({
     selector: 'app-connection-details',
@@ -19,7 +19,6 @@ export class ConnectionDetailsComponent implements OnInit {
     @Input() connectionDetails: any;
 
     hideWhatDoYouUse = true;
-    allowOfflineMode = false;
     testSuccessful = false;
     authMode = AuthenticationModeTypes;
 
@@ -30,19 +29,16 @@ export class ConnectionDetailsComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.allowOfflineMode = !environment.production;
-        this.connectionDetails.authenticationType = AuthenticationModeTypes.JiraCloud;
+        this.connectionDetails = this.connectionDetails || {};
+        // this.connectionDetails.authenticationType = AuthenticationModeTypes.JiraCloud;
     }
 
     canSave() {
-        return this.connectionDetails.offlineMode ||
-            (this.connectionDetails && this.connectionDetails.serverUrl && this.connectionDetails.serverUrl.length > 0
-                && this.connectionDetails.username && this.connectionDetails.username.length > 0
-                && this.connectionDetails.password && this.connectionDetails.password.length > 0)
+        return this.connectionDetails && this.connectionDetails.serverUrl && this.connectionDetails.serverUrl.length > 0
+            && this.connectionDetails.username && this.connectionDetails.username.length > 0
+            && this.connectionDetails.password && this.connectionDetails.password.length > 0;
     }
     onSave() {
-        this.persistenceService.setConnectionDetails(this.connectionDetails);
-        this.store$.dispatch(new SetConnectionDetailsAction(this.connectionDetails));
         this.onClose(false);
 
         // this.onClose(true);
@@ -50,16 +46,19 @@ export class ConnectionDetailsComponent implements OnInit {
     onClose(shouldReload) {
         this.close.emit(shouldReload);
     }
-    onServerUrlKeyup(evt: any) {
-        console.log('onServerUrlKeyup', /atlassian.net/i.test(evt.target.value));
-    }
 
     testConnection() {
         this.jiraService.testConnection(this.connectionDetails)
             .subscribe((result: any) => {
                 this.connectionDetails.displayName = result.displayName;
+                this.connectionDetails.verified = true;
+                this.persistenceService.setConnectionDetails(this.connectionDetails);
+                this.store$.dispatch(new SetConnectionDetailsAction(this.connectionDetails));
+
                 this.messageService.add({ severity: "success", summary: "Success", detail: "Connection tested successfully", life: 5000, closable: true });
                 this.testSuccessful = true;
+
+                this.onClose(false);
             });
         // this.messageService.add({ severity: 'error', summary: "Failed", detail: "Connection failed", life: 10000, closable: true });
     }

@@ -24,6 +24,10 @@ export function appReducer(state: App, action: any): App {
             return { ...state, fieldMapping: action.payload };
         }
 
+        case ActionTypes.ConnectionDetailsVerified: {
+            return { ...state, connectionDetails: { ...state.connectionDetails, verified: true } };
+        }
+
         default: return state;
     }
 }

@@ -14,7 +14,6 @@ import { SetFieldMappingAction } from 'src/app/+state/app.actions';
 })
 export class CustomFieldsComponent implements OnInit {
     private _issueType: string;
-
     @Input()
     set issueType(value) {
         this._issueType = value;
@@ -38,7 +37,16 @@ export class CustomFieldsComponent implements OnInit {
         this.expandDefaultIssueType();
         this.store$.select(p => p.app)
             .subscribe(appState => {
-                var theJSON = JSON.stringify(appState);
+                const configurations = _.cloneDeep(appState);
+                if (configurations && configurations.connectionDetails) {
+                    configurations.connectionDetails.password = null;
+                    configurations.connectionDetails.username = null;
+
+                    configurations.connectionDetails.displayName = undefined;
+                    configurations.connectionDetails.encoded = undefined;
+                    configurations.connectionDetails.offlineMode = undefined;
+                }
+                var theJSON = JSON.stringify(configurations);
                 var uri = this.sanitizer.bypassSecurityTrustUrl("data:text/json;charset=UTF-8," + encodeURIComponent(theJSON));
                 this.downloadJsonHref = uri;
             })

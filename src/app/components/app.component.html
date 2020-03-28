@@ -10,7 +10,8 @@
   <div [ngbCollapse]="isNavbarCollapsed" class="collapse navbar-collapse" id="navbarsDefault">
 
     <ul class="navbar-nav ml-auto">
-      <li class="navbar-text active" *ngIf="connectionDetails">
+      <li class="navbar-text active"
+        *ngIf="connectionDetails && connectionDetails.displayName && connectionDetails.displayName.length > 0">
         <fa-icon icon="user" class=" mr-1"></fa-icon>
         {{connectionDetails.displayName}}
       </li>
@@ -19,7 +20,7 @@
           <fa-icon icon="cog" size="lg"></fa-icon>
         </a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="allowOfflineMode">
         <ui-switch [title]="isOnlineMode ? 'Online mode': 'Offline mode'" class="nav-link" [(ngModel)]="isOnlineMode"
           (change)="onModeChange($event)" size="small">
         </ui-switch>

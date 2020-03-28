@@ -4,8 +4,8 @@ import { CustomNodeTypes } from './tree-utils';
 
 const DataTypes = {
     Mode: "Mode",
-    ConnectionDetails: "connectionDetails",
-    Organization: "organization",
+    ConnectionDetails: "ConnectionDetails",
+    Organization: "Organization",
     FieldMapping: "FieldMapping",
     Projects: "Projects",
     Initiatives: "Initiatives",

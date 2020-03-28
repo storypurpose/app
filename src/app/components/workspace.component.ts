@@ -4,7 +4,7 @@ import { PersistenceService } from '../lib/persistence.service';
 import { MessageService } from 'primeng/api';
 import { AppState } from '../+state/app.state';
 import { Store } from '@ngrx/store';
-import { ShowConnectionEditorAction } from '../+state/app.actions';
+import { ShowConnectionEditorAction, ModeTypes } from '../+state/app.actions';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -13,7 +13,7 @@ import { Subscription } from 'rxjs';
 })
 export class WorkspaceComponent implements OnInit, OnDestroy {
     public connectionDetails: any;
-
+    isOnlineMode = false;
     connectionDetailsSubscription: Subscription;
 
     constructor(public persistenceService: PersistenceService,
@@ -22,9 +22,11 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.store$.select(mode => mode.app.mode)
+        .subscribe(mode => this.isOnlineMode = mode && mode === ModeTypes.Online);
+
         this.connectionDetailsSubscription = this.store$.select(p => p.app.connectionDetails)
             .subscribe(p => this.connectionDetails = p);
-        // this.connectionDetails = this.persistenceService.get1ConnectionDetails();
     }
     ngOnDestroy(): void {
         this.connectionDetailsSubscription ? this.connectionDetailsSubscription.unsubscribe() : null;

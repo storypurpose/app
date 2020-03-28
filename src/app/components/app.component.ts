@@ -20,10 +20,11 @@ declare let gtag: Function;
 export class AppComponent implements OnInit, OnDestroy {
   isNavbarCollapsed = true;
   showConnectionEditor = false;
-  showCustomFieldSetup = true;
-  showConfigSetup = false;
+  showCustomFieldSetup = false;
+
   issue: string;
 
+  allowOfflineMode = false;
   isOnlineMode = false;
   connectionDetails: any;
   fieldMapping: any;
@@ -48,6 +49,8 @@ export class AppComponent implements OnInit, OnDestroy {
           gtag('config', environment.gacode, { 'page_path': event.urlAfterRedirects });
         }
       })
+    } else {
+      this.allowOfflineMode = true;
     }
   }
 
@@ -108,13 +111,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-  configSetupCompleted() {
-    this.showConfigSetup = false;
-    window.location.reload();
-  }
-
   onModeChange(isOnlineMode) {
-    this.connectionDetails.offlineMode = !isOnlineMode;
     this.initiatizeModeState(isOnlineMode ? ModeTypes.Online : ModeTypes.Offline);
   }
 

@@ -7,7 +7,9 @@ export const ActionTypes = {
     SetCurrentIssueKey: type("[SetCurrentIssueKey]"),
     SetMode: type("[SetMode]"),
     SetConnectionDetails: type("[SetConnectionDetails]"),
-    SetFieldMapping: type("[SetFieldMapping]")
+    SetFieldMapping: type("[SetFieldMapping]"),
+
+    ConnectionDetailsVerified: type('[ConnectionDetailsVerified]')
 }
 
 export const ModeTypes = {
@@ -30,6 +32,10 @@ export class SetModeAction implements Action {
     type = ActionTypes.SetMode;
     constructor(public payload: any) { }
 }
+export class ConnectionDetailsVerifiedAction implements Action {
+    type = ActionTypes.ConnectionDetailsVerified;
+    constructor(public payload: any) { }
+}
 export class SetConnectionDetailsAction implements Action {
     type = ActionTypes.SetConnectionDetails;
     constructor(public payload: any) { }
@@ -46,4 +52,5 @@ export type Actions =
 
     | SetConnectionDetailsAction
     | SetFieldMappingAction
+    | ConnectionDetailsVerifiedAction
     ;

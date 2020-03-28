@@ -4,39 +4,33 @@
     </div>
     <div class="pane-body">
 
-        <div class="form-group form-check" *ngIf="allowOfflineMode">
-            <input type="checkbox" class="form-check-input" id="offlineMode" name="offlineMode"
-                [(ngModel)]="connectionDetails.offlineMode">
-            <label class="form-check-label" for="offlineMode">Offline mode</label>
+        <div class="alert bg-light mb-3">
+            <h6 class="text-muted mb-1">
+                Select the jira service type
+                <button type="button" class="btn btn-link text-muted p-0"
+                    (click)="hideWhatDoYouUse = !hideWhatDoYouUse">
+                    <fa-icon icon="info-circle"></fa-icon>
+                </button>
+            </h6>
+            <div [ngbCollapse]="hideWhatDoYouUse" class="text-muted mt-0 alert bg-white custom-shadow small">
+                You are using <b>Jira cloud</b>, if your jira access url looks like the one below
+                <div class="mb-3 mt-3">
+                    <span class="bg-light text-primary"> https://<i>&lt;yoursitename&gt;</i>.atlassian.net</span>
+                </div>
+                Anything other than this, is a <b>Jira server</b> setup.
+            </div>
+            <div class="btn-group btn-group-sm btn-group-toggle" ngbRadioGroup name="radioBasic"
+                [(ngModel)]="connectionDetails.authenticationType">
+                <label ngbButtonLabel class="btn-outline-info">
+                    <input ngbButton type="radio" [value]="authMode.JiraCloud"> Jira cloud
+                </label>
+                <label ngbButtonLabel class="btn-outline-info">
+                    <input ngbButton type="radio" [value]="authMode.JiraServer"> Jira server
+                </label>
+            </div>
         </div>
 
-        <div *ngIf="connectionDetails && connectionDetails.offlineMode === false">
-            <div class="alert bg-light mb-3">
-                <h6 class="text-muted mb-1">
-                    What do you use?
-                    <button type="button" class="btn btn-link text-muted p-0"
-                        (click)="hideWhatDoYouUse = !hideWhatDoYouUse">
-                        <fa-icon icon="info-circle"></fa-icon>
-                    </button>
-                </h6>
-                <div [ngbCollapse]="hideWhatDoYouUse" class="text-muted mt-0 alert bg-white custom-shadow small">
-                    You are using <b>Jira cloud</b>, if your jira access url looks like the one below
-                    <div class="mb-3 mt-3">
-                        <span class="bg-light text-primary"> https://<i>&lt;yoursitename&gt;</i>.atlassian.net</span>
-                    </div>
-                    Anything other than this, is a <b>Jira server</b> setup.
-                </div>
-                <div class="btn-group btn-group-sm btn-group-toggle" ngbRadioGroup name="radioBasic"
-                    [(ngModel)]="connectionDetails.authenticationType">
-                    <label ngbButtonLabel class="btn-outline-info">
-                        <input ngbButton type="radio" [value]="authMode.JiraCloud"> Jira cloud
-                    </label>
-                    <label ngbButtonLabel class="btn-outline-info">
-                        <input ngbButton type="radio" [value]="authMode.JiraServer"> Jira server
-                    </label>
-                </div>
-            </div>
-
+        <div *ngIf="connectionDetails.authenticationType !== undefined">
             <div class="alert bg-light mb-1">
                 <div class="form-group">
                     <label class=" mb-1" *ngIf="connectionDetails.authenticationType === authMode.JiraCloud">
@@ -54,8 +48,7 @@
 
                     <input type="url" class="form-control form-control-sm" id="serverUrl" name="serverUrl"
                         aria-describedby="jiraserver" placeholder="Jira server url"
-                        [(ngModel)]="connectionDetails.serverUrl" (keyup)="onServerUrlKeyup($event)"
-                        (keydown.control.enter)="onSave()">
+                        [(ngModel)]="connectionDetails.serverUrl" (keydown.control.enter)="onSave()">
                 </div>
 
                 <div class="row">
@@ -109,10 +102,10 @@
 
                 <div class="text-center">
                     <button class="btn btn-outline-primary btn-sm" [disabled]="!canSave()" (click)="testConnection()">
-                        <fa-icon icon="check-circle"></fa-icon> Test connection
+                        <fa-icon icon="check-circle"></fa-icon> Verify &amp; Save
                     </button>
                 </div>
-                
+
             </div>
 
             <i class="text-muted small">
@@ -133,8 +126,8 @@
 
     </div>
     <div class="pane-footer">
-        <app-button-panel [showSave]="testSuccessful || connectionDetails.offlineMode" [canSave]="canSave()"
-            (save)="onSave()" (close)="onClose(false)" (reset)="onReset()">
+        <app-button-panel [showSave]="false" [canSave]="canSave()" (save)="onSave()" (close)="onClose(false)"
+            (reset)="onReset()">
         </app-button-panel>
     </div>
 </div>

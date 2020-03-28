@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../+state/app.state';
 import { filter } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { ModeTypes } from '../+state/app.actions';
 
 export const AuthenticationModeTypes = {
     JiraCloud: 0,
@@ -14,6 +15,7 @@ export const AuthenticationModeTypes = {
 
 @Injectable({ providedIn: "root" })
 export class JiraService {
+    isOnlineMode = false;
     connectionDetails: any;
     proxyurl = "https://cors-anywhere.herokuapp.com";
     baseUrl = "https://storypurpose.atlassian.net/";
@@ -23,8 +25,12 @@ export class JiraService {
 
     staticFileLocation = './staticfiles';
     constructor(private http: HttpClient, public persistenceService: PersistenceService, public store$: Store<AppState>) {
+
+        store$.select(p => p.app.mode)
+            .subscribe(mode => this.isOnlineMode = mode && mode === ModeTypes.Online);
+
         store$.select(p => p.app.connectionDetails)
-            .pipe(filter(p => p))
+            .pipe(filter(p => p && p.verified))
             .subscribe(cd => {
                 this.connectionDetails = cd;
                 this.baseUrl = `${this.connectionDetails.serverUrl}${this.restVersionEndpoint}`;
@@ -44,13 +50,10 @@ export class JiraService {
     }
 
     testConnection(connectionDetails) {
-        console.log(connectionDetails);
-        // return of({});
         const pwd = connectionDetails.authenticationType === AuthenticationModeTypes.JiraCloud
             ? connectionDetails.password
             : btoa(connectionDetails.password);
 
-        console.log(pwd);
         return this.http.get(`${this.proxyurl}/${connectionDetails.serverUrl}${this.restVersionEndpoint}/myself`,
             {
                 headers: new HttpHeaders({
@@ -60,7 +63,7 @@ export class JiraService {
             });
     }
     getIssueDetails(keyId, extendedFields = []) {
-        if (this.connectionDetails && this.connectionDetails.offlineMode) {
+        if (this.isOnlineMode === false) {
             return this.http.get(`${this.staticFileLocation}/${keyId.toLowerCase()}.json`, this.httpOptions)
         }
         const fieldCodes = _.join(_.concat(this.fieldList, extendedFields));
@@ -68,7 +71,7 @@ export class JiraService {
         return this.http.get(`${this.proxyurl}/${this.baseUrl}/${url}`, this.httpOptions);
     }
     getProjectDetails(projectKey) {
-        if (this.connectionDetails && this.connectionDetails.offlineMode) {
+        if (this.isOnlineMode === false) {
             return this.http.get(`${this.staticFileLocation}/project-${projectKey}.json`, this.httpOptions)
         }
         const url = `project/${projectKey}`;
@@ -76,7 +79,7 @@ export class JiraService {
     }
 
     executeJql(jql, extendedFields = [], srcJson = null) {
-        if (this.connectionDetails && this.connectionDetails.offlineMode && srcJson && srcJson.length > 0) {
+        if (this.isOnlineMode === false && srcJson && srcJson.length > 0) {
             return this.http.get(`${this.staticFileLocation}/${srcJson}`, this.httpOptions)
         }
         const fieldCodes = _.join(_.concat(this.fieldList, extendedFields));

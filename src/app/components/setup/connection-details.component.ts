@@ -1,10 +1,14 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { JiraService } from '../../lib/jira.service';
+import { Component, OnInit, Output, EventEmitter, OnDestroy, Input } from '@angular/core';
+import { JiraService, AuthenticationModeTypes } from '../../lib/jira.service';
 import * as _ from 'lodash';
 import { PersistenceService } from 'src/app/lib/persistence.service';
 import { environment } from '../../../environments/environment';
 import { MessageService } from 'primeng/api';
 import { filter } from 'rxjs/operators';
+import { AppState } from 'src/app/+state/app.state';
+import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
+import { SetConnectionDetailsAction } from 'src/app/+state/app.actions';
 
 @Component({
     selector: 'app-connection-details',
@@ -12,15 +16,22 @@ import { filter } from 'rxjs/operators';
 })
 export class ConnectionDetailsComponent implements OnInit {
     @Output() close = new EventEmitter<any>();
-    connectionDetails: any;
+    @Input() connectionDetails: any;
+
+    hideWhatDoYouUse = true;
     allowOfflineMode = false;
     testSuccessful = false;
-    constructor(public jiraService: JiraService, public persistenceService: PersistenceService, public messageService: MessageService) {
+    authMode = AuthenticationModeTypes;
+
+    constructor(public jiraService: JiraService,
+        public persistenceService: PersistenceService,
+        public messageService: MessageService,
+        public store$: Store<AppState>) {
     }
 
     ngOnInit() {
-        this.connectionDetails = this.persistenceService.getConnectionDetails() || {}
         this.allowOfflineMode = !environment.production;
+        this.connectionDetails.authenticationType = AuthenticationModeTypes.JiraCloud;
     }
 
     canSave() {
@@ -31,10 +42,16 @@ export class ConnectionDetailsComponent implements OnInit {
     }
     onSave() {
         this.persistenceService.setConnectionDetails(this.connectionDetails);
-        this.onClose(true);
+        this.store$.dispatch(new SetConnectionDetailsAction(this.connectionDetails));
+        this.onClose(false);
+
+        // this.onClose(true);
     }
     onClose(shouldReload) {
         this.close.emit(shouldReload);
+    }
+    onServerUrlKeyup(evt: any) {
+        console.log('onServerUrlKeyup', /atlassian.net/i.test(evt.target.value));
     }
 
     testConnection() {

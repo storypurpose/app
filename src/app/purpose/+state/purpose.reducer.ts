@@ -11,5 +11,7 @@ export function purposeReducer(state: Purpose, action: any): Purpose {
             //TODO: Maintain array
             return { ...state, recentmostItem: action.payload };
         }
+
+        default: return state;
     }
 }

@@ -2,37 +2,60 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { PersistenceService } from './persistence.service';
 import * as _ from "lodash";
+import { Store } from '@ngrx/store';
+import { AppState } from '../+state/app.state';
+import { filter } from 'rxjs/operators';
+import { of } from 'rxjs';
+
+export const AuthenticationModeTypes = {
+    JiraCloud: 0,
+    JiraServer: 1
+}
 
 @Injectable({ providedIn: "root" })
 export class JiraService {
     connectionDetails: any;
     proxyurl = "https://cors-anywhere.herokuapp.com";
-    baseUrl = "https://jira.mediaocean.com";
+    baseUrl = "https://storypurpose.atlassian.net/";
     restVersionEndpoint = "/rest/api/latest";
     fieldList = ['project', 'reporter', 'assignee', 'status', 'summary', 'description', 'key', 'components', 'labels', 'issuelinks', 'issuetype', 'parent'];
     httpOptions: any;
 
     staticFileLocation = './staticfiles';
-    constructor(private http: HttpClient, public persistenceService: PersistenceService) {
-        this.connectionDetails = persistenceService.getConnectionDetails();
-        if (this.connectionDetails) {
-            this.baseUrl = `${this.connectionDetails.serverUrl}${this.restVersionEndpoint}`;
+    constructor(private http: HttpClient, public persistenceService: PersistenceService, public store$: Store<AppState>) {
+        store$.select(p => p.app.connectionDetails)
+            .pipe(filter(p => p))
+            .subscribe(cd => {
+                this.connectionDetails = cd;
+                this.baseUrl = `${this.connectionDetails.serverUrl}${this.restVersionEndpoint}`;
 
-            this.httpOptions = {
-                headers: new HttpHeaders({
-                    'Content-Type': 'application/json',
-                    'Authorization': `Basic ${this.connectionDetails.encoded}`
-                })
-            };
-        }
+                const pwd = this.connectionDetails.authenticationType === AuthenticationModeTypes.JiraCloud
+                    ? this.connectionDetails.password
+                    : btoa(this.connectionDetails.password);
+
+                this.httpOptions = {
+                    headers: new HttpHeaders({
+                        'Content-Type': 'application/json',
+                        'Authorization': `Basic ${this.persistenceService.encodeCredentials(this.connectionDetails.username, pwd)}`
+                    })
+                };
+                // }
+            })
     }
 
     testConnection(connectionDetails) {
+        console.log(connectionDetails);
+        // return of({});
+        const pwd = connectionDetails.authenticationType === AuthenticationModeTypes.JiraCloud
+            ? connectionDetails.password
+            : btoa(connectionDetails.password);
+
+        console.log(pwd);
         return this.http.get(`${this.proxyurl}/${connectionDetails.serverUrl}${this.restVersionEndpoint}/myself`,
             {
                 headers: new HttpHeaders({
                     'Content-Type': 'application/json',
-                    'Authorization': `Basic ${this.persistenceService.encodeCredentials(connectionDetails)}`
+                    'Authorization': `Basic ${this.persistenceService.encodeCredentials(connectionDetails.username, pwd)}`
                 })
             });
     }

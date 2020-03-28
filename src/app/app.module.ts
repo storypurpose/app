@@ -48,7 +48,7 @@ import { ExtendedFieldsComponent } from './components/extended-fields.component'
 import { UiSwitchModule } from 'ngx-ui-switch';
 import { CommonComponentsModule } from './common-components/common-components.module';
 import { CopyrightComponent } from './components/help/copyright.component';
-import { NgbDropdownModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 @NgModule({
   declarations: [
     AboutComponent, CopyrightComponent, WorkspaceComponent, FooterComponent,
@@ -72,7 +72,7 @@ import { NgbDropdownModule } from "@ng-bootstrap/ng-bootstrap";
     FontAwesomeModule,
     UiSwitchModule,
 
-    NgbDropdownModule,
+    NgbModule,
 
     SliderModule,
     SidebarModule,
@@ -86,12 +86,22 @@ import { NgbDropdownModule } from "@ng-bootstrap/ng-bootstrap";
     AngularSplitModule.forRoot(),
     NgxMdModule.forRoot(),
     DisqusModule.forRoot('disqus_storypurpose'),
+    StoreModule.forRoot(
+      { app: appReducer },
+      {
+        runtimeChecks: {
+          strictStateImmutability: false,
+          strictActionImmutability: false,
+          strictStateSerializability: true,
+          strictActionSerializability: true
+        },
+        initialState: { app: appInitialState }
+      }),
 
     CommonComponentsModule,
     PurposeModule,
 
-    AppRoutingModule,
-    StoreModule.forRoot({ app: appReducer }, { initialState: { app: appInitialState } })
+    AppRoutingModule
   ],
   providers: [
     GoogleAnalyticsService,

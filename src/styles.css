@@ -70,25 +70,44 @@ body .ui-tree.ui-tree-horizontal .ui-treenode .ui-treenode-content {
   border-width: 0;
 }
 body .ui-sidebar {
-  padding-left: 0;
+  padding: 0;
+  box-shadow: 0 0 16px 0 #444;
+  border-width: 0;
+  z-index: 1032 !important; /*more than bootstrap fixed-top navbar (1030) */
 }
 .pane {
   position: absolute;
-  top: 16pt;
-  height: calc(100% - 20pt);
+  height: 100%;
   width: 100%;
   overflow: hidden;
 }
-
+.pane-header {
+  background-color: #007bff;
+  color: #fff;
+  padding: 0.4rem 1rem;
+  box-shadow: 0 2px 4px #666;
+}
+.pane-header h4 {
+  margin-bottom: 0;
+}
 .pane-body {
-  height: 100%;
+  top: 32pt;
+  height: calc(100% - 64pt);
   position: absolute;
   width: 100%;
   margin: 0;
   overflow: auto;
-  padding: 8pt;
+  padding: 1rem;
 }
-
+.pane-footer {
+  bottom: 0;
+  position: absolute;
+  width: 100%;
+  height: 32pt;
+  background-color: #eee;
+  border-top: solid 1px #ddd;
+  padding: 0.25rem 1rem;
+}
 .main-container {
   height: 100%;
   overflow: hidden;
@@ -139,8 +158,12 @@ body .ui-sidebar {
   box-shadow: none;
 }
 
+body .ui-toast {
+  z-index: 1050 !important;
+}
 body .ui-toast .ui-toast-message {
   box-shadow: 0 0 6px 0 #888;
+  border-radius: 2pt;
 }
 
 body .ui-toast .ui-toast-message.ui-toast-message-error {
@@ -198,8 +221,9 @@ body .ui-tree .ui-tree-container .ui-treenode .ui-treenode-content {
 body .ui-tree .ui-tree-container .ui-treenode .ui-treenode-content:focus {
   box-shadow: none;
 }
-.btn:focus {
-  box-shadow: none;
+.btn:focus,
+.btn-outline-info:focus {
+  box-shadow: none !important;
 }
 
 .btn-default {

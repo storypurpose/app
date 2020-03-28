@@ -1,4 +1,4 @@
-import { Component, OnInit, IterableDiffers } from '@angular/core';
+import { Component, OnInit, IterableDiffers, OnDestroy } from '@angular/core';
 import { JiraService } from '../lib/jira.service';
 import {
     transformParentNode, flattenAndTransformNodes, populateFieldValues,
@@ -12,12 +12,13 @@ import { Store } from '@ngrx/store';
 import { SetPurposeAction, SetSetRecentlyViewedAction } from '../purpose/+state/purpose.actions';
 import { AppState } from '../+state/app.state';
 import { SetCurrentIssueKeyAction, ShowCustomFieldEditorAction } from '../+state/app.actions';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-issueviewer',
     templateUrl: './issueviewer.component.html'
 })
-export class IssueviewerComponent implements OnInit {
+export class IssueviewerComponent implements OnInit, OnDestroy {
     public initiativeToEdit: any;
     public showInitiativeSetup = false;
 
@@ -45,6 +46,8 @@ export class IssueviewerComponent implements OnInit {
     public connectionDetails: any;
     public hasExtendedFields = false;
 
+    connectionDetailsSubscription: Subscription;
+
     constructor(public router: Router,
         public activatedRoute: ActivatedRoute,
         public jiraService: JiraService,
@@ -55,9 +58,14 @@ export class IssueviewerComponent implements OnInit {
         this.includeHierarchy = true;
         this.initiatize();
     }
+    ngOnDestroy(): void {
+        this.connectionDetailsSubscription ? this.connectionDetailsSubscription.unsubscribe() : null;
+    }
 
     public initiatize(): void {
-        this.connectionDetails = this.persistenceService.getConnectionDetails();
+        this.connectionDetailsSubscription = this.store$.select(p => p.app.connectionDetails)
+            .subscribe(p => this.connectionDetails = p);
+        //this.connectionDetails = this.persistenceService.get1ConnectionDetails();
         this.menulist = [{
             label: 'Browse', icon: 'fa fa-external-link-alt', command: () => {
                 if (this.contextIssueKey !== "") {
@@ -270,7 +278,6 @@ export class IssueviewerComponent implements OnInit {
             });
             if (tempNode.children && tempNode.children.length > 0) {
                 const tree = tempNode.children[0];
-                console.log('tree', tree);
                 this.convertToTree(tempNode.children, tree);
                 return tree;
             }

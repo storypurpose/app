@@ -13,5 +13,17 @@ export function appReducer(state: App, action: any): App {
         case ActionTypes.SetCurrentIssueKey: {
             return { ...state, currentIssueKey: action.payload };
         }
+        case ActionTypes.SetMode: {
+            return { ...state, mode: action.payload };
+        }
+
+        case ActionTypes.SetConnectionDetails: {
+            return { ...state, connectionDetails: action.payload };
+        }
+        case ActionTypes.SetFieldMapping: {
+            return { ...state, fieldMapping: action.payload };
+        }
+
+        default: return state;
     }
 }

@@ -1,62 +1,140 @@
 <div class="pane">
-    <div class="pane-body pt-0">
-        <div class="container">
-            <h4>Connection details</h4>
-            <hr>
-            <form>
-                <div class="alert bg-light mb-3">
-                    <div class="form-group">
-                        <label for="jiraserver">
-                            Server url
-                            <i class="text-muted small">(e.g. https://jira.<u>yourcompany</u>.com)</i>
-                        </label>
-                        <input type="url" class="form-control form-control-sm" id="serverUrl" name="serverUrl"
-                            aria-describedby="jiraserver" placeholder="Jira server url"
-                            [(ngModel)]="connectionDetails.serverUrl" (keydown.control.enter)="onSave()">
+    <div class="pane-header">
+        <h4>Jira connection details</h4>
+    </div>
+    <div class="pane-body">
 
-                    </div>
-                    <div class="form-group">
-                        <label for="username">Username</label>
-                        <input type="text" class="form-control form-control-sm" id="username" name="username"
-                            placeholder="username" [(ngModel)]="connectionDetails.username"
-                            (keydown.control.enter)="onSave()">
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" class="form-control form-control-sm" id="password" name="password"
-                            placeholder="Password" [(ngModel)]="connectionDetails.password"
-                            (keydown.control.enter)="onSave()">
-                    </div>
+        <div class="form-group form-check" *ngIf="allowOfflineMode">
+            <input type="checkbox" class="form-check-input" id="offlineMode" name="offlineMode"
+                [(ngModel)]="connectionDetails.offlineMode">
+            <label class="form-check-label" for="offlineMode">Offline mode</label>
+        </div>
 
-                    <div class="form-group">
-                        <i class="text-muted small">
-                            <b>NOTE:</b> The user credentials are only cached locally on your
-                            <a target="_blank"
-                                href="https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage">
-                                browser's localStorage <fa-icon icon="external-link-alt"></fa-icon>
-                            </a>
-                            <br>
-                            Credentials are <u>not stored nor transmitted</u> to any server.
-                        </i>
+        <div *ngIf="connectionDetails && connectionDetails.offlineMode === false">
+            <div class="alert bg-light mb-3">
+                <h6 class="text-muted mb-1">
+                    What do you use?
+                    <button type="button" class="btn btn-link text-muted p-0"
+                        (click)="hideWhatDoYouUse = !hideWhatDoYouUse">
+                        <fa-icon icon="info-circle"></fa-icon>
+                    </button>
+                </h6>
+                <div [ngbCollapse]="hideWhatDoYouUse" class="text-muted mt-0 alert bg-white custom-shadow small">
+                    You are using <b>Jira cloud</b>, if your jira access url looks like the one below
+                    <div class="mb-3 mt-3">
+                        <span class="bg-light text-primary"> https://<i>&lt;yoursitename&gt;</i>.atlassian.net</span>
                     </div>
+                    Anything other than this, is a <b>Jira server</b> setup.
+                </div>
+                <div class="btn-group btn-group-sm btn-group-toggle" ngbRadioGroup name="radioBasic"
+                    [(ngModel)]="connectionDetails.authenticationType">
+                    <label ngbButtonLabel class="btn-outline-info">
+                        <input ngbButton type="radio" [value]="authMode.JiraCloud"> Jira cloud
+                    </label>
+                    <label ngbButtonLabel class="btn-outline-info">
+                        <input ngbButton type="radio" [value]="authMode.JiraServer"> Jira server
+                    </label>
+                </div>
+            </div>
 
+            <div class="alert bg-light mb-1">
+                <div class="form-group">
+                    <label class=" mb-1" *ngIf="connectionDetails.authenticationType === authMode.JiraCloud">
+                        Jira Cloud url
+                        <span class="text-muted ml-2 small">
+                            https://<i>&lt;yoursitename&gt;</i>.atlassian.net
+                        </span>
+                    </label>
+                    <label class="mb-1" *ngIf=" connectionDetails.authenticationType === authMode.JiraServer">
+                        Server url
+                        <span class="text-muted ml-2 small">
+                            https://jira.<i>&lt;yoursitename&gt;</i>.com
+                        </span>
+                    </label>
 
-                    <div class="form-group form-check" *ngIf="allowOfflineMode">
-                        <input type="checkbox" class="form-check-input" id="offlineMode" name="offlineMode"
-                            [(ngModel)]="connectionDetails.offlineMode">
-                        <label class="form-check-label" for="offlineMode">Offline mode</label>
+                    <input type="url" class="form-control form-control-sm" id="serverUrl" name="serverUrl"
+                        aria-describedby="jiraserver" placeholder="Jira server url"
+                        [(ngModel)]="connectionDetails.serverUrl" (keyup)="onServerUrlKeyup($event)"
+                        (keydown.control.enter)="onSave()">
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="username">
+                                <span *ngIf="connectionDetails.authenticationType === authMode.JiraCloud">Atlassian
+                                    account email</span>
+                                <span
+                                    *ngIf="connectionDetails.authenticationType === authMode.JiraServer">Username</span>
+                            </label>
+                            <input type="text" class="form-control form-control-sm" id="username" name="username"
+                                placeholder="username" [(ngModel)]="connectionDetails.username"
+                                (keydown.control.enter)="onSave()">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="password">
+                                <span *ngIf="connectionDetails.authenticationType === authMode.JiraCloud">
+                                    API Token
+                                    <i class="small ml-2">
+                                        <a target="_blank"
+                                            href="https://developer.atlassian.com/cloud/jira/platform/basic-auth-for-rest-apis/">
+                                            Jira cloud
+                                            <fa-icon class="ml-1" icon="external-link-alt"></fa-icon>
+                                        </a>
+                                    </i>
+                                </span>
+                                <span *ngIf="connectionDetails.authenticationType === authMode.JiraServer">
+                                    Password
+                                    <i class="small ml-2">
+                                        <a target="_blank"
+                                            href="https://developer.atlassian.com/server/jira/platform/basic-authentication/">Jira
+                                            server
+                                            <fa-icon class="ml-1" icon="external-link-alt"></fa-icon>
+                                        </a>
+                                    </i>
+
+                                </span>
+                            </label>
+
+                            <input type="password" class="form-control form-control-sm" id="password" name="password"
+                                placeholder="Password" [(ngModel)]="connectionDetails.password"
+                                (keydown.control.enter)="onSave()">
+                        </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <button class="btn btn-secondary btn-sm" [disabled]="!canSave()" (click)="testConnection()">
-                        Test connection
+
+                <hr>
+
+                <div class="text-center">
+                    <button class="btn btn-outline-primary btn-sm" [disabled]="!canSave()" (click)="testConnection()">
+                        <fa-icon icon="check-circle"></fa-icon> Test connection
                     </button>
                 </div>
-                <hr>
-                <app-button-panel [showSave]="testSuccessful || connectionDetails.offlineMode" [canSave]="canSave()" (save)="onSave()"
-                    (close)="onClose(false)" (reset)="onReset()">
-                </app-button-panel>
-            </form>
+                
+            </div>
+
+            <i class="text-muted small">
+                <b>NOTE:</b>
+                <ul>
+                    <li>
+                        The user credentials are only cached locally on your
+                        <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage">
+                            browser's localStorage <fa-icon class="ml-1" icon="external-link-alt"></fa-icon>
+                        </a>
+                    </li>
+                    <li>
+                        Credentials are not stored nor transmitted to any server.
+                    </li>
+                </ul>
+            </i>
         </div>
+
+    </div>
+    <div class="pane-footer">
+        <app-button-panel [showSave]="testSuccessful || connectionDetails.offlineMode" [canSave]="canSave()"
+            (save)="onSave()" (close)="onClose(false)" (reset)="onReset()">
+        </app-button-panel>
     </div>
 </div>

@@ -3,13 +3,13 @@ import * as _ from 'lodash';
 import { Router, NavigationEnd } from '@angular/router';
 import { PersistenceService } from '../lib/persistence.service';
 import { Subscription } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 import { DomSanitizer } from '@angular/platform-browser';
 
 import { environment } from '../../environments/environment';
 import { AppState } from '../+state/app.state';
 import { Store } from '@ngrx/store';
-import { ShowConnectionEditorAction } from '../+state/app.actions';
+import { SetModeAction, ModeTypes, SetConnectionDetailsAction, SetFieldMappingAction } from '../+state/app.actions';
 
 declare let gtag: Function;
 
@@ -18,15 +18,22 @@ declare let gtag: Function;
   templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit, OnDestroy {
+  isNavbarCollapsed = true;
   showConnectionEditor = false;
-  showCustomFieldSetup = false;
+  showCustomFieldSetup = true;
   showConfigSetup = false;
   issue: string;
-  connectionDetails: any;
-  connectionSubscription: Subscription;
-  isOnlineMode = true;
 
+  isOnlineMode = false;
+  connectionDetails: any;
+  fieldMapping: any;
+
+  connectionSubscription: Subscription;
   customFieldSubscription: Subscription;
+  modeSubscription: Subscription;
+  connectionDetailsSubscription: Subscription;
+  fieldMappingSubscription: Subscription;
+
   issueTypeToConfigure: string;
 
   menulist: any;
@@ -51,26 +58,36 @@ export class AppComponent implements OnInit, OnDestroy {
       { label: 'Custom fields', icon: 'pi pi-sliders-h', command: () => this.showCustomFieldSetup = true },
     ];
 
-    this.connectionSubscription = this.store$.select(p => p.app)
-      .pipe(filter(p => p && p.connectionEditorVisible), map(p => p.connectionEditorVisible))
+    this.connectionSubscription = this.store$.select(p => p.app.connectionEditorVisible)
+      .pipe(filter(show => show === true))
       .subscribe(show => this.showConnectionEditor = show);
 
-    this.customFieldSubscription = this.store$.select(p => p.app)
-      .pipe(filter(p => p && p.customFieldEditorVisible), map(p => p.customFieldEditorVisible))
-      .subscribe(issueType => {
+    this.customFieldSubscription = this.store$.select(p => p.app.customFieldEditorVisible)
+      .pipe(filter(show => show))
+      .subscribe(show => {
         this.showCustomFieldSetup = true;
-        this.issueTypeToConfigure = issueType;
+        this.issueTypeToConfigure = show;
       });
 
-    this.connectionDetails = this.persistenceService.getConnectionDetails();
-    if (this.connectionDetails && this.connectionDetails.offlineMode) {
-      this.isOnlineMode = false;
-    }
+    this.modeSubscription = this.store$.select(p => p.app.mode)
+      .subscribe(p => this.isOnlineMode = p && p === ModeTypes.Online);
+    this.connectionDetailsSubscription = this.store$.select(p => p.app.connectionDetails)
+      .subscribe(p => this.connectionDetails = p);
+    this.fieldMappingSubscription = this.store$.select(p => p.app.fieldMapping)
+      .subscribe(p => this.fieldMapping = p);
+
+    this.initiatizeFieldMappingState(this.persistenceService.getFieldMapping());
+    this.initiatizeConnectionDetailsState(this.persistenceService.getConnectionDetails());
+    this.initiatizeModeState(this.persistenceService.getMode());
   }
 
   ngOnDestroy() {
     this.connectionSubscription ? this.connectionSubscription.unsubscribe() : null;
     this.customFieldSubscription ? this.customFieldSubscription.unsubscribe() : null;
+    this.modeSubscription ? this.modeSubscription.unsubscribe() : null;
+
+    this.connectionDetailsSubscription ? this.connectionDetailsSubscription.unsubscribe() : null;
+    this.fieldMappingSubscription ? this.fieldMappingSubscription.unsubscribe() : null;
   }
 
   navigateTo(issue) {
@@ -84,9 +101,11 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-  customFieldSetupCompleted() {
+  customFieldSetupCompleted(reload) {
     this.showCustomFieldSetup = false;
-    window.location.reload();
+    if (reload) {
+      window.location.reload();
+    }
   }
 
   configSetupCompleted() {
@@ -96,11 +115,24 @@ export class AppComponent implements OnInit, OnDestroy {
 
   onModeChange(isOnlineMode) {
     this.connectionDetails.offlineMode = !isOnlineMode;
-    this.persistenceService.setConnectionDetails(this.connectionDetails);
-    if (isOnlineMode) {
-      this.store$.dispatch(new ShowConnectionEditorAction(true));
-    } else {
-      window.location.reload();
+    this.initiatizeModeState(isOnlineMode ? ModeTypes.Online : ModeTypes.Offline);
+  }
+
+  initiatizeModeState(mode) {
+    this.persistenceService.setMode(mode);
+    this.store$.dispatch(new SetModeAction(mode));
+  }
+  initiatizeConnectionDetailsState(details) {
+    if (details) {
+      this.persistenceService.setConnectionDetails(details);
+      this.store$.dispatch(new SetConnectionDetailsAction(details));
     }
   }
+  initiatizeFieldMappingState(details) {
+    if (details) {
+      this.persistenceService.setFieldMapping(details);
+      this.store$.dispatch(new SetFieldMappingAction(details));
+    }
+  }
+
 }

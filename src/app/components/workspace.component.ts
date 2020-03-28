@@ -1,17 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as _ from 'lodash';
 import { PersistenceService } from '../lib/persistence.service';
 import { MessageService } from 'primeng/api';
 import { AppState } from '../+state/app.state';
 import { Store } from '@ngrx/store';
 import { ShowConnectionEditorAction } from '../+state/app.actions';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-workspace',
     templateUrl: './workspace.component.html'
 })
-export class WorkspaceComponent implements OnInit {
+export class WorkspaceComponent implements OnInit, OnDestroy {
     public connectionDetails: any;
+
+    connectionDetailsSubscription: Subscription;
 
     constructor(public persistenceService: PersistenceService,
         public messageService: MessageService,
@@ -19,8 +22,14 @@ export class WorkspaceComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.connectionDetails = this.persistenceService.getConnectionDetails();
+        this.connectionDetailsSubscription = this.store$.select(p => p.app.connectionDetails)
+            .subscribe(p => this.connectionDetails = p);
+        // this.connectionDetails = this.persistenceService.get1ConnectionDetails();
     }
+    ngOnDestroy(): void {
+        this.connectionDetailsSubscription ? this.connectionDetailsSubscription.unsubscribe() : null;
+    }
+
     onShowSetup() {
         this.store$.dispatch(new ShowConnectionEditorAction(true));
     }

@@ -20,19 +20,17 @@ export class PersistenceService {
         const payload = localStorage.getItem(DataTypes.ConnectionDetails);
         const connectionDetails = JSON.parse(payload);
         if (connectionDetails && connectionDetails.password && connectionDetails.password.length > 0) {
-            connectionDetails.password = atob(connectionDetails.password);
-            connectionDetails.encoded = this.encodeCredentials(connectionDetails);
+            connectionDetails.encoded = btoa(`${connectionDetails.username}:${connectionDetails.password}`);
         }
         return connectionDetails;
     }
-    encodeCredentials(connectionDetails): any {
-        return btoa(`${connectionDetails.username}:${connectionDetails.password}`)
+    encodeCredentials(username, password): any {
+        return btoa(`${username}:${password}`)
     }
-    setConnectionDetails(payload) {        console.log();
-        if (payload && payload.password && payload.password.length > 0) {
-            payload.password = btoa(payload.password);
-        }
-
+    setConnectionDetails(payload) {
+        // if (payload && payload.password && payload.password.length > 0) {
+        //     payload.password = btoa(payload.password);
+        // }
         localStorage.setItem(DataTypes.ConnectionDetails, JSON.stringify(payload))
     }
     resetConnectionDetails() {
@@ -43,7 +41,7 @@ export class PersistenceService {
     //#region mode
     getMode() {
         const payload = localStorage.getItem(DataTypes.Mode);
-        return JSON.parse(payload);
+        return JSON.parse(payload) || 'offline';
     }
     setMode(payload) {
         localStorage.setItem(DataTypes.Mode, JSON.stringify(payload))

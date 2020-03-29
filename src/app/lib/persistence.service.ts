@@ -101,17 +101,19 @@ export class PersistenceService {
     resetProjects() {
         localStorage.removeItem(DataTypes.Projects);
     }
+    setProjects(projects) {
+        localStorage.setItem(DataTypes.Projects, JSON.stringify(projects))
+    }
     getProjectDetails(keyId) {
         const projects = this.getProjects();
         return _.find(projects, { key: keyId })
     }
     setProjectDetails(payload) {
         const projects = this.getProjects();
-        const found = _.find(projects, { key: payload.key })
-        if (!found) {
-            projects.push(payload);
-            localStorage.setItem(DataTypes.Projects, JSON.stringify(projects))
-        }
+        _.remove(projects, { key: payload.key });
+
+        projects.push(payload);
+        localStorage.setItem(DataTypes.Projects, JSON.stringify(projects))
     }
     //#endregion
 

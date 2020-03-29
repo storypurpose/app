@@ -56,6 +56,12 @@
         </as-split>
     </div>
 </div>
+
 <p-sidebar [(visible)]="showDetails" styleClass="ui-sidebar-lg" position="right">
     <app-sub-items [issue]="selectedIssue"></app-sub-items>
+</p-sidebar>
+
+<p-sidebar [(visible)]="showProjectConfigSetup" styleClass="ui-sidebar-md" position="right">
+    <app-project-config [project]="selectedProject" (close)="projectConfigSetupCompleted($event)">
+    </app-project-config>
 </p-sidebar>

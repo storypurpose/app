@@ -42,9 +42,4 @@
     (close)="customFieldSetupCompleted($event)"></app-custom-fields>
 </p-sidebar>
 
-<p-sidebar [(visible)]="showProjectConfigSetup" styleClass="ui-sidebar-md" position="right">
-  <app-project-config [configDetails]="configDetails"
-    (close)="projectConfigSetupCompleted($event)"></app-project-config>
-</p-sidebar>
-
 <router-outlet> </router-outlet>

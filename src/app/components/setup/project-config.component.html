@@ -1,1 +1,53 @@
-project-config.component.
+<div class="pane" *ngIf="project">
+    <div class="pane-header">
+        <h4>{{project.name}}</h4>
+    </div>
+
+    <div class="pane-body">
+
+        <div class="alert bg-light" *ngIf="project.description">{{project.description}}</div>
+
+        <h6 class="mt-4">Extend Hierarchy</h6>
+        <div class="bg-light pt-2 pb-2">
+            <app-field-selector-list [customFields]="project.customFields" [list]="project.hierarchy">
+            </app-field-selector-list>
+        </div>
+
+        <h6 class="mt-4">Standard Issue types</h6>
+        <div class="bg-light pt-2 pb-2">
+            <div *ngFor="let issuetype of project.standardIssueTypes;let i = index">
+
+                <button class="btn btn-sm btn-link text-muted" (click)="issuetype.show = !issuetype.show">
+                    <fa-icon [icon]="issuetype.show ? 'chevron-down' : 'chevron-right'" size="sm"></fa-icon>
+                </button>
+                {{issuetype.name}}
+
+                <div class="ml-5 mr-2" *ngIf="issuetype.show">
+                    <app-field-selector-list [customFields]="project.customFields" [list]="issuetype.list">
+                    </app-field-selector-list>
+                </div>
+            </div>
+        </div>
+
+        <h6 class="mt-4">Sub-Task Issue types</h6>
+        <div class="bg-light pt-2 pb-2">
+            <div *ngFor="let issuetype of project.subTaskIssueTypes;let i = index">
+
+                <button class="btn btn-sm btn-link text-muted" (click)="issuetype.show = !issuetype.show">
+                    <fa-icon [icon]="issuetype.show ? 'chevron-down' : 'chevron-right'" size="sm"></fa-icon>
+                </button>
+                {{issuetype.name}}
+
+                <div class="ml-5 mr-2" *ngIf="issuetype.show">
+                    <app-field-selector-list [customFields]="project.customFields" [list]="issuetype.list">
+                    </app-field-selector-list>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="pane-footer">
+        <app-button-panel (save)="onSave()" (close)="onClose(false)" (reset)="onReset()"></app-button-panel>
+    </div>
+</div>

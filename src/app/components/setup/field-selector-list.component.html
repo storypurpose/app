@@ -1,0 +1,11 @@
+<div class="clearfix pl-3 pr-3 pt-1 pb-1" *ngFor="let ff of list;let i = index">
+    <a (click)="remove(i)" class="text-danger mr-2">
+        <fa-icon icon="times"></fa-icon>
+    </a>
+    {{ff.name}}
+</div>
+<div class="input-group input-group-sm pl-3 pt-2" style="width:300px" *ngIf="customFields && customFields.length > 0">
+    <select class="form-control" [(ngModel)]="selectedField" (change)="add()">
+        <option *ngFor="let ff of customFields" [value]="ff.id">{{ff.name}}</option>
+    </select>
+</div>

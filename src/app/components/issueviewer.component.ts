@@ -6,7 +6,7 @@ import {
 } from '../lib/tree-utils';
 import * as _ from 'lodash';
 import { ActivatedRoute, Router } from '@angular/router';
-import { filter, map } from 'rxjs/operators';
+import { filter, map, tap } from 'rxjs/operators';
 import { PersistenceService } from '../lib/persistence.service';
 import { Store } from '@ngrx/store';
 import { SetPurposeAction, SetSetRecentlyViewedAction } from '../purpose/+state/purpose.actions';
@@ -32,7 +32,6 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     public selectedIssue: any;
     public loadedIssue: any;
     public showDetails = false;
-    public includeHierarchy = false;
     public issueKey = "storypurpose";
     public contextIssueKey = "";
     public mappedEpicFieldCode: string;
@@ -44,10 +43,15 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     public purpose = [];
     public menulist: any;
     public masterMenulist: any;
-    public connectionDetails: any;
     public hasExtendedFields = false;
 
+    public connectionDetails: any;
     connectionDetailsSubscription: Subscription;
+
+    public projects: any;
+    projectsSubscription: Subscription;
+    showProjectConfigSetup = false;
+    selectedProject: any;
 
     constructor(public router: Router,
         public activatedRoute: ActivatedRoute,
@@ -56,14 +60,25 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
         public store$: Store<AppState>) {
     }
     ngOnInit(): void {
-        this.includeHierarchy = true;
         this.connectionDetailsSubscription = this.store$.select(p => p.app.connectionDetails)
-            .subscribe(p => this.connectionDetails = p);
+            .subscribe(cd => this.connectionDetails = cd);
+
+        this.projectsSubscription = this.store$.select(p => p.app.projects)
+            .pipe(filter(p => p))
+            .subscribe(projects => {
+                this.projects = projects;
+                this.persistenceService.setProjects(projects);
+                // const current = _.find(this.projects, { current: true });
+                // if (current) {
+                //     this.persistenceService.setProjectDetails(current);
+                // }
+            });
 
         this.initiatize();
     }
     ngOnDestroy(): void {
         this.connectionDetailsSubscription ? this.connectionDetailsSubscription.unsubscribe() : null;
+        this.projectsSubscription ? this.projectsSubscription.unsubscribe() : null;
     }
 
     public initiatize(): void {
@@ -74,7 +89,10 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
             },
             {
                 label: 'Configure', icon: 'far fa-sun', menuType: CustomNodeTypes.Project,
-                command: (args) => this.configureProject(this.selectedIssue.project, this.selectedIssue.issueType)
+                command: (args) => {
+                    this.selectedProject = _.find(this.projects, { key: this.selectedIssue.project.key });
+                    this.showProjectConfigSetup = true;
+                }
             }]
 
         this.activatedRoute.params.pipe(
@@ -112,18 +130,17 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
             let node = transformParentNode(this.result);
             this.loadedIssue = node;
             this.checkIssueHasExtendedFields(this.loadedIssue);
-            if (this.includeHierarchy) {
 
-                let hierarchyNode = this.createHierarchyNodes(node);
-                let projectNode = this.createProjectNode(node);
-                const organizationNode = this.createOrganizationNode();
+            let hierarchyNode = this.createHierarchyNodes(node);
+            let projectNode = this.createProjectNode(node);
+            const organizationNode = this.createOrganizationNode();
 
-                const epicNode = this.populateEpic(node);
+            const epicNode = this.populateEpic(node);
 
-                projectNode = this.addToLeafNode(organizationNode, projectNode);
-                hierarchyNode = this.addToLeafNode(projectNode, hierarchyNode);
-                node = this.addToLeafNode(hierarchyNode, epicNode);
-            }
+            projectNode = this.addToLeafNode(organizationNode, projectNode);
+            hierarchyNode = this.addToLeafNode(projectNode, hierarchyNode);
+            node = this.addToLeafNode(hierarchyNode, epicNode);
+
             this.treeNodes = [node];
 
             const issueToMarkSelected = findInTree(node, this.result.key);
@@ -319,20 +336,22 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
                 selectable: false
             };
 
-            // const projectDetails: any = this.persistenceService.getProjectDetails(node.key);
-
-            // if (projectDetails) {
-            //     node.description = projectDetails.description;
-            // }
-            // else {
-            this.jiraService.getProjectDetails(node.key)
-                .pipe(filter(p => p !== null && p !== undefined))
-                .subscribe((projectDetails: any) => {
-                    this.store$.dispatch(new UpsertProjectAction(projectDetails));
-                    this.persistenceService.setProjectDetails(projectDetails);
-                    node.description = projectDetails.description;
-                });
-            // }
+            const projectDetails: any = this.persistenceService.getProjectDetails(node.key);
+            if (projectDetails) {
+                console.log('found', projectDetails);
+                this.store$.dispatch(new UpsertProjectAction(projectDetails));
+            }
+            else {
+                this.jiraService.getProjectDetails(node.key)
+                    .subscribe(([pd, fields]) => {
+                        const projectDetails: any = pd;
+                        if (projectDetails) {
+                            projectDetails.customFields = _.sortBy(_.map(_.filter(fields, { custom: true }), (ff) => _.pick(ff, ['id', 'name'])), ['name']);
+                            console.log('created', projectDetails);
+                            this.store$.dispatch(new UpsertProjectAction(projectDetails));
+                        }
+                    });
+            }
         }
         return node;
     }
@@ -371,7 +390,11 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     configureFields(issueType) {
         this.store$.dispatch(new ShowCustomFieldEditorAction(issueType));
     }
-    configureProject(project, issueType) {
-        this.store$.dispatch(new ShowProjectConfigEditorAction({ project, issueType }));
+
+    projectConfigSetupCompleted(reload) {
+        this.showProjectConfigSetup = false;
+        if (reload) {
+            window.location.reload();
+        }
     }
 }

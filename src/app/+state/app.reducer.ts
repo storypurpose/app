@@ -31,16 +31,23 @@ export function appReducer(state: App, action: any): App {
             return { ...state, connectionDetails: { ...state.connectionDetails, verified: true } };
         }
 
+        case ActionTypes.LoadProjects: {
+            return { ...state, projects: action.payload };
+        }
+
         case ActionTypes.UpsertProject: {
             const list = state.projects || [];
             if (action.payload) {
+                list.forEach(p => p.current = false);
                 const found: any = _.find(list, { key: action.payload.key })
                 if (!found) {
-                    const project = _.pick(action.payload, ['id', 'key', 'description', 'name']);
+                    const project = _.pick(action.payload, ['id', 'key', 'description', 'name', 'customFields']);
+                    project.hierarchy = [];
                     if (action.payload.issueTypes) {
                         project.standardIssueTypes = getIssueTypes(action.payload.issueTypes, false);
                         project.subTaskIssueTypes = getIssueTypes(action.payload.issueTypes, true);
                     }
+                    project.current = true;
                     list.push(project);
                 }
             }

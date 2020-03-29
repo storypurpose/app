@@ -9,7 +9,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { environment } from '../../environments/environment';
 import { AppState } from '../+state/app.state';
 import { Store } from '@ngrx/store';
-import { SetModeAction, ModeTypes, SetConnectionDetailsAction, SetFieldMappingAction } from '../+state/app.actions';
+import { SetModeAction, ModeTypes, SetConnectionDetailsAction, SetFieldMappingAction, LoadProjectsAction } from '../+state/app.actions';
 
 declare let gtag: Function;
 
@@ -37,9 +37,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
   connectionDetailsSubscription: Subscription;
   fieldMappingSubscription: Subscription;
+  projectsSubscription: Subscription;
 
   issueType: string;
-  configDetails: any;
 
   menulist: any;
   constructor(public router: Router,
@@ -75,12 +75,6 @@ export class AppComponent implements OnInit, OnDestroy {
         this.showCustomFieldSetup = true;
         this.issueType = issueType;
       });
-    this.projectConfigSubscription = this.store$.select(p => p.app.projectConfigEditorVisible)
-      .pipe(filter(configDetails => configDetails))
-      .subscribe(configDetails => {
-        this.showProjectConfigSetup = true;
-        this.configDetails = configDetails;
-      });
 
     this.modeSubscription = this.store$.select(p => p.app.mode)
       .subscribe(p => this.isOnlineMode = p && p === ModeTypes.Online);
@@ -92,6 +86,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.initiatizeFieldMappingState(this.persistenceService.getFieldMapping());
     this.initiatizeConnectionDetailsState(this.persistenceService.getConnectionDetails());
     this.initiatizeModeState(this.persistenceService.getMode());
+    this.initiatizeProjectState(this.persistenceService.getProjects());
   }
 
   ngOnDestroy() {
@@ -121,12 +116,6 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-  projectConfigSetupCompleted(reload) {
-    this.showProjectConfigSetup = false;
-    if (reload) {
-      window.location.reload();
-    }
-  }
   onModeChange(isOnlineMode) {
     this.initiatizeModeState(isOnlineMode ? ModeTypes.Online : ModeTypes.Offline);
   }
@@ -147,5 +136,9 @@ export class AppComponent implements OnInit, OnDestroy {
       this.store$.dispatch(new SetFieldMappingAction(details));
     }
   }
-
+  initiatizeProjectState(projects) {
+    if (projects) {
+      this.store$.dispatch(new LoadProjectsAction(projects));
+    }
+  }
 }

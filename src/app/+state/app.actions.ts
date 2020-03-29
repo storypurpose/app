@@ -12,6 +12,7 @@ export const ActionTypes = {
 
     SetFieldMapping: type("[SetFieldMapping]"),
 
+    LoadProjects: type("[LoadProjects]"),
     UpsertProject: type("[UpsertProject]")
 }
 
@@ -52,6 +53,10 @@ export class SetFieldMappingAction implements Action {
     type = ActionTypes.SetFieldMapping;
     constructor(public payload: any) { }
 }
+export class LoadProjectsAction implements Action {
+    type = ActionTypes.LoadProjects;
+    constructor(public payload: any) { }
+}
 
 export class UpsertProjectAction implements Action {
     type = ActionTypes.UpsertProject;
@@ -69,5 +74,7 @@ export type Actions =
     | SetConnectionDetailsAction
     | SetFieldMappingAction
     | ConnectionDetailsVerifiedAction
+
     | UpsertProjectAction
+    | LoadProjectsAction
     ;

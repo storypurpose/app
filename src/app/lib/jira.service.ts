@@ -5,7 +5,7 @@ import * as _ from "lodash";
 import { Store } from '@ngrx/store';
 import { AppState } from '../+state/app.state';
 import { filter } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { of, combineLatest } from 'rxjs';
 import { ModeTypes } from '../+state/app.actions';
 
 export const AuthenticationModeTypes = {
@@ -71,11 +71,13 @@ export class JiraService {
         return this.http.get(`${this.proxyurl}/${this.baseUrl}/${url}`, this.httpOptions);
     }
     getProjectDetails(projectKey) {
+        let projectUrl$ = this.http.get(`${this.proxyurl}/${this.baseUrl}/project/${projectKey}`, this.httpOptions);
+        let fieldsUrl$ = this.http.get(`${this.proxyurl}/${this.baseUrl}/field`, this.httpOptions);
         if (this.isOnlineMode === false) {
-            return this.http.get(`${this.staticFileLocation}/project-${projectKey}.json`, this.httpOptions)
-        }
-        const url = `project/${projectKey}`;
-        return this.http.get(`${this.proxyurl}/${this.baseUrl}/${url}`, this.httpOptions);
+            projectUrl$ = this.http.get(`${this.staticFileLocation}/project-${projectKey}.json`, this.httpOptions);
+            fieldsUrl$ = this.http.get(`${this.staticFileLocation}/field-${projectKey}.json`, this.httpOptions)
+        }        
+        return combineLatest(projectUrl$, fieldsUrl$);
     }
 
     executeJql(jql, extendedFields = [], srcJson = null) {

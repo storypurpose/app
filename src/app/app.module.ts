@@ -52,6 +52,7 @@ import { CopyrightComponent } from './components/help/copyright.component';
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { environment } from '../environments/environment';
 import { ProjectConfigComponent } from './components/setup/project-config.component';
+import { FieldSelectorListComponent } from './components/setup/field-selector-list.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,7 @@ import { ProjectConfigComponent } from './components/setup/project-config.compon
     SubItemsComponent, IssueEntryComponent, RecentlyViewedComponent,
 
     ConnectionDetailsComponent, CustomFieldsComponent, ProjectConfigComponent,
-    MappingListComponent
+    MappingListComponent, FieldSelectorListComponent
   ],
   imports: [
     BrowserModule,

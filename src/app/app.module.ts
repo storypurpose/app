@@ -39,6 +39,7 @@ import { SplitButtonModule } from 'primeng/splitbutton';
 import { FileUploadModule } from 'primeng/fileupload';
 import { GoogleAnalyticsService } from './lib/google-analytics.service';
 import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { PurposeModule } from './purpose/purpose.module';
 import { RecentlyViewedComponent } from './components/recently-viewed.component';
 
@@ -49,6 +50,9 @@ import { UiSwitchModule } from 'ngx-ui-switch';
 import { CommonComponentsModule } from './common-components/common-components.module';
 import { CopyrightComponent } from './components/help/copyright.component';
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { environment } from '../environments/environment';
+import { ProjectConfigComponent } from './components/setup/project-config.component';
+
 @NgModule({
   declarations: [
     AboutComponent, CopyrightComponent, WorkspaceComponent, FooterComponent,
@@ -59,7 +63,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
     IssueviewerComponent, ExtendedFieldsComponent,
     SubItemsComponent, IssueEntryComponent, RecentlyViewedComponent,
 
-    ConnectionDetailsComponent, CustomFieldsComponent,
+    ConnectionDetailsComponent, CustomFieldsComponent, ProjectConfigComponent,
     MappingListComponent
   ],
   imports: [
@@ -97,6 +101,11 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
         },
         initialState: { app: appInitialState }
       }),
+
+    StoreDevtoolsModule.instrument({
+      maxAge: 25, // Retains last 25 states
+      logOnly: environment.production, // Restrict extension to log-only mode
+    }),
 
     CommonComponentsModule,
     PurposeModule,

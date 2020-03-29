@@ -12,22 +12,10 @@
                         <ng-template let-node pTemplate="default">
                             <div class="mt-1" [title]="node.title">{{node.label}}</div>
                         </ng-template>
-                        <!-- <ng-template let-node pTemplate="default">
-                            <div class="custom-node">
-                                <b class="float-right small text-uppercase">{{node.status}}</b>
-                                <div class="text-bold">
-                                    <div class="badge mr-1 text-uppercase" [class]="node.badge">
-                                        <fa-icon [icon]="node.icon" class="mr-1"></fa-icon>
-                                        {{node.issueType}}
-                                    </div>
-                                    <small class="font-weight-bold mr-1">{{node.key}}</small>
-                                </div>
-                                <div class="mt-1">{{node.label}}</div>
-                            </div>
-                        </ng-template> -->
                     </p-tree>
                 </div>
             </as-split-area>
+
             <as-split-area size="75" class="split-area">
                 <div class="sticky-title pl-3 pr-3 pt-2 pb-3" *ngIf="selectedIssue">
                     <div class="btn-group float-right">
@@ -41,7 +29,6 @@
                             <fa-icon [icon]="['fab','jira']"></fa-icon>
                         </a>
                     </div>
-
                     <h3 class="font-weight-light">
                         {{selectedIssue.title}}
                     </h3>

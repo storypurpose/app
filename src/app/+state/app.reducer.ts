@@ -10,6 +10,9 @@ export function appReducer(state: App, action: any): App {
         case ActionTypes.ShowCustomFieldEditor: {
             return { ...state, customFieldEditorVisible: action.payload };
         }
+        case ActionTypes.ShowProjectConfigEditor: {
+            return { ...state, projectConfigEditorVisible: action.payload };
+        }
         case ActionTypes.SetCurrentIssueKey: {
             return { ...state, currentIssueKey: action.payload };
         }
@@ -28,6 +31,27 @@ export function appReducer(state: App, action: any): App {
             return { ...state, connectionDetails: { ...state.connectionDetails, verified: true } };
         }
 
+        case ActionTypes.UpsertProject: {
+            const list = state.projects || [];
+            if (action.payload) {
+                const found: any = _.find(list, { key: action.payload.key })
+                if (!found) {
+                    const project = _.pick(action.payload, ['id', 'key', 'description', 'name']);
+                    if (action.payload.issueTypes) {
+                        project.standardIssueTypes = getIssueTypes(action.payload.issueTypes, false);
+                        project.subTaskIssueTypes = getIssueTypes(action.payload.issueTypes, true);
+                    }
+                    list.push(project);
+                }
+            }
+            return { ...state, projects: list };
+        }
         default: return state;
+    }
+
+    // --------------------------------------------------------------------------
+
+    function getIssueTypes(list, isSubTask): any {
+        return _.map(_.filter(list, { subtask: isSubTask }), (it) => _.pick(it, ['name']));
     }
 }

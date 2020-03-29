@@ -4,10 +4,12 @@ export interface App {
   mode: string;
   connectionEditorVisible: boolean;
   customFieldEditorVisible: any;
+  projectConfigEditorVisible: any;
   currentIssueKey: string;
 
   connectionDetails: any;
   fieldMapping: any;
+  projects: any;
 }
 
 export interface AppState {

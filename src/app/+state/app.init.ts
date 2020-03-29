@@ -4,8 +4,10 @@ export const appInitialState: App = {
     mode: 'offline',
     connectionEditorVisible: false,
     customFieldEditorVisible: null,
+    projectConfigEditorVisible: null,
     currentIssueKey: null,
 
     connectionDetails: null,
-    fieldMapping: null
+    fieldMapping: null,
+    projects: null
 };

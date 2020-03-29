@@ -21,6 +21,7 @@ export class AppComponent implements OnInit, OnDestroy {
   isNavbarCollapsed = true;
   showConnectionEditor = false;
   showCustomFieldSetup = false;
+  showProjectConfigSetup = false;
 
   issue: string;
 
@@ -31,11 +32,14 @@ export class AppComponent implements OnInit, OnDestroy {
 
   connectionSubscription: Subscription;
   customFieldSubscription: Subscription;
+  projectConfigSubscription: Subscription;
   modeSubscription: Subscription;
+
   connectionDetailsSubscription: Subscription;
   fieldMappingSubscription: Subscription;
 
-  issueTypeToConfigure: string;
+  issueType: string;
+  configDetails: any;
 
   menulist: any;
   constructor(public router: Router,
@@ -66,10 +70,16 @@ export class AppComponent implements OnInit, OnDestroy {
       .subscribe(show => this.showConnectionEditor = show);
 
     this.customFieldSubscription = this.store$.select(p => p.app.customFieldEditorVisible)
-      .pipe(filter(show => show))
-      .subscribe(show => {
+      .pipe(filter(issueType => issueType))
+      .subscribe(issueType => {
         this.showCustomFieldSetup = true;
-        this.issueTypeToConfigure = show;
+        this.issueType = issueType;
+      });
+    this.projectConfigSubscription = this.store$.select(p => p.app.projectConfigEditorVisible)
+      .pipe(filter(configDetails => configDetails))
+      .subscribe(configDetails => {
+        this.showProjectConfigSetup = true;
+        this.configDetails = configDetails;
       });
 
     this.modeSubscription = this.store$.select(p => p.app.mode)
@@ -111,6 +121,12 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
+  projectConfigSetupCompleted(reload) {
+    this.showProjectConfigSetup = false;
+    if (reload) {
+      window.location.reload();
+    }
+  }
   onModeChange(isOnlineMode) {
     this.initiatizeModeState(isOnlineMode ? ModeTypes.Online : ModeTypes.Offline);
   }

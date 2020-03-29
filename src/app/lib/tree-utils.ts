@@ -5,6 +5,7 @@ export const CustomNodeTypes = {
     EpicChildren: "epic-children",
     RelatedLink: "RelatedLink",
     Project: "Project",
+    Issue: "Issue",
     Hierarchy: "Hierarchy",
     Organization: "Organization",
     TestSuite: "Test Suite",
@@ -14,8 +15,8 @@ export const CustomNodeTypes = {
     SubTask: "ST-Technical task"
 };
 
-export function getIcon(issueType){
-    switch(issueType){
+export function getIcon(issueType) {
+    switch (issueType) {
         case CustomNodeTypes.Organization: return "fa fa-building text-dark";
         case CustomNodeTypes.Project: return "far fa-snowflake text-dark";
         case CustomNodeTypes.TestSuite: return "fa fa-flask text-warning";
@@ -33,7 +34,7 @@ export function isCustomNode(args) {
 
 export function populateFieldValues(node) {
     if (node && node.fields) {
-        node.project = node.fields.project;
+        node.project = _.pick(node.fields.project, ['id', 'key', 'name']);
         node.issueParent = populateFieldValues(node.fields.parent);
         node.issueType = node.fields.issuetype ? node.fields.issuetype.name : 'unknown';
         node.status = node.fields.status ? node.fields.status.name : 'unknown';
@@ -129,7 +130,7 @@ function buildIssueLinks(node: any) {
         }
         if (children.length > 0) {
             issueLinks.push({
-                "label": `Related links`, title:`${children.length} items linked`, key: 'RL_' + node.key, parentId: node.key,
+                "label": `Related links`, title: `${children.length} items linked`, key: 'RL_' + node.key, parentId: node.key,
                 selectable: false, issueType: CustomNodeTypes.RelatedLink,
                 "children": children,
                 expanded: false

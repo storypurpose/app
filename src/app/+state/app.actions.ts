@@ -4,12 +4,15 @@ import { type } from 'src/app/lib/utils';
 export const ActionTypes = {
     ShowConnectionEditor: type("[ShowConnectionDetails]"),
     ShowCustomFieldEditor: type("[ShowCustomFieldEditor]"),
+    ShowProjectConfigEditor: type('[ShowProjectConfigEditor]'),
     SetCurrentIssueKey: type("[SetCurrentIssueKey]"),
     SetMode: type("[SetMode]"),
     SetConnectionDetails: type("[SetConnectionDetails]"),
+    ConnectionDetailsVerified: type('[ConnectionDetailsVerified]'),
+
     SetFieldMapping: type("[SetFieldMapping]"),
 
-    ConnectionDetailsVerified: type('[ConnectionDetailsVerified]')
+    UpsertProject: type("[UpsertProject]")
 }
 
 export const ModeTypes = {
@@ -24,6 +27,11 @@ export class ShowCustomFieldEditorAction implements Action {
     type = ActionTypes.ShowCustomFieldEditor;
     constructor(public payload: any) { }
 }
+export class ShowProjectConfigEditorAction implements Action {
+    type = ActionTypes.ShowProjectConfigEditor;
+    constructor(public payload: any) { }
+}
+
 export class SetCurrentIssueKeyAction implements Action {
     type = ActionTypes.SetCurrentIssueKey;
     constructor(public payload: any) { }
@@ -44,13 +52,22 @@ export class SetFieldMappingAction implements Action {
     type = ActionTypes.SetFieldMapping;
     constructor(public payload: any) { }
 }
+
+export class UpsertProjectAction implements Action {
+    type = ActionTypes.UpsertProject;
+    constructor(public payload: any) { }
+}
+
 export type Actions =
     ShowConnectionEditorAction
     | ShowCustomFieldEditorAction
+    | ShowProjectConfigEditorAction
+    
     | SetCurrentIssueKeyAction
     | SetModeAction
 
     | SetConnectionDetailsAction
     | SetFieldMappingAction
     | ConnectionDetailsVerifiedAction
+    | UpsertProjectAction
     ;

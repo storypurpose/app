@@ -11,7 +11,7 @@ import { PersistenceService } from '../lib/persistence.service';
 import { Store } from '@ngrx/store';
 import { SetPurposeAction, SetSetRecentlyViewedAction } from '../purpose/+state/purpose.actions';
 import { AppState } from '../+state/app.state';
-import { SetCurrentIssueKeyAction, ShowCustomFieldEditorAction } from '../+state/app.actions';
+import { SetCurrentIssueKeyAction, ShowCustomFieldEditorAction, UpsertProjectAction, ShowProjectConfigEditorAction } from '../+state/app.actions';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -43,6 +43,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
 
     public purpose = [];
     public menulist: any;
+    public masterMenulist: any;
     public connectionDetails: any;
     public hasExtendedFields = false;
 
@@ -59,28 +60,27 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
         this.connectionDetailsSubscription = this.store$.select(p => p.app.connectionDetails)
             .subscribe(p => this.connectionDetails = p);
 
-            this.initiatize();
+        this.initiatize();
     }
     ngOnDestroy(): void {
         this.connectionDetailsSubscription ? this.connectionDetailsSubscription.unsubscribe() : null;
     }
 
     public initiatize(): void {
-        this.menulist = [{
-            label: 'Browse', icon: 'fa fa-external-link-alt', command: () => {
-                if (this.contextIssueKey !== "") {
-                    this.router.navigate(['/for', this.contextIssueKey]);
-                } else {
-                    //this.messageService.push("Failed to identify node");
-                }
-            }
-        }]
+        this.masterMenulist = [
+            {
+                label: 'Browse', icon: 'fa fa-external-link-alt', menuType: CustomNodeTypes.Issue,
+                command: () => (this.contextIssueKey !== "") ? this.router.navigate(['/for', this.contextIssueKey]) : null
+            },
+            {
+                label: 'Configure', icon: 'far fa-sun', menuType: CustomNodeTypes.Project,
+                command: (args) => this.configureProject(this.selectedIssue.project, this.selectedIssue.issueType)
+            }]
 
         this.activatedRoute.params.pipe(
             filter(p => p && p["issue"] && p["issue"].length > 0),
             map(p => p["issue"])
         ).subscribe(issue => {
-            console.log('activatedRoute.params', issue);
             this.store$.dispatch(new SetCurrentIssueKeyAction(issue));
 
             this.issueKey = issue;
@@ -171,16 +171,30 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
         this.markIssueSelected(event.node);
     }
     nodeContextMenuSelect(args, contextMenu) {
-        if (args && (args.key.toLowerCase() === this.issueKey.toLowerCase() || isCustomNode(args) === true)) {
-            this.contextIssueKey = "";
-            contextMenu.hide();
-        } else if (args.isHierarchyField === true) {
-            // TODO: Handle custom menu
-            this.contextIssueKey = "";
-            contextMenu.hide();
-        } else {
-            this.contextIssueKey = args.key;
+        this.menulist = null;
+        if (args) {
+            switch (args.issueType) {
+                case CustomNodeTypes.Project:
+                    this.menulist = _.filter(this.masterMenulist, { menuType: CustomNodeTypes.Project });
+                    break;
+                default:
+                    this.menulist = _.filter(this.masterMenulist, { menuType: CustomNodeTypes.Issue });
+
+                    if (args.key.toLowerCase() === this.issueKey.toLowerCase() || isCustomNode(args) === true) {
+                        this.contextIssueKey = "";
+                        contextMenu.hide();
+                    } else if (args.isHierarchyField === true) {
+                        // TODO: Handle custom menu
+                        this.contextIssueKey = "";
+                        contextMenu.hide();
+                    } else {
+                        this.contextIssueKey = args.key;
+                    }
+
+                    break;
+            }
         }
+
     }
     onPurposeNodeEdit(args) {
         if (args) {
@@ -195,8 +209,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
 
     private markIssueSelected(node: any) {
         this.expandPurpose(node);
-
-        this.selectedIssue = { key: node.key, label: node.label, title: node.title, issueType: node.issueType };
+        this.selectedIssue = _.pick(node, ['key', 'label', 'title', 'issueType', 'project']); // { key: node.key, label: node.label, title: node.title, issueType: node.issueType };
 
         if (this.mappedIssuetypeFields) {
             const issueTypeFields: any = _.find(this.mappedIssuetypeFields, { name: node.issueType });
@@ -306,25 +319,20 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
                 selectable: false
             };
 
-            const projectDetails: any = this.persistenceService.getProjectDetails(node.key);
+            // const projectDetails: any = this.persistenceService.getProjectDetails(node.key);
 
-            if (projectDetails) {
-                node.description = projectDetails.description;
-            }
-            else {
-                this.jiraService.getProjectDetails(node.key)
-                    .pipe(filter(p => p !== null && p !== undefined), map((p: any) => {
-                        return {
-                            key: p.key,
-                            name: p.name,
-                            description: p.description
-                        };
-                    }))
-                    .subscribe((projectDetails: any) => {
-                        this.persistenceService.setProjectDetails(projectDetails);
-                        node.description = projectDetails.description;
-                    });
-            }
+            // if (projectDetails) {
+            //     node.description = projectDetails.description;
+            // }
+            // else {
+            this.jiraService.getProjectDetails(node.key)
+                .pipe(filter(p => p !== null && p !== undefined))
+                .subscribe((projectDetails: any) => {
+                    this.store$.dispatch(new UpsertProjectAction(projectDetails));
+                    this.persistenceService.setProjectDetails(projectDetails);
+                    node.description = projectDetails.description;
+                });
+            // }
         }
         return node;
     }
@@ -362,5 +370,8 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
 
     configureFields(issueType) {
         this.store$.dispatch(new ShowCustomFieldEditorAction(issueType));
+    }
+    configureProject(project, issueType) {
+        this.store$.dispatch(new ShowProjectConfigEditorAction({ project, issueType }));
     }
 }

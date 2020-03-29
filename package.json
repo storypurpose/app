@@ -29,6 +29,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.12.1",
     "@ng-bootstrap/ng-bootstrap": "^6.0.2",
     "@ngrx/store": "^9.0.0",
+    "@ngrx/store-devtools": "^9.0.0",
     "@ngx-loading-bar/core": "^4.2.0",
     "@ngx-loading-bar/http-client": "^4.2.0",
     "angular-split": "^3.0.3",

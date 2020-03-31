@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import * as _ from 'lodash';
 
 @Component({
@@ -7,14 +7,13 @@ import * as _ from 'lodash';
 })
 export class FieldSelectorListComponent implements OnInit {
     @Input() list: any;
+    @Output() listChange = new EventEmitter<any>();
     @Input() customFields: any;
 
     selectedField: any;
 
     ngOnInit(): void {
-        if (!this.list) {
-            this.list = [];
-        }
+        this.list = this.list || [];
     }
 
     add() {

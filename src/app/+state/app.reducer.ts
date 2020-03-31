@@ -37,21 +37,22 @@ export function appReducer(state: App, action: any): App {
 
         case ActionTypes.UpsertProject: {
             const list = state.projects || [];
+            let currentProject = state.currentProject;
             if (action.payload) {
                 list.forEach(p => p.current = false);
-                const found: any = _.find(list, { key: action.payload.key })
-                if (!found) {
-                    const project = _.pick(action.payload, ['id', 'key', 'description', 'name', 'customFields']);
-                    project.hierarchy = [];
+                currentProject = _.find(list, { key: action.payload.key })
+                if (!currentProject) {
+                    currentProject = _.pick(action.payload, ['id', 'key', 'description', 'name', 'customFields']);
+                    currentProject.hierarchy = [];
                     if (action.payload.issueTypes) {
-                        project.standardIssueTypes = getIssueTypes(action.payload.issueTypes, false);
-                        project.subTaskIssueTypes = getIssueTypes(action.payload.issueTypes, true);
+                        currentProject.standardIssueTypes = getIssueTypes(action.payload.issueTypes, false);
+                        currentProject.subTaskIssueTypes = getIssueTypes(action.payload.issueTypes, true);
                     }
-                    project.current = true;
-                    list.push(project);
+                    list.push(currentProject);
                 }
+                currentProject.current = true;
             }
-            return { ...state, projects: list };
+            return { ...state, projects: list, currentProject };
         }
         default: return state;
     }
@@ -59,6 +60,8 @@ export function appReducer(state: App, action: any): App {
     // --------------------------------------------------------------------------
 
     function getIssueTypes(list, isSubTask): any {
-        return _.map(_.filter(list, { subtask: isSubTask }), (it) => _.pick(it, ['name']));
+        return _.map(_.filter(list, { subtask: isSubTask }), (it) => {
+            return { name: it.name, list: [] }
+        });
     }
 }

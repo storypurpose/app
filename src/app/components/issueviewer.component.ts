@@ -51,7 +51,8 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     public projects: any;
     projectsSubscription: Subscription;
     showProjectConfigSetup = false;
-    selectedProject: any;
+    currentProject: any;
+    currentProjectsSubscription: Subscription;
 
     constructor(public router: Router,
         public activatedRoute: ActivatedRoute,
@@ -63,15 +64,18 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
         this.connectionDetailsSubscription = this.store$.select(p => p.app.connectionDetails)
             .subscribe(cd => this.connectionDetails = cd);
 
+        this.currentProjectsSubscription = this.store$.select(p => p.app.currentProject)
+            .pipe(filter(p => p))
+            .subscribe(cp => {
+                this.currentProject = cp;
+                this.persistenceService.setProjectDetails(cp);
+            });
+
         this.projectsSubscription = this.store$.select(p => p.app.projects)
             .pipe(filter(p => p))
             .subscribe(projects => {
                 this.projects = projects;
                 this.persistenceService.setProjects(projects);
-                // const current = _.find(this.projects, { current: true });
-                // if (current) {
-                //     this.persistenceService.setProjectDetails(current);
-                // }
             });
 
         this.initiatize();
@@ -90,7 +94,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
             {
                 label: 'Configure', icon: 'far fa-sun', menuType: CustomNodeTypes.Project,
                 command: (args) => {
-                    this.selectedProject = _.find(this.projects, { key: this.selectedIssue.project.key });
+                    this.currentProject = _.find(this.projects, { key: this.selectedIssue.project.key });
                     this.showProjectConfigSetup = true;
                 }
             }]
@@ -338,7 +342,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
 
             const projectDetails: any = this.persistenceService.getProjectDetails(node.key);
             if (projectDetails) {
-                console.log('found', projectDetails);
+                node.description = projectDetails.description;
                 this.store$.dispatch(new UpsertProjectAction(projectDetails));
             }
             else {
@@ -346,8 +350,8 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
                     .subscribe(([pd, fields]) => {
                         const projectDetails: any = pd;
                         if (projectDetails) {
+                            node.description = projectDetails.description;
                             projectDetails.customFields = _.sortBy(_.map(_.filter(fields, { custom: true }), (ff) => _.pick(ff, ['id', 'name'])), ['name']);
-                            console.log('created', projectDetails);
                             this.store$.dispatch(new UpsertProjectAction(projectDetails));
                         }
                     });

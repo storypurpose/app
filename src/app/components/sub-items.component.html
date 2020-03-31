@@ -1,35 +1,40 @@
-<div *ngIf="issue" >
-    <h4>
-        <span *ngIf="testcases" class="text-muted font-weight-light">
-            <span *ngIf="testcases.length > 0">
-                {{testcases.length}}
-            </span>
-            {{childIssueType + (testcases.length > 1 ? 's' : '')}}
-
-            <button *ngIf="hasExtendedFields" (click)="hideExtendedFields = !hideExtendedFields"
-                class="btn btn-link ml-2  text-muted" title="Show/hide details">
-                <fa-icon icon="ellipsis-h"></fa-icon>
-            </button>
-            <button (click)="configureFields(childIssueType)" class="btn btn-link ml-2 text-muted" title="Configure custom fields">
-                <fa-icon [icon]="['far','sun']"></fa-icon>
-            </button>
-
-        </span>
-    </h4>
-
-    <div *ngIf="testcases && testcases.length > 0">
-        <div class="alert bg-light" *ngIf="summary">
-            {{summary|json}}
-        </div>
-
+<div *ngIf="issue">
+    <div *ngIf="childItems && childItems.length > 0">
         <table class="table">
-            <tr *ngFor="let record of testcases">
-                <td width="5%" style="white-space: nowrap;" class="text-muted small">{{record.key}}</td>
+            <thead>
+                <tr>
+                    <th width="1%" *ngIf="hasExtendedFields">
+                        <a (click)="showHideExtendedFields()" class="text-muted" title="Show/hide details">
+                            <fa-icon size="sm" [icon]="hideExtendedFields ? 'angle-double-right' : 'angle-double-down'">
+                            </fa-icon>
+                        </a>
+                    </th>
+                    <th colspan="2" class="text-muted">
+                        <span class="mr-1" *ngIf="childItems.length > 0"> {{childItems.length}} </span>
+                        record{{(childItems.length > 1 ? 's' : '')}}
+                    </th>
+                    <th width="10%">
+                        <select *ngIf="statusStats && statusStats.length > 0" class="form-control form-control-sm"
+                            [(ngModel)]="statusFilter">
+                            <option value="all">All</option>
+                            <option *ngFor="let status of statusStats" [value]="status.key">
+                                {{status.key + '  (' + status.count + ')'}}</option>
+                        </select>
+                    </th>
+                </tr>
+            </thead>
+            <tr *ngFor="let record of childItems">
+                <td *ngIf="hasExtendedFields">
+                    <a (click)="record.hideExtendedFields = !record.hideExtendedFields" class="text-muted"
+                        title="Show/hide details">
+                        <fa-icon size="sm" [icon]="record.hideExtendedFields ? 'angle-right' : 'angle-down'"></fa-icon>
+                    </a>
+                </td>
+                <td width="5%" style="white-space: nowrap;" class="text-muted font-weight-light">{{record.key}}</td>
                 <td>
                     {{record.title}}
-
-                    <div class="alert mt-2 p-0 rounded-0 border-0"
-                        *ngIf="!hideExtendedFields && record.extendedFields && record.extendedFields.length > 0">
+                    <div style="overflow: auto;" class="alert mt-2 p-0 rounded-0 border-0"
+                        *ngIf="!record.hideExtendedFields && record.extendedFields && record.extendedFields.length > 0">
                         <table class="table table-small small p-0 m-0 border-0 bg-light">
                             <tr *ngFor="let ef of record.extendedFields">
                                 <td class="p-1 text-nowrap text-muted" width="10%">{{ef.name}}:</td>
@@ -45,7 +50,7 @@
         </table>
     </div>
 
-    <div class="alert alert-warning" *ngIf="testcases && testcases.length === 0">
+    <div class="alert alert-warning" *ngIf="childItems && childItems.length === 0">
         No detail records found.
     </div>
 </div>

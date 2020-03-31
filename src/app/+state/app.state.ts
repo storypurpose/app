@@ -10,6 +10,7 @@ export interface App {
   connectionDetails: any;
   fieldMapping: any;
   projects: any;
+  currentProject: any;
 }
 
 export interface AppState {

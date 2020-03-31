@@ -50,7 +50,7 @@ export function appendExtendedFields(flattenedNodes, extendedFields) {
     if (flattenedNodes) {
         _.forEach(flattenedNodes, element => {
             element.extendedFields = _.filter(
-                _.map(extendedFields, (ef) => { return { name: ef.name, value: getExtendedFieldValue(element.issue, ef.code) } }),
+                _.map(extendedFields, (ef) => { return { name: ef.name, value: getExtendedFieldValue(element.issue, ef.id) } }),
                 (ef) => ef && ef.value !== '')
         });
     }

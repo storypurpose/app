@@ -4,12 +4,11 @@
     </div>
 
     <div class="pane-body">
-
         <div class="alert bg-light" *ngIf="project.description">{{project.description}}</div>
 
         <h6 class="mt-4">Extend Hierarchy</h6>
         <div class="bg-light pt-2 pb-2">
-            <app-field-selector-list [customFields]="project.customFields" [list]="project.hierarchy">
+            <app-field-selector-list [customFields]="project.customFields" [(list)]="project.hierarchy">
             </app-field-selector-list>
         </div>
 
@@ -22,8 +21,8 @@
                 </button>
                 {{issuetype.name}}
 
-                <div class="ml-5 mr-2" *ngIf="issuetype.show">
-                    <app-field-selector-list [customFields]="project.customFields" [list]="issuetype.list">
+                <div class="ml-2 mr-2" *ngIf="issuetype.show">
+                    <app-field-selector-list [customFields]="project.customFields" [(list)]="issuetype.list">
                     </app-field-selector-list>
                 </div>
             </div>
@@ -38,8 +37,8 @@
                 </button>
                 {{issuetype.name}}
 
-                <div class="ml-5 mr-2" *ngIf="issuetype.show">
-                    <app-field-selector-list [customFields]="project.customFields" [list]="issuetype.list">
+                <div class="ml-2 mr-2" *ngIf="issuetype.show">
+                    <app-field-selector-list [customFields]="project.customFields" [(list)]="issuetype.list">
                     </app-field-selector-list>
                 </div>
             </div>

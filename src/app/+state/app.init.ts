@@ -9,5 +9,6 @@ export const appInitialState: App = {
 
     connectionDetails: null,
     fieldMapping: null,
-    projects: null
+    projects: null,
+    currentProject: null
 };

@@ -48,6 +48,7 @@
                         </a>
                     </div>
                 </div>
+
                 <div class="pl-3 pr-3 pb-4 pt-1">
                     <router-outlet></router-outlet>
                     <app-copyright></app-copyright>
@@ -57,11 +58,11 @@
     </div>
 </div>
 
-<p-sidebar [(visible)]="showDetails" styleClass="ui-sidebar-lg" position="right">
-    <app-sub-items [issue]="selectedIssue"></app-sub-items>
-</p-sidebar>
+<!-- <p-sidebar [(visible)]="showDetails" styleClass="ui-sidebar-lg" position="right">
+    <app-sub-items [project]="currentProject" [issue]="selectedIssue"></app-sub-items>
+</p-sidebar> -->
 
 <p-sidebar [(visible)]="showProjectConfigSetup" styleClass="ui-sidebar-md" position="right">
-    <app-project-config [project]="selectedProject" (close)="projectConfigSetupCompleted($event)">
+    <app-project-config [project]="currentProject" (close)="projectConfigSetupCompleted($event)">
     </app-project-config>
 </p-sidebar>

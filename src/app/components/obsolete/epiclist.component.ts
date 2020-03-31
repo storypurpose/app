@@ -16,15 +16,9 @@ export class EpicListComponent {
   filteredIssues: any;
 
   constructor(public jiraService: JiraService) {
-    // this.loadEpics();
+
   }
-  // loadEpics() {
-  //   this.jiraService.executeJql("issuetype=epic and project=ignitia and created >= '2019-10-01'") //, 'epic-list.json')
-  //     .subscribe((data) => {
-  //       this.result = data;
-  //       this.filterIssues('');
-  //     });
-  // }
+
   filterIssues(query) {
     this.filteredIssues = flattenNodes(this.result.issues);
     if (this.result && this.result.issues && query > '') {

@@ -9,12 +9,12 @@ export class SetPurposeAction implements Action {
     type = ActionTypes.SetPurpose;
     constructor(public payload: any) { }
 }
-export class SetSetRecentlyViewedAction implements Action {
+export class SetRecentlyViewedAction implements Action {
     type = ActionTypes.SetRecentlyViewed;
     constructor(public payload: any) { }
 }
 
 export type Actions =
     SetPurposeAction
-    | SetSetRecentlyViewedAction
+    | SetRecentlyViewedAction
     ;

@@ -1,20 +1,29 @@
-<div class="text-center text-muted small mt-2 mb-3">
-    <a target="_blank" class="ml-1 mr-1 text-muted" href="https://www.linkedin.com/in/adhamankar/">
+<div class="btn-group btn-group-sm app-copyright ml-2 bg-light">
+    <div ngbDropdown display="dynamic" placement="top-left">
+        <a class="btn btn-link btn-sm text-muted hide-caret" id="dropdownBasic1" ngbDropdownToggle
+            title="recently viewed">
+            <fa-icon icon="ellipsis-v"></fa-icon>
+        </a>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-menu-right">
+            <a ngbDropdownItem target="_blank" href="https://github.com/adhamankar/storypurpose/issues">
+                <fa-icon size="fw" icon="bullhorn" class="text-muted"></fa-icon>
+                Report issue
+            </a>
+            <a ngbDropdownItem target="_blank"
+                href="https://raw.githubusercontent.com/adhamankar/storypurpose/master/terms.md">
+                <fa-icon size="fw" icon="balance-scale" class="text-muted"></fa-icon>
+                Terms
+            </a>
+
+            <a ngbDropdownItem target="_blank" href="https://github.com/adhamankar/storypurpose/blob/master/privacy.md">
+                <fa-icon size="fw" icon="user-secret" class="text-muted"></fa-icon>
+                Privacy
+            </a>
+        </div>
+    </div>
+
+    <a target="_blank" class="btn btn-link btn-sm text-muted" href="https://www.linkedin.com/in/adhamankar/">
         &copy; 2020 AD
     </a>
-    |
-    <a target="_blank" class="ml-1 mr-1 text-muted" href="https://github.com/adhamankar/storypurpose/issues">
-        <!-- <fa-icon icon="bullhorn"></fa-icon>  -->
-        Report issue
-    </a>
-    |
-    <a target="_blank" class="ml-1 mr-1 text-muted" href="https://raw.githubusercontent.com/adhamankar/storypurpose/master/terms.md">
-        <!-- <fa-icon icon="balance-scale"></fa-icon>  -->
-        Terms
-    </a>
-    |
-    <a target="_blank" class="ml-1 mr-1 text-muted" href="https://github.com/adhamankar/storypurpose/blob/master/privacy.md">
-        <!-- <fa-icon icon="user-secret"></fa-icon>  -->
-        Privacy
-    </a>
+
 </div>

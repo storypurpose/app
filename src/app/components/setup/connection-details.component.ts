@@ -48,6 +48,7 @@ export class ConnectionDetailsComponent implements OnInit {
     }
 
     testConnection() {
+        console.log(this.connectionDetails);
         this.jiraService.testConnection(this.connectionDetails)
             .subscribe((result: any) => {
                 this.connectionDetails.displayName = result.displayName;
@@ -58,7 +59,7 @@ export class ConnectionDetailsComponent implements OnInit {
                 this.messageService.add({ severity: "success", summary: "Success", detail: "Connection tested successfully", life: 5000, closable: true });
                 this.testSuccessful = true;
 
-                this.onClose(false);
+                this.onClose(true);
             });
         // this.messageService.add({ severity: 'error', summary: "Failed", detail: "Connection failed", life: 10000, closable: true });
     }

@@ -3,7 +3,9 @@
     <div class="body-container">
         <as-split direction="horizontal">
             <as-split-area size="25" class="bg-light border-right">
-                <app-issue-entry [showRecentlyVisited]="true"></app-issue-entry>
+                <div class="sticky-title">
+                    <app-issue-entry [showRecentlyVisited]="true"></app-issue-entry>
+                </div>
                 <div *ngIf="treeNodes">
                     <p-contextMenu #cm [model]="menulist" appendTo="body"></p-contextMenu>
                     <p-tree [value]="treeNodes" selectionMode="single" (onNodeExpand)="loadNode($event)"
@@ -14,44 +16,44 @@
                         </ng-template>
                     </p-tree>
                 </div>
+
+                <app-copyright></app-copyright>
+
             </as-split-area>
 
             <as-split-area size="75" class="split-area">
-                <div class="sticky-title pl-3 pr-3 pt-2 pb-3" *ngIf="selectedIssue">
+                <div class="sticky-title pl-3 pr-3 pt-2 pb-2" *ngIf="selectedIssue">
                     <div class="btn-group float-right">
-                        <button (click)="configureFields(selectedIssue.issueType)" class="btn btn-link text-muted"
-                            title="Configure custom fields">
-                            <fa-icon [icon]="['far','sun']"></fa-icon>
-                        </button>
                         <a *ngIf="connectionDetails" class="btn btn-link text-muted" target="_blank"
                             href="{{connectionDetails.serverUrl}}/browse/{{selectedIssue.key}}"
                             title="Navigate to jira">
                             <fa-icon [icon]="['fab','jira']"></fa-icon>
                         </a>
                     </div>
+                    <span class="small">{{selectedIssue.key}}</span>
                     <h3 class="font-weight-light">
+                        
                         {{selectedIssue.title}}
                     </h3>
 
-                    <div>
+                    <div class="pb-2 border-bottom">
                         <a class="btn btn-sm btn-default mr-1" [routerLink]="['purpose']" title="View purpose"
                             [routerLinkActive]="'active'" (click)="expandPurpose(loadedIssue)">
-                            <fa-icon icon="binoculars"></fa-icon> Purpose
+                            <fa-icon icon="binoculars" class="text-muted"></fa-icon> Purpose
                         </a>
                         <a class="btn btn-sm btn-default mr-1" *ngIf="hasExtendedFields" routerLink="details"
                             [routerLinkActive]="'active'">
-                            <fa-icon icon="tasks"></fa-icon> Details
+                            <fa-icon icon="search-plus" class="text-muted"></fa-icon> Details
                         </a>
                         <a class="btn btn-sm btn-default mr-1" *ngIf="canTrackProgress(selectedIssue)"
                             routerLink="items" [routerLinkActive]="'active'">
-                            <fa-icon icon="tasks"></fa-icon> Items
+                            <fa-icon icon="tasks" class="text-muted"></fa-icon> Items
                         </a>
                     </div>
                 </div>
 
                 <div class="pl-3 pr-3 pb-4 pt-1">
                     <router-outlet></router-outlet>
-                    <app-copyright></app-copyright>
                 </div>
             </as-split-area>
         </as-split>

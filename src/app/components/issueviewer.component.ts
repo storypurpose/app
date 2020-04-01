@@ -2,14 +2,14 @@ import { Component, OnInit, IterableDiffers, OnDestroy } from '@angular/core';
 import { JiraService } from '../lib/jira.service';
 import {
     transformParentNode, flattenAndTransformNodes, populateFieldValues,
-    findInTree, CustomNodeTypes, isCustomNode, getExtendedFieldValue, getIcon
-} from '../lib/tree-utils';
+    findInTree, CustomNodeTypes, isCustomNode, getExtendedFieldValue, getIcon, copyFieldValues
+} from '../lib/jira-tree-utils';
 import * as _ from 'lodash';
 import { ActivatedRoute, Router } from '@angular/router';
-import { filter, map, tap } from 'rxjs/operators';
+import { filter, map, tap, timeout } from 'rxjs/operators';
 import { PersistenceService } from '../lib/persistence.service';
 import { Store } from '@ngrx/store';
-import { SetPurposeAction, SetSetRecentlyViewedAction } from '../purpose/+state/purpose.actions';
+import { SetPurposeAction, SetRecentlyViewedAction } from '../purpose/+state/purpose.actions';
 import { AppState } from '../+state/app.state';
 import { SetCurrentIssueKeyAction, ShowCustomFieldEditorAction, UpsertProjectAction, ShowProjectConfigEditorAction } from '../+state/app.actions';
 import { Subscription } from 'rxjs';
@@ -36,7 +36,6 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     public contextIssueKey = "";
     public mappedEpicFieldCode: string;
     public mappedHierarchyFields: any;
-    public mappedIssuetypeFields: string;
     public relatedEpic: any;
     public organizationDetails: any;
 
@@ -52,7 +51,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     projectsSubscription: Subscription;
     showProjectConfigSetup = false;
     currentProject: any;
-    currentProjectsSubscription: Subscription;
+    currentProjectSubscription: Subscription;
 
     constructor(public router: Router,
         public activatedRoute: ActivatedRoute,
@@ -61,31 +60,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
         public store$: Store<AppState>) {
     }
     ngOnInit(): void {
-        this.connectionDetailsSubscription = this.store$.select(p => p.app.connectionDetails)
-            .subscribe(cd => this.connectionDetails = cd);
 
-        this.currentProjectsSubscription = this.store$.select(p => p.app.currentProject)
-            .pipe(filter(p => p))
-            .subscribe(cp => {
-                this.currentProject = cp;
-                this.persistenceService.setProjectDetails(cp);
-            });
-
-        this.projectsSubscription = this.store$.select(p => p.app.projects)
-            .pipe(filter(p => p))
-            .subscribe(projects => {
-                this.projects = projects;
-                this.persistenceService.setProjects(projects);
-            });
-
-        this.initiatize();
-    }
-    ngOnDestroy(): void {
-        this.connectionDetailsSubscription ? this.connectionDetailsSubscription.unsubscribe() : null;
-        this.projectsSubscription ? this.projectsSubscription.unsubscribe() : null;
-    }
-
-    public initiatize(): void {
         this.masterMenulist = [
             {
                 label: 'Browse', icon: 'fa fa-external-link-alt', menuType: CustomNodeTypes.Issue,
@@ -99,32 +74,49 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
                 }
             }]
 
-        this.activatedRoute.params.pipe(
-            filter(p => p && p["issue"] && p["issue"].length > 0),
-            map(p => p["issue"])
-        ).subscribe(issue => {
-            this.store$.dispatch(new SetCurrentIssueKeyAction(issue));
+        this.connectionDetailsSubscription = this.store$.select(p => p.app.connectionDetails)
+            .subscribe(cd => this.connectionDetails = cd);
 
-            this.issueKey = issue;
-            const extendedFields = this.getExtendedFields();
-            this.jiraService.getIssueDetails(issue, extendedFields)
-                .pipe(filter((p: any) => p !== null && p !== undefined && p.fields))
-                .subscribe((issuedetails: any) => {
-                    this.relatedEpic = null;
-                    let epicKey = (this.mappedEpicFieldCode !== '') ? issuedetails.fields[this.mappedEpicFieldCode] : ''
+        this.currentProjectSubscription = this.store$.select(p => p.app.currentProject)
+            .pipe(filter(p => p))
+            .subscribe(cp => {
+                this.currentProject = cp;
+                this.persistenceService.setProjectDetails(cp);
+            });
 
-                    if (epicKey && epicKey.length > 0) {
-                        this.jiraService.getIssueDetails(epicKey, [])
-                            .pipe(filter(p => p !== null && p !== undefined))
-                            .subscribe((epicDetails: any) => {
-                                this.relatedEpic = populateFieldValues(epicDetails);
-                                this.onIssueLoaded(issuedetails);
-                            });
-                    } else {
-                        this.onIssueLoaded(issuedetails);
-                    }
-                });
-        });
+        this.projectsSubscription = this.store$.select(p => p.app.projects).pipe(filter(p => p))
+            .subscribe(projects => {
+                this.projects = projects;
+                this.persistenceService.setProjects(projects);
+            });
+
+        this.activatedRoute.params.pipe(filter(p => p && p["issue"] && p["issue"].length > 0), map(p => p["issue"]))
+            .subscribe(issue => {
+                this.store$.dispatch(new SetCurrentIssueKeyAction(issue));
+                this.issueKey = issue;
+                this.jiraService.getIssueDetails(issue, [])
+                    .pipe(filter((p: any) => p !== null && p !== undefined && p.fields))
+                    .subscribe((issuedetails: any) => {
+                        this.relatedEpic = null;
+                        let epicKey = (this.mappedEpicFieldCode !== '') ? issuedetails.fields[this.mappedEpicFieldCode] : ''
+
+                        if (epicKey && epicKey.length > 0) {
+                            this.jiraService.getIssueDetails(epicKey, [])
+                                .pipe(filter(p => p !== null && p !== undefined))
+                                .subscribe((epicDetails: any) => {
+                                    this.relatedEpic = populateFieldValues(epicDetails);
+                                    this.onIssueLoaded(issuedetails);
+                                });
+                        } else {
+                            this.onIssueLoaded(issuedetails);
+                        }
+                    });
+            });
+    }
+
+    ngOnDestroy(): void {
+        this.connectionDetailsSubscription ? this.connectionDetailsSubscription.unsubscribe() : null;
+        this.projectsSubscription ? this.projectsSubscription.unsubscribe() : null;
     }
 
     public onIssueLoaded(issue) {
@@ -133,7 +125,10 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
         if (this.result) {
             let node = transformParentNode(this.result);
             this.loadedIssue = node;
-            this.checkIssueHasExtendedFields(this.loadedIssue);
+
+            if (this.loadedIssue.project) {
+                this.getExtendedFields(this.loadedIssue);
+            }
 
             let hierarchyNode = this.createHierarchyNodes(node);
             let projectNode = this.createProjectNode(node);
@@ -147,32 +142,21 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
 
             this.treeNodes = [node];
 
-            const issueToMarkSelected = findInTree(node, this.result.key);
-            if (issueToMarkSelected) {
-                this.markIssueSelected(issueToMarkSelected);
-            }
+            this.selectedNode = findInTree(node, this.result.key);
+            setTimeout(() => this.markIssueSelected(this.selectedNode), 500);
         }
     }
 
-    private getExtendedFields() {
-        const mappedFields = this.persistenceService.getFieldMapping();
-        const extendedFields = [];
-        this.mappedIssuetypeFields = mappedFields.issueTypes || [];
-        mappedFields.issueTypes.forEach(mf => {
-            _.merge(extendedFields, _.map(mf.list, 'code'));
-        });
-        this.mappedHierarchyFields = '';
-        if (mappedFields && mappedFields.hierarchy && mappedFields.hierarchy.support === true) {
-            this.mappedHierarchyFields = mappedFields.hierarchy.list || [];
-            this.mappedHierarchyFields.forEach(hf => extendedFields.push(hf.code));
+    private getExtendedFields(issue) {
+        const projectConfig = _.find(this.projects, { key: issue.project.key });
+        if (projectConfig && projectConfig.standardIssueTypes) {
+            const issueType = _.find(projectConfig.standardIssueTypes, { name: issue.issueType });
+            if (issueType) {
+                issue.extendedFields = issueType.list || [];
+                this.hasExtendedFields = issue.extendedFields && issue.extendedFields.length > 0;
+                console.log(issue.extendedFields, this.hasExtendedFields);
+            }
         }
-
-        this.mappedEpicFieldCode = '';
-        if (mappedFields && mappedFields.epicLink && mappedFields.epicLink.support === true && mappedFields.epicLink.code !== '') {
-            this.mappedEpicFieldCode = mappedFields.epicLink.code;
-            extendedFields.push(this.mappedEpicFieldCode);
-        }
-        return extendedFields;
     }
 
     public loadNode(event) {
@@ -229,30 +213,40 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     }
 
     private markIssueSelected(node: any) {
-        this.expandPurpose(node);
-        this.selectedIssue = _.pick(node, ['key', 'label', 'title', 'issueType', 'project']); // { key: node.key, label: node.label, title: node.title, issueType: node.issueType };
+        if (node) {
+            if (this.projects && node.project) {
+                this.getExtendedFields(node);
+            }
+            if (node.parent && node.parent.issueType === CustomNodeTypes.RelatedLink && (!node.description || node.description.length === 0)) {
+                const fieldList = _.map(node.extendedFields, 'id');
+                this.jiraService.getIssueDetails(node.key, fieldList)
+                    .pipe(filter(p => p !== null && p !== undefined))
+                    .subscribe((linkedIssue: any) => {
+                        const loaded = populateFieldValues(linkedIssue);
+                        if (loaded) {
+                            copyFieldValues(loaded, node);
+                        }
 
-        if (this.mappedIssuetypeFields) {
-            const issueTypeFields: any = _.find(this.mappedIssuetypeFields, { name: node.issueType });
-            if (issueTypeFields && issueTypeFields.list) {
-                this.selectedIssue.extendedFields = _.map(issueTypeFields.list, (itf) => {
-                    return { name: itf.name, value: node.fields[itf.code] }
-                })
+                        node.extendedFields = _.map(node.extendedFields, (ef) => {
+                            ef.value = linkedIssue.fields[ef.id];
+                            return ef;
+                        });
+                        this.markIssueSelectedHelper(node);
+                    });
+            } else {
+                this.markIssueSelectedHelper(node);
             }
         }
-        this.store$.dispatch(new SetSetRecentlyViewedAction(this.selectedIssue));
+    }
+
+    private markIssueSelectedHelper(node: any) {
+        this.selectedIssue = _.pick(node, ['key', 'label', 'title', 'issueType', 'project', 'extendedFields']);
+        this.expandPurpose(node);
+        this.store$.dispatch(new SetRecentlyViewedAction(this.selectedIssue));
     }
 
     canTrackProgress = (node) => (node && (node.issueType === CustomNodeTypes.TestSuite || node.issueType === CustomNodeTypes.Story));
 
-    checkIssueHasExtendedFields = (node) => {
-        if (this.mappedIssuetypeFields && this.mappedIssuetypeFields.length > 0) {
-            const found = _.find(this.mappedIssuetypeFields, { name: node.issueType });
-            if (found) {
-                this.hasExtendedFields = true;
-            }
-        }
-    }
     public expandPurpose(node: any) {
         this.purpose = [];
         this.populatePurpose(node);

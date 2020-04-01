@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as _ from "lodash";
-import { CustomNodeTypes } from './tree-utils';
+import { CustomNodeTypes } from './jira-tree-utils';
 
 const DataTypes = {
     Mode: "Mode",

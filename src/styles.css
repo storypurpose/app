@@ -108,6 +108,7 @@ body .ui-sidebar {
   border-top: solid 1px #ddd;
   padding: 0.25rem 1rem;
 }
+
 .main-container {
   height: 100%;
   overflow: hidden;
@@ -128,6 +129,11 @@ body .ui-sidebar {
   overflow: hidden;
 }
 
+.app-copyright {
+  bottom: 0;
+  left:0;
+  position: absolute;
+}
 .as-split-gutter {
   background-color: transparent !important;
   /* background-color: #f8f9fa; */
@@ -157,7 +163,9 @@ body .ui-sidebar {
 .form-control:focus {
   box-shadow: none;
 }
-
+.table th {
+  border-top-width: 0;
+}
 body .ui-toast {
   z-index: 1050 !important;
 }
@@ -182,10 +190,6 @@ body .ui-toast .ui-toast-message.ui-toast-message-error {
 
   /* background-color: #f8f9fa; */
   /* box-shadow: -1px 2px 4px #ccc; */
-}
-
-ngx-md p {
-  margin-bottom: 0;
 }
 
 .hover-container {
@@ -233,5 +237,5 @@ body .ui-tree .ui-tree-container .ui-treenode .ui-treenode-content:focus {
   background-color: #dddddd;
 }
 .hide-caret::after {
-  content: none;
+  content: none !important;
 }

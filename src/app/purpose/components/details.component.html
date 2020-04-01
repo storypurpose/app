@@ -1,21 +1,33 @@
 <div *ngIf="purpose && purpose.length > 0">
-
-    <button class="btn btn-link text-primary btn-sm" *ngIf="!organizationPurpose"
-        (click)="showOrganizationSetup = true">
-        <fa-icon icon="plus" class="font-weight-light"></fa-icon> add organization purpose
-    </button>
+    <div class="mb-2">
+        <a (click)="showHideAllPurposes()" class="btn btn-light btn-sm text-muted mr-2" title="Show/hide details">
+            <fa-icon size="fw" [icon]="showAll ? 'angle-double-down' : 'angle-double-right'">
+            </fa-icon>
+        </a>
+        <button class="btn btn-link btn-light text-muted btn-sm" *ngIf="!organizationPurpose"
+            (click)="showOrganizationSetup = true">
+            <fa-icon icon="plus" class="font-weight-light"></fa-icon> add organization purpose
+        </button>
+    </div>
 
     <div class="list-group list-group-flush">
-        <div class="list-group-item hover-container border-0 mb-3" [ngClass]="{'readonly': !item.editable}"
+        <div class="list-group-item hover-container border-0 pb-0 mb-1" [ngClass]="{'readonly': !item.editable}"
             *ngFor="let item of purpose">
-            <div style="overflow:auto">
-                <div class="small text-uppercase font-weight-bold text-info mr-2">{{item.issueType}} purpose</div>
-                <h5 class="font-weight-light mb-1">{{item.title}}
+            <div class="text-uppercase text-muted">
+                <a (click)="item.show = !item.show" class="btn btn-link btn-sm text-muted mr-2 pb-0"
+                    title="Show/hide details">
+                    <fa-icon size="fw" [icon]="item.show ? 'chevron-down' : 'chevron-right'"></fa-icon>
+                </a>
+                <span class="small text-dark">{{item.issueType}} purpose</span>
+            </div>
+
+            <div *ngIf="item.show" class="ml-5 mb-3 alert bg-light" style="overflow:auto">
+                <h5 class="text-dark font-weight-normal">{{item.title}}
                     <a class="small text-muted ml-2 hover-button" *ngIf="item.editable" (click)="onEdit(item)">
                         <fa-icon icon="pencil-alt" size="sm"></fa-icon>
                     </a>
                 </h5>
-                <ngx-md>
+                <ngx-md class="mb-2">
                     {{item.purpose}}
                 </ngx-md>
             </div>

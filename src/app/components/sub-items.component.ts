@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { JiraService } from '../lib/jira.service';
-import { flattenNodes, appendExtendedFields } from '../lib/tree-utils';
+import { flattenNodes, appendExtendedFields } from '../lib/jira-tree-utils';
 import * as _ from 'lodash';
 import { filter, map } from 'rxjs/operators';
 import { PersistenceService } from '../lib/persistence.service';
@@ -16,6 +16,8 @@ export class SubItemsComponent implements OnInit, OnDestroy {
     issue: any;
     childIssueType = '';
     childItems: any;
+    filteredItems: any;
+
     hasExtendedFields = false;
     showDetails = false;
     hideExtendedFields = true;
@@ -63,10 +65,16 @@ export class SubItemsComponent implements OnInit, OnDestroy {
                     this.childItems.forEach(u => u.hideExtendedFields = true);
                     appendExtendedFields(this.childItems, extendedFields);
 
+                    this.onFilterChanged('all');
                     const resultSet = _.mapValues(_.groupBy(_.map(this.childItems, 'status')), (s) => s.length);
                     this.statusStats = Object.keys(resultSet).map((key) => { return { key, count: resultSet[key] } });
                 });
         }
+    }
+
+    public onFilterChanged(eventArgs) {
+        console.log(eventArgs);
+        this.filteredItems = _.filter(this.childItems, (ci) => !this.statusFilter || this.statusFilter === "all" || ci.status === this.statusFilter);
     }
 
     showHideExtendedFields() {

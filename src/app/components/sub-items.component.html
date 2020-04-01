@@ -1,5 +1,5 @@
 <div *ngIf="issue">
-    <div *ngIf="childItems && childItems.length > 0">
+    <div *ngIf="filteredItems && filteredItems.length > 0">
         <table class="table">
             <thead>
                 <tr>
@@ -10,12 +10,12 @@
                         </a>
                     </th>
                     <th colspan="2" class="text-muted">
-                        <span class="mr-1" *ngIf="childItems.length > 0"> {{childItems.length}} </span>
-                        record{{(childItems.length > 1 ? 's' : '')}}
+                        <span class="mr-1" *ngIf="filteredItems.length > 0"> {{filteredItems.length}} </span>
+                        record{{(filteredItems.length > 1 ? 's' : '')}}
                     </th>
-                    <th width="10%">
+                    <th width="15%">
                         <select *ngIf="statusStats && statusStats.length > 0" class="form-control form-control-sm"
-                            [(ngModel)]="statusFilter">
+                            [(ngModel)]="statusFilter" (change)="onFilterChanged($event.target.value)">
                             <option value="all">All</option>
                             <option *ngFor="let status of statusStats" [value]="status.key">
                                 {{status.key + '  (' + status.count + ')'}}</option>
@@ -23,7 +23,7 @@
                     </th>
                 </tr>
             </thead>
-            <tr *ngFor="let record of childItems">
+            <tr *ngFor="let record of filteredItems">
                 <td *ngIf="hasExtendedFields">
                     <a (click)="record.hideExtendedFields = !record.hideExtendedFields" class="text-muted"
                         title="Show/hide details">
@@ -43,14 +43,14 @@
                         </table>
                     </div>
                 </td>
-                <td width="10%" style="white-space: nowrap;">
+                <td style="white-space: nowrap;">
                     <span class="pl-1 pr-1 border rounded bg-light small">{{record.status}}</span>
                 </td>
             </tr>
         </table>
     </div>
 
-    <div class="alert alert-warning" *ngIf="childItems && childItems.length === 0">
+    <div class="alert alert-warning" *ngIf="filteredItems && filteredItems.length === 0">
         No detail records found.
     </div>
 </div>

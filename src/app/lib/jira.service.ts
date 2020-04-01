@@ -35,14 +35,14 @@ export class JiraService {
                 this.connectionDetails = cd;
                 this.baseUrl = `${this.connectionDetails.serverUrl}${this.restVersionEndpoint}`;
 
-                const pwd = this.connectionDetails.authenticationType === AuthenticationModeTypes.JiraCloud
-                    ? this.connectionDetails.password
-                    : btoa(this.connectionDetails.password);
+                // const pwd = this.connectionDetails.authenticationType === AuthenticationModeTypes.JiraCloud
+                //     ? this.connectionDetails.password
+                //     : btoa(this.connectionDetails.password);
 
                 this.httpOptions = {
                     headers: new HttpHeaders({
                         'Content-Type': 'application/json',
-                        'Authorization': `Basic ${this.persistenceService.encodeCredentials(this.connectionDetails.username, pwd)}`
+                        'Authorization': `Basic ${this.persistenceService.encodeCredentials(this.connectionDetails.username, this.connectionDetails.password)}`
                     })
                 };
                 // }
@@ -50,15 +50,15 @@ export class JiraService {
     }
 
     testConnection(connectionDetails) {
-        const pwd = connectionDetails.authenticationType === AuthenticationModeTypes.JiraCloud
-            ? connectionDetails.password
-            : btoa(connectionDetails.password);
+        // const pwd = connectionDetails.authenticationType === AuthenticationModeTypes.JiraCloud
+        //     ? connectionDetails.password
+        //     : btoa(connectionDetails.password);
 
         return this.http.get(`${this.proxyurl}/${connectionDetails.serverUrl}${this.restVersionEndpoint}/myself`,
             {
                 headers: new HttpHeaders({
                     'Content-Type': 'application/json',
-                    'Authorization': `Basic ${this.persistenceService.encodeCredentials(connectionDetails.username, pwd)}`
+                    'Authorization': `Basic ${this.persistenceService.encodeCredentials(connectionDetails.username, connectionDetails.password)}`
                 })
             });
     }

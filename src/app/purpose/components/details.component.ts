@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { PurposeState } from '../+state/purpose.state';
 import { Store } from '@ngrx/store';
-import { CustomNodeTypes } from 'src/app/lib/tree-utils';
+import { CustomNodeTypes } from 'src/app/lib/jira-tree-utils';
 import { PersistenceService } from 'src/app/lib/persistence.service';
 
 @Component({
@@ -16,12 +16,17 @@ export class PurposeDetailsComponent implements OnInit, OnDestroy {
     @Input()
     set purpose(value: any) {
         this._purpose = value;
+        if (this._purpose) {
+            this._purpose.forEach(u => u.show = true)
+        }
     }
     get purpose(): any {
         return this._purpose;
     }
 
     @Output() edit = new EventEmitter<any>();
+
+    public showAll = true;
 
     public showOrganizationSetup = false;
     public organizationPurpose: any;
@@ -68,5 +73,10 @@ export class PurposeDetailsComponent implements OnInit, OnDestroy {
             this.showHierarchyFieldSetup = false;
         }
     }
-
+    showHideAllPurposes() {
+        this.showAll = !this.showAll;
+        if (this.purpose) {
+            this.purpose.forEach(u => u.show = this.showAll)
+        }
+    }
 }

@@ -46,6 +46,22 @@ export function populateFieldValues(node) {
     return node;
 }
 
+export function copyFieldValues(src, dest) {
+    if (!src) return dest;
+    if (!dest && src) {
+        dest = _.clone(src);
+    }
+    dest.project = src.project;
+    dest.issueParent = src.issueParent;
+    dest.issueType = src.issueType;
+    dest.status = src.status;
+    dest.label = src.label;
+    dest.title = src.title;
+    dest.description = src.description;
+    dest.icon = src.icon;
+}
+
+
 export function appendExtendedFields(flattenedNodes, extendedFields) {
     if (flattenedNodes) {
         _.forEach(flattenedNodes, element => {
@@ -128,9 +144,12 @@ function buildIssueLinks(node: any) {
         if (outwardIssues && outwardIssues.length > 0) {
             children = _.union(children, _.map(outwardIssues, (il) => populateFieldValues(il.outwardIssue)));
         }
+        if (node.project && node.project.key) {
+            children.forEach(u => u.project = node.project);
+        }
         if (children.length > 0) {
             issueLinks.push({
-                "label": `Related links`, title: `${children.length} items linked`, key: 'RL_' + node.key, parentId: node.key,
+                "label": `Related links`, title: `${children.length} items linked`, key: `RL_${node.key}`, parentId: node.key,
                 selectable: false, issueType: CustomNodeTypes.RelatedLink,
                 "children": children,
                 expanded: false

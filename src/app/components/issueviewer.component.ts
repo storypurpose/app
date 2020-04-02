@@ -1,17 +1,17 @@
-import { Component, OnInit, IterableDiffers, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { JiraService } from '../lib/jira.service';
 import {
-    transformParentNode, flattenAndTransformNodes, populateFieldValues,
-    findInTree, CustomNodeTypes, isCustomNode, getExtendedFieldValue, getIcon, copyFieldValues
+    transformParentNode, populateFieldValues,
+    findInTree, CustomNodeTypes, isCustomNode, getExtendedFieldValue, getIcon, copyFieldValues, createEpicChildrenNode
 } from '../lib/jira-tree-utils';
 import * as _ from 'lodash';
 import { ActivatedRoute, Router } from '@angular/router';
-import { filter, map, tap, timeout } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { PersistenceService } from '../lib/persistence.service';
 import { Store } from '@ngrx/store';
-import { SetPurposeAction, SetRecentlyViewedAction } from '../purpose/+state/purpose.actions';
+import { SetPurposeAction, SetRecentlyViewedAction, ManageOrganizationEditorVisibilityAction, ManageHierarchyEditorVisibilityAction } from '../purpose/+state/purpose.actions';
 import { AppState } from '../+state/app.state';
-import { SetCurrentIssueKeyAction, ShowCustomFieldEditorAction, UpsertProjectAction, ShowProjectConfigEditorAction } from '../+state/app.actions';
+import { SetCurrentIssueKeyAction, ShowCustomFieldEditorAction, UpsertProjectAction } from '../+state/app.actions';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -27,6 +27,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     public result: any;
     public treeNodes: any;
     public selectedNode: any;
+    public qpSelected: string;
     public zoom = 100;
 
     public selectedIssue: any;
@@ -34,7 +35,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     public showDetails = false;
     public issueKey = "storypurpose";
     public contextIssueKey = "";
-    public mappedEpicFieldCode: string;
+    public mappedEpicLinkFieldCode: string;
     public mappedHierarchyFields: any;
     public relatedEpic: any;
     public organizationDetails: any;
@@ -68,9 +69,21 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
             },
             {
                 label: 'Configure', icon: 'far fa-sun', menuType: CustomNodeTypes.Project,
-                command: (args) => {
+                command: () => {
                     this.currentProject = _.find(this.projects, { key: this.selectedIssue.project.key });
                     this.showProjectConfigSetup = true;
+                }
+            },
+            {
+                label: 'Configure', icon: 'far fa-sun', menuType: CustomNodeTypes.Organization,
+                command: () => {
+                    this.store$.dispatch(new ManageOrganizationEditorVisibilityAction(true));
+                }
+            },
+            {
+                label: 'Configure', icon: 'far fa-sun', menuType: CustomNodeTypes.Hierarchy,
+                command: () => {
+                    this.store$.dispatch(new ManageHierarchyEditorVisibilityAction(true));
                 }
             }]
 
@@ -90,6 +103,15 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
                 this.persistenceService.setProjects(projects);
             });
 
+        this.activatedRoute.queryParams.pipe(filter(p => p && p["selected"] && p["selected"].length > 0), map(p => p["selected"]))
+            .subscribe(selected => {
+                this.qpSelected = selected;
+                if (this.treeNodes && this.treeNodes.length === 1) {
+                    this.selectedNode = findInTree(this.treeNodes[0], selected);
+                    this.markIssueSelected(this.selectedNode);
+                }
+            })
+
         this.activatedRoute.params.pipe(filter(p => p && p["issue"] && p["issue"].length > 0), map(p => p["issue"]))
             .subscribe(issue => {
                 this.store$.dispatch(new SetCurrentIssueKeyAction(issue));
@@ -98,7 +120,8 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
                     .pipe(filter((p: any) => p !== null && p !== undefined && p.fields))
                     .subscribe((issuedetails: any) => {
                         this.relatedEpic = null;
-                        let epicKey = (this.mappedEpicFieldCode !== '') ? issuedetails.fields[this.mappedEpicFieldCode] : ''
+                        this.mappedEpicLinkFieldCode = this.getEpicLinkFieldCode(issuedetails.fields.project);
+                        let epicKey = (this.mappedEpicLinkFieldCode !== '') ? issuedetails.fields[this.mappedEpicLinkFieldCode] : ''
 
                         if (epicKey && epicKey.length > 0) {
                             this.jiraService.getIssueDetails(epicKey, [])
@@ -119,11 +142,23 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
         this.projectsSubscription ? this.projectsSubscription.unsubscribe() : null;
     }
 
+    public getEpicLinkFieldCode(project) {
+        if (this.projects && project) {
+            const projectFound = _.find(this.projects, { key: project.key });
+            if (projectFound) {
+                const customFieldFound = _.find(projectFound.customFields, { name: "Epic Link" });
+                if (customFieldFound) {
+                    return customFieldFound.id;
+                }
+            }
+        }
+        return null;
+    }
     public onIssueLoaded(issue) {
         this.result = issue;
         this.showDetails = false;
         if (this.result) {
-            let node = transformParentNode(this.result);
+            let node = transformParentNode(this.result, true);
             this.loadedIssue = node;
 
             if (this.loadedIssue.project) {
@@ -142,8 +177,12 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
 
             this.treeNodes = [node];
 
-            this.selectedNode = findInTree(node, this.result.key);
-            setTimeout(() => this.markIssueSelected(this.selectedNode), 500);
+            if (!this.qpSelected) {
+                this.router.navigate([], { queryParams: { selected: this.loadedIssue.key } });
+            } else if (!this.selectedNode || this.selectedNode.key !== this.qpSelected) {
+                this.selectedNode = findInTree(this.treeNodes[0], this.qpSelected);
+                setTimeout(() => this.markIssueSelected(this.selectedNode), 1500);
+            }
         }
     }
 
@@ -154,31 +193,39 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
             if (issueType) {
                 issue.extendedFields = issueType.list || [];
                 this.hasExtendedFields = issue.extendedFields && issue.extendedFields.length > 0;
-                console.log(issue.extendedFields, this.hasExtendedFields);
             }
         }
     }
 
     public loadNode(event) {
-        if (event.node.issueType === "epic-children") {
-            this.jiraService.executeJql(`'epic Link'=${event.node.parentId}`, [], 'epic-children.json')
-                .subscribe((data: any) => {
-                    if (data && data.issues) {
-                        const list = flattenAndTransformNodes(data.issues);
-                        event.node.children = list;
-                        event.node.expanded = true;
-                    }
-                });
+        if (event.node.issueType === CustomNodeTypes.EpicChildren && (!event.node.children || event.node.children.length === 0)) {
+            this.loadEpicChildren(event.node, event.node.parentId);
         }
     }
 
+    private loadEpicChildren(node: any, epicKey) {
+        this.jiraService.executeJql(`'epic Link'=${epicKey}`, [], 'epic-children.json')
+            .subscribe((data: any) => {
+                if (data && data.issues) {
+                    node.children = _.map(data.issues, (item) => transformParentNode(item, false));;
+                    node.expanded = true;
+                }
+            });
+    }
+
     public nodeSelected(event) {
-        this.markIssueSelected(event.node);
+        this.router.navigate([], { queryParams: { selected: event.node.key } });
     }
     nodeContextMenuSelect(args, contextMenu) {
         this.menulist = null;
         if (args) {
             switch (args.issueType) {
+                case CustomNodeTypes.Organization:
+                    this.menulist = _.filter(this.masterMenulist, { menuType: CustomNodeTypes.Organization });
+                    break;
+                case CustomNodeTypes.Hierarchy:
+                    this.menulist = _.filter(this.masterMenulist, { menuType: CustomNodeTypes.Hierarchy });
+                    break;
                 case CustomNodeTypes.Project:
                     this.menulist = _.filter(this.masterMenulist, { menuType: CustomNodeTypes.Project });
                     break;
@@ -186,10 +233,6 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
                     this.menulist = _.filter(this.masterMenulist, { menuType: CustomNodeTypes.Issue });
 
                     if (args.key.toLowerCase() === this.issueKey.toLowerCase() || isCustomNode(args) === true) {
-                        this.contextIssueKey = "";
-                        contextMenu.hide();
-                    } else if (args.isHierarchyField === true) {
-                        // TODO: Handle custom menu
                         this.contextIssueKey = "";
                         contextMenu.hide();
                     } else {
@@ -277,7 +320,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
                     issueType: CustomNodeTypes.Epic,
                     icon: getIcon(CustomNodeTypes.Epic),
                     project: this.relatedEpic.project,
-                    children: [node],
+                    children: [node, createEpicChildrenNode(node)],
                     expanded: true
                 }
             }
@@ -295,7 +338,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
                     rootNode
                     const extendedNode = {
                         key: value, title: value, label: value, description: '', icon: "fa fa-share-alt", issueType: hf.name, hfKey: hf.code,
-                        children: [], expanded: true, editable: true, isHierarchyField: true, selectable: false
+                        children: [], expanded: true, editable: true, isHierarchyField: true, selectable: false, type: "Heading",
                     };
 
                     const details: any = this.persistenceService.getHierarchyFieldDetails(hf.code, extendedNode.key);
@@ -327,6 +370,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
                 key: node.project.key,
                 title: node.project.name,
                 label: node.project.name,
+                type: "Heading",
                 description: node.project.description,
                 issueType: CustomNodeTypes.Project,
                 icon: getIcon(CustomNodeTypes.Project),
@@ -362,10 +406,12 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
                 title: this.organizationDetails.name,
                 label: this.organizationDetails.name,
                 description: this.organizationDetails.purpose,
+                type: "Heading",
                 issueType: CustomNodeTypes.Organization,
                 icon: getIcon(CustomNodeTypes.Organization),
                 expanded: true,
-                editable: true
+                editable: true,
+                selectable: false
             }
         }
         return null;
@@ -373,7 +419,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
 
     public populatePurpose(node) {
         if (node) {
-            if (node.issueType !== 'epic-children' && node.issueType !== CustomNodeTypes.RelatedLink) {
+            if (node.issueType !== CustomNodeTypes.EpicChildren && node.issueType !== CustomNodeTypes.RelatedLink) {
                 this.purpose.push({
                     key: node.key, issueType: node.issueType, title: node.title, purpose: node.description,
                     editable: node.editable, hfKey: node.hfKey
@@ -395,4 +441,10 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
             window.location.reload();
         }
     }
+
+    getPrintableTitle(node) {
+        return isCustomNode(node) ? node.title : `${node.key} ${node.title}`
+    }
+
+    checkIfCustomNode = (node) => isCustomNode(node)
 }

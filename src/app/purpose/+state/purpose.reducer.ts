@@ -8,10 +8,14 @@ export function purposeReducer(state: Purpose, action: any): Purpose {
             return { ...state, item: action.payload };
         }
         case ActionTypes.SetRecentlyViewed: {
-            //TODO: Maintain array
             return { ...state, recentmostItem: action.payload };
         }
-
+        case ActionTypes.ManageOrganizationEditorVisibility: {
+            return { ...state, organizationEditorVisible: action.payload };
+        }
+        case ActionTypes.ManageHierarchyEditorVisibility: {
+            return { ...state, hierarchyEditorVisible: action.payload };
+        }
         default: return state;
     }
 }

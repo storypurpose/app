@@ -118,6 +118,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   onModeChange(isOnlineMode) {
     this.initiatizeModeState(isOnlineMode ? ModeTypes.Online : ModeTypes.Offline);
+    window.location.reload();
   }
 
   initiatizeModeState(mode) {

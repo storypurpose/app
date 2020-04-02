@@ -55,6 +55,7 @@ body .ui-tree .ui-tree-container .ui-treenode .ui-treenode-content .ui-treenode-
   background-color: #d9ebff;
   color: #000;
   border-radius: 0 10pt 10pt 0;
+  padding-right: 10pt;
 }
 body .ui-tree.ui-tree-horizontal .ui-treenode .ui-treenode-content.ui-state-highlight .custom-node,
 .ui-treenode-content-selected {
@@ -131,7 +132,7 @@ body .ui-sidebar {
 
 .app-copyright {
   bottom: 0;
-  left:0;
+  left: 0;
   position: absolute;
 }
 .as-split-gutter {

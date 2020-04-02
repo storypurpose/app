@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-const MAX_LENGTH = 40;
+const MAX_LENGTH = 60;
 
 export const CustomNodeTypes = {
     EpicChildren: "epic-children",
@@ -12,7 +12,8 @@ export const CustomNodeTypes = {
     Epic: "Epic",
     Story: "Story",
     TestCase: "ST-Test Case",
-    SubTask: "ST-Technical task"
+    SubTask: "ST-Technical task",
+    Task: "Task"
 };
 
 export function getIcon(issueType) {
@@ -22,6 +23,8 @@ export function getIcon(issueType) {
         case CustomNodeTypes.TestSuite: return "fa fa-flask text-warning";
         case CustomNodeTypes.Epic: return "fa fa-book text-primary";
         case CustomNodeTypes.Story: return "fa fa-file text-info";
+        case CustomNodeTypes.Task: return "fa fa-check text-primary";
+        case CustomNodeTypes.SubTask: return "fa fa-check text-primary";
         default: "far fa-file"
     }
 }
@@ -97,9 +100,6 @@ export function flattenNodes(issues) {
     });
 }
 
-export function flattenAndTransformNodes(issues) {
-    return _.map(issues, (item) => transformParentNode(item));
-}
 export function transformToTreenode(node, issueLinks) {
     if (!node.issueType) {
         populateFieldValues(node);
@@ -112,24 +112,32 @@ export function transformToTreenode(node, issueLinks) {
     return node;
 }
 
-export function transformParentNode(node) {
+export function transformParentNode(node, linkRelatedIssues) {
     if (!node.issueType) {
         populateFieldValues(node);
     }
 
     let level1Nodes: any = [];
     if (node.issueType === CustomNodeTypes.Epic) {
-        level1Nodes.push({
-            "label": 'Epic Children', key: 'E_' + node.key, parentId: node.key, selectable: false,
-            issueType: CustomNodeTypes.EpicChildren, leaf: false, children: null
-        });
+        level1Nodes.push(createEpicChildrenNode(node));
     }
-    let issueLinks = buildIssueLinks(node);
-    if (issueLinks && issueLinks.length > 0) {
-        level1Nodes = _.concat(level1Nodes, issueLinks);
+    console.log('linkRelatedIssues', linkRelatedIssues);
+    if (linkRelatedIssues) {
+        console.log('linking...');
+        let issueLinks = buildIssueLinks(node);
+        if (issueLinks && issueLinks.length > 0) {
+            level1Nodes = _.concat(level1Nodes, issueLinks);
+        }
     }
 
     return transformToTreenode(node, level1Nodes);
+}
+
+export function createEpicChildrenNode(node: any): any {
+    return {
+        label: "Epic Children", title: "Epic Children", key: 'E_' + node.key, parentId: node.key, selectable: false,
+        issueType: CustomNodeTypes.EpicChildren, leaf: false, children: null
+    };
 }
 
 function buildIssueLinks(node: any) {
@@ -149,10 +157,10 @@ function buildIssueLinks(node: any) {
         }
         if (children.length > 0) {
             issueLinks.push({
-                "label": `Related links`, title: `${children.length} items linked`, key: `RL_${node.key}`, parentId: node.key,
+                "label": `Related issues`, title: `${children.length} issues linked`, key: `RL_${node.key}`, parentId: node.key,
                 selectable: false, issueType: CustomNodeTypes.RelatedLink,
                 "children": children,
-                expanded: false
+                expanded: true
             });
 
         }
@@ -162,12 +170,15 @@ function buildIssueLinks(node: any) {
 }
 
 export function findInTree(node, key) {
-    if (node) {
-        if (node.key.toLowerCase() === key.toLowerCase()) return node;
-
-        if (node.children) {
-            node.children.forEach((cn) => node = findInTree(cn, key));
+    if (node.key.toLowerCase() === key.toLowerCase()) {
+        return node;
+    } else if (node.children) {
+        let result = null;
+        for (let i = 0; result == null && i < node.children.length; i++) {
+            result = findInTree(node.children[i], key);
         }
+        return result;
     }
-    return node;
+
+    return null;
 }

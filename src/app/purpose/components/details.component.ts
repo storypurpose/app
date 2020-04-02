@@ -6,6 +6,7 @@ import { PurposeState } from '../+state/purpose.state';
 import { Store } from '@ngrx/store';
 import { CustomNodeTypes } from 'src/app/lib/jira-tree-utils';
 import { PersistenceService } from 'src/app/lib/persistence.service';
+import { ManageOrganizationEditorVisibilityAction, ManageHierarchyEditorVisibilityAction } from '../+state/purpose.actions';
 
 @Component({
     selector: 'app-purpose-details',
@@ -46,7 +47,13 @@ export class PurposeDetailsComponent implements OnInit, OnDestroy {
         this.subscription = this.store$.select(p => p.purpose)
             .pipe(filter(p => p && p.item), map(p => p.item))
             .subscribe(data => this.purpose = data);
+
+        this.store$.select(p => p.purpose.organizationEditorVisible)
+            .subscribe(visibility => this.showOrganizationSetup = visibility)
+        this.store$.select(p => p.purpose.hierarchyEditorVisible)
+            .subscribe(visibility => this.showHierarchyFieldSetup = visibility)
     }
+
     ngOnDestroy(): void {
         this.subscription.unsubscribe();
     }
@@ -65,12 +72,13 @@ export class PurposeDetailsComponent implements OnInit, OnDestroy {
         this.showOrganizationSetup = true;
     }
     setupCompleted(shouldReload) {
-        console.log(shouldReload);
         if (shouldReload) {
             window.location.reload();
         } else {
             this.showOrganizationSetup = false;
             this.showHierarchyFieldSetup = false;
+            this.store$.dispatch(new ManageOrganizationEditorVisibilityAction(false));
+            this.store$.dispatch(new ManageHierarchyEditorVisibilityAction(false));
         }
     }
     showHideAllPurposes() {

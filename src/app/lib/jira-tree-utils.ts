@@ -2,12 +2,14 @@ import * as _ from 'lodash';
 const MAX_LENGTH = 60;
 
 export const CustomNodeTypes = {
+    Organization: "Organization",
+    Hierarchy: "Hierarchy",
+    Project: "Project",
+
     EpicChildren: "epic-children",
     RelatedLink: "RelatedLink",
-    Project: "Project",
     Issue: "Issue",
-    Hierarchy: "Hierarchy",
-    Organization: "Organization",
+
     TestSuite: "Test Suite",
     Epic: "Epic",
     Story: "Story",
@@ -121,9 +123,7 @@ export function transformParentNode(node, linkRelatedIssues) {
     if (node.issueType === CustomNodeTypes.Epic) {
         level1Nodes.push(createEpicChildrenNode(node));
     }
-    console.log('linkRelatedIssues', linkRelatedIssues);
     if (linkRelatedIssues) {
-        console.log('linking...');
         let issueLinks = buildIssueLinks(node);
         if (issueLinks && issueLinks.length > 0) {
             level1Nodes = _.concat(level1Nodes, issueLinks);

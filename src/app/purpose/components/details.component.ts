@@ -18,7 +18,7 @@ export class PurposeDetailsComponent implements OnInit, OnDestroy {
     set purpose(value: any) {
         this._purpose = value;
         if (this._purpose) {
-            this._purpose.forEach(u => u.show = true)
+            this._purpose.forEach((u, i) => u.show = !(this._purpose.length - 1 === i))
         }
     }
     get purpose(): any {
@@ -85,6 +85,9 @@ export class PurposeDetailsComponent implements OnInit, OnDestroy {
         this.showAll = !this.showAll;
         if (this.purpose) {
             this.purpose.forEach(u => u.show = this.showAll)
+            if (!this.showAll && this.purpose.length > 0) {
+                this.purpose[this.purpose.length - 1].show = true;
+            }
         }
     }
 }

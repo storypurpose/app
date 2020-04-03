@@ -10,7 +10,7 @@ export const ActionTypes = {
     SetConnectionDetails: type("[SetConnectionDetails]"),
     ConnectionDetailsVerified: type('[ConnectionDetailsVerified]'),
 
-    SetFieldMapping: type("[SetFieldMapping]"),
+    // SetFieldMapping: type("[SetFieldMapping]"),
 
     LoadProjects: type("[LoadProjects]"),
     UpsertProject: type("[UpsertProject]")
@@ -49,10 +49,10 @@ export class SetConnectionDetailsAction implements Action {
     type = ActionTypes.SetConnectionDetails;
     constructor(public payload: any) { }
 }
-export class SetFieldMappingAction implements Action {
-    type = ActionTypes.SetFieldMapping;
-    constructor(public payload: any) { }
-}
+// export class SetFieldMappingAction implements Action {
+//     type = ActionTypes.SetFieldMapping;
+//     constructor(public payload: any) { }
+// }
 export class LoadProjectsAction implements Action {
     type = ActionTypes.LoadProjects;
     constructor(public payload: any) { }
@@ -72,7 +72,7 @@ export type Actions =
     | SetModeAction
 
     | SetConnectionDetailsAction
-    | SetFieldMappingAction
+    // | SetFieldMappingAction
     | ConnectionDetailsVerifiedAction
 
     | UpsertProjectAction

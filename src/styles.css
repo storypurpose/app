@@ -141,10 +141,12 @@ body .ui-sidebar {
   flex-basis: 8px !important;
 }
 
-.as-split-area {
-  /* height: calc(100% - 30pt) !important; */
-  /* background-color: #f8f9fa; */
-  overflow: auto !important;
+.as-split-area:hover ::-webkit-scrollbar-thumb {
+  visibility: visible;
+}
+.as-split-area ::-webkit-scrollbar-thumb {
+  visibility: hidden;
+  /* overflow: auto !important; */
 }
 
 .center-text {

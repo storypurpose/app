@@ -10,27 +10,26 @@
         </button>
     </div>
 
-    <div class="list-group list-group-flush">
-        <div class="list-group-item hover-container border-0 pb-0 mb-1" [ngClass]="{'readonly': !item.editable}"
-            *ngFor="let item of purpose">
-            <div class="text-uppercase text-muted">
-                <a (click)="item.show = !item.show" class="btn btn-link btn-sm text-muted mr-2 pb-0"
-                    title="Show/hide details">
-                    <fa-icon size="fw" [icon]="item.show ? 'chevron-down' : 'chevron-right'"></fa-icon>
-                </a>
-                <span class="small text-dark">{{item.issueType}} purpose</span>
-            </div>
+    <div class="border-0 pb-0 " [ngClass]="{'float-left': !item.show, 'clearfix mt-5': item.show}"
+        *ngFor="let item of purpose">
+        <span class="text-uppercase text-muted ">
+            <a (click)="item.show = !item.show" class="btn btn-link btn-sm text-muted mr-2 pb-0"
+                title="Show/hide details">
+                <fa-icon size="fw" [icon]="item.show ? 'chevron-down' : 'chevron-right'"></fa-icon>
+            </a>
+            <span class="small text-dark">{{item.issueType}} purpose</span>
+        </span>
 
-            <div *ngIf="item.show" class="ml-5 mb-3 alert bg-light" style="overflow:auto">
-                <h5 class="text-dark font-weight-normal">{{item.title}}
-                    <a class="small text-muted ml-2 hover-button" *ngIf="item.editable" (click)="onEdit(item)">
-                        <fa-icon icon="pencil-alt" size="sm"></fa-icon>
-                    </a>
-                </h5>
-                <ngx-md class="mb-2">
-                    {{item.purpose}}
-                </ngx-md>
-            </div>
+        <div *ngIf="item.show" class="ml-5 hover-container alert bg-light" style="overflow:auto"
+            [ngClass]="{'readonly': !item.editable}">
+            <h5 class=" text-dark font-weight-normal">{{item.title}}
+                <a class="small text-muted ml-2 hover-button" *ngIf="item.editable" (click)="onEdit(item)">
+                    <fa-icon icon="pencil-alt" size="sm"></fa-icon>
+                </a>
+            </h5>
+            <ngx-md class="mb-2">
+                {{item.purpose}}
+            </ngx-md>
         </div>
     </div>
 </div>

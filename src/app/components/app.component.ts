@@ -9,7 +9,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { environment } from '../../environments/environment';
 import { AppState } from '../+state/app.state';
 import { Store } from '@ngrx/store';
-import { SetModeAction, ModeTypes, SetConnectionDetailsAction, SetFieldMappingAction, LoadProjectsAction } from '../+state/app.actions';
+import { SetModeAction, ModeTypes, SetConnectionDetailsAction, LoadProjectsAction } from '../+state/app.actions';
 
 declare let gtag: Function;
 
@@ -28,7 +28,7 @@ export class AppComponent implements OnInit, OnDestroy {
   allowOfflineMode = false;
   isOnlineMode = false;
   connectionDetails: any;
-  fieldMapping: any;
+  // fieldMapping: any;
 
   connectionSubscription: Subscription;
   customFieldSubscription: Subscription;
@@ -36,7 +36,7 @@ export class AppComponent implements OnInit, OnDestroy {
   modeSubscription: Subscription;
 
   connectionDetailsSubscription: Subscription;
-  fieldMappingSubscription: Subscription;
+  // fieldMappingSubscription: Subscription;
   projectsSubscription: Subscription;
 
   issueType: string;
@@ -80,10 +80,10 @@ export class AppComponent implements OnInit, OnDestroy {
       .subscribe(p => this.isOnlineMode = p && p === ModeTypes.Online);
     this.connectionDetailsSubscription = this.store$.select(p => p.app.connectionDetails)
       .subscribe(p => this.connectionDetails = p);
-    this.fieldMappingSubscription = this.store$.select(p => p.app.fieldMapping)
-      .subscribe(p => this.fieldMapping = p);
+    // this.fieldMappingSubscription = this.store$.select(p => p.app.fieldMapping)
+    //   .subscribe(p => this.fieldMapping = p);
 
-    this.initiatizeFieldMappingState(this.persistenceService.getFieldMapping());
+    // this.initiatizeFieldMappingState(this.persistenceService.getFieldMapping());
     this.initiatizeConnectionDetailsState(this.persistenceService.getConnectionDetails());
     this.initiatizeModeState(this.persistenceService.getMode());
     this.initiatizeProjectState(this.persistenceService.getProjects());
@@ -95,7 +95,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.modeSubscription ? this.modeSubscription.unsubscribe() : null;
 
     this.connectionDetailsSubscription ? this.connectionDetailsSubscription.unsubscribe() : null;
-    this.fieldMappingSubscription ? this.fieldMappingSubscription.unsubscribe() : null;
+    // this.fieldMappingSubscription ? this.fieldMappingSubscription.unsubscribe() : null;
   }
 
   navigateTo(issue) {
@@ -131,12 +131,12 @@ export class AppComponent implements OnInit, OnDestroy {
       this.store$.dispatch(new SetConnectionDetailsAction(details));
     }
   }
-  initiatizeFieldMappingState(details) {
-    if (details) {
-      this.persistenceService.setFieldMapping(details);
-      this.store$.dispatch(new SetFieldMappingAction(details));
-    }
-  }
+  // initiatizeFieldMappingState(details) {
+  //   if (details) {
+  //     this.persistenceService.setFieldMapping(details);
+  //     this.store$.dispatch(new SetFieldMappingAction(details));
+  //   }
+  // }
   initiatizeProjectState(projects) {
     if (projects) {
       this.store$.dispatch(new LoadProjectsAction(projects));

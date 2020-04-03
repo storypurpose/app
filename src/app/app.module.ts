@@ -22,8 +22,6 @@ import { AngularSplitModule } from 'angular-split';
 import { PageNotFoundComponent } from './components/page-not-found.component';
 import { IssueviewerComponent } from './components/issueviewer.component';
 import { IssueEntryComponent } from './components/issue-entry.component';
-import { CustomFieldsComponent } from './components/setup/custom-fields.component';
-import { ButtonPanelComponent } from './common-components/components/button-panel.component';
 import { MappingListComponent } from './components/setup/mapping-list.component';
 import { NodeTemplateComponent } from './components/node-template.component';
 import { DisqusModule } from "ngx-disqus";
@@ -64,7 +62,7 @@ import { FieldSelectorListComponent } from './components/setup/field-selector-li
     IssueviewerComponent, ExtendedFieldsComponent,
     SubItemsComponent, IssueEntryComponent, RecentlyViewedComponent,
 
-    ConnectionDetailsComponent, CustomFieldsComponent, ProjectConfigComponent,
+    ConnectionDetailsComponent, ProjectConfigComponent,//CustomFieldsComponent,
     MappingListComponent, FieldSelectorListComponent
   ],
   imports: [

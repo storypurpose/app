@@ -76,7 +76,7 @@ export class JiraService {
         if (this.isOnlineMode === false) {
             projectUrl$ = this.http.get(`${this.staticFileLocation}/project-${projectKey}.json`, this.httpOptions);
             fieldsUrl$ = this.http.get(`${this.staticFileLocation}/field-${projectKey}.json`, this.httpOptions)
-        }        
+        }
         return combineLatest(projectUrl$, fieldsUrl$);
     }
 

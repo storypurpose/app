@@ -35,7 +35,8 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     public showDetails = false;
     public issueKey = "storypurpose";
     public contextIssueKey = "";
-    public mappedEpicLinkFieldCode: string;
+    public mappedEpicLinkFieldId: string;
+    public allProjectsHierarchyFields: any;
     public mappedHierarchyFields: any;
     public relatedEpic: any;
     public organizationDetails: any;
@@ -70,8 +71,10 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
             {
                 label: 'Configure', icon: 'far fa-sun', menuType: CustomNodeTypes.Project,
                 command: () => {
-                    this.currentProject = _.find(this.projects, { key: this.selectedIssue.project.key });
-                    this.showProjectConfigSetup = true;
+                    if (this.selectedIssue && this.selectedIssue.project) {
+                        this.currentProject = _.find(this.projects, { key: this.selectedIssue.project.key });
+                        this.showProjectConfigSetup = true;
+                    }
                 }
             },
             {
@@ -100,6 +103,8 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
         this.projectsSubscription = this.store$.select(p => p.app.projects).pipe(filter(p => p))
             .subscribe(projects => {
                 this.projects = projects;
+                this.allProjectsHierarchyFields = _.union(_.flatten(_.map(this.projects, 'hierarchy')));
+                console.log(this.allProjectsHierarchyFields);
                 this.persistenceService.setProjects(projects);
             });
 
@@ -116,12 +121,13 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
             .subscribe(issue => {
                 this.store$.dispatch(new SetCurrentIssueKeyAction(issue));
                 this.issueKey = issue;
-                this.jiraService.getIssueDetails(issue, [])
+                const extentedHierarchyFields = this.mappedHierarchyFields || this.allProjectsHierarchyFields || [];
+                this.jiraService.getIssueDetails(issue, _.map(extentedHierarchyFields, 'id'))
                     .pipe(filter((p: any) => p !== null && p !== undefined && p.fields))
                     .subscribe((issuedetails: any) => {
                         this.relatedEpic = null;
-                        this.mappedEpicLinkFieldCode = this.getEpicLinkFieldCode(issuedetails.fields.project);
-                        let epicKey = (this.mappedEpicLinkFieldCode !== '') ? issuedetails.fields[this.mappedEpicLinkFieldCode] : ''
+                        this.mappedEpicLinkFieldId = this.populateExtendedFields(issuedetails.fields.project);
+                        let epicKey = (this.mappedEpicLinkFieldId !== '') ? issuedetails.fields[this.mappedEpicLinkFieldId] : ''
 
                         if (epicKey && epicKey.length > 0) {
                             this.jiraService.getIssueDetails(epicKey, [])
@@ -142,13 +148,15 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
         this.projectsSubscription ? this.projectsSubscription.unsubscribe() : null;
     }
 
-    public getEpicLinkFieldCode(project) {
+    public populateExtendedFields(project) {
         if (this.projects && project) {
-            const projectFound = _.find(this.projects, { key: project.key });
-            if (projectFound) {
-                const customFieldFound = _.find(projectFound.customFields, { name: "Epic Link" });
-                if (customFieldFound) {
-                    return customFieldFound.id;
+            const projectConfigFound = _.find(this.projects, { key: project.key });
+            if (projectConfigFound) {
+
+                this.mappedHierarchyFields = projectConfigFound.hierarchy;
+                const epicLinkFieldFound = _.find(projectConfigFound.customFields, { name: "Epic Link" });
+                if (epicLinkFieldFound) {
+                    this.mappedEpicLinkFieldId = epicLinkFieldFound.id;
                 }
             }
         }
@@ -219,15 +227,12 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     nodeContextMenuSelect(args, contextMenu) {
         this.menulist = null;
         if (args) {
-            switch (args.issueType) {
+            console.log('args.issueType', args.issueType);
+            switch (args.menuType) {
                 case CustomNodeTypes.Organization:
-                    this.menulist = _.filter(this.masterMenulist, { menuType: CustomNodeTypes.Organization });
-                    break;
                 case CustomNodeTypes.Hierarchy:
-                    this.menulist = _.filter(this.masterMenulist, { menuType: CustomNodeTypes.Hierarchy });
-                    break;
                 case CustomNodeTypes.Project:
-                    this.menulist = _.filter(this.masterMenulist, { menuType: CustomNodeTypes.Project });
+                    this.menulist = _.filter(this.masterMenulist, { menuType: args.menuType });
                     break;
                 default:
                     this.menulist = _.filter(this.masterMenulist, { menuType: CustomNodeTypes.Issue });
@@ -333,15 +338,15 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
         if (this.mappedHierarchyFields && this.mappedHierarchyFields.length > 0) {
             let tempNode = rootNode;
             this.mappedHierarchyFields.forEach(hf => {
-                const value = getExtendedFieldValue(node, hf.code);
+                const value = getExtendedFieldValue(node, hf.id);
                 if (value.length > 0) {
-                    rootNode
                     const extendedNode = {
-                        key: value, title: value, label: value, description: '', icon: "fa fa-share-alt", issueType: hf.name, hfKey: hf.code,
+                        key: value, title: value, label: value, description: '', icon: "fa fa-share-alt", issueType: hf.name, hfKey: hf.id,
                         children: [], expanded: true, editable: true, isHierarchyField: true, selectable: false, type: "Heading",
+                        menuType: CustomNodeTypes.Hierarchy
                     };
 
-                    const details: any = this.persistenceService.getHierarchyFieldDetails(hf.code, extendedNode.key);
+                    const details: any = this.persistenceService.getHierarchyFieldDetails(hf.id, extendedNode.key);
                     if (details) {
                         extendedNode.description = details.purpose;
                     }
@@ -373,6 +378,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
                 type: "Heading",
                 description: node.project.description,
                 issueType: CustomNodeTypes.Project,
+                menuType: CustomNodeTypes.Project,
                 icon: getIcon(CustomNodeTypes.Project),
                 expanded: true,
                 selectable: false
@@ -407,6 +413,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
                 label: this.organizationDetails.name,
                 description: this.organizationDetails.purpose,
                 type: "Heading",
+                menuType: CustomNodeTypes.Organization,
                 issueType: CustomNodeTypes.Organization,
                 icon: getIcon(CustomNodeTypes.Organization),
                 expanded: true,

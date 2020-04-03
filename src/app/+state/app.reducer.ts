@@ -23,9 +23,9 @@ export function appReducer(state: App, action: any): App {
         case ActionTypes.SetConnectionDetails: {
             return { ...state, connectionDetails: action.payload };
         }
-        case ActionTypes.SetFieldMapping: {
-            return { ...state, fieldMapping: action.payload };
-        }
+        // case ActionTypes.SetFieldMapping: {
+        //     return { ...state, fieldMapping: action.payload };
+        // }
 
         case ActionTypes.ConnectionDetailsVerified: {
             return { ...state, connectionDetails: { ...state.connectionDetails, verified: true } };

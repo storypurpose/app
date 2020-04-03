@@ -8,7 +8,7 @@ export const appInitialState: App = {
     currentIssueKey: null,
 
     connectionDetails: null,
-    fieldMapping: null,
+    // fieldMapping: null,
     projects: null,
     currentProject: null
 };

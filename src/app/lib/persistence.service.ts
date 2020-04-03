@@ -6,7 +6,7 @@ const DataTypes = {
     Mode: "Mode",
     ConnectionDetails: "ConnectionDetails",
     Organization: "Organization",
-    FieldMapping: "FieldMapping",
+    // FieldMapping: "FieldMapping",
     Projects: "Projects",
     Initiatives: "Initiatives",
     HierarchyFields: "HierarchyFields"
@@ -64,34 +64,36 @@ export class PersistenceService {
     }
     //#endregion 
 
-    getFieldMapping() {
-        const payload = localStorage.getItem(DataTypes.FieldMapping);
-        const fieldMapping = JSON.parse(payload) || {
-            epicLink: { support: false, name: 'Epic Link', value: '' }
-        };
+    //#region FieldMapping
+    // getFieldMapping() {
+    //     const payload = localStorage.getItem(DataTypes.FieldMapping);
+    //     const fieldMapping = JSON.parse(payload) || {
+    //         epicLink: { support: false, name: 'Epic Link', value: '' }
+    //     };
 
-        fieldMapping.hierarchy = fieldMapping.hierarchy || { support: false, name: CustomNodeTypes.Hierarchy, list: [] };
-        fieldMapping.issueTypes = fieldMapping.issueTypes || [];
-        return fieldMapping;
+    //     fieldMapping.hierarchy = fieldMapping.hierarchy || { support: false, name: CustomNodeTypes.Hierarchy, list: [] };
+    //     fieldMapping.issueTypes = fieldMapping.issueTypes || [];
+    //     return fieldMapping;
 
-    }
-    setFieldMapping(payload) {
-        localStorage.setItem(DataTypes.FieldMapping, JSON.stringify(payload))
-    }
-    resetFieldMapping() {
-        localStorage.removeItem(DataTypes.FieldMapping);
-    }
+    // }
+    // setFieldMapping(payload) {
+    //     localStorage.setItem(DataTypes.FieldMapping, JSON.stringify(payload))
+    // }
+    // resetFieldMapping() {
+    //     localStorage.removeItem(DataTypes.FieldMapping);
+    // }
 
-    getExtendedFieldByIssueType(issueType) {
-        const customFields = this.getFieldMapping();
-        if (customFields && customFields.issueTypes && customFields.issueTypes.length > 0) {
-            const node = _.find(customFields.issueTypes, { name: issueType });
-            if (node && node.list && node.list.length > 0) {
-                return node.list;
-            }
-        }
-        return [];
-    }
+    // getExtendedFieldByIssueType(issueType) {
+    //     const customFields = this.getFieldMapping();
+    //     if (customFields && customFields.issueTypes && customFields.issueTypes.length > 0) {
+    //         const node = _.find(customFields.issueTypes, { name: issueType });
+    //         if (node && node.list && node.list.length > 0) {
+    //             return node.list;
+    //         }
+    //     }
+    //     return [];
+    // }
+    //#endregion
 
     //#region Projects
     getProjects() {

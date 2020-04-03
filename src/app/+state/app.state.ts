@@ -8,7 +8,7 @@ export interface App {
   currentIssueKey: string;
 
   connectionDetails: any;
-  fieldMapping: any;
+  // fieldMapping: any;
   projects: any;
   currentProject: any;
 }

@@ -48,7 +48,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                             if (config) {
                                 if (config.connectionDetails) ps.setConnectionDetails(config.connectionDetails);
                                 if (config.organizationDetails) ps.setOrganizationDetails(config.organizationDetails);
-                                if (config.fieldMapping) ps.setFieldMapping(config.fieldMapping);
+                                // if (config.fieldMapping) ps.setFieldMapping(config.fieldMapping);
 
                                 ms.add({
                                     severity: 'success', detail: 'Configurations loaded successfully. Setup user credentials',

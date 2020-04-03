@@ -37,9 +37,9 @@
   <app-connection-details [connectionDetails]="connectionDetails" (close)="connectionDetailsSetupCompleted($event)">
   </app-connection-details>
 </p-sidebar>
-<p-sidebar [(visible)]="showCustomFieldSetup" styleClass="ui-sidebar-md" position="right">
+<!-- <p-sidebar [(visible)]="showCustomFieldSetup" styleClass="ui-sidebar-md" position="right">
   <app-custom-fields [fieldMapping]="fieldMapping" [issueType]="issueType"
     (close)="customFieldSetupCompleted($event)"></app-custom-fields>
-</p-sidebar>
+</p-sidebar> -->
 
 <router-outlet> </router-outlet>

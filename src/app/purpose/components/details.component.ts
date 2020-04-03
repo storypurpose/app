@@ -17,9 +17,7 @@ export class PurposeDetailsComponent implements OnInit, OnDestroy {
     @Input()
     set purpose(value: any) {
         this._purpose = value;
-        if (this._purpose) {
-            this._purpose.forEach((u, i) => u.show = !(this._purpose.length - 1 === i))
-        }
+        this.showHideAllPurposes();
     }
     get purpose(): any {
         return this._purpose;
@@ -27,7 +25,7 @@ export class PurposeDetailsComponent implements OnInit, OnDestroy {
 
     @Output() edit = new EventEmitter<any>();
 
-    public showAll = true;
+    public showAll = false;
 
     public showOrganizationSetup = false;
     public organizationPurpose: any;

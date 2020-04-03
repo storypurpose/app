@@ -4,7 +4,7 @@
         <as-split direction="horizontal">
             <as-split-area size="30" class="bg-light border-right">
                 <div class="sticky-title">
-                    <app-issue-entry [showRecentlyVisited]="true"></app-issue-entry>
+                    <app-issue-entry [showRecentlyVisited]="true" [issueLookup]="issueLookup"></app-issue-entry>
                 </div>
                 <div *ngIf="treeNodes" class="pb-5">
                     <p-contextMenu #cm [model]="menulist" appendTo="body"></p-contextMenu>

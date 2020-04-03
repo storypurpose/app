@@ -114,7 +114,7 @@ export function transformToTreenode(node, issueLinks) {
     return node;
 }
 
-export function transformParentNode(node, linkRelatedIssues) {
+export function transformParentNode(node, linkedIssues) {
     if (!node.issueType) {
         populateFieldValues(node);
     }
@@ -123,11 +123,9 @@ export function transformParentNode(node, linkRelatedIssues) {
     if (node.issueType === CustomNodeTypes.Epic) {
         level1Nodes.push(createEpicChildrenNode(node));
     }
-    if (linkRelatedIssues) {
-        let issueLinks = buildIssueLinks(node);
-        if (issueLinks && issueLinks.length > 0) {
-            level1Nodes = _.concat(level1Nodes, issueLinks);
-        }
+
+    if (linkedIssues && linkedIssues.length > 0) {
+        level1Nodes = _.concat(level1Nodes, linkedIssues);
     }
 
     return transformToTreenode(node, level1Nodes);
@@ -140,7 +138,7 @@ export function createEpicChildrenNode(node: any): any {
     };
 }
 
-function buildIssueLinks(node: any) {
+export function buildIssueLinks(node: any) {
     if (node && node.fields && node.fields.issuelinks && node.fields.issuelinks.length > 0) {
         const issueLinks: any = [];
         const inwardIssues = _.filter(node.fields.issuelinks, (il) => il.inwardIssue);

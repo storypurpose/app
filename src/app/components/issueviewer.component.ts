@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { JiraService } from '../lib/jira.service';
 import {
-    transformParentNode, populateFieldValues,
+    transformParentNode, populateFieldValues, buildIssueLinks,
     findInTree, CustomNodeTypes, isCustomNode, getExtendedFieldValue, getIcon, copyFieldValues, createEpicChildrenNode
 } from '../lib/jira-tree-utils';
 import * as _ from 'lodash';
@@ -55,6 +55,8 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     currentProject: any;
     currentProjectSubscription: Subscription;
 
+    public issueLookup: any;
+
     constructor(public router: Router,
         public activatedRoute: ActivatedRoute,
         public jiraService: JiraService,
@@ -104,7 +106,6 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
             .subscribe(projects => {
                 this.projects = projects;
                 this.allProjectsHierarchyFields = _.union(_.flatten(_.map(this.projects, 'hierarchy')));
-                console.log(this.allProjectsHierarchyFields);
                 this.persistenceService.setProjects(projects);
             });
 
@@ -125,6 +126,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
                 this.jiraService.getIssueDetails(issue, _.map(extentedHierarchyFields, 'id'))
                     .pipe(filter((p: any) => p !== null && p !== undefined && p.fields))
                     .subscribe((issuedetails: any) => {
+                        this.issueLookup = [];
                         this.relatedEpic = null;
                         this.mappedEpicLinkFieldId = this.populateExtendedFields(issuedetails.fields.project);
                         let epicKey = (this.mappedEpicLinkFieldId !== '') ? issuedetails.fields[this.mappedEpicLinkFieldId] : ''
@@ -166,7 +168,12 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
         this.result = issue;
         this.showDetails = false;
         if (this.result) {
-            let node = transformParentNode(this.result, true);
+            this.issueLookup = _.union(this.issueLookup, [issue.key]);
+            const linkedIssues = buildIssueLinks(this.result);
+            if (linkedIssues && linkedIssues.length === 1 && linkedIssues[0].children, linkedIssues[0].children.length > 0) {
+                this.issueLookup = _.union(this.issueLookup, _.map(linkedIssues[0].children, 'key'));
+            }
+            let node = transformParentNode(this.result, linkedIssues);
             this.loadedIssue = node;
 
             if (this.loadedIssue.project) {
@@ -215,7 +222,8 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
         this.jiraService.executeJql(`'epic Link'=${epicKey}`, [], 'epic-children.json')
             .subscribe((data: any) => {
                 if (data && data.issues) {
-                    node.children = _.map(data.issues, (item) => transformParentNode(item, false));;
+                    node.children = _.map(data.issues, (item) => transformParentNode(item, null));;
+                    this.issueLookup = _.union(this.issueLookup, _.map(node.children, 'key'))
                     node.expanded = true;
                 }
             });

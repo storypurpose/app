@@ -1,6 +1,9 @@
 <div class=" input-group">
-  <input type="text" class="form-control rounded-0" name="issueByKeyId" [(ngModel)]="issue" autofocus
-    placeholder="Jira issue key" (keydown.enter)="navigateTo(issue)" />
+
+  <input type="text" class="form-control rounded-0" name="issueByKeyId" [(ngModel)]="issue" placeholder="Jira issue key"
+    id="typeahead-focus" type="text" [ngbTypeahead]="search" (focus)="focus$.next($any($event).target.value)"
+    (click)="click$.next($any($event).target.value)" #instance="ngbTypeahead"
+    (keydown.enter)="selectTo(issue)" (keydown.control.enter)="navigateTo(issue)" />
   <div class="input-group-append">
     <button [disabled]="!canNavigate()" class="btn btn-light bg-white border border-left-0 rounded-0" type="button"
       (click)="navigateTo(issue)">
@@ -8,19 +11,5 @@
     </button>
 
     <app-recently-viewed *ngIf="showRecentlyVisited"></app-recently-viewed>
-
   </div>
-
 </div>
-
-<!-- <div class="ml-2 input-group">
-    <div class="input-group-prepend">
-      <span class="input-group-text" id="basic-addon1">Title</span>
-    </div>
-    <input type="text" class="form-control" name="issueByTitle" [(ngModel)]="issue" placeholder="Issue title to search" />
-    <div class="input-group-append">
-      <button class="btn btn-primary" type="button" (click)="search(issue)">
-        <fa-icon icon="search"></fa-icon>
-      </button>
-    </div>
-  </div> -->

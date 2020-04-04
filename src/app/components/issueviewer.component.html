@@ -2,62 +2,62 @@
 <div class="main-container">
     <div class="body-container">
         <as-split direction="horizontal">
-            <as-split-area size="30" class="bg-light border-right">
-                <div class="sticky-title">
-                    <app-issue-entry [showRecentlyVisited]="true" [issueLookup]="issueLookup"></app-issue-entry>
+            <as-split-area size="20" style="overflow: auto;">
+                <div class="pl-5">
+                    <div class="sticky-title pt-2 pr-2 pb-1 pl-2">
+                        <app-issue-entry [showRecentlyVisited]="true" [issueLookup]="issueLookup"></app-issue-entry>
+                    </div>
+                    <div *ngIf="treeNodes" class="pb-5">
+                        <p-contextMenu #cm [model]="menulist" appendTo="body"></p-contextMenu>
+                        <p-tree [value]="treeNodes" selectionMode="single" (onNodeExpand)="loadNode($event)"
+                            [(selection)]="selectedNode" (onNodeSelect)="nodeSelected($event)" [contextMenu]="cm"
+                            (onNodeContextMenuSelect)="nodeContextMenuSelect($event.node, cm)">
+                            <ng-template let-node pTemplate="default">
+                                <div style="font-size: 90%;" [ngClass]="{'small text-muted': checkIfCustomNode(node)}"
+                                    [title]="getPrintableTitle(node)">{{node.label}}</div>
+                            </ng-template>
+                            <ng-template let-node pTemplate="Heading">
+                                <div [title]="getPrintableTitle(node)">{{node.label}}</div>
+                            </ng-template>
+                        </p-tree>
+                    </div>
                 </div>
-                <div *ngIf="treeNodes" class="pb-5">
-                    <p-contextMenu #cm [model]="menulist" appendTo="body"></p-contextMenu>
-                    <p-tree [value]="treeNodes" selectionMode="single" (onNodeExpand)="loadNode($event)"
-                        [(selection)]="selectedNode" (onNodeSelect)="nodeSelected($event)" [contextMenu]="cm"
-                        (onNodeContextMenuSelect)="nodeContextMenuSelect($event.node, cm)">
-                        <ng-template let-node pTemplate="default">
-                            <div class="mt-1" [ngClass]="{'font-italic text-muted': checkIfCustomNode(node)}"
-                                [title]="getPrintableTitle(node)">{{node.label}}</div>
-                        </ng-template>
-                        <ng-template let-node pTemplate="Heading">
-                            <h6 class="m-0">{{node.label}}</h6>
-                        </ng-template>
-                    </p-tree>
-                </div>
-
-                <app-copyright></app-copyright>
-
             </as-split-area>
 
-            <as-split-area size="70" class="split-area">
-                <div class="sticky-title pl-3 pr-3 pt-2 pb-2" *ngIf="selectedIssue">
-                    <div class="btn-group float-right">
-                        <a *ngIf="connectionDetails" class="btn btn-link text-muted" target="_blank"
-                            href="{{connectionDetails.serverUrl}}/browse/{{selectedIssue.key}}"
-                            title="Navigate to jira">
-                            <fa-icon [icon]="['fab','jira']"></fa-icon>
-                        </a>
+            <as-split-area size="80" class="split-area">
+                <div class="pt-0 pr-5 pb-2 pl-5 ">
+                    <div class="sticky-title border-bottom" *ngIf="selectedIssue">
+                        <div class="btn-group float-right">
+                            <a *ngIf="connectionDetails" class="btn btn-link text-muted" target="_blank"
+                                href="{{connectionDetails.serverUrl}}/browse/{{selectedIssue.key}}"
+                                title="Navigate to jira">
+                                <fa-icon [icon]="['fab','jira']"></fa-icon>
+                            </a>
+                        </div>
+                        <sub class="text-uppercase">{{selectedIssue.key}}</sub>
+                        <h2 class="font-weight-light mb-0">
+                            {{selectedIssue.title}}
+                        </h2>
+
+                        <div class="pb-2">
+                            <a class="btn btn-link mr-1 pl-0" [routerLink]="['purpose']" queryParamsHandling="merge"
+                                title="View purpose" [routerLinkActive]="'active'">
+                                <fa-icon icon="binoculars" size="sm"></fa-icon> Purpose
+                            </a>
+                            <a class="btn btn-link mr-1" *ngIf="hasExtendedFields" routerLink="details"
+                                queryParamsHandling="merge" [routerLinkActive]="'active'">
+                                <fa-icon icon="search-plus" size="sm"></fa-icon> Details
+                            </a>
+                            <a class="btn btn-link mr-1" *ngIf="canTrackProgress(selectedIssue)" routerLink="items"
+                                queryParamsHandling="merge" [routerLinkActive]="'active'">
+                                <fa-icon icon="tasks" size="sm"></fa-icon> Items
+                            </a>
+                        </div>
                     </div>
-                    <span class="small">{{selectedIssue.key}}</span>
-                    <h3 class="font-weight-light">
 
-                        {{selectedIssue.title}}
-                    </h3>
-
-                    <div class="pb-2 border-bottom">
-                        <a class="btn btn-sm btn-default mr-1" [routerLink]="['purpose']" queryParamsHandling="merge"
-                            title="View purpose" [routerLinkActive]="'active'">
-                            <fa-icon icon="binoculars" class="text-muted"></fa-icon> Purpose
-                        </a>
-                        <a class="btn btn-sm btn-default mr-1" *ngIf="hasExtendedFields" routerLink="details"
-                            queryParamsHandling="merge" [routerLinkActive]="'active'">
-                            <fa-icon icon="search-plus" class="text-muted"></fa-icon> Details
-                        </a>
-                        <a class="btn btn-sm btn-default mr-1" *ngIf="canTrackProgress(selectedIssue)"
-                            routerLink="items" queryParamsHandling="merge" [routerLinkActive]="'active'">
-                            <fa-icon icon="tasks" class="text-muted"></fa-icon> Items
-                        </a>
+                    <div class="pt-4">
+                        <router-outlet></router-outlet>
                     </div>
-                </div>
-
-                <div class="pl-3 pr-3 pb-4 pt-1">
-                    <router-outlet></router-outlet>
                 </div>
             </as-split-area>
         </as-split>

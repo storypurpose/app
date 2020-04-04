@@ -1,9 +1,4 @@
 <div *ngIf="purpose && purpose.length > 0">
-    <div class="mb-2" *ngIf="!organizationPurpose">
-        <button class="btn btn-link btn-light text-muted btn-sm" (click)="showOrganizationSetup = true">
-            <fa-icon icon="plus" class="font-weight-light"></fa-icon> add organization purpose
-        </button>
-    </div>
 
     <div class="border-0 pb-0 mb-2 float-left">
         <a (click)="showHideAllPurposes()" class="btn btn-light btn-sm text-muted mr-2 " title="Show/hide details">
@@ -11,6 +6,31 @@
             </fa-icon>
         </a>
     </div>
+
+
+    <div [ngClass]="{'float-left': !showOrgPurposeEditor}" *ngIf="!organizationPurpose">
+        <div class="clearfix"></div>
+        <div class="text-uppercase text-muted">
+            <a (click)="showOrgPurposeEditor = !showOrgPurposeEditor" class="btn btn-light btn-sm text-muted mr-2"
+                title="Show/hide details">
+                <fa-icon size="fw" [icon]="showOrgPurposeEditor ? 'chevron-down' : 'chevron-right'"></fa-icon>
+                <span class="small">Organization purpose</span>
+            </a>
+        </div>
+
+        <div *ngIf="showOrgPurposeEditor" class="ml-3 p-3 border-left" style="overflow:auto">
+            <div class="alert bg-light">
+
+                <div class="mb-2">Setup organization purpose here</div>
+
+                <button class="btn btn-outline-primary btn-sm" (click)="showOrganizationSetup = true">
+                    <fa-icon icon="plus" class="font-weight-light"></fa-icon> add organization purpose
+                </button>
+            </div>
+        </div>
+    </div>
+
+
     <div [ngClass]="{'float-left': !item.show}" *ngFor="let item of purpose">
         <div class="clearfix"></div>
         <div class="text-uppercase text-muted">
@@ -18,19 +38,23 @@
                 <fa-icon size="fw" [icon]="item.show ? 'chevron-down' : 'chevron-right'"></fa-icon>
                 <span class="small">{{item.issueType}} purpose</span>
             </a>
-
         </div>
 
         <div *ngIf="item.show" class="ml-3 hover-container pl-3 pr-3 border-left" style="overflow:auto"
             [ngClass]="{'readonly': !item.editable}">
-            <h5 class=" text-dark font-weight-normal">{{item.title}}
-                <a class="small text-muted ml-2 hover-button" *ngIf="item.editable" (click)="onEdit(item)">
-                    <fa-icon icon="pencil-alt" size="sm"></fa-icon>
-                </a>
-            </h5>
-            <ngx-md>
-                {{item.purpose}}
-            </ngx-md>
+            <div class="row">
+                <div class="col-md-10">
+                    <h5 class=" text-dark font-weight-normal">{{item.title}}
+                        <a class="small text-muted ml-2 hover-button" *ngIf="item.editable" (click)="onEdit(item)">
+                            <fa-icon icon="pencil-alt" size="sm"></fa-icon>
+                        </a>
+                    </h5>
+                    <ngx-md>
+                        {{item.purpose}}
+                    </ngx-md>
+
+                </div>
+            </div>
         </div>
     </div>
 </div>

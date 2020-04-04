@@ -19,16 +19,17 @@ export const CustomNodeTypes = {
 };
 
 export function getIcon(issueType) {
-    switch (issueType) {
-        case CustomNodeTypes.Organization: return "fa fa-building text-dark";
-        case CustomNodeTypes.Project: return "far fa-snowflake text-dark";
-        case CustomNodeTypes.TestSuite: return "fa fa-flask text-warning";
-        case CustomNodeTypes.Epic: return "fa fa-book text-primary";
-        case CustomNodeTypes.Story: return "fa fa-file text-info";
-        case CustomNodeTypes.Task: return "fa fa-check text-primary";
-        case CustomNodeTypes.SubTask: return "fa fa-check text-primary";
-        default: "far fa-file"
-    }
+    // switch (issueType) {
+    //     case CustomNodeTypes.Organization: return "fa fa-building fa-sm text-dark";
+    //     case CustomNodeTypes.Project: return "far fa-snowflake fa-sm text-dark";
+    //     case CustomNodeTypes.TestSuite: return "fa fa-flask fa-sm text-warning";
+    //     case CustomNodeTypes.Epic: return "fa fa-book fa-sm text-primary";
+    //     case CustomNodeTypes.Story: return "fa fa-file fa-sm text-info";
+    //     case CustomNodeTypes.Task: return "fa fa-check fa-sm text-primary";
+    //     case CustomNodeTypes.SubTask: return "fa fa-check fa-sm text-primary";
+    //     default: return "far fa-file"
+    // }
+    return '';
 }
 
 export function isCustomNode(args) {

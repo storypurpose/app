@@ -73,7 +73,6 @@ export class SubItemsComponent implements OnInit, OnDestroy {
     }
 
     public onFilterChanged(eventArgs) {
-        console.log(eventArgs);
         this.filteredItems = _.filter(this.childItems, (ci) => !this.statusFilter || this.statusFilter === "all" || ci.status === this.statusFilter);
     }
 

@@ -35,10 +35,6 @@ export class JiraService {
                 this.connectionDetails = cd;
                 this.baseUrl = `${this.connectionDetails.serverUrl}${this.restVersionEndpoint}`;
 
-                // const pwd = this.connectionDetails.authenticationType === AuthenticationModeTypes.JiraCloud
-                //     ? this.connectionDetails.password
-                //     : btoa(this.connectionDetails.password);
-
                 this.httpOptions = {
                     headers: new HttpHeaders({
                         'Content-Type': 'application/json',

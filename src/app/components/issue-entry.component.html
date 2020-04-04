@@ -1,11 +1,11 @@
 <div class=" input-group">
 
-  <input type="text" class="form-control rounded-0" name="issueByKeyId" [(ngModel)]="issue" placeholder="Jira issue key"
+  <input type="text" class="form-control rounded-0 bg-light" name="issueByKeyId" [(ngModel)]="issue" placeholder="Jira issue key"
     id="typeahead-focus" type="text" [ngbTypeahead]="search" (focus)="focus$.next($any($event).target.value)"
-    (click)="click$.next($any($event).target.value)" #instance="ngbTypeahead"
-    (keydown.enter)="selectTo(issue)" (keydown.control.enter)="navigateTo(issue)" />
+    (click)="click$.next($any($event).target.value)" #instance="ngbTypeahead" (keydown.enter)="selectTo(issue)"
+    (keydown.control.enter)="navigateTo(issue)" />
   <div class="input-group-append">
-    <button [disabled]="!canNavigate()" class="btn btn-light bg-white border border-left-0 rounded-0" type="button"
+    <button [disabled]="!canNavigate()" class="btn btn-light rounded-0 border border-left-0 " type="button"
       (click)="navigateTo(issue)">
       <fa-icon icon="search" [size]="['fw', 'sm']"></fa-icon>
     </button>

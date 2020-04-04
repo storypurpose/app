@@ -39,7 +39,6 @@ export class IssueEntryComponent implements OnInit, OnDestroy {
             const issueToNavigate = issue.trim();
             let routeCommands = [];
             const found = _.find(this.issueLookup, (i) => i === issueToNavigate);
-            console.log(found, issueToNavigate, this.issueLookup);
             if (!found) {
                 routeCommands = ['/for', issueToNavigate];
             }
@@ -59,7 +58,7 @@ export class IssueEntryComponent implements OnInit, OnDestroy {
         return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$)
             .pipe(map(term => (term === ''
                 ? this.issueLookup
-                : this.issueLookup.filter(v => v.toLowerCase().indexOf(term.toLowerCase()) > -1)).slice(0, 20))
+                : _.filter(this.issueLookup, v => v.toLowerCase().indexOf(term.toLowerCase()) > -1)).slice(0, 20))
             );
     }
 }

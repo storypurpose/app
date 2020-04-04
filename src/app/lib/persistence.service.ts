@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as _ from "lodash";
 import { CustomNodeTypes } from './jira-tree-utils';
+import * as CryptoJS from 'crypto-js';
 
 const DataTypes = {
     Mode: "Mode",
@@ -15,12 +16,22 @@ const DataTypes = {
 @Injectable({ providedIn: "root" })
 export class PersistenceService {
 
+    secretKey = "storepurpose";
+    encrypt(value: string): string {
+        return CryptoJS.AES.encrypt(value, this.secretKey).toString();
+    }
+
+    decrypt(textToDecrypt: string) {
+        return CryptoJS.AES.decrypt(textToDecrypt, this.secretKey).toString(CryptoJS.enc.Utf8);
+    }
+
     //#region Connectiondetails
     getConnectionDetails() {
         const payload = localStorage.getItem(DataTypes.ConnectionDetails);
         const connectionDetails = JSON.parse(payload);
+
         if (connectionDetails && connectionDetails.password && connectionDetails.password.length > 0) {
-            connectionDetails.encoded = btoa(`${connectionDetails.username}:${connectionDetails.password}`);
+            connectionDetails.password = this.decrypt(connectionDetails.password);
         }
         return connectionDetails;
     }
@@ -28,9 +39,9 @@ export class PersistenceService {
         return btoa(`${username}:${password}`)
     }
     setConnectionDetails(payload) {
-        // if (payload && payload.password && payload.password.length > 0) {
-        //     payload.password = btoa(payload.password);
-        // }
+        if (payload && payload.password && payload.password.length > 0) {
+            payload.password = this.encrypt(payload.password);
+        }
         localStorage.setItem(DataTypes.ConnectionDetails, JSON.stringify(payload))
     }
     resetConnectionDetails() {

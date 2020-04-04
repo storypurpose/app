@@ -170,7 +170,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
         if (this.result) {
             this.issueLookup = _.union(this.issueLookup, [issue.key]);
             const linkedIssues = buildIssueLinks(this.result);
-            if (linkedIssues && linkedIssues.length === 1 && linkedIssues[0].children, linkedIssues[0].children.length > 0) {
+            if (linkedIssues && linkedIssues.length === 1 && linkedIssues[0].children && linkedIssues[0].children.length > 0) {
                 this.issueLookup = _.union(this.issueLookup, _.map(linkedIssues[0].children, 'key'));
             }
             let node = transformParentNode(this.result, linkedIssues);
@@ -235,7 +235,6 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     nodeContextMenuSelect(args, contextMenu) {
         this.menulist = null;
         if (args) {
-            console.log('args.issueType', args.issueType);
             switch (args.menuType) {
                 case CustomNodeTypes.Organization:
                 case CustomNodeTypes.Hierarchy:
@@ -349,7 +348,9 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
                 const value = getExtendedFieldValue(node, hf.id);
                 if (value.length > 0) {
                     const extendedNode = {
-                        key: value, title: value, label: value, description: '', icon: "fa fa-share-alt", issueType: hf.name, hfKey: hf.id,
+                        key: value, title: value, label: value, description: '',
+                        // icon: "fa fa-share-alt", 
+                        issueType: hf.name, hfKey: hf.id,
                         children: [], expanded: true, editable: true, isHierarchyField: true, selectable: false, type: "Heading",
                         menuType: CustomNodeTypes.Hierarchy
                     };
@@ -387,7 +388,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
                 description: node.project.description,
                 issueType: CustomNodeTypes.Project,
                 menuType: CustomNodeTypes.Project,
-                icon: getIcon(CustomNodeTypes.Project),
+                // icon: getIcon(CustomNodeTypes.Project),
                 expanded: true,
                 selectable: false
             };
@@ -423,7 +424,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
                 type: "Heading",
                 menuType: CustomNodeTypes.Organization,
                 issueType: CustomNodeTypes.Organization,
-                icon: getIcon(CustomNodeTypes.Organization),
+                // icon: getIcon(CustomNodeTypes.Organization),
                 expanded: true,
                 editable: true,
                 selectable: false

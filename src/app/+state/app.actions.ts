@@ -67,7 +67,7 @@ export type Actions =
     ShowConnectionEditorAction
     | ShowCustomFieldEditorAction
     | ShowProjectConfigEditorAction
-    
+
     | SetCurrentIssueKeyAction
     | SetModeAction
 

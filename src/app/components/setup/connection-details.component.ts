@@ -1,14 +1,11 @@
-import { Component, OnInit, Output, EventEmitter, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { JiraService, AuthenticationModeTypes } from '../../lib/jira.service';
 import * as _ from 'lodash';
 import { PersistenceService } from 'src/app/lib/persistence.service';
-import { environment } from '../../../environments/environment';
 import { MessageService } from 'primeng/api';
-import { filter } from 'rxjs/operators';
 import { AppState } from 'src/app/+state/app.state';
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
-import { SetConnectionDetailsAction, ConnectionDetailsVerifiedAction } from 'src/app/+state/app.actions';
+import { SetConnectionDetailsAction } from 'src/app/+state/app.actions';
 
 @Component({
     selector: 'app-connection-details',
@@ -30,7 +27,6 @@ export class ConnectionDetailsComponent implements OnInit {
 
     ngOnInit() {
         this.connectionDetails = this.connectionDetails || {};
-        // this.connectionDetails.authenticationType = AuthenticationModeTypes.JiraCloud;
     }
 
     canSave() {
@@ -48,7 +44,6 @@ export class ConnectionDetailsComponent implements OnInit {
     }
 
     testConnection() {
-        console.log(this.connectionDetails);
         this.jiraService.testConnection(this.connectionDetails)
             .subscribe((result: any) => {
                 this.connectionDetails.displayName = result.displayName;

@@ -1,32 +1,36 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
-  <a class="navbar-brand" routerLink="/about">
-    <fa-icon icon="sitemap"></fa-icon> <b class="ml-1">Purpose</b>
-  </a>
-  <button class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse"
-    (click)="isNavbarCollapsed = !isNavbarCollapsed" data-target="#navbarsDefault" aria-controls="navbarsDefault"
-    aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div [ngbCollapse]="isNavbarCollapsed" class="collapse navbar-collapse" id="navbarsDefault">
+<nav class="navbar navbar-expand-md fixed-top">
+  <div class="container-fluid">
+    <a class=" text-muted h4 font-weight-light" routerLink="/about">
+      <fa-icon icon="sitemap" size="sm"></fa-icon> <b class="ml-2">Purpose</b>
+    </a>
+    <button class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse"
+      (click)="isNavbarCollapsed = !isNavbarCollapsed" data-target="#navbarsDefault" aria-controls="navbarsDefault"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div [ngbCollapse]="isNavbarCollapsed" class="collapse navbar-collapse" id="navbarsDefault">
+      <ui-switch [title]="isOnlineMode ? 'Online mode': 'Offline mode'" class="nav-link" [(ngModel)]="isOnlineMode"
+        (change)="onModeChange($event)" size="small">
+      </ui-switch>
 
-    <ul class="navbar-nav ml-auto">
-      <li class="navbar-text active"
-        *ngIf="connectionDetails && connectionDetails.displayName && connectionDetails.displayName.length > 0">
-        <fa-icon icon="user" class=" mr-1"></fa-icon>
-        {{connectionDetails.displayName}}
-      </li>
-      <li class="nav-item">
-        <a class="nav-link active" (click)="showConnectionEditor = true">
-          <fa-icon icon="cog" size="lg"></fa-icon>
-        </a>
-      </li>
-      <li class="nav-item" *ngIf="allowOfflineMode">
-        <ui-switch [title]="isOnlineMode ? 'Online mode': 'Offline mode'" class="nav-link" [(ngModel)]="isOnlineMode"
-          (change)="onModeChange($event)" size="small">
-        </ui-switch>
-      </li>
-    </ul>
+      <ul class="navbar-nav ml-auto">
+        <li class="navbar-text  text-muted"
+          *ngIf="connectionDetails && connectionDetails.displayName && connectionDetails.displayName.length > 0">
+          <fa-icon icon="user" class=" mr-1"></fa-icon>
+          <!-- {{connectionDetails.displayName}} -->
+        </li>
+        <li class="nav-item">
+          <a class="nav-link ml-2 text-muted" (click)="showConnectionEditor = true">
+            <fa-icon [icon]="['far', 'sun']"></fa-icon>
+          </a>
+        </li>
+        <li class="nav-item">
+          <app-copyright></app-copyright>
+        </li>
+      </ul>
+    </div>
   </div>
+
 </nav>
 
 <ngx-loading-bar color="#FF8000" height="4pt" [includeSpinner]="false"></ngx-loading-bar>
@@ -37,9 +41,5 @@
   <app-connection-details [connectionDetails]="connectionDetails" (close)="connectionDetailsSetupCompleted($event)">
   </app-connection-details>
 </p-sidebar>
-<!-- <p-sidebar [(visible)]="showCustomFieldSetup" styleClass="ui-sidebar-md" position="right">
-  <app-custom-fields [fieldMapping]="fieldMapping" [issueType]="issueType"
-    (close)="customFieldSetupCompleted($event)"></app-custom-fields>
-</p-sidebar> -->
 
 <router-outlet> </router-outlet>

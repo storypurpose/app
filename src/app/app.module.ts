@@ -12,7 +12,6 @@ import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 
 import { SidebarModule } from 'primeng/sidebar';
 import { TreeModule } from 'primeng/tree';
-import { EpicListComponent } from './components/obsolete/epiclist.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SliderModule } from 'primeng/slider';
 import { SubItemsComponent } from './components/sub-items.component';
@@ -22,7 +21,7 @@ import { AngularSplitModule } from 'angular-split';
 import { PageNotFoundComponent } from './components/page-not-found.component';
 import { IssueviewerComponent } from './components/issueviewer.component';
 import { IssueEntryComponent } from './components/issue-entry.component';
-import { MappingListComponent } from './components/setup/mapping-list.component';
+
 import { NodeTemplateComponent } from './components/node-template.component';
 import { DisqusModule } from "ngx-disqus";
 import { NgxMdModule } from 'ngx-md';
@@ -58,12 +57,12 @@ import { FieldSelectorListComponent } from './components/setup/field-selector-li
 
     NodeTemplateComponent,
 
-    AppComponent, PageNotFoundComponent, EpicListComponent,
+    AppComponent, PageNotFoundComponent,
     IssueviewerComponent, ExtendedFieldsComponent,
     SubItemsComponent, IssueEntryComponent, RecentlyViewedComponent,
 
-    ConnectionDetailsComponent, ProjectConfigComponent,//CustomFieldsComponent,
-    MappingListComponent, FieldSelectorListComponent
+    ConnectionDetailsComponent, ProjectConfigComponent,
+    FieldSelectorListComponent
   ],
   imports: [
     BrowserModule,

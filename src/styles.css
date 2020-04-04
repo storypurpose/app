@@ -17,26 +17,14 @@ a {
 
 ::-webkit-scrollbar-thumb {
   background-color: #ddd;
-  border-color: #999;
+  border-color: #888;
   border-radius: 4pt;
 }
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
 }
 
-body .ui-tree {
-  border-width: 0;
-  width: 100%;
-  background-color: inherit !important;
-  padding: 0;
-}
-.ui-tree .ui-tree-container {
-  white-space: normal !important;
-}
-body .ui-tree .ui-tree-container .ui-treenode .ui-treenode-content .ui-tree-toggler {
-  color: #bbb;
-}
 .custom-shadow {
   box-shadow: 0 0 6px #bbb;
   border: 1px solid #ccc;
@@ -50,12 +38,30 @@ body .custom-node {
   border-radius: 0 0 4px 4px;
   border-top: solid 4px #fff;
 }
+body .ui-tree {
+  border-width: 0;
+  width: 100%;
+  background-color: inherit !important;
+  padding: 0;
+}
+.ui-tree .ui-tree-container {
+  white-space: normal !important;
+}
+body .ui-tree .ui-tree-container .ui-treenode {
+  padding: 0 1pt;
+}
+.ui-tree .ui-treenode-children {
+  padding-left: 5pt;
+}
+body .ui-tree .ui-tree-container .ui-treenode .ui-treenode-content .ui-treenode-label {
+  padding: 0 0.186em;
+}
 
 body .ui-tree .ui-tree-container .ui-treenode .ui-treenode-content .ui-treenode-label.ui-state-highlight {
   background-color: #d9ebff;
   color: #000;
   border-radius: 0 10pt 10pt 0;
-  padding-right: 10pt;
+  padding: 0 10pt 0 2pt;
 }
 body .ui-tree.ui-tree-horizontal .ui-treenode .ui-treenode-content.ui-state-highlight .custom-node,
 .ui-treenode-content-selected {
@@ -70,6 +76,28 @@ body .ui-tree.ui-tree-horizontal .ui-treenode .ui-treenode-content.ui-state-high
 body .ui-tree.ui-tree-horizontal .ui-treenode .ui-treenode-content {
   border-width: 0;
 }
+
+/* body .ui-tree .ui-tree-container .ui-treenode .ui-treenode-content .ui-tree-toggler {
+  color: #bbb;
+} */
+.pi-caret-down:before {
+  content: "\e930";
+  /* content: "\e902"; */
+}
+.pi-caret-right:before {
+  content: "\e932";
+  /* content: "\e901"; */
+}
+body .ui-tree .ui-tree-container {
+  overflow: inherit;
+}
+body .ui-tree .ui-tree-container .ui-treenode .ui-treenode-content {
+  white-space: nowrap;
+}
+body .ui-tree .ui-tree-container .ui-treenode .ui-treenode-content:focus {
+  box-shadow: none;
+}
+
 body .ui-sidebar {
   padding: 0;
   box-shadow: 0 0 16px 0 #444;
@@ -89,11 +117,11 @@ body .ui-sidebar {
   box-shadow: 0 2px 4px #666;
 }
 .pane-header h4 {
-  margin-bottom: 0;
+  /* margin-bottom: 0; */
 }
 .pane-body {
-  top: 32pt;
-  height: calc(100% - 64pt);
+  top: 40pt;
+  height: calc(100% - 72pt);
   position: absolute;
   width: 100%;
   margin: 0;
@@ -117,21 +145,13 @@ body .ui-sidebar {
 .body-container {
   position: absolute;
   width: 100%;
-  top: 30pt;
-  height: calc(100% - 32pt);
-  overflow: hidden;
-  /* background-color: #f8f9fa; */
-}
-.footer-container {
-  position: fixed;
-  width: 100%;
-  bottom: 0;
-  height: 30pt;
+  top: 48pt;
+  height: calc(100% - 50pt);
   overflow: hidden;
 }
 
 .app-copyright {
-  bottom: 0;
+  bottom: 8pt;
   left: 0;
   position: absolute;
 }
@@ -139,6 +159,9 @@ body .ui-sidebar {
   background-color: transparent !important;
   /* background-color: #f8f9fa; */
   flex-basis: 8px !important;
+}
+.as-split-gutter-icon {
+  background-image: none !important;
 }
 
 .as-split-area:hover ::-webkit-scrollbar-thumb {
@@ -182,7 +205,7 @@ body .ui-toast .ui-toast-message.ui-toast-message-error {
   color: #fff;
 }
 .navbar {
-  padding: 0 8pt;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.23);
 }
 
 .sticky-title {
@@ -222,12 +245,6 @@ body .ui-toast .ui-toast-message.ui-toast-message-error {
   display: block;
 }
 
-body .ui-tree .ui-tree-container .ui-treenode .ui-treenode-content {
-  white-space: nowrap;
-}
-body .ui-tree .ui-tree-container .ui-treenode .ui-treenode-content:focus {
-  box-shadow: none;
-}
 .btn:focus,
 .btn-outline-info:focus {
   box-shadow: none !important;

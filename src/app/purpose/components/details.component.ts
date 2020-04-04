@@ -29,6 +29,7 @@ export class PurposeDetailsComponent implements OnInit, OnDestroy {
 
     public showOrganizationSetup = false;
     public organizationPurpose: any;
+    public showOrgPurposeEditor = false;
 
     public showHierarchyFieldSetup = false;
     public hierarchyFieldPurpose: any;

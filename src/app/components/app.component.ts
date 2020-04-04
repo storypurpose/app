@@ -80,10 +80,6 @@ export class AppComponent implements OnInit, OnDestroy {
       .subscribe(p => this.isOnlineMode = p && p === ModeTypes.Online);
     this.connectionDetailsSubscription = this.store$.select(p => p.app.connectionDetails)
       .subscribe(p => this.connectionDetails = p);
-    // this.fieldMappingSubscription = this.store$.select(p => p.app.fieldMapping)
-    //   .subscribe(p => this.fieldMapping = p);
-
-    // this.initiatizeFieldMappingState(this.persistenceService.getFieldMapping());
     this.initiatizeConnectionDetailsState(this.persistenceService.getConnectionDetails());
     this.initiatizeModeState(this.persistenceService.getMode());
     this.initiatizeProjectState(this.persistenceService.getProjects());
@@ -95,7 +91,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.modeSubscription ? this.modeSubscription.unsubscribe() : null;
 
     this.connectionDetailsSubscription ? this.connectionDetailsSubscription.unsubscribe() : null;
-    // this.fieldMappingSubscription ? this.fieldMappingSubscription.unsubscribe() : null;
   }
 
   navigateTo(issue) {
@@ -127,16 +122,11 @@ export class AppComponent implements OnInit, OnDestroy {
   }
   initiatizeConnectionDetailsState(details) {
     if (details) {
-      this.persistenceService.setConnectionDetails(details);
       this.store$.dispatch(new SetConnectionDetailsAction(details));
+      this.persistenceService.setConnectionDetails(details);
     }
   }
-  // initiatizeFieldMappingState(details) {
-  //   if (details) {
-  //     this.persistenceService.setFieldMapping(details);
-  //     this.store$.dispatch(new SetFieldMappingAction(details));
-  //   }
-  // }
+
   initiatizeProjectState(projects) {
     if (projects) {
       this.store$.dispatch(new LoadProjectsAction(projects));

@@ -1,12 +1,12 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-import { JiraService } from '../lib/jira.service';
-import { flattenNodes, appendExtendedFields } from '../lib/jira-tree-utils';
+import { JiraService } from '../../lib/jira.service';
+import { flattenNodes, appendExtendedFields } from '../../lib/jira-tree-utils';
 import * as _ from 'lodash';
 import { filter, map } from 'rxjs/operators';
-import { PersistenceService } from '../lib/persistence.service';
+import { PersistenceService } from '../../lib/persistence.service';
 import { Subscription, combineLatest } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { AppState } from '../+state/app.state';
+import { AppState } from '../../+state/app.state';
 
 @Component({
     selector: 'app-sub-items',

@@ -1,12 +1,15 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { PageNotFoundComponent } from './components/page-not-found.component';
-import { IssueviewerComponent } from './components/issueviewer.component';
 import { AboutComponent } from './components/help/about.component';
 import { WorkspaceComponent } from './components/workspace.component';
-import { SubItemsComponent } from './components/sub-items.component';
+
+import { IssueviewerComponent } from './components/issueviewer.component';
+
+import { SubItemsComponent } from './purpose/components/sub-items.component';
 import { PurposeDetailsComponent } from './purpose/components/details.component';
-import { ExtendedFieldsComponent } from './components/extended-fields.component';
+import { ExtendedFieldsComponent } from './purpose/components/extended-fields.component';
+import { SelectedItemComponent } from './purpose/components/selected-item.component';
 
 
 const routes: Routes = [
@@ -15,9 +18,13 @@ const routes: Routes = [
     path: 'for', component: WorkspaceComponent, children: [
       {
         path: ':issue', component: IssueviewerComponent, children: [
-          { path: 'items', component: SubItemsComponent },
-          { path: 'details', component: ExtendedFieldsComponent },
-          { path: 'purpose', component: PurposeDetailsComponent },
+          {
+            path: 'selected/:selected', component: SelectedItemComponent, children: [
+              { path: 'items', component: SubItemsComponent },
+              { path: 'details', component: ExtendedFieldsComponent },
+              { path: 'purpose', component: PurposeDetailsComponent },
+            ]
+          },
           { path: '', component: PurposeDetailsComponent, pathMatch: 'full' }
         ]
       },

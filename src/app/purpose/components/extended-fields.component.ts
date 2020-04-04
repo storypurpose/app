@@ -3,7 +3,7 @@ import * as _ from 'lodash';
 import { filter, map } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { AppState } from '../+state/app.state';
+import { AppState } from '../../+state/app.state';
 
 @Component({
     selector: 'app-extended-fields',

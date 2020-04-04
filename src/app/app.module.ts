@@ -14,7 +14,6 @@ import { SidebarModule } from 'primeng/sidebar';
 import { TreeModule } from 'primeng/tree';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SliderModule } from 'primeng/slider';
-import { SubItemsComponent } from './components/sub-items.component';
 import { ConnectionDetailsComponent } from './components/setup/connection-details.component';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { AngularSplitModule } from 'angular-split';
@@ -22,7 +21,6 @@ import { PageNotFoundComponent } from './components/page-not-found.component';
 import { IssueviewerComponent } from './components/issueviewer.component';
 import { IssueEntryComponent } from './components/issue-entry.component';
 
-import { NodeTemplateComponent } from './components/node-template.component';
 import { DisqusModule } from "ngx-disqus";
 import { NgxMdModule } from 'ngx-md';
 import { ErrorHandlingInterceptor } from './lib/error-handling.interceptor';
@@ -42,7 +40,6 @@ import { RecentlyViewedComponent } from './components/recently-viewed.component'
 
 import { appInitialState } from './+state/app.init';
 import { appReducer } from './+state/app.reducer';
-import { ExtendedFieldsComponent } from './components/extended-fields.component';
 import { UiSwitchModule } from 'ngx-ui-switch';
 import { CommonComponentsModule } from './common-components/common-components.module';
 import { CopyrightComponent } from './components/help/copyright.component';
@@ -55,11 +52,10 @@ import { FieldSelectorListComponent } from './components/setup/field-selector-li
   declarations: [
     AboutComponent, CopyrightComponent, WorkspaceComponent, FooterComponent,
 
-    NodeTemplateComponent,
-
     AppComponent, PageNotFoundComponent,
-    IssueviewerComponent, ExtendedFieldsComponent,
-    SubItemsComponent, IssueEntryComponent, RecentlyViewedComponent,
+    IssueviewerComponent,
+
+    IssueEntryComponent, RecentlyViewedComponent,
 
     ConnectionDetailsComponent, ProjectConfigComponent,
     FieldSelectorListComponent

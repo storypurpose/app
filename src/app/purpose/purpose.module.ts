@@ -13,11 +13,17 @@ import { OrganizationComponent } from './components/organization.component';
 import { CommonComponentsModule } from '../common-components/common-components.module';
 import { FormsModule } from '@angular/forms';
 import { SidebarModule } from 'primeng/sidebar';
+import { SubItemsComponent } from './components/sub-items.component';
+import { ExtendedFieldsComponent } from './components/extended-fields.component';
+import { IssueviewerComponent } from '../components/issueviewer.component';
+import { SelectedItemComponent } from './components/selected-item.component';
 
 
 
 @NgModule({
-  declarations: [PurposeDetailsComponent,
+  declarations: [
+    SelectedItemComponent,
+    PurposeDetailsComponent, SubItemsComponent, ExtendedFieldsComponent,
     OrganizationComponent, HierarchyFieldEditorComponent
   ],
   imports: [

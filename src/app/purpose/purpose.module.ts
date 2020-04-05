@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import { purposeInitialState } from './+state/purpose.init';
 import { purposeReducer } from './+state/purpose.reducer';
-import { PurposeDetailsComponent } from './components/details.component';
+import { PurposeDetailsComponent } from './components/purpose.component';
 import { NgxMdModule } from 'ngx-md';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RecentlyViewedComponent } from '../components/recently-viewed.component';
@@ -16,13 +16,13 @@ import { SidebarModule } from 'primeng/sidebar';
 import { SubItemsComponent } from './components/sub-items.component';
 import { ExtendedFieldsComponent } from './components/extended-fields.component';
 import { IssueviewerComponent } from '../components/issueviewer.component';
-import { SelectedItemComponent } from './components/selected-item.component';
+import { SelectedItemContainerComponent } from './components/container.component';
 
 
 
 @NgModule({
   declarations: [
-    SelectedItemComponent,
+    SelectedItemContainerComponent,
     PurposeDetailsComponent, SubItemsComponent, ExtendedFieldsComponent,
     OrganizationComponent, HierarchyFieldEditorComponent
   ],

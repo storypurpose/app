@@ -1,0 +1,38 @@
+<div class="sticky-title pb-3" *ngIf="selectedItem">
+    <div class="border-bottom ">
+        <div>
+            <div class="float-right small">
+                <span class="small text-muted">FIX VERSION: </span>
+                <span class="badge badge-light ml-1" *ngFor="let fv of selectedItem.fixVersions">{{fv}}</span>
+            </div>
+            <sub class="text-uppercase mr-2">{{selectedItem.key}}</sub>
+            <sub
+                class="badge badge-light small text-muted text-uppercase font-weight-normal">{{selectedItem.status}}</sub>
+        </div>
+        <h2 class="font-weight-light">
+            {{selectedItem.title}}
+        </h2>
+        <div class="small" *ngIf="selectedItem.labels && selectedItem.labels.length > 0">
+            <span class="mr-1 pl-1 pr-1 bg-light text-muted rounded"
+                *ngFor="let fv of selectedItem.labels">{{fv}}</span>
+        </div>
+        <div class="pb-2">
+            <a class="btn btn-link mr-1 pl-0" [routerLink]="['purpose']" title="View purpose"
+                [routerLinkActive]="'active'">
+                <fa-icon [icon]="['far', 'lightbulb']" size="sm"></fa-icon> Purpose
+            </a>
+            <a class="btn btn-link mr-1" *ngIf="selectedItem.extendedFields && selectedItem.extendedFields.length > 0"
+                routerLink="details" [routerLinkActive]="'active'">
+                <fa-icon [icon]="['far', 'list-alt']" size="sm"></fa-icon> Details
+            </a>
+            <a class="btn btn-link mr-1" routerLink="items" [routerLinkActive]="'active'">
+                <fa-icon icon="list-ol" size="sm"></fa-icon> Sub items
+            </a>
+        </div>
+    </div>
+</div>
+<!-- <pre>{{selectedItem | json}}</pre> -->
+
+<div>
+    <router-outlet></router-outlet>
+</div>

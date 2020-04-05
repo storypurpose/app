@@ -21,7 +21,7 @@ export class JiraService {
     baseUrl = "https://storypurpose.atlassian.net/";
     restVersionEndpoint = "/rest/api/latest";
     fieldList = ['project', 'reporter', 'assignee', 'status', 'summary', 'key', 'issuelinks', 'issuetype', 'parent'];
-    detailFields = ['description', 'components', 'labels'];
+    detailFields = ['description', 'components', 'labels', 'fixVersions'];
     httpOptions: any;
 
     staticFileLocation = './staticfiles';
@@ -64,7 +64,7 @@ export class JiraService {
         if (this.isOnlineMode === false) {
             return this.http.get(`${this.staticFileLocation}/${keyId.toLowerCase()}.json`, this.httpOptions)
         }
-        const fieldCodes = _.join(_.concat(this.fieldList, extendedFields));
+        const fieldCodes = _.join(_.concat(this.fieldList, this.detailFields, extendedFields));
         const url = `issue/${keyId}?fields=${fieldCodes}`;
         return this.http.get(`${this.proxyurl}/${this.baseUrl}/${url}`, this.httpOptions);
     }

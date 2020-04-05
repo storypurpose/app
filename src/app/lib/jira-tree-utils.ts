@@ -52,8 +52,12 @@ export function populateFieldValues(node) {
         node.status = node.fields.status ? node.fields.status.name : 'unknown';
         node.label = _.truncate(node.fields.summary, { length: MAX_LENGTH });
         node.title = node.fields.summary;
-        node.description = node.fields.description;
         node.icon = getIcon(node.issueType);
+
+        node.description = node.fields.description;
+        node.labels = node.fields.labels;
+        node.components = _.map(node.fields.components, 'name');
+        node.fixVersions = _.map(node.fields.fixVersions, 'name');
     }
     return node;
 }
@@ -71,6 +75,11 @@ export function copyFieldValues(src, dest) {
     dest.title = src.title;
     dest.description = src.description;
     dest.icon = src.icon;
+
+    dest.description = src.description;
+    dest.components = src.components;
+    dest.labels = src.labels;
+    dest.fixVersions = src.fixVersions;
 }
 
 

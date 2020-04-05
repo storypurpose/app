@@ -1,14 +1,24 @@
-<div *ngIf="issue" class="w-75">
-    <div *ngIf="!issue.extendedFields || issue.extendedFields.length === 0">
-        <fa-icon class="text-info" icon="exclamation-triangle"></fa-icon> There are no extended fields.
-    </div>
+<div class="row">
+    <div class="col-md-10">
+        <div *ngIf="issue">
+            <div *ngIf="!issue.extendedFields || issue.extendedFields.length === 0">
+                <fa-icon class="text-info" icon="exclamation-triangle"></fa-icon> There are no extended fields.
+            </div>
 
-    <div class="table" *ngIf="issue.extendedFields && issue.extendedFields.length > 0">
-        <div class="row border-bottom mb-2 pb-2" *ngFor="let ef of issue.extendedFields">
-            <div class="col-md-2">{{ef.name}}</div>
-            <div class="col-md-10">
-                <ngx-md> {{ef.value}} </ngx-md>
+            <div class="list-group list-group-flush" *ngIf="issue.extendedFields && issue.extendedFields.length > 0">
+                <div class="list-group-item" *ngFor="let ef of issue.extendedFields">
+                    <div class="row ">
+                        <div class="col-md-2 small text-muted text-uppercase">{{ef.name}}</div>
+                        <div class="col-md-10" [ngClass]="{'small': fontSizeSmall}">
+                            <ngx-md> {{ef.value}} </ngx-md>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+    </div>
+    <div class="col-md-2 text-right">
+        <button class="btn btn-light btn-sm mr-2" [disabled]="fontSizeSmall" (click)="fontSizeSmall = true">A</button>
+        <button class="btn btn-light" [disabled]="!fontSizeSmall" (click)="fontSizeSmall = false">A</button>
     </div>
 </div>

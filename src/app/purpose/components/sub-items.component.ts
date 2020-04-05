@@ -24,6 +24,8 @@ export class SubItemsComponent implements OnInit, OnDestroy {
 
     statusStats: any;
     statusFilter = "all";
+    issueTypeStats: any;
+    issueTypeFilter = "all";
 
     issueSubscription: Subscription;
     projectsSubscription: Subscription;
@@ -34,7 +36,7 @@ export class SubItemsComponent implements OnInit, OnDestroy {
 
     }
     ngOnInit(): void {
-        const issue$ = this.store$.select(p => p.purpose.recentmostItem).pipe(filter(p => p));
+        const issue$ = this.store$.select(p => p.purpose.selectedItem).pipe(filter(p => p));
         const projects$ = this.store$.select(p => p.app.projects);
         this.issueSubscription = combineLatest(issue$, projects$)
             .subscribe(([issue, projects]) => {
@@ -50,7 +52,6 @@ export class SubItemsComponent implements OnInit, OnDestroy {
 
     loadDetails(issue) {
         if (issue.project && issue.project.subTaskIssueTypes && issue.project.subTaskIssueTypes.length > 0) {
-            this.statusStats = { abhi: 100, jeet: 200 }
 
             const subTaskIssueTypes = _.join(_.map(issue.project.subTaskIssueTypes, (ff) => `'${ff.name}'`), ',');
             const extendedFields = _.spread(_.union)(_.map(issue.project.subTaskIssueTypes, 'list'));
@@ -65,15 +66,22 @@ export class SubItemsComponent implements OnInit, OnDestroy {
                     this.childItems.forEach(u => u.hideExtendedFields = true);
                     appendExtendedFields(this.childItems, extendedFields);
 
-                    this.onFilterChanged('all');
-                    const resultSet = _.mapValues(_.groupBy(_.map(this.childItems, 'status')), (s) => s.length);
-                    this.statusStats = Object.keys(resultSet).map((key) => { return { key, count: resultSet[key] } });
+                    this.onFilterChanged();
+                    const statusResultSet = _.mapValues(_.groupBy(_.map(this.childItems, 'status')), (s) => s.length);
+                    this.statusStats = Object.keys(statusResultSet).map((key) => { return { key, count: statusResultSet[key] } });
+
+                    const issueTypeResultSet = _.mapValues(_.groupBy(_.map(this.childItems, 'issueType')), (s) => s.length);
+                    this.issueTypeStats = Object.keys(issueTypeResultSet).map((key) => { return { key, count: issueTypeResultSet[key] } });
                 });
         }
     }
 
-    public onFilterChanged(eventArgs) {
-        this.filteredItems = _.filter(this.childItems, (ci) => !this.statusFilter || this.statusFilter === "all" || ci.status === this.statusFilter);
+    public onFilterChanged() {
+        this.filteredItems = _.filter(this.childItems,
+            (ci) => (!this.statusFilter || this.statusFilter === "all" || ci.status === this.statusFilter) &&
+                (!this.issueTypeFilter || this.issueTypeFilter === "all" || ci.issueType === this.issueTypeFilter))
+
+        this.filteredItems = _.orderBy(this.filteredItems, 'issueType');
     }
 
     showHideExtendedFields() {

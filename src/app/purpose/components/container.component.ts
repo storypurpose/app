@@ -5,26 +5,28 @@ import { filter, map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { CustomNodeTypes, searchTreeByKey, copyFieldValues, populateFieldValues, searchTreeByIssueType } from 'src/app/lib/jira-tree-utils';
 import { PersistenceService } from 'src/app/lib/persistence.service';
-import { SetPurposeAction } from '../+state/purpose.actions';
+import { SetPurposeAction, SetSelectedItemAction } from '../+state/purpose.actions';
 import { ActivatedRoute } from '@angular/router';
 import { AppState } from 'src/app/+state/app.state';
 import { getExtendedFields } from 'src/app/lib/project-config.utils';
 import { JiraService } from 'src/app/lib/jira.service';
 
 @Component({
-    selector: 'app-selected-item',
-    templateUrl: './selected-item.component.html'
+    selector: 'app-container',
+    templateUrl: './container.component.html'
 })
-export class SelectedItemComponent implements OnInit, OnDestroy {
+export class SelectedItemContainerComponent implements OnInit, OnDestroy {
 
     issueQuery$: Observable<any>;
     paramsQuery$: Observable<any>;
     projectsQuery$: Observable<any>;
 
     combined$: Subscription;
+    selectedItem$: Subscription;
 
     purpose: any;
     projects: any;
+    selectedItem: any;
 
     constructor(public activatedRoute: ActivatedRoute,
         public persistenceService: PersistenceService,
@@ -33,30 +35,47 @@ export class SelectedItemComponent implements OnInit, OnDestroy {
     ) {
     }
     ngOnInit(): void {
+
+        this.selectedItem$ = this.store$.select(p => p.purpose.selectedItem).pipe(filter(p => p))
+            .subscribe(p => this.selectedItem = p);
+
         this.issueQuery$ = this.store$.select(p => p.app.hierarchicalIssue).pipe(filter(issue => issue));
         this.paramsQuery$ = this.activatedRoute.params.pipe(filter(p => p && p["selected"] && p["selected"].length > 0), map(p => p["selected"]));
         this.projectsQuery$ = this.store$.select(p => p.app.projects).pipe(filter(p => p))
 
         this.combined$ = combineLatest(this.issueQuery$, this.paramsQuery$, this.projectsQuery$)
-            .subscribe(([hierarchicalIssue, selectedItem, projects]) => {
+            .subscribe(([hierarchicalIssue, rpSelected, projects]) => {
                 this.projects = projects;
                 const currentProject = searchTreeByIssueType(hierarchicalIssue, CustomNodeTypes.Project);
-                const selectedNode = searchTreeByKey(hierarchicalIssue, selectedItem);
+                const selectedNode = searchTreeByKey(hierarchicalIssue, rpSelected);
                 if (currentProject && selectedNode) {
                     selectedNode.extendedFields = getExtendedFields(this.projects, currentProject.key, selectedNode.issueType);
-                    this.jiraService.getIssueDetails(selectedItem, _.map(selectedNode.extendedFields, 'id'))
+                    const fieldList = _.map(selectedNode.extendedFields, 'id');
+                    this.jiraService.getIssueDetails(rpSelected, fieldList)
                         .pipe(filter((p: any) => p !== null && p !== undefined && p.fields))
                         .subscribe((issuedetails: any) => {
-                            console.log('issuedetails', issuedetails);
+
+                            copyFieldValues(populateFieldValues(issuedetails), selectedNode);
+
+                            selectedNode.extendedFields = _.map(selectedNode.extendedFields, (ef) => {
+                                ef.value = issuedetails.fields[ef.id];
+                                return ef;
+                            });
+
+                            const temp = _.pick(selectedNode,
+                                ['key', 'label', 'title', 'issueType', 'project', 'status', 'description', 'components', 'labels', 'fixVersions', 'extendedFields']);
+
+                            this.store$.dispatch(new SetSelectedItemAction(temp));
                         });
 
                 }
-                this.markIssueSelected(selectedNode);
+                setTimeout(() => this.markIssueSelected(selectedNode), 500);
             })
     }
 
     ngOnDestroy(): void {
-        this.combined$ ? this.combined$ : null;
+        this.combined$ ? this.combined$.unsubscribe() : null;
+        this.selectedItem$ ? this.selectedItem$.unsubscribe() : null;
     }
 
     private markIssueSelected(node: any) {

@@ -99,15 +99,6 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
                 this.persistenceService.setProjects(projects);
             });
 
-        // this.activatedRoute.queryParams.pipe(filter(p => p && p["selected"] && p["selected"].length > 0), map(p => p["selected"]))
-        //     .subscribe(selected => {
-        //         this.qpSelected = selected;
-        //         if (this.treeNodes && this.treeNodes.length === 1) {
-        //             this.selectedNode = findInTree(this.treeNodes[0], selected);
-        //             this.markIssueSelected(this.selectedNode);
-        //         }
-        //     })
-
         this.activatedRoute.params.pipe(filter(p => p && p["issue"] && p["issue"].length > 0), map(p => p["issue"]))
             .subscribe(issue => {
                 this.store$.dispatch(new SetCurrentIssueKeyAction(issue));
@@ -212,7 +203,9 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
         this.masterMenulist = [
             {
                 label: 'Browse', icon: 'fa fa-external-link-alt', menuType: CustomNodeTypes.Issue,
-                command: (args) => (args.item && args.item.data) ? this.router.navigate(['/for', args.item.data.key]) : null
+                command: (args) => (args.item && args.item.data)
+                    ? this.router.navigate(['/for', args.item.data.key, 'selected', args.item.data.key, 'purpose'])
+                    : null
             },
             {
                 label: 'Configure', icon: 'far fa-sun', menuType: CustomNodeTypes.Organization,

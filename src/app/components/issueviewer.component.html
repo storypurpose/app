@@ -28,38 +28,7 @@
 
             <as-split-area size="80" class="split-area">
                 <div class="pt-0 pr-5 pb-2 pl-5 ">
-                    <div class="sticky-title border-bottom" *ngIf="selectedIssue">
-                        <div class="btn-group float-right">
-                            <a *ngIf="connectionDetails" class="btn btn-link text-muted" target="_blank"
-                                href="{{connectionDetails.serverUrl}}/browse/{{selectedIssue.key}}"
-                                title="Navigate to jira">
-                                <fa-icon [icon]="['fab','jira']"></fa-icon>
-                            </a>
-                        </div>
-                        <sub class="text-uppercase">{{selectedIssue.key}}</sub>
-                        <h2 class="font-weight-light mb-0">
-                            {{selectedIssue.title}}
-                        </h2>
-
-                        <div class="pb-2">
-                            <a class="btn btn-link mr-1 pl-0" [routerLink]="['purpose']" title="View purpose"
-                                [routerLinkActive]="'active'">
-                                <fa-icon icon="binoculars" size="sm"></fa-icon> Purpose
-                            </a>
-                            <a class="btn btn-link mr-1" *ngIf="hasExtendedFields" routerLink="details"
-                                [routerLinkActive]="'active'">
-                                <fa-icon icon="search-plus" size="sm"></fa-icon> Details
-                            </a>
-                            <a class="btn btn-link mr-1" *ngIf="canTrackProgress(selectedIssue)" routerLink="items"
-                                [routerLinkActive]="'active'">
-                                <fa-icon icon="tasks" size="sm"></fa-icon> Items
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="pt-4">
-                        <router-outlet></router-outlet>
-                    </div>
+                    <router-outlet></router-outlet>
                 </div>
             </as-split-area>
         </as-split>

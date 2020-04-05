@@ -7,9 +7,9 @@ import { WorkspaceComponent } from './components/workspace.component';
 import { IssueviewerComponent } from './components/issueviewer.component';
 
 import { SubItemsComponent } from './purpose/components/sub-items.component';
-import { PurposeDetailsComponent } from './purpose/components/details.component';
+import { PurposeDetailsComponent } from './purpose/components/purpose.component';
 import { ExtendedFieldsComponent } from './purpose/components/extended-fields.component';
-import { SelectedItemComponent } from './purpose/components/selected-item.component';
+import { SelectedItemContainerComponent } from './purpose/components/container.component';
 
 
 const routes: Routes = [
@@ -19,7 +19,7 @@ const routes: Routes = [
       {
         path: ':issue', component: IssueviewerComponent, children: [
           {
-            path: 'selected/:selected', component: SelectedItemComponent, children: [
+            path: 'selected/:selected', component: SelectedItemContainerComponent, children: [
               { path: 'items', component: SubItemsComponent },
               { path: 'details', component: ExtendedFieldsComponent },
               { path: 'purpose', component: PurposeDetailsComponent },

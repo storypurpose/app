@@ -11,16 +11,16 @@ import { AppState } from '../../+state/app.state';
 })
 export class ExtendedFieldsComponent implements OnInit, OnDestroy {
     public issue: any;
-    subscription: Subscription;
+    issue$: Subscription;
+    public fontSizeSmall = false;
 
     constructor(public store$: Store<AppState>) {
     }
     ngOnInit(): void {
-        this.subscription = this.store$.select(p => p.purpose)
-            .pipe(filter(p => p && p.recentmostItem), map(p => p.recentmostItem))
-            .subscribe(data => this.issue = data);
+        this.issue$ = this.store$.select(p => p.purpose.selectedItem).pipe(filter(p => p))
+            .subscribe(p => this.issue = p);
     }
     ngOnDestroy(): void {
-        this.subscription ? this.subscription.unsubscribe() : null;
+        this.issue$ ? this.issue$.unsubscribe() : null;
     }
 }

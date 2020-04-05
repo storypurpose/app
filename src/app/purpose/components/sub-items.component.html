@@ -13,9 +13,19 @@
                         <span class="mr-1" *ngIf="filteredItems.length > 0"> {{filteredItems.length}} </span>
                         record{{(filteredItems.length > 1 ? 's' : '')}}
                     </th>
-                    <th width="15%">
-                        <select *ngIf="statusStats && statusStats.length > 0" class="form-control form-control-sm"
-                            [(ngModel)]="statusFilter" (change)="onFilterChanged($event.target.value)">
+                    <th width="10%">
+                        <select *ngIf="issueTypeStats && issueTypeStats.length > 1"
+                            class="form-control form-control-sm bg-light border-0" [(ngModel)]="issueTypeFilter"
+                            (change)="onFilterChanged()">
+                            <option value="all">All</option>
+                            <option *ngFor="let it of issueTypeStats" [value]="it.key">
+                                {{it.key + '  (' + it.count + ')'}}</option>
+                        </select>
+                    </th>
+                    <th width="10%">
+                        <select *ngIf="statusStats && statusStats.length > 1"
+                            class="form-control form-control-sm bg-light border-0" [(ngModel)]="statusFilter"
+                            (change)="onFilterChanged()">
                             <option value="all">All</option>
                             <option *ngFor="let status of statusStats" [value]="status.key">
                                 {{status.key + '  (' + status.count + ')'}}</option>
@@ -30,9 +40,11 @@
                         <fa-icon size="sm" [icon]="record.hideExtendedFields ? 'angle-right' : 'angle-down'"></fa-icon>
                     </a>
                 </td>
-                <td width="5%" style="white-space: nowrap;" class="text-muted font-weight-light">{{record.key}}</td>
+                <td width="5%" style="white-space: nowrap;" class="text-muted font-weight-light">
+                    {{record.key}}
+                </td>
                 <td>
-                    {{record.title}}
+                    <div>{{record.title}}</div>
                     <div style="overflow: auto;" class="alert mt-2 p-0 rounded-0 border-0"
                         *ngIf="!record.hideExtendedFields && record.extendedFields && record.extendedFields.length > 0">
                         <table class="table table-small small p-0 m-0 border-0 bg-light">
@@ -42,6 +54,9 @@
                             </tr>
                         </table>
                     </div>
+                </td>
+                <td style="white-space: nowrap;">
+                    <small class="text-muted">{{record.issueType}}</small>
                 </td>
                 <td style="white-space: nowrap;">
                     <span class="pl-1 pr-1 border rounded bg-light small">{{record.status}}</span>

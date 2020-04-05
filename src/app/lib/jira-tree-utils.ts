@@ -19,23 +19,29 @@ export const CustomNodeTypes = {
 };
 
 export function getIcon(issueType) {
-    // switch (issueType) {
-    //     case CustomNodeTypes.Organization: return "fa fa-building fa-sm text-dark";
-    //     case CustomNodeTypes.Project: return "far fa-snowflake fa-sm text-dark";
-    //     case CustomNodeTypes.TestSuite: return "fa fa-flask fa-sm text-warning";
-    //     case CustomNodeTypes.Epic: return "fa fa-book fa-sm text-primary";
-    //     case CustomNodeTypes.Story: return "fa fa-file fa-sm text-info";
-    //     case CustomNodeTypes.Task: return "fa fa-check fa-sm text-primary";
-    //     case CustomNodeTypes.SubTask: return "fa fa-check fa-sm text-primary";
-    //     default: return "far fa-file"
-    // }
+    switch (issueType) {
+        case CustomNodeTypes.Organization:
+        case CustomNodeTypes.Project:
+        case CustomNodeTypes.Hierarchy: return "";
+
+        // case CustomNodeTypes.Organization: return  "fa fa-building fa-sm text-dark";
+        // case CustomNodeTypes.Project: return "far fa-snowflake fa-sm text-dark";
+        // case CustomNodeTypes.Hierarchy: return "fa fa-share-alt fa-sm text-dark";
+        case CustomNodeTypes.Epic: return "far fa-copy fa-sm fa-fw ";
+        case CustomNodeTypes.Story: return "far fa-file-alt fa-sm fa-fw ";
+        case CustomNodeTypes.Task: return "fa fa-check fa-sm fa-fw";
+        default: return "far fa-file fa-sm fa-fw"
+    }
     return '';
 }
 
 export function isCustomNode(args) {
     return args.issueType === CustomNodeTypes.EpicChildren || args.issueType === CustomNodeTypes.RelatedLink
-        || args.issueType === CustomNodeTypes.Organization || args.issueType === CustomNodeTypes.Project
-        || args.issueType === CustomNodeTypes.Hierarchy
+}
+export function isHeaderNode(args) {
+    return args.issueType === CustomNodeTypes.Organization ||
+        args.issueType === CustomNodeTypes.Project ||
+        args.issueType === CustomNodeTypes.Hierarchy;
 }
 
 export function populateFieldValues(node) {
@@ -145,11 +151,19 @@ export function buildIssueLinks(node: any) {
         const inwardIssues = _.filter(node.fields.issuelinks, (il) => il.inwardIssue);
         let children: any = [];
         if (inwardIssues && inwardIssues.length > 0) {
-            children = _.union(children, _.map(inwardIssues, (il) => populateFieldValues(il.inwardIssue)));
+            children = _.union(children, _.map(inwardIssues, (il) => {
+                const issue = populateFieldValues(il.inwardIssue);
+                issue.linkType = (il.type) ? il.type.inward : 'link'
+                return issue;
+            }));
         }
         const outwardIssues = _.filter(node.fields.issuelinks, (il) => il.outwardIssue);
         if (outwardIssues && outwardIssues.length > 0) {
-            children = _.union(children, _.map(outwardIssues, (il) => populateFieldValues(il.outwardIssue)));
+            children = _.union(children, _.map(outwardIssues, (il) => {
+                const issue = populateFieldValues(il.outwardIssue);
+                issue.linkType = (il.type) ? il.type.outward : 'link'
+                return issue;
+            }));
         }
         if (node.project && node.project.key) {
             children.forEach(u => u.project = node.project);
@@ -168,16 +182,22 @@ export function buildIssueLinks(node: any) {
     return null;
 }
 
-export function findInTree(node, key) {
-    if (node.key.toLowerCase() === key.toLowerCase()) {
+function searchTree(node, valueToCompare, match) {
+    if (match(node, valueToCompare)) {
         return node;
     } else if (node.children) {
         let result = null;
         for (let i = 0; result == null && i < node.children.length; i++) {
-            result = findInTree(node.children[i], key);
+            result = searchTree(node.children[i], valueToCompare, match);
         }
         return result;
     }
-
     return null;
+}
+
+export function searchTreeByIssueType(node, issueType) {
+    return searchTree(node, issueType, (n, it) => n.issueType.toLowerCase() === it.toLowerCase())
+}
+export function searchTreeByKey(node, key) {
+    return searchTree(node, key, (n, it) => n.key.toLowerCase() === it.toLowerCase())
 }

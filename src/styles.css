@@ -47,6 +47,10 @@ body .ui-tree {
 .ui-tree .ui-tree-container {
   white-space: normal !important;
 }
+/* ul.ui-treenode-children {
+  border-left: #ddd 1px dashed;
+} */
+
 body .ui-tree .ui-tree-container .ui-treenode {
   padding: 0 1pt;
 }

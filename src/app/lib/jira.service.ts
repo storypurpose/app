@@ -20,7 +20,8 @@ export class JiraService {
     proxyurl = "https://cors-anywhere.herokuapp.com";
     baseUrl = "https://storypurpose.atlassian.net/";
     restVersionEndpoint = "/rest/api/latest";
-    fieldList = ['project', 'reporter', 'assignee', 'status', 'summary', 'description', 'key', 'components', 'labels', 'issuelinks', 'issuetype', 'parent'];
+    fieldList = ['project', 'reporter', 'assignee', 'status', 'summary', 'key', 'issuelinks', 'issuetype', 'parent'];
+    detailFields = ['description', 'components', 'labels'];
     httpOptions: any;
 
     staticFileLocation = './staticfiles';
@@ -59,6 +60,7 @@ export class JiraService {
             });
     }
     getIssueDetails(keyId, extendedFields = []) {
+        extendedFields.push('description');
         if (this.isOnlineMode === false) {
             return this.http.get(`${this.staticFileLocation}/${keyId.toLowerCase()}.json`, this.httpOptions)
         }

@@ -5,10 +5,11 @@ export const appInitialState: App = {
     connectionEditorVisible: false,
     customFieldEditorVisible: null,
     projectConfigEditorVisible: null,
+
     currentIssueKey: null,
+    hierarchicalIssue: null,
 
     connectionDetails: null,
-    // fieldMapping: null,
     projects: null,
     currentProject: null
 };

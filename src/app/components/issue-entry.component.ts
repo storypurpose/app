@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, Input, ViewChild } from '@angular/core';
 import * as _ from 'lodash';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AppState } from '../+state/app.state';
 import { Store } from '@ngrx/store';
 import { Subscription, Subject, Observable, merge } from 'rxjs';
@@ -16,7 +16,9 @@ export class IssueEntryComponent implements OnInit, OnDestroy {
     @Input() showRecentlyVisited = false;
     issue: string;
     subscription: Subscription;
-    constructor(public router: Router, public store$: Store<AppState>) {
+    constructor(public router: Router,
+        public activatedRoute: ActivatedRoute,
+        public store$: Store<AppState>) {
     }
     ngOnInit(): void {
         this.subscription = this.store$.select(p => p.app)
@@ -31,18 +33,17 @@ export class IssueEntryComponent implements OnInit, OnDestroy {
 
     navigateTo(issue) {
         if (this.canNavigate()) {
-            this.router.navigate(['/for', issue.trim()], { queryParams: { selected: issue.trim() } });
+            this.router.navigate(['/for', issue.trim()]);
         }
     }
     selectTo(issue) {
         if (this.canNavigate()) {
             const issueToNavigate = issue.trim();
-            let routeCommands = [];
-            const found = _.find(this.issueLookup, (i) => i === issueToNavigate);
-            if (!found) {
-                routeCommands = ['/for', issueToNavigate];
-            }
-            this.router.navigate(routeCommands, { queryParams: { selected: issueToNavigate } });
+
+            _.find(this.issueLookup, (i) => i === issueToNavigate)
+                ? this.router.navigate(['selected', issueToNavigate, 'purpose'], { relativeTo: this.activatedRoute })
+                : this.router.navigate(['/for', issueToNavigate]);
+
         }
     }
 

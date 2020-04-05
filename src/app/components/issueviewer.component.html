@@ -13,11 +13,13 @@
                             [(selection)]="selectedNode" (onNodeSelect)="nodeSelected($event)" [contextMenu]="cm"
                             (onNodeContextMenuSelect)="nodeContextMenuSelect($event.node, cm)">
                             <ng-template let-node pTemplate="default">
-                                <div style="font-size: 90%;" [ngClass]="{'small text-muted': checkIfCustomNode(node)}"
-                                    [title]="getPrintableTitle(node)">{{node.label}}</div>
+                                <div style="font-size: 90%;" [ngClass]="{
+                                        'small text-muted text-uppercase font-italic': checkIfCustomNode(node),
+                                        'font-weight-bold': node.key === issueKey
+                                }" [title]="getIssueTitle(node)">{{node.label}}</div>
                             </ng-template>
                             <ng-template let-node pTemplate="Heading">
-                                <div [title]="getPrintableTitle(node)">{{node.label}}</div>
+                                <div [title]="getHeaderTitle(node)">{{node.label}}</div>
                             </ng-template>
                         </p-tree>
                     </div>
@@ -40,16 +42,16 @@
                         </h2>
 
                         <div class="pb-2">
-                            <a class="btn btn-link mr-1 pl-0" [routerLink]="['purpose']" queryParamsHandling="merge"
-                                title="View purpose" [routerLinkActive]="'active'">
+                            <a class="btn btn-link mr-1 pl-0" [routerLink]="['purpose']" title="View purpose"
+                                [routerLinkActive]="'active'">
                                 <fa-icon icon="binoculars" size="sm"></fa-icon> Purpose
                             </a>
                             <a class="btn btn-link mr-1" *ngIf="hasExtendedFields" routerLink="details"
-                                queryParamsHandling="merge" [routerLinkActive]="'active'">
+                                [routerLinkActive]="'active'">
                                 <fa-icon icon="search-plus" size="sm"></fa-icon> Details
                             </a>
                             <a class="btn btn-link mr-1" *ngIf="canTrackProgress(selectedIssue)" routerLink="items"
-                                queryParamsHandling="merge" [routerLinkActive]="'active'">
+                                [routerLinkActive]="'active'">
                                 <fa-icon icon="tasks" size="sm"></fa-icon> Items
                             </a>
                         </div>

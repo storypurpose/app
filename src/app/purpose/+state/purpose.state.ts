@@ -1,4 +1,6 @@
 export interface Purpose {
+  selectedItem: any;
+
   item: any;
   recentlyViewedItems: any;
   recentmostItem: any;

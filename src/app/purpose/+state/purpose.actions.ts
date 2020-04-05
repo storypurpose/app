@@ -2,10 +2,17 @@ import { Action } from '@ngrx/store';
 import { type } from 'src/app/lib/utils';
 
 export const ActionTypes = {
+    SetSelectedItem: type("[SetSelectedItem]"),
+
     SetPurpose: type("[SetPurpose]"),
     SetRecentlyViewed: type("[SetRecentlyViewed]"),
     ManageOrganizationEditorVisibility: type("[ManageOrganizationEditorVisibility]"),
     ManageHierarchyEditorVisibility: type("[ManageHierarchyEditorVisibility]")
+}
+
+export class SetSelectedItemAction implements Action {
+    type = ActionTypes.SetSelectedItem;
+    constructor(public payload: any) { }
 }
 
 export class SetPurposeAction implements Action {
@@ -25,7 +32,10 @@ export class ManageHierarchyEditorVisibilityAction implements Action {
     constructor(public payload: any) { }
 }
 export type Actions =
-    SetPurposeAction
+
+    SetSelectedItemAction
+
+    | SetPurposeAction
     | SetRecentlyViewedAction
     | ManageOrganizationEditorVisibilityAction
     | ManageHierarchyEditorVisibilityAction

@@ -4,6 +4,10 @@ import { ActionTypes } from './purpose.actions';
 
 export function purposeReducer(state: Purpose, action: any): Purpose {
     switch (action.type) {
+        case ActionTypes.SetSelectedItem: {
+            return { ...state, selectedItem: action.payload };
+        }
+
         case ActionTypes.SetPurpose: {
             return { ...state, item: action.payload };
         }

@@ -5,8 +5,8 @@
     </button>
     <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-menu-right">
         <a ngbDropdownItem *ngFor="let issueKey of issues;let idx = index;" [routerLink]="['/for', issueKey.key]"
-            [queryParams]="{ selected: issueKey.key}" [disabled]="issueKey.active"
-            [ngClass]="{'text-primary': !issueKey.active, 'bg-light': issueKey.active}" [title]="issueKey.title">
+            [disabled]="issueKey.active" [ngClass]="{'text-primary': !issueKey.active, 'bg-light': issueKey.active}"
+            [title]="issueKey.title">
             <fa-icon *ngIf="issueKey.active" icon="chevron-right"></fa-icon>
             {{issueKey.key}}
         </a>

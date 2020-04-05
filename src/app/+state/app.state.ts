@@ -5,10 +5,11 @@ export interface App {
   connectionEditorVisible: boolean;
   customFieldEditorVisible: any;
   projectConfigEditorVisible: any;
-  currentIssueKey: string;
 
+  currentIssueKey: string;
+  hierarchicalIssue: any;
+  
   connectionDetails: any;
-  // fieldMapping: any;
   projects: any;
   currentProject: any;
 }

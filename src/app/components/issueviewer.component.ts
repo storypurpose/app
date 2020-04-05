@@ -2,17 +2,18 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { JiraService } from '../lib/jira.service';
 import {
     transformParentNode, populateFieldValues, buildIssueLinks,
-    findInTree, CustomNodeTypes, isCustomNode, getExtendedFieldValue, getIcon, copyFieldValues, createEpicChildrenNode
+    CustomNodeTypes, isCustomNode, getExtendedFieldValue, getIcon, createEpicChildrenNode
 } from '../lib/jira-tree-utils';
 import * as _ from 'lodash';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
 import { PersistenceService } from '../lib/persistence.service';
 import { Store } from '@ngrx/store';
-import { SetPurposeAction, SetRecentlyViewedAction, ManageOrganizationEditorVisibilityAction, ManageHierarchyEditorVisibilityAction } from '../purpose/+state/purpose.actions';
+import { ManageOrganizationEditorVisibilityAction, ManageHierarchyEditorVisibilityAction } from '../purpose/+state/purpose.actions';
 import { AppState } from '../+state/app.state';
-import { SetCurrentIssueKeyAction, ShowCustomFieldEditorAction, UpsertProjectAction } from '../+state/app.actions';
+import { SetCurrentIssueKeyAction, UpsertProjectAction, SetHierarchicalIssueAction } from '../+state/app.actions';
 import { Subscription } from 'rxjs';
+import { getExtendedFields } from '../lib/project-config.utils';
 
 @Component({
     selector: 'app-issueviewer',
@@ -26,6 +27,8 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     public keyId = "GBP-35381";
     public result: any;
     public treeNodes: any;
+    public hierarchicalIssue$: Subscription;
+
     public selectedNode: any;
     public qpSelected: string;
     public zoom = 100;
@@ -34,9 +37,9 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     public loadedIssue: any;
     public showDetails = false;
     public issueKey = "storypurpose";
-    public contextIssueKey = "";
+    public contextMenuIssue: any;
     public mappedEpicLinkFieldId: string;
-    public allProjectsHierarchyFields: any;
+    public allHierarchyAndEpicLinkFields: any;
     public mappedHierarchyFields: any;
     public relatedEpic: any;
     public organizationDetails: any;
@@ -47,13 +50,13 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     public hasExtendedFields = false;
 
     public connectionDetails: any;
-    connectionDetailsSubscription: Subscription;
+    connectionDetails$: Subscription;
 
     public projects: any;
-    projectsSubscription: Subscription;
+    projects$: Subscription;
     showProjectConfigSetup = false;
     currentProject: any;
-    currentProjectSubscription: Subscription;
+    currentProject$: Subscription;
 
     public issueLookup: any;
 
@@ -65,64 +68,52 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     }
     ngOnInit(): void {
 
-        this.masterMenulist = [
-            {
-                label: 'Browse', icon: 'fa fa-external-link-alt', menuType: CustomNodeTypes.Issue,
-                command: () => (this.contextIssueKey !== "") ? this.router.navigate(['/for', this.contextIssueKey]) : null
-            },
-            {
-                label: 'Configure', icon: 'far fa-sun', menuType: CustomNodeTypes.Project,
-                command: () => {
-                    if (this.selectedIssue && this.selectedIssue.project) {
-                        this.currentProject = _.find(this.projects, { key: this.selectedIssue.project.key });
-                        this.showProjectConfigSetup = true;
-                    }
-                }
-            },
-            {
-                label: 'Configure', icon: 'far fa-sun', menuType: CustomNodeTypes.Organization,
-                command: () => {
-                    this.store$.dispatch(new ManageOrganizationEditorVisibilityAction(true));
-                }
-            },
-            {
-                label: 'Configure', icon: 'far fa-sun', menuType: CustomNodeTypes.Hierarchy,
-                command: () => {
-                    this.store$.dispatch(new ManageHierarchyEditorVisibilityAction(true));
-                }
-            }]
+        this.initializeMasterMenulist();
 
-        this.connectionDetailsSubscription = this.store$.select(p => p.app.connectionDetails)
+        this.hierarchicalIssue$ = this.store$.select(p => p.app.hierarchicalIssue)
+            .pipe(filter(issueNode => issueNode))
+            .subscribe(issueNode => {
+                this.treeNodes = [issueNode];
+                this.selectedNode = issueNode;
+                this.selectedIssue = _.pick(issueNode, ['key', 'label', 'title', 'issueType', 'project', 'extendedFields']);
+            });
+
+        this.connectionDetails$ = this.store$.select(p => p.app.connectionDetails)
             .subscribe(cd => this.connectionDetails = cd);
 
-        this.currentProjectSubscription = this.store$.select(p => p.app.currentProject)
+        this.currentProject$ = this.store$.select(p => p.app.currentProject)
             .pipe(filter(p => p))
             .subscribe(cp => {
                 this.currentProject = cp;
                 this.persistenceService.setProjectDetails(cp);
             });
 
-        this.projectsSubscription = this.store$.select(p => p.app.projects).pipe(filter(p => p))
+        this.projects$ = this.store$.select(p => p.app.projects).pipe(filter(p => p))
             .subscribe(projects => {
                 this.projects = projects;
-                this.allProjectsHierarchyFields = _.union(_.flatten(_.map(this.projects, 'hierarchy')));
+                this.allHierarchyAndEpicLinkFields = _.flatten(_.map(this.projects, 'hierarchy'));
+
+                this.allHierarchyAndEpicLinkFields = _.union(this.allHierarchyAndEpicLinkFields,
+                    _.filter(_.flatten(_.map(this.projects, 'customFields')), { name: "Epic Link" }));
+
                 this.persistenceService.setProjects(projects);
             });
 
-        this.activatedRoute.queryParams.pipe(filter(p => p && p["selected"] && p["selected"].length > 0), map(p => p["selected"]))
-            .subscribe(selected => {
-                this.qpSelected = selected;
-                if (this.treeNodes && this.treeNodes.length === 1) {
-                    this.selectedNode = findInTree(this.treeNodes[0], selected);
-                    this.markIssueSelected(this.selectedNode);
-                }
-            })
+        // this.activatedRoute.queryParams.pipe(filter(p => p && p["selected"] && p["selected"].length > 0), map(p => p["selected"]))
+        //     .subscribe(selected => {
+        //         this.qpSelected = selected;
+        //         if (this.treeNodes && this.treeNodes.length === 1) {
+        //             this.selectedNode = findInTree(this.treeNodes[0], selected);
+        //             this.markIssueSelected(this.selectedNode);
+        //         }
+        //     })
 
         this.activatedRoute.params.pipe(filter(p => p && p["issue"] && p["issue"].length > 0), map(p => p["issue"]))
             .subscribe(issue => {
                 this.store$.dispatch(new SetCurrentIssueKeyAction(issue));
                 this.issueKey = issue;
-                const extentedHierarchyFields = this.mappedHierarchyFields || this.allProjectsHierarchyFields || [];
+                const extentedHierarchyFields = this.mappedHierarchyFields || this.allHierarchyAndEpicLinkFields || [];
+
                 this.jiraService.getIssueDetails(issue, _.map(extentedHierarchyFields, 'id'))
                     .pipe(filter((p: any) => p !== null && p !== undefined && p.fields))
                     .subscribe((issuedetails: any) => {
@@ -146,8 +137,10 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.connectionDetailsSubscription ? this.connectionDetailsSubscription.unsubscribe() : null;
-        this.projectsSubscription ? this.projectsSubscription.unsubscribe() : null;
+        this.hierarchicalIssue$ ? this.hierarchicalIssue$.unsubscribe() : null;
+        this.connectionDetails$ ? this.connectionDetails$.unsubscribe() : null;
+        this.projects$ ? this.projects$.unsubscribe() : null;
+        this.currentProject$ ? this.currentProject$.unsubscribe() : null;
     }
 
     public populateExtendedFields(project) {
@@ -156,10 +149,9 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
             if (projectConfigFound) {
 
                 this.mappedHierarchyFields = projectConfigFound.hierarchy;
+
                 const epicLinkFieldFound = _.find(projectConfigFound.customFields, { name: "Epic Link" });
-                if (epicLinkFieldFound) {
-                    this.mappedEpicLinkFieldId = epicLinkFieldFound.id;
-                }
+                return epicLinkFieldFound ? epicLinkFieldFound.id : null;
             }
         }
         return null;
@@ -177,7 +169,8 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
             this.loadedIssue = node;
 
             if (this.loadedIssue.project) {
-                this.getExtendedFields(this.loadedIssue);
+                this.loadedIssue.extendedFields = getExtendedFields(this.projects, this.loadedIssue.project.key, this.loadedIssue.issueType);
+                this.hasExtendedFields = this.loadedIssue.extendedFields && this.loadedIssue.extendedFields.length > 0;
             }
 
             let hierarchyNode = this.createHierarchyNodes(node);
@@ -190,124 +183,80 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
             hierarchyNode = this.addToLeafNode(projectNode, hierarchyNode);
             node = this.addToLeafNode(hierarchyNode, epicNode);
 
-            this.treeNodes = [node];
-
-            if (!this.qpSelected) {
-                this.router.navigate([], { queryParams: { selected: this.loadedIssue.key } });
-            } else if (!this.selectedNode || this.selectedNode.key !== this.qpSelected) {
-                this.selectedNode = findInTree(this.treeNodes[0], this.qpSelected);
-                setTimeout(() => this.markIssueSelected(this.selectedNode), 1500);
-            }
-        }
-    }
-
-    private getExtendedFields(issue) {
-        const projectConfig = _.find(this.projects, { key: issue.project.key });
-        if (projectConfig && projectConfig.standardIssueTypes) {
-            const issueType = _.find(projectConfig.standardIssueTypes, { name: issue.issueType });
-            if (issueType) {
-                issue.extendedFields = issueType.list || [];
-                this.hasExtendedFields = issue.extendedFields && issue.extendedFields.length > 0;
-            }
+            this.store$.dispatch(new SetHierarchicalIssueAction(node));
         }
     }
 
     public loadNode(event) {
         if (event.node.issueType === CustomNodeTypes.EpicChildren && (!event.node.children || event.node.children.length === 0)) {
-            this.loadEpicChildren(event.node, event.node.parentId);
+            this.loadEpicChildren(event.node, event.node.parentId, true);
         }
     }
 
-    private loadEpicChildren(node: any, epicKey) {
+    private loadEpicChildren(node: any, epicKey, shouldExpand) {
         this.jiraService.executeJql(`'epic Link'=${epicKey}`, [], 'epic-children.json')
             .subscribe((data: any) => {
                 if (data && data.issues) {
                     node.children = _.map(data.issues, (item) => transformParentNode(item, null));;
                     this.issueLookup = _.union(this.issueLookup, _.map(node.children, 'key'))
-                    node.expanded = true;
+                    node.expanded = shouldExpand;
                 }
             });
     }
 
     public nodeSelected(event) {
-        this.router.navigate([], { queryParams: { selected: event.node.key } });
+        this.router.navigate(['selected', event.node.key, 'purpose'], { relativeTo: this.activatedRoute });
     }
-    nodeContextMenuSelect(args, contextMenu) {
+
+    private initializeMasterMenulist() {
+        this.masterMenulist = [
+            {
+                label: 'Browse', icon: 'fa fa-external-link-alt', menuType: CustomNodeTypes.Issue,
+                command: (args) => (args.item && args.item.data) ? this.router.navigate(['/for', args.item.data.key]) : null
+            },
+            {
+                label: 'Configure', icon: 'far fa-sun', menuType: CustomNodeTypes.Organization,
+                command: () => this.store$.dispatch(new ManageOrganizationEditorVisibilityAction(true))
+            },
+            {
+                label: 'Configure', icon: 'far fa-sun', menuType: CustomNodeTypes.Hierarchy,
+                command: () => this.store$.dispatch(new ManageHierarchyEditorVisibilityAction(true))
+            },
+            {
+                label: 'Configure', icon: 'far fa-sun', menuType: CustomNodeTypes.Project,
+                command: (args) => {
+                    if (args.item && args.item.data) {
+                        this.currentProject = _.find(this.projects, { key: args.item.data.key });
+                        this.showProjectConfigSetup = true;
+                    }
+                }
+            }
+        ];
+    }
+
+    nodeContextMenuSelect(treeNode, contextMenu) {
         this.menulist = null;
-        if (args) {
-            switch (args.menuType) {
+        if (treeNode) {
+            switch (treeNode.menuType) {
                 case CustomNodeTypes.Organization:
                 case CustomNodeTypes.Hierarchy:
                 case CustomNodeTypes.Project:
-                    this.menulist = _.filter(this.masterMenulist, { menuType: args.menuType });
+                    this.menulist = _.filter(this.masterMenulist, { menuType: treeNode.menuType });
                     break;
                 default:
                     this.menulist = _.filter(this.masterMenulist, { menuType: CustomNodeTypes.Issue });
-
-                    if (args.key.toLowerCase() === this.issueKey.toLowerCase() || isCustomNode(args) === true) {
-                        this.contextIssueKey = "";
-                        contextMenu.hide();
-                    } else {
-                        this.contextIssueKey = args.key;
-                    }
-
                     break;
             }
-        }
 
-    }
-    onPurposeNodeEdit(args) {
-        if (args) {
-            switch (args.issueType) {
-                case CustomNodeTypes.Hierarchy:
-                    this.initiativeToEdit = args;
-                    this.showInitiativeSetup = true;
-                    break;
+            if (treeNode.key.toLowerCase() === this.issueKey.toLowerCase() || isCustomNode(treeNode)) {
+                contextMenu.hide();
+            } else if (this.menulist && this.menulist.length > 0) {
+                this.menulist.forEach(u => u.data = treeNode);
             }
         }
-    }
-
-    private markIssueSelected(node: any) {
-        if (node) {
-            if (this.projects && node.project) {
-                this.getExtendedFields(node);
-            }
-            if (node.parent && node.parent.issueType === CustomNodeTypes.RelatedLink && (!node.description || node.description.length === 0)) {
-                const fieldList = _.map(node.extendedFields, 'id');
-                this.jiraService.getIssueDetails(node.key, fieldList)
-                    .pipe(filter(p => p !== null && p !== undefined))
-                    .subscribe((linkedIssue: any) => {
-                        const loaded = populateFieldValues(linkedIssue);
-                        if (loaded) {
-                            copyFieldValues(loaded, node);
-                        }
-
-                        node.extendedFields = _.map(node.extendedFields, (ef) => {
-                            ef.value = linkedIssue.fields[ef.id];
-                            return ef;
-                        });
-                        this.markIssueSelectedHelper(node);
-                    });
-            } else {
-                this.markIssueSelectedHelper(node);
-            }
-        }
-    }
-
-    private markIssueSelectedHelper(node: any) {
-        this.selectedIssue = _.pick(node, ['key', 'label', 'title', 'issueType', 'project', 'extendedFields']);
-        this.expandPurpose(node);
-        this.store$.dispatch(new SetRecentlyViewedAction(this.selectedIssue));
     }
 
     canTrackProgress = (node) => (node && (node.issueType === CustomNodeTypes.TestSuite || node.issueType === CustomNodeTypes.Story));
-
-    public expandPurpose(node: any) {
-        this.purpose = [];
-        this.populatePurpose(node);
-        _.reverse(this.purpose);
-        this.store$.dispatch(new SetPurposeAction(this.purpose));
-    }
 
     private addToLeafNode(node, nodeToAdd) {
         if (node && nodeToAdd) {
@@ -324,6 +273,9 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     private populateEpic(node) {
         if (node && node.fields) {
             if (this.relatedEpic) {
+
+                const epicChildrenNode = createEpicChildrenNode(node);
+                epicChildrenNode.children = this.loadEpicChildren(epicChildrenNode, this.relatedEpic.key, false);
                 return {
                     key: this.relatedEpic.key,
                     label: this.relatedEpic.label,
@@ -332,7 +284,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
                     issueType: CustomNodeTypes.Epic,
                     icon: getIcon(CustomNodeTypes.Epic),
                     project: this.relatedEpic.project,
-                    children: [node, createEpicChildrenNode(node)],
+                    children: [node, epicChildrenNode],
                     expanded: true
                 }
             }
@@ -345,11 +297,12 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
         if (this.mappedHierarchyFields && this.mappedHierarchyFields.length > 0) {
             let tempNode = rootNode;
             this.mappedHierarchyFields.forEach(hf => {
-                const value = getExtendedFieldValue(node, hf.id);
-                if (value.length > 0) {
+                const extendedValue = getExtendedFieldValue(node, hf.id);
+
+                if (extendedValue.length > 0) {
                     const extendedNode = {
-                        key: value, title: value, label: value, description: '',
-                        // icon: "fa fa-share-alt", 
+                        key: extendedValue, title: extendedValue, label: extendedValue, description: '',
+                        icon: getIcon(CustomNodeTypes.Hierarchy),
                         issueType: hf.name, hfKey: hf.id,
                         children: [], expanded: true, editable: true, isHierarchyField: true, selectable: false, type: "Heading",
                         menuType: CustomNodeTypes.Hierarchy
@@ -388,7 +341,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
                 description: node.project.description,
                 issueType: CustomNodeTypes.Project,
                 menuType: CustomNodeTypes.Project,
-                // icon: getIcon(CustomNodeTypes.Project),
+                icon: getIcon(CustomNodeTypes.Project),
                 expanded: true,
                 selectable: false
             };
@@ -424,31 +377,13 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
                 type: "Heading",
                 menuType: CustomNodeTypes.Organization,
                 issueType: CustomNodeTypes.Organization,
-                // icon: getIcon(CustomNodeTypes.Organization),
+                icon: getIcon(CustomNodeTypes.Organization),
                 expanded: true,
                 editable: true,
                 selectable: false
             }
         }
         return null;
-    }
-
-    public populatePurpose(node) {
-        if (node) {
-            if (node.issueType !== CustomNodeTypes.EpicChildren && node.issueType !== CustomNodeTypes.RelatedLink) {
-                this.purpose.push({
-                    key: node.key, issueType: node.issueType, title: node.title, purpose: node.description,
-                    editable: node.editable, hfKey: node.hfKey
-                });
-            }
-            if (node.parent) {
-                this.populatePurpose(node.parent);
-            }
-        }
-    }
-
-    configureFields(issueType) {
-        this.store$.dispatch(new ShowCustomFieldEditorAction(issueType));
     }
 
     projectConfigSetupCompleted(reload) {
@@ -458,9 +393,92 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
         }
     }
 
-    getPrintableTitle(node) {
-        return isCustomNode(node) ? node.title : `${node.key} ${node.title}`
-    }
+    getIssueTitle = (node) => isCustomNode(node)
+        ? node.title
+        : `[${node.issueType}] ${node.linkType || ''} ${node.key} | ${node.title}`;
 
+    getHeaderTitle = (node) => `[${node.issueType}] ${node.title}`;
     checkIfCustomNode = (node) => isCustomNode(node)
+
+    // configureFields(issueType) {
+    //     this.store$.dispatch(new ShowCustomFieldEditorAction(issueType));
+    // }
+
+    // onPurposeNodeEdit(args) {
+    //     if (args) {
+    //         switch (args.issueType) {
+    //             case CustomNodeTypes.Hierarchy:
+    //                 this.initiativeToEdit = args;
+    //                 this.showInitiativeSetup = true;
+    //                 break;
+    //         }
+    //     }
+    // }
+
+    // private markIssueSelected(node: any) {
+    //     if (node) {
+    //         if (this.projects && node.project) {
+    //             getExtendedFields(this.projects, node);
+    //             this.hasExtendedFields = node.extendedFields && node.extendedFields.length > 0;
+    //         }
+    //         if (node.parent && node.parent.issueType === CustomNodeTypes.RelatedLink && (!node.description || node.description.length === 0)) {
+    //             const fieldList = _.map(node.extendedFields, 'id');
+    //             this.jiraService.getIssueDetails(node.key, fieldList)
+    //                 .pipe(filter(p => p !== null && p !== undefined))
+    //                 .subscribe((linkedIssue: any) => {
+    //                     const loaded = populateFieldValues(linkedIssue);
+    //                     if (loaded) {
+    //                         copyFieldValues(loaded, node);
+    //                     }
+
+    //                     node.extendedFields = _.map(node.extendedFields, (ef) => {
+    //                         ef.value = linkedIssue.fields[ef.id];
+    //                         return ef;
+    //                     });
+    //                     this.markIssueSelectedHelper(node);
+    //                 });
+    //         } else {
+    //             this.markIssueSelectedHelper(node);
+    //         }
+    //     }
+    // }
+
+    // private markIssueSelectedHelper(node: any) {
+    //     this.selectedIssue = _.pick(node, ['key', 'label', 'title', 'issueType', 'project', 'extendedFields']);
+    //     this.expandPurpose(node);
+    //     this.store$.dispatch(new SetRecentlyViewedAction(this.selectedIssue));
+    // }
+
+    // public expandPurpose(node: any) {
+    //     this.purpose = [];
+    //     this.populatePurpose(node);
+    //     _.reverse(this.purpose);
+    //     this.store$.dispatch(new SetPurposeAction(this.purpose));
+    // }
+
+    // public populatePurpose(node) {
+    //     if (node) {
+    //         if (node.issueType !== CustomNodeTypes.EpicChildren && node.issueType !== CustomNodeTypes.RelatedLink) {
+    //             this.purpose.push({
+    //                 key: node.key, issueType: node.issueType, title: node.title, purpose: node.description,
+    //                 editable: node.editable, hfKey: node.hfKey
+    //             });
+    //         }
+    //         if (node.parent) {
+    //             this.populatePurpose(node.parent);
+    //         }
+    //     }
+    // }
+
+    // private getExtendedFields(issue) {
+    //     const projectConfig = _.find(this.projects, { key: issue.project.key });
+    //     if (projectConfig && projectConfig.standardIssueTypes) {
+    //         const issueType = _.find(projectConfig.standardIssueTypes, { name: issue.issueType });
+    //         if (issueType) {
+    //             issue.extendedFields = issueType.list || [];
+    //             this.hasExtendedFields = issue.extendedFields && issue.extendedFields.length > 0;
+    //         }
+    //     }
+    // }
+
 }

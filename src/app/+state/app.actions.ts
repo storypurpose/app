@@ -5,12 +5,13 @@ export const ActionTypes = {
     ShowConnectionEditor: type("[ShowConnectionDetails]"),
     ShowCustomFieldEditor: type("[ShowCustomFieldEditor]"),
     ShowProjectConfigEditor: type('[ShowProjectConfigEditor]'),
+
     SetCurrentIssueKey: type("[SetCurrentIssueKey]"),
+    SetHierarchicalIssue: type("[SetHierarchicalIssue]"),
+
     SetMode: type("[SetMode]"),
     SetConnectionDetails: type("[SetConnectionDetails]"),
     ConnectionDetailsVerified: type('[ConnectionDetailsVerified]'),
-
-    // SetFieldMapping: type("[SetFieldMapping]"),
 
     LoadProjects: type("[LoadProjects]"),
     UpsertProject: type("[UpsertProject]")
@@ -37,6 +38,11 @@ export class SetCurrentIssueKeyAction implements Action {
     type = ActionTypes.SetCurrentIssueKey;
     constructor(public payload: any) { }
 }
+export class SetHierarchicalIssueAction implements Action {
+    type = ActionTypes.SetHierarchicalIssue;
+    constructor(public payload: any) { }
+}
+
 export class SetModeAction implements Action {
     type = ActionTypes.SetMode;
     constructor(public payload: any) { }
@@ -49,10 +55,6 @@ export class SetConnectionDetailsAction implements Action {
     type = ActionTypes.SetConnectionDetails;
     constructor(public payload: any) { }
 }
-// export class SetFieldMappingAction implements Action {
-//     type = ActionTypes.SetFieldMapping;
-//     constructor(public payload: any) { }
-// }
 export class LoadProjectsAction implements Action {
     type = ActionTypes.LoadProjects;
     constructor(public payload: any) { }
@@ -69,10 +71,10 @@ export type Actions =
     | ShowProjectConfigEditorAction
 
     | SetCurrentIssueKeyAction
+    | SetHierarchicalIssueAction
     | SetModeAction
 
     | SetConnectionDetailsAction
-    // | SetFieldMappingAction
     | ConnectionDetailsVerifiedAction
 
     | UpsertProjectAction

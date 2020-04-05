@@ -17,13 +17,21 @@
         <li class="navbar-text  text-muted"
           *ngIf="connectionDetails && connectionDetails.displayName && connectionDetails.displayName.length > 0">
           <fa-icon icon="user" class=" mr-1"></fa-icon>
-          <!-- {{connectionDetails.displayName}} -->
+          {{connectionDetails.displayName}}
         </li>
         <li class="nav-item">
-          <a class="nav-link ml-2 text-muted" (click)="showConnectionEditor = true">
+          <a class="nav-link text-muted ml-2" #connectionDetailPopover="ngbPopover" triggers="manual"
+            (click)="openConnectionDetailEditor()" [autoClose]="false" [ngbPopover]="connectDetailsPopover"
+            popoverTitle="Connection details">
             <fa-icon [icon]="['far', 'sun']"></fa-icon>
           </a>
         </li>
+
+        <!-- <li class="nav-item">
+          <a class="nav-link ml-2 text-muted" (click)="showConnectionEditor = true">
+            <fa-icon [icon]="['far', 'sun']"></fa-icon>
+          </a>
+        </li> -->
         <li class="nav-item">
           <app-copyright></app-copyright>
         </li>
@@ -33,13 +41,19 @@
 
 </nav>
 
+
+<ng-template #connectDetailsPopover>
+  <app-connection-details [connectionDetails]="connectionDetails" (close)="connectionDetailsSetupCompleted($event)">
+  </app-connection-details>
+</ng-template>
+
 <ngx-loading-bar color="#FF8000" height="4pt" [includeSpinner]="false"></ngx-loading-bar>
 
 <p-toast position="bottom-right"></p-toast>
 
-<p-sidebar [(visible)]="showConnectionEditor" styleClass="ui-sidebar-md" position="right">
+<!-- <p-sidebar [(visible)]="showConnectionEditor" styleClass="ui-sidebar-md" position="right">
   <app-connection-details [connectionDetails]="connectionDetails" (close)="connectionDetailsSetupCompleted($event)">
   </app-connection-details>
-</p-sidebar>
+</p-sidebar> -->
 
 <router-outlet> </router-outlet>

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import * as _ from 'lodash';
 import { Router, NavigationEnd } from '@angular/router';
 import { PersistenceService } from '../lib/persistence.service';
@@ -9,7 +9,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { environment } from '../../environments/environment';
 import { AppState } from '../+state/app.state';
 import { Store } from '@ngrx/store';
-import { SetModeAction, ModeTypes, SetConnectionDetailsAction, LoadProjectsAction } from '../+state/app.actions';
+import { SetModeAction, ModeTypes, SetConnectionDetailsAction, LoadProjectsAction, ShowConnectionEditorAction } from '../+state/app.actions';
+import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 
 declare let gtag: Function;
 
@@ -42,6 +43,10 @@ export class AppComponent implements OnInit, OnDestroy {
   issueType: string;
 
   menulist: any;
+
+  @ViewChild('connectionDetailPopover', { static: true }) connectionDetailPopover: NgbPopover;
+
+
   constructor(public router: Router,
     public persistenceService: PersistenceService,
     public sanitizer: DomSanitizer,
@@ -66,8 +71,9 @@ export class AppComponent implements OnInit, OnDestroy {
     ];
 
     this.connectionSubscription = this.store$.select(p => p.app.connectionEditorVisible)
-      .pipe(filter(show => show === true))
-      .subscribe(show => this.showConnectionEditor = show);
+      .subscribe(show => {
+        (show) ? this.connectionDetailPopover.open() : this.connectionDetailPopover.close();
+      });
 
     this.customFieldSubscription = this.store$.select(p => p.app.customFieldEditorVisible)
       .pipe(filter(issueType => issueType))
@@ -97,8 +103,11 @@ export class AppComponent implements OnInit, OnDestroy {
     this.router.navigate([issue]);
   }
 
+  openConnectionDetailEditor() {
+    this.store$.dispatch(new ShowConnectionEditorAction(true));
+  }
   connectionDetailsSetupCompleted(showReload) {
-    this.showConnectionEditor = false;
+    this.store$.dispatch(new ShowConnectionEditorAction(false));
     if (showReload) {
       window.location.reload();
     }
@@ -123,7 +132,7 @@ export class AppComponent implements OnInit, OnDestroy {
   initiatizeConnectionDetailsState(details) {
     if (details) {
       this.store$.dispatch(new SetConnectionDetailsAction(details));
-      this.persistenceService.setConnectionDetails(details);
+      this.persistenceService.setConnectionDetails(_.clone(details));
     }
   }
 

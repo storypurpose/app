@@ -26,7 +26,7 @@ export class ErrorHandlingInterceptor implements HttpInterceptor {
                         } else if (err.status === 401) {
                             this.messageService.add({ severity: 'error', summary: 'Access denied', detail: "Invalid credentials", life: 10000, closable: true });
                         } else if (err.status === 404) {
-                            this.messageService.add({ severity: 'error', summary: 'Not found', detail: err.url, life: 10000, closable: true });
+                            this.messageService.add({ severity: 'error', summary: 'Not found', detail: "Record does not exist", life: 10000, closable: true });
                         } else if (err.status >= 500) {
                             this.messageService.add({
                                 severity: 'error', summary: "Something's not right", detail: err.statusText, life: 10000, closable: true

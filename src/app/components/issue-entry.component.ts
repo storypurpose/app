@@ -58,7 +58,7 @@ export class IssueEntryComponent implements OnInit, OnDestroy {
         return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$)
             .pipe(map(term => (term === ''
                 ? this.issueLookup
-                : _.filter(this.issueLookup, v => v.toLowerCase().indexOf(term.toLowerCase()) > -1)).slice(0, 20))
+                : _.filter(this.issueLookup || [], v => v.toLowerCase().indexOf(term.toLowerCase()) > -1)).slice(0, 20))
             );
     }
 }

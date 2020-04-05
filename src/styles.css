@@ -25,6 +25,9 @@ a {
   height: 10px;
 }
 
+label {
+  margin-bottom: 0;
+}
 .custom-shadow {
   box-shadow: 0 0 6px #bbb;
   border: 1px solid #ccc;
@@ -205,8 +208,8 @@ body .ui-toast .ui-toast-message {
 }
 
 body .ui-toast .ui-toast-message.ui-toast-message-error {
-  background-color: #666;
-  color: #fff;
+  background-color: #fff;
+  color: #900;
 }
 .navbar {
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.23);
@@ -262,4 +265,12 @@ body .ui-toast .ui-toast-message.ui-toast-message-error {
 }
 .hide-caret::after {
   content: none !important;
+}
+
+.popover-body {
+  background-color: #f8f9fa;
+}
+.popover-header {
+  background-color: #eeeeee;
+  border-bottom: solid 1px #ddd;
 }

@@ -157,6 +157,12 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
                 this.issueLookup = _.union(this.issueLookup, _.map(linkedIssues[0].children, 'key'));
             }
             let node = transformParentNode(this.result, linkedIssues);
+            if (node.issueType === CustomNodeTypes.Epic) {
+                const epicNode = _.find(node.children, { issueType: CustomNodeTypes.EpicChildren });
+                if (epicNode) {
+                    this.loadEpicChildren(epicNode, node.key, false);
+                }
+            }
             this.loadedIssue = node;
 
             if (this.loadedIssue.project) {
@@ -185,7 +191,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     }
 
     private loadEpicChildren(node: any, epicKey, shouldExpand) {
-        this.jiraService.executeJql(`'epic Link'=${epicKey}`, [], 'epic-children.json')
+        this.jiraService.executeJql(`'epic Link'=${epicKey}`, ['components', 'labels', 'fixVersions'], 'epic-children.json')
             .subscribe((data: any) => {
                 if (data && data.issues) {
                     node.children = _.map(data.issues, (item) => transformParentNode(item, null));;

@@ -1,7 +1,7 @@
 <div class="sticky-title pb-3" *ngIf="selectedItem">
     <div class="border-bottom ">
         <div>
-            <div class="float-right small">
+            <div class="float-right small" *ngIf="selectedItem.fixVersions && selectedItem.fixVersions.length > 0">
                 <span class="small text-muted">FIX VERSION: </span>
                 <span class="badge badge-light ml-1" *ngFor="let fv of selectedItem.fixVersions">{{fv}}</span>
             </div>

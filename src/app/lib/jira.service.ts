@@ -35,7 +35,6 @@ export class JiraService {
             .subscribe(cd => {
                 this.connectionDetails = cd;
                 this.baseUrl = `${this.connectionDetails.serverUrl}${this.restVersionEndpoint}`;
-
                 this.httpOptions = {
                     headers: new HttpHeaders({
                         'Content-Type': 'application/json',

@@ -23,10 +23,15 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.store$.select(mode => mode.app.mode)
-        .subscribe(mode => this.isOnlineMode = mode && mode === ModeTypes.Online);
+            .subscribe(mode => this.isOnlineMode = mode && mode === ModeTypes.Online);
 
         this.connectionDetailsSubscription = this.store$.select(p => p.app.connectionDetails)
-            .subscribe(p => this.connectionDetails = p);
+            .subscribe(p => {
+                this.connectionDetails = p;
+                if (this.connectionDetails && !this.connectionDetails.verified) {
+                    this.onShowSetup();
+                }
+            });
     }
     ngOnDestroy(): void {
         this.connectionDetailsSubscription ? this.connectionDetailsSubscription.unsubscribe() : null;
@@ -35,8 +40,12 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     onShowSetup() {
         this.store$.dispatch(new ShowConnectionEditorAction(true));
     }
+    myUpload(args) {
+        console.log(args);
+    }
+    onFileUpload(args, configUploader) {
+        console.log(args, configUploader);
 
-    handleConfigFileUpload(args, configUploader) {
         const file = args.files && args.files.length === 1 ? args.files[0] : null; // FileList object
         if (file) {
             var reader = new FileReader();
@@ -48,7 +57,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                             if (config) {
                                 if (config.connectionDetails) ps.setConnectionDetails(config.connectionDetails);
                                 if (config.organizationDetails) ps.setOrganizationDetails(config.organizationDetails);
-                                // if (config.fieldMapping) ps.setFieldMapping(config.fieldMapping);
+                                if (config.projects) ps.setProjects(config.projects);
 
                                 ms.add({
                                     severity: 'success', detail: 'Configurations loaded successfully. Setup user credentials',
@@ -61,7 +70,6 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                             ms.add({ severity: 'error', detail: 'Invalid file.' + ex.message, life: 5000, closable: true });
                         }
                     }
-
 
                     if (configUploader) {
                         configUploader.clear();

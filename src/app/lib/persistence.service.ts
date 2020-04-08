@@ -52,7 +52,7 @@ export class PersistenceService {
     //#region mode
     getMode() {
         const payload = localStorage.getItem(DataTypes.Mode);
-        return JSON.parse(payload) || 'offline';
+        return JSON.parse(payload) || 'online';
     }
     setMode(payload) {
         localStorage.setItem(DataTypes.Mode, JSON.stringify(payload))

@@ -1,22 +1,27 @@
 <div *ngIf="!(connectionDetails && connectionDetails.verified) && isOnlineMode" class="center-text p-3 bg-light">
     <div class="alert bg-white">
 
-        <div class="mb-2">
-            <fa-icon icon="exclamation-triangle"></fa-icon>
-            Connection details have not been set.
-        </div>
         <div *ngIf="connectionDetails && !connectionDetails.verified">
-            <a class="btn btn-sm btn-primary text-white mt-2" (click)="onShowSetup()">
-                Setup credentials now <fa-icon icon="chevron-right"></fa-icon>
+            <div class="mb-2">
+                <fa-icon icon="exclamation-triangle" class="text-warning"></fa-icon>
+                Connection details are incomplete.
+            </div>
+                <a class="btn btn-sm btn-primary text-white mt-2" (click)="onShowSetup()">
+                Enter credentials <fa-icon icon="chevron-right"></fa-icon>
             </a>
         </div>
 
         <div *ngIf="!connectionDetails">
-            <a class="btn btn-primary btn-sm text-white mr-2" style="margin-top: -18pt;" (click)="onShowSetup()">
+            <div class="mb-2">
+                <fa-icon icon="exclamation-triangle" class="text-warning"></fa-icon>
+                Connection details are missing.
+            </div>
+                <a class="btn btn-primary btn-sm text-white mr-2" style="margin-top: -18pt;" (click)="onShowSetup()">
                 Manual setup <fa-icon icon="chevron-right"></fa-icon>
             </a>
+
             <p-fileUpload #configUploader name="myfile[]" customUpload="true"
-                (uploadHandler)="handleConfigFileUpload($event, configUploader)" maxFileSize="10000" mode="basic"
+                (uploadHandler)="onFileUpload($event, configUploader)" maxFileSize="1000000" mode="basic"
                 accept="application/json" chooseLabel="Import" styleClass="ui-button-secondary" [auto]="true">
             </p-fileUpload>
 

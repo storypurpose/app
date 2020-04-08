@@ -21,13 +21,12 @@ export const CustomNodeTypes = {
 export function getIcon(issueType) {
     switch (issueType) {
         case CustomNodeTypes.Organization:
-        case CustomNodeTypes.Project:
         case CustomNodeTypes.Hierarchy: return "";
 
         // case CustomNodeTypes.Organization: return  "fa fa-building fa-sm text-dark";
-        // case CustomNodeTypes.Project: return "far fa-snowflake fa-sm text-dark";
         // case CustomNodeTypes.Hierarchy: return "fa fa-share-alt fa-sm text-dark";
-        case CustomNodeTypes.Epic: return "far fa-copy fa-sm fa-fw ";
+        case CustomNodeTypes.Project: return "fa fa-bookmark fa-sm fa-fw text-info";
+        case CustomNodeTypes.Epic: return "fa fa-copy fa-sm fa-fw ";
         case CustomNodeTypes.Story: return "far fa-file-alt fa-sm fa-fw ";
         case CustomNodeTypes.Task: return "fa fa-check fa-sm fa-fw";
         default: return "far fa-file fa-sm fa-fw"

@@ -5,7 +5,7 @@
                 <span class="small text-muted">FIX VERSION: </span>
                 <span class="badge badge-light ml-1" *ngFor="let fv of selectedItem.fixVersions">{{fv}}</span>
             </div>
-            <sub class="text-uppercase mr-2">{{selectedItem.key}}</sub>
+            <sub class="text-uppercase mr-2">{{selectedItem.issueType}}: {{selectedItem.key}}</sub>
             <sub
                 class="badge badge-light small text-muted text-uppercase font-weight-normal">{{selectedItem.status}}</sub>
         </div>

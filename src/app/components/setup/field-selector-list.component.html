@@ -1,11 +1,17 @@
-<div class="clearfix pl-3 pr-3 pt-1 pb-1" *ngFor="let ff of list;let i = index">
-    <a (click)="remove(i)" class="text-danger mr-2">
-        <fa-icon icon="times"></fa-icon>
+<div class="pt-0 pb-1 text-muted" *ngFor="let ff of list;let i = index">
+    <a (click)="remove(i)" class="text-muted float-right mr-2">
+        <fa-icon [icon]="['far', 'times-circle']"></fa-icon>
     </a>
     {{ff.name}}
 </div>
-<div class="input-group input-group-sm pl-3 pt-2" style="width:300px" *ngIf="customFields && customFields.length > 0">
-    <select class="form-control" [(ngModel)]="selectedField" (change)="add()">
+<div class="input-group input-group-sm pt-1" *ngIf="customFields && customFields.length > 0">
+    <select class="form-control rounded-0" [(ngModel)]="selectedField">
         <option *ngFor="let ff of customFields" [value]="ff.id">{{ff.name}}</option>
     </select>
+    <div class="input-group-append">
+        <button [disabled]="!selectedField" class="btn btn-light bg-white text-success rounded-0 border " type="button"
+            (click)="add()">
+            <fa-icon icon="plus" [size]="['fw', 'sm']"></fa-icon>
+        </button>
+    </div>
 </div>

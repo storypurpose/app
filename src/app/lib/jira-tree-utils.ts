@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-const MAX_LENGTH = 60;
+const MAX_LENGTH = 100;
 
 export const CustomNodeTypes = {
     Organization: "Organization",
@@ -29,6 +29,7 @@ export function getIcon(issueType) {
         case CustomNodeTypes.Epic: return "fa fa-copy fa-sm fa-fw ";
         case CustomNodeTypes.Story: return "far fa-file-alt fa-sm fa-fw ";
         case CustomNodeTypes.Task: return "fa fa-check fa-sm fa-fw";
+        case CustomNodeTypes.TestSuite: return "fa fa-flask fa-sm fa-fw text-muted";
         default: return "far fa-file fa-sm fa-fw"
     }
     return '';
@@ -65,6 +66,7 @@ export function copyFieldValues(src, dest) {
     if (!src) return dest;
     if (!dest && src) {
         dest = _.clone(src);
+        return dest;
     }
     dest.project = src.project;
     dest.issueParent = src.issueParent;

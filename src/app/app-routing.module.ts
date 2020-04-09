@@ -6,12 +6,6 @@ import { WorkspaceComponent } from './components/workspace.component';
 
 import { IssueviewerComponent } from './components/issueviewer.component';
 
-import { SubItemsComponent } from './purpose/components/sub-items.component';
-import { PurposeDetailsComponent } from './purpose/components/purpose.component';
-import { ExtendedFieldsComponent } from './purpose/components/extended-fields.component';
-import { SelectedItemContainerComponent } from './purpose/components/container.component';
-
-
 const routes: Routes = [
   { path: 'about', component: AboutComponent },
   {
@@ -19,13 +13,13 @@ const routes: Routes = [
       {
         path: ':issue', component: IssueviewerComponent, children: [
           {
-            path: 'selected/:selected', component: SelectedItemContainerComponent, children: [
-              { path: 'items', component: SubItemsComponent },
-              { path: 'details', component: ExtendedFieldsComponent },
-              { path: 'purpose', component: PurposeDetailsComponent },
-            ]
+            path: 'selected/:selected',
+            loadChildren: () => import('./purpose/purpose.module').then(m => m.PurposeModule)
           },
-          { path: '', component: PurposeDetailsComponent, pathMatch: 'full' }
+          {
+            path: 'storyboarding/:selected',
+            loadChildren: () => import('./storyboarding/storyboarding.module').then(m => m.StoryboardingModule)
+          },
         ]
       },
       { path: '', component: PageNotFoundComponent, pathMatch: 'full' }
@@ -40,3 +34,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
+  

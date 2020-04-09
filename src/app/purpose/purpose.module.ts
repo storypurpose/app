@@ -6,8 +6,7 @@ import { purposeReducer } from './+state/purpose.reducer';
 import { PurposeDetailsComponent } from './components/purpose.component';
 import { NgxMdModule } from 'ngx-md';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { RecentlyViewedComponent } from '../components/recently-viewed.component';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Route } from '@angular/router';
 import { HierarchyFieldEditorComponent } from './components/hierarchy-field.component';
 import { OrganizationComponent } from './components/organization.component';
 import { CommonComponentsModule } from '../common-components/common-components.module';
@@ -15,10 +14,17 @@ import { FormsModule } from '@angular/forms';
 import { SidebarModule } from 'primeng/sidebar';
 import { SubItemsComponent } from './components/sub-items.component';
 import { ExtendedFieldsComponent } from './components/extended-fields.component';
-import { IssueviewerComponent } from '../components/issueviewer.component';
 import { SelectedItemContainerComponent } from './components/container.component';
 
-
+const routes: Route[] = [
+  {
+    path: '', component: SelectedItemContainerComponent, children: [
+      { path: 'items', component: SubItemsComponent },
+      { path: 'details', component: ExtendedFieldsComponent },
+      { path: 'purpose', component: PurposeDetailsComponent }
+    ]
+  }
+];
 
 @NgModule({
   declarations: [
@@ -37,7 +43,8 @@ import { SelectedItemContainerComponent } from './components/container.component
 
     CommonComponentsModule,
 
-    StoreModule.forFeature("purpose", purposeReducer, { initialState: purposeInitialState })
+    StoreModule.forFeature("purpose", purposeReducer, { initialState: purposeInitialState }),
+    RouterModule.forChild(routes)
   ]
 })
 export class PurposeModule { }

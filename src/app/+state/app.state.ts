@@ -8,6 +8,7 @@ export interface App {
 
   currentIssueKey: string;
   hierarchicalIssue: any;
+  epicChildrenLoaded: boolean;
   
   connectionDetails: any;
   projects: any;

@@ -23,6 +23,9 @@ export function appReducer(state: App, action: any): App {
         case ActionTypes.SetHierarchicalIssue: {
             return { ...state, hierarchicalIssue: action.payload };
         }
+        case ActionTypes.EpicChildrenLoaded: {
+            return { ...state, epicChildrenLoaded: action.payload };
+        }
 
         case ActionTypes.SetConnectionDetails: {
             return { ...state, connectionDetails: action.payload };

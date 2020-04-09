@@ -19,12 +19,14 @@ a {
 
 ::-webkit-scrollbar-thumb {
   background-color: #ddd;
-  border-color: #888;
   border-radius: 4pt;
 }
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
+  border-top: 1px solid #eee;
+  border-left: 1px solid #eee;
+  background-color: #fafafa;
 }
 
 label {
@@ -173,6 +175,9 @@ body .ui-sidebar {
   background-image: none !important;
 }
 
+.as-split-area {
+  overflow: auto !important;
+}
 .as-split-area:hover ::-webkit-scrollbar-thumb {
   visibility: visible;
 }

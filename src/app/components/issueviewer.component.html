@@ -2,7 +2,7 @@
 <div class="main-container">
     <div class="body-container">
         <as-split direction="horizontal">
-            <as-split-area size="20" style="overflow: auto;" class="border-right">
+            <as-split-area size="20" class="border-right">
                 <div class="pl-5">
                     <div class="sticky-title pt-2 pr-2 pb-1 pl-2">
                         <app-issue-entry [showRecentlyVisited]="true" [issueLookup]="issueLookup"></app-issue-entry>
@@ -26,10 +26,8 @@
                 </div>
             </as-split-area>
 
-            <as-split-area size="80" class="split-area">
-                <div class="pt-0 pr-5 pb-2 pl-5 ">
-                    <router-outlet></router-outlet>
-                </div>
+            <as-split-area size="80">
+                <router-outlet></router-outlet>
             </as-split-area>
         </as-split>
     </div>

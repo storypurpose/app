@@ -1,22 +1,23 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as _ from "lodash";
 import { Subscription, Observable, combineLatest } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { filter, map, debounce, debounceTime } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { CustomNodeTypes, searchTreeByKey, copyFieldValues, populateFieldValues, searchTreeByIssueType } from 'src/app/lib/jira-tree-utils';
 import { PersistenceService } from 'src/app/lib/persistence.service';
-import { SetPurposeAction, SetSelectedItemAction } from '../+state/purpose.actions';
 import { ActivatedRoute } from '@angular/router';
 import { AppState } from 'src/app/+state/app.state';
 import { getExtendedFields } from 'src/app/lib/project-config.utils';
 import { JiraService } from 'src/app/lib/jira.service';
+import { SetStoryboardItemAction } from '../+state/storyboarding.actions';
 
 @Component({
-    selector: 'app-container',
+    selector: 'app-storyboard-container',
     templateUrl: './container.component.html'
 })
-export class SelectedItemContainerComponent implements OnInit, OnDestroy {
+export class StoryboardingContainerComponent implements OnInit, OnDestroy {
 
+    epicChildrenLoadedQuery$: Observable<any>;
     issueQuery$: Observable<any>;
     paramsQuery$: Observable<any>;
     projectsQuery$: Observable<any>;
@@ -24,11 +25,14 @@ export class SelectedItemContainerComponent implements OnInit, OnDestroy {
     combined$: Subscription;
     selectedItem$: Subscription;
 
-    purpose: any;
+    storyboardItem: any;
     projects: any;
     selectedItem: any;
 
     localNodeType: any;
+
+    fieldlist = ['key', 'project', 'title', 'components', 'fixVersions', 'labels', 'issueType'];
+
     constructor(public activatedRoute: ActivatedRoute,
         public persistenceService: PersistenceService,
         public jiraService: JiraService,
@@ -37,41 +41,32 @@ export class SelectedItemContainerComponent implements OnInit, OnDestroy {
     }
     ngOnInit(): void {
         this.localNodeType = CustomNodeTypes;
-        
+
         this.selectedItem$ = this.store$.select(p => p.purpose.selectedItem).pipe(filter(p => p))
             .subscribe(p => this.selectedItem = p);
 
+        this.epicChildrenLoadedQuery$ = this.store$.select(p => p.app.epicChildrenLoaded).pipe(filter(issue => issue === true));
         this.issueQuery$ = this.store$.select(p => p.app.hierarchicalIssue).pipe(filter(issue => issue));
         this.paramsQuery$ = this.activatedRoute.params.pipe(filter(p => p && p["selected"] && p["selected"].length > 0), map(p => p["selected"]));
         this.projectsQuery$ = this.store$.select(p => p.app.projects).pipe(filter(p => p))
 
-        this.combined$ = combineLatest(this.issueQuery$, this.paramsQuery$, this.projectsQuery$)
-            .subscribe(([hierarchicalIssue, rpSelected, projects]) => {
+        this.combined$ = combineLatest(this.issueQuery$, this.paramsQuery$, this.projectsQuery$, this.epicChildrenLoadedQuery$)
+            .subscribe(([hierarchicalIssue, rpSelected, projects, epicChildrenLoaded]) => {
                 this.projects = projects;
-                const currentProject = searchTreeByIssueType(hierarchicalIssue, CustomNodeTypes.Project);
                 const selectedNode = searchTreeByKey(hierarchicalIssue, rpSelected);
-                if (currentProject && selectedNode) {
-                    selectedNode.extendedFields = getExtendedFields(this.projects, currentProject.key, selectedNode.issueType);
-                    const fieldList = _.map(selectedNode.extendedFields, 'id');
-                    this.jiraService.getIssueDetails(rpSelected, fieldList)
-                        .pipe(filter((p: any) => p !== null && p !== undefined && p.fields))
-                        .subscribe((issuedetails: any) => {
+                if (selectedNode && selectedNode.issueType === CustomNodeTypes.Epic) {
 
-                            copyFieldValues(populateFieldValues(issuedetails), selectedNode);
+                    this.storyboardItem = _.pick(selectedNode, this.fieldlist);
 
-                            selectedNode.extendedFields = _.map(selectedNode.extendedFields, (ef) => {
-                                ef.value = issuedetails.fields[ef.id];
-                                return ef;
-                            });
-
-                            const temp = _.pick(selectedNode,
-                                ['key', 'label', 'title', 'issueType', 'project', 'status', 'description', 'components', 'labels', 'fixVersions', 'extendedFields']);
-
-                            this.store$.dispatch(new SetSelectedItemAction(temp));
-                        });
-
+                    const epicChildren = _.find(selectedNode.children, { issueType: CustomNodeTypes.EpicChildren });
+                    if (epicChildren && epicChildren.children) {
+                        this.storyboardItem.children = _.map(_.clone(epicChildren.children), p => _.pick(p, this.fieldlist));
+                        this.storyboardItem.labels = _.union(_.flatten(_.map(epicChildren.children, p => p.labels)));
+                        this.storyboardItem.components = _.union(_.flatten(_.map(epicChildren.children, p => p.components)));
+                        this.storyboardItem.fixVersions = _.union(_.flatten(_.map(epicChildren.children, p => p.fixVersions)));
+                        this.store$.dispatch(new SetStoryboardItemAction(this.storyboardItem));
+                    }
                 }
-                setTimeout(() => this.markIssueSelected(selectedNode), 500);
             })
     }
 
@@ -99,32 +94,12 @@ export class SelectedItemContainerComponent implements OnInit, OnDestroy {
                             ef.value = linkedIssue.fields[ef.id];
                             return ef;
                         });
-                        this.expandPurpose(node);
+                        // this.expandPurpose(node);
                     });
             } else {
-                this.expandPurpose(node);
+                // this.expandPurpose(node);
             }
         }
     }
 
-    public expandPurpose(node: any) {
-        this.purpose = [];
-        this.populatePurpose(node);
-        _.reverse(this.purpose);
-        this.store$.dispatch(new SetPurposeAction(this.purpose));
-    }
-
-    public populatePurpose(node) {
-        if (node) {
-            if (node.issueType !== CustomNodeTypes.EpicChildren && node.issueType !== CustomNodeTypes.RelatedLink) {
-                this.purpose.push({
-                    key: node.key, issueType: node.issueType, title: node.title, purpose: node.description,
-                    editable: node.editable, hfKey: node.hfKey
-                });
-            }
-            if (node.parent) {
-                this.populatePurpose(node.parent);
-            }
-        }
-    }
 }

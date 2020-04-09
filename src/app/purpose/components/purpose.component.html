@@ -1,10 +1,3 @@
-<div class="sticky-title float-right">
-    <button class="btn btn-light btn-sm mr-2" [disabled]="fontSizeSmall"
-        (click)="fontSizeSmall = true">A</button>
-    <button class="btn btn-light" [disabled]="!fontSizeSmall" (click)="fontSizeSmall = false">A</button>
-</div>
-
-
 <div class="row">
     <div class="col-md-10">
         <div *ngIf="purpose && purpose.length > 0" [ngClass]="{'small': fontSizeSmall}">
@@ -63,6 +56,13 @@
                     </ngx-md>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="sticky-title text-right">
+            <button class="btn btn-light btn-sm mr-2" [disabled]="fontSizeSmall"
+                (click)="fontSizeSmall = true">A</button>
+            <button class="btn btn-light" [disabled]="!fontSizeSmall" (click)="fontSizeSmall = false">A</button>
         </div>
     </div>
 </div>

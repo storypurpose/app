@@ -11,7 +11,7 @@ import { PersistenceService } from '../lib/persistence.service';
 import { Store } from '@ngrx/store';
 import { ManageOrganizationEditorVisibilityAction, ManageHierarchyEditorVisibilityAction } from '../purpose/+state/purpose.actions';
 import { AppState } from '../+state/app.state';
-import { SetCurrentIssueKeyAction, UpsertProjectAction, SetHierarchicalIssueAction } from '../+state/app.actions';
+import { SetCurrentIssueKeyAction, UpsertProjectAction, SetHierarchicalIssueAction, EpicChildrenLoadedAction } from '../+state/app.actions';
 import { Subscription } from 'rxjs';
 import { getExtendedFields } from '../lib/project-config.utils';
 
@@ -174,10 +174,11 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
             let projectNode = this.createProjectNode(node);
             const organizationNode = this.createOrganizationNode();
 
-            const epicNode = this.populateEpic(node);
-
             projectNode = this.addToLeafNode(organizationNode, projectNode);
             hierarchyNode = this.addToLeafNode(projectNode, hierarchyNode);
+
+            const epicNode = this.populateEpic(node);
+
             node = this.addToLeafNode(hierarchyNode, epicNode);
 
             this.store$.dispatch(new SetHierarchicalIssueAction(node));
@@ -191,12 +192,17 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     }
 
     private loadEpicChildren(node: any, epicKey, shouldExpand) {
+
+        this.store$.dispatch(new EpicChildrenLoadedAction(false));
+
         this.jiraService.executeJql(`'epic Link'=${epicKey}`, ['components', 'labels', 'fixVersions'], 'epic-children.json')
             .subscribe((data: any) => {
                 if (data && data.issues) {
                     node.children = _.map(data.issues, (item) => transformParentNode(item, null));;
                     this.issueLookup = _.union(this.issueLookup, _.map(node.children, 'key'))
                     node.expanded = shouldExpand;
+
+                    this.store$.dispatch(new EpicChildrenLoadedAction(true));
                 }
             });
     }
@@ -210,7 +216,13 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
             {
                 label: 'Browse', icon: 'fa fa-external-link-alt', menuType: CustomNodeTypes.Issue,
                 command: (args) => (args.item && args.item.data)
-                    ? this.router.navigate(['/for', args.item.data.key, 'selected', args.item.data.key, 'purpose'])
+                    ? this.router.navigate(['selected', args.item.data.key, 'purpose'], { relativeTo: this.activatedRoute })
+                    : null
+            },
+            {
+                label: 'Storyboard', icon: 'far fa-map', menuType: CustomNodeTypes.Epic,
+                command: (args) => (args.item && args.item.data)
+                    ? this.router.navigate(['storyboarding', args.item.data.key, 'details'], { relativeTo: this.activatedRoute })
                     : null
             },
             {
@@ -242,14 +254,16 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
                 case CustomNodeTypes.Project:
                     this.menulist = _.filter(this.masterMenulist, { menuType: treeNode.menuType });
                     break;
+                case CustomNodeTypes.Epic:
+                    this.menulist = _.filter(this.masterMenulist,
+                        (menu) => menu.menuType === CustomNodeTypes.Issue || menu.menuType === CustomNodeTypes.Epic);
+                    break;
                 default:
                     this.menulist = _.filter(this.masterMenulist, { menuType: CustomNodeTypes.Issue });
                     break;
             }
 
-            if (treeNode.key.toLowerCase() === this.issueKey.toLowerCase() || isCustomNode(treeNode)) {
-                contextMenu.hide();
-            } else if (this.menulist && this.menulist.length > 0) {
+            if (this.menulist && this.menulist.length > 0) {
                 this.menulist.forEach(u => u.data = treeNode);
             }
         }
@@ -271,6 +285,9 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
 
     private populateEpic(node) {
         if (node && node.fields) {
+            if (node.issueType === CustomNodeTypes.Epic) {
+                node.menuType = CustomNodeTypes.Epic;
+            }
             if (this.relatedEpic) {
 
                 const epicChildrenNode = createEpicChildrenNode(node);
@@ -281,6 +298,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
                     title: this.relatedEpic.title,
                     description: this.relatedEpic.description,
                     issueType: CustomNodeTypes.Epic,
+                    menuType: CustomNodeTypes.Epic,
                     icon: getIcon(CustomNodeTypes.Epic),
                     project: this.relatedEpic.project,
                     children: [node, epicChildrenNode],

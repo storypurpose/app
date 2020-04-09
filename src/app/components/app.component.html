@@ -10,7 +10,7 @@
     </button>
     <div [ngbCollapse]="isNavbarCollapsed" class="collapse navbar-collapse" id="navbarsDefault">
       <ui-switch [title]="isOnlineMode ? 'Online mode': 'Offline mode'" class="nav-link" [(ngModel)]="isOnlineMode"
-        (change)="onModeChange($event)" size="small">
+        (change)="onModeChange($event)" size="small" *ngIf="allowOfflineMode">
       </ui-switch>
 
       <ul class="navbar-nav ml-auto">

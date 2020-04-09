@@ -8,6 +8,7 @@ export const appInitialState: App = {
 
     currentIssueKey: null,
     hierarchicalIssue: null,
+    epicChildrenLoaded: false,
 
     connectionDetails: null,
     projects: null,

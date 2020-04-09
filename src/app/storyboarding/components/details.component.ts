@@ -13,8 +13,10 @@ export class StoryboardComponent implements OnInit, OnDestroy {
 
     storyboardItem$: Subscription;
     public storyboardItem: any;
-    public constructor(public store$: Store<StoryboardingState>) {
 
+    expandedAll = true;
+
+    public constructor(public store$: Store<StoryboardingState>) {
     }
 
     ngOnInit(): void {
@@ -25,10 +27,23 @@ export class StoryboardComponent implements OnInit, OnDestroy {
         this.storyboardItem$ ? this.storyboardItem$.unsubscribe() : null;
     }
 
-    getItems(fv, c) {
+    getItems(fixVersion, component) {
         if (!this.storyboardItem || !this.storyboardItem.children)
             return [];
 
-        return _.filter(this.storyboardItem.children, p => _.includes(p.components, c) && _.includes(p.fixVersions, fv))
+        const records = _.filter(this.storyboardItem.children,
+            p => _.includes(p.components, component.title) && _.includes(p.fixVersions, fixVersion.title))
+        // fixVersion.count += records.length;
+        // component.count += records.length;
+
+        // console.log(`${records.length} [${fixVersion.title}: ${fixVersion.count}], [${component.title}: ${component.count}]`);
+        return records;
+    }
+
+    expandCollapse(value) {
+        this.expandedAll = !this.expandedAll;
+        if (this.storyboardItem && this.storyboardItem.fixVersions) {
+            this.storyboardItem.fixVersions.forEach(u => u.expanded = this.expandedAll);
+        }
     }
 }

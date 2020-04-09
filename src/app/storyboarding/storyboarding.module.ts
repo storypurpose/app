@@ -11,6 +11,8 @@ import { FormsModule } from '@angular/forms';
 import { SidebarModule } from 'primeng/sidebar';
 import { StoryboardComponent } from './components/details.component';
 import { StoryboardingContainerComponent } from './components/container.component';
+import { TreeTableModule } from 'primeng/treetable';
+import {TreeNode} from 'primeng/api';
 
 const routes: Route[] = [
   {
@@ -33,6 +35,7 @@ const routes: Route[] = [
     FontAwesomeModule,
 
     SidebarModule,
+    TreeTableModule,
 
     CommonComponentsModule,
 

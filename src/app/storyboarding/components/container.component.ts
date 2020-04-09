@@ -31,7 +31,7 @@ export class StoryboardingContainerComponent implements OnInit, OnDestroy {
 
     localNodeType: any;
 
-    fieldlist = ['key', 'project', 'title', 'components', 'fixVersions', 'labels', 'issueType'];
+    fieldlist = ['key', 'project', 'title', 'status', 'components', 'fixVersions', 'labels', 'issueType'];
 
     constructor(public activatedRoute: ActivatedRoute,
         public persistenceService: PersistenceService,
@@ -61,9 +61,15 @@ export class StoryboardingContainerComponent implements OnInit, OnDestroy {
                     const epicChildren = _.find(selectedNode.children, { issueType: CustomNodeTypes.EpicChildren });
                     if (epicChildren && epicChildren.children) {
                         this.storyboardItem.children = _.map(_.clone(epicChildren.children), p => _.pick(p, this.fieldlist));
+
                         this.storyboardItem.labels = _.union(_.flatten(_.map(epicChildren.children, p => p.labels)));
-                        this.storyboardItem.components = _.union(_.flatten(_.map(epicChildren.children, p => p.components)));
-                        this.storyboardItem.fixVersions = _.union(_.flatten(_.map(epicChildren.children, p => p.fixVersions)));
+
+                        this.storyboardItem.components = _.map(_.union(_.flatten(_.map(epicChildren.children, p => p.components))),
+                            (c) => { return { title: c, count: 0 } });
+
+                        this.storyboardItem.fixVersions = _.map(_.union(_.flatten(_.map(epicChildren.children, p => p.fixVersions))),
+                            (fv) => { return { title: fv, expanded: true, count: 0 } });
+
                         this.store$.dispatch(new SetStoryboardItemAction(this.storyboardItem));
                     }
                 }

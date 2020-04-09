@@ -21,7 +21,8 @@ const routes: Route[] = [
     path: '', component: SelectedItemContainerComponent, children: [
       { path: 'items', component: SubItemsComponent },
       { path: 'details', component: ExtendedFieldsComponent },
-      { path: 'purpose', component: PurposeDetailsComponent }
+      { path: 'purpose', component: PurposeDetailsComponent },
+      { path: '', redirectTo: 'purpose', pathMatch: 'full' }
     ]
   }
 ];

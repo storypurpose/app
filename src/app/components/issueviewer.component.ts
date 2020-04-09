@@ -5,7 +5,7 @@ import {
     CustomNodeTypes, isCustomNode, getExtendedFieldValue, getIcon, createEpicChildrenNode
 } from '../lib/jira-tree-utils';
 import * as _ from 'lodash';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, PRIMARY_OUTLET } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
 import { PersistenceService } from '../lib/persistence.service';
 import { Store } from '@ngrx/store';
@@ -14,6 +14,7 @@ import { AppState } from '../+state/app.state';
 import { SetCurrentIssueKeyAction, UpsertProjectAction, SetHierarchicalIssueAction, EpicChildrenLoadedAction } from '../+state/app.actions';
 import { Subscription } from 'rxjs';
 import { getExtendedFields } from '../lib/project-config.utils';
+import { getRoutelet } from '../lib/route-utils';
 
 @Component({
     selector: 'app-issueviewer',
@@ -195,7 +196,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
 
         this.store$.dispatch(new EpicChildrenLoadedAction(false));
 
-        this.jiraService.executeJql(`'epic Link'=${epicKey}`, ['components', 'labels', 'fixVersions'], 'epic-children.json')
+        this.jiraService.executeJql(`'epic Link'=${epicKey}`, ['description', 'components', 'labels', 'fixVersions'], 'epic-children.json')
             .subscribe((data: any) => {
                 if (data && data.issues) {
                     node.children = _.map(data.issues, (item) => transformParentNode(item, null));;
@@ -208,7 +209,9 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     }
 
     public nodeSelected(event) {
-        this.router.navigate(['selected', event.node.key, 'purpose'], { relativeTo: this.activatedRoute });
+        
+        let routelet = getRoutelet(this.router, 'purpose');
+        this.router.navigate(['selected', event.node.key, routelet], { relativeTo: this.activatedRoute });
     }
 
     private initializeMasterMenulist() {
@@ -216,7 +219,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
             {
                 label: 'Browse', icon: 'fa fa-external-link-alt', menuType: CustomNodeTypes.Issue,
                 command: (args) => (args.item && args.item.data)
-                    ? this.router.navigate(['selected', args.item.data.key, 'purpose'], { relativeTo: this.activatedRoute })
+                    ? this.router.navigate(['..', args.item.data.key, 'selected', args.item.data.key], { relativeTo: this.activatedRoute })
                     : null
             },
             {

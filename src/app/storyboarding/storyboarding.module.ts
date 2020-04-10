@@ -12,7 +12,10 @@ import { SidebarModule } from 'primeng/sidebar';
 import { StoryboardComponent } from './components/details.component';
 import { StoryboardingContainerComponent } from './components/container.component';
 import { TreeTableModule } from 'primeng/treetable';
-import {TreeNode} from 'primeng/api';
+import { TreeNode } from 'primeng/api';
+
+import { ChartsModule } from 'ng2-charts';
+import 'chartjs-plugin-labels';
 
 const routes: Route[] = [
   {
@@ -36,6 +39,8 @@ const routes: Route[] = [
 
     SidebarModule,
     TreeTableModule,
+
+    ChartsModule,
 
     CommonComponentsModule,
 

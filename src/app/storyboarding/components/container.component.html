@@ -1,11 +1,19 @@
 <div class="pl-3 pr-3">
-    <div class="sticky-title pb-1" *ngIf="storyboardItem">
-        <div>
-            <sub class="text-uppercase mr-2">{{storyboardItem.issueType}}: {{storyboardItem.key}}</sub>
+    <div class="row mb-2">
+        <div class="col-md-6">
+            <div *ngIf="storyboardItem">
+                <div>
+                    <sub class="text-uppercase mr-2">{{storyboardItem.issueType}}: {{storyboardItem.key}}</sub>
+                </div>
+                <h2 class="font-weight-light">
+                    {{storyboardItem.title}}
+                </h2>
+            </div>
         </div>
-        <h2 class="font-weight-light">
-            {{storyboardItem.title}}
-        </h2>
+        <div class="col-md-6 pt-1">
+            <canvas *ngIf="chartData && chartLabels" height="40" baseChart [data]="chartData" [options]="chartOptions"
+                [labels]="chartLabels" chartType="doughnut"></canvas>
+        </div>
     </div>
 
     <router-outlet></router-outlet>

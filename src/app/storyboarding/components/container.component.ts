@@ -11,6 +11,7 @@ import { getExtendedFields } from 'src/app/lib/project-config.utils';
 import { JiraService } from 'src/app/lib/jira.service';
 import { SetStoryboardItemAction } from '../+state/storyboarding.actions';
 
+const NO_COMPONENT = 'No component';
 @Component({
     selector: 'app-storyboard-container',
     templateUrl: './container.component.html'
@@ -62,13 +63,43 @@ export class StoryboardingContainerComponent implements OnInit, OnDestroy {
                     if (epicChildren && epicChildren.children) {
                         this.storyboardItem.children = _.map(_.clone(epicChildren.children), p => _.pick(p, this.fieldlist));
 
+                        const statusResultSet = _.mapValues(_.groupBy(_.map(this.storyboardItem.children, 'status')), (s) => s.length);
+                        this.storyboardItem.statistics = Object.keys(statusResultSet).map((key) => { return { key, count: statusResultSet[key] } });
+
+                        console.log(this.storyboardItem.statistics);
+                        this.storyboardItem.count = this.storyboardItem.children ? this.storyboardItem.children.length : 0;
+
                         this.storyboardItem.labels = _.union(_.flatten(_.map(epicChildren.children, p => p.labels)));
 
-                        this.storyboardItem.components = _.map(_.union(_.flatten(_.map(epicChildren.children, p => p.components))),
-                            (c) => { return { title: c, count: 0 } });
+                        this.storyboardItem.components = _.orderBy(_.map(_.union(_.flatten(_.map(epicChildren.children, p => p.components))),
+                            (c) => { return { title: c, count: 0 } }), 'title');
+
+                        this.storyboardItem.components.unshift({ title: NO_COMPONENT, count: 0 });
 
                         this.storyboardItem.fixVersions = _.map(_.union(_.flatten(_.map(epicChildren.children, p => p.fixVersions))),
-                            (fv) => { return { title: fv, expanded: true, count: 0 } });
+                            (fv) => {
+                                const found = _.filter(epicChildren.children, p => _.includes(p.fixVersions, fv))
+
+                                return {
+                                    title: fv, expanded: true, count: found ? found.length : 0,
+                                    componentWise: _.map(this.storyboardItem.components, c => {
+
+                                        const values = _.filter(found, f => (c.title === NO_COMPONENT)
+                                            ? f.components.length === 0
+                                            : _.includes(f.components, c.title));
+                                        c.count += values.length;
+                                        return {
+                                            component: c.title,
+                                            values: values
+                                        }
+                                    })
+                                }
+                            });
+                        const found = _.find(this.storyboardItem.components, { title: NO_COMPONENT })
+                        console.log(found);
+                        if (!found || found.count === 0) {
+                            _.remove(this.storyboardItem.components, { title: NO_COMPONENT });
+                        }
 
                         this.store$.dispatch(new SetStoryboardItemAction(this.storyboardItem));
                     }
@@ -80,32 +111,4 @@ export class StoryboardingContainerComponent implements OnInit, OnDestroy {
         this.combined$ ? this.combined$.unsubscribe() : null;
         this.selectedItem$ ? this.selectedItem$.unsubscribe() : null;
     }
-
-    private markIssueSelected(node: any) {
-        if (node) {
-            if (this.projects && node.project) {
-                node.extendedFields = getExtendedFields(this.projects, node.project.key, node.issueType);
-            }
-            if (node.parent && node.parent.issueType === CustomNodeTypes.RelatedLink && (!node.description || node.description.length === 0)) {
-                const fieldList = _.map(node.extendedFields, 'id');
-                this.jiraService.getIssueDetails(node.key, fieldList)
-                    .pipe(filter(p => p !== null && p !== undefined))
-                    .subscribe((linkedIssue: any) => {
-                        const loaded = populateFieldValues(linkedIssue);
-                        if (loaded) {
-                            copyFieldValues(loaded, node);
-                        }
-
-                        node.extendedFields = _.map(node.extendedFields, (ef) => {
-                            ef.value = linkedIssue.fields[ef.id];
-                            return ef;
-                        });
-                        // this.expandPurpose(node);
-                    });
-            } else {
-                // this.expandPurpose(node);
-            }
-        }
-    }
-
 }

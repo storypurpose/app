@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/+state/app.state';
 import { StoryboardingState } from '../+state/storyboarding.state';
 import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 @Component({
     selector: 'app-storyboard-details',
@@ -20,7 +21,7 @@ export class StoryboardComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.storyboardItem$ = this.store$.select(p => p.storyboarding.storyboardItem).pipe(p => p)
+        this.storyboardItem$ = this.store$.select(p => p.storyboarding.storyboardItem).pipe(filter(p => p))
             .subscribe(p => this.storyboardItem = p);
     }
     ngOnDestroy(): void {
@@ -31,16 +32,15 @@ export class StoryboardComponent implements OnInit, OnDestroy {
         if (!this.storyboardItem || !this.storyboardItem.children)
             return [];
 
-        const records = _.filter(this.storyboardItem.children,
-            p => _.includes(p.components, component.title) && _.includes(p.fixVersions, fixVersion.title))
-        // fixVersion.count += records.length;
-        // component.count += records.length;
-
-        // console.log(`${records.length} [${fixVersion.title}: ${fixVersion.count}], [${component.title}: ${component.count}]`);
+        let records = [];
+        if (fixVersion.componentWise) {
+            const found = _.find(fixVersion.componentWise, { component: component.title });
+            records = found.values;
+        }
         return records;
     }
 
-    expandCollapse(value) {
+    expandCollapseAll() {
         this.expandedAll = !this.expandedAll;
         if (this.storyboardItem && this.storyboardItem.fixVersions) {
             this.storyboardItem.fixVersions.forEach(u => u.expanded = this.expandedAll);

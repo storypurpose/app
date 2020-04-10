@@ -1,4 +1,4 @@
-<div class="pt-0 pr-5 pb-2 pl-5 ">
+<div class="pt-0 pr-3 pb-2 pl-3">
     <div class="sticky-title pb-3" *ngIf="selectedItem">
         <div class="border-bottom ">
             <div>
@@ -18,18 +18,29 @@
                     *ngFor="let fv of selectedItem.labels">{{fv}}</span>
             </div>
             <div class="pb-2">
-                <a class="btn btn-link mr-1 pl-0" [routerLink]="['purpose']" title="View purpose"
-                    [routerLinkActive]="'active'">
-                    <fa-icon [icon]="['far', 'lightbulb']" size="sm"></fa-icon> Purpose
-                </a>
-                <a class="btn btn-link mr-1"
-                    *ngIf="selectedItem.extendedFields && selectedItem.extendedFields.length > 0" routerLink="details"
-                    [routerLinkActive]="'active'">
-                    <fa-icon [icon]="['far', 'list-alt']" size="sm"></fa-icon> Details
-                </a>
-                <a class="btn btn-link mr-1" routerLink="items" [routerLinkActive]="'active'">
-                    <fa-icon icon="list-ol" size="sm"></fa-icon> Sub items
-                </a>
+                <div class="row">
+                    <div class="col-md-8">
+                        <a class="btn btn-link mr-1 pl-0" [routerLink]="['purpose']" title="View purpose"
+                            [routerLinkActive]="'active'">
+                            <fa-icon [icon]="['far', 'lightbulb']" size="sm"></fa-icon> Purpose
+                        </a>
+                        <a class="btn btn-link mr-1"
+                            *ngIf="selectedItem.extendedFields && selectedItem.extendedFields.length > 0"
+                            routerLink="details" [routerLinkActive]="'active'">
+                            <fa-icon [icon]="['far', 'list-alt']" size="sm"></fa-icon> Details
+                        </a>
+                        <a class="btn btn-link mr-1" routerLink="items" [routerLinkActive]="'active'">
+                            <fa-icon icon="list-ol" size="sm"></fa-icon> Sub items
+                        </a>
+                    </div>
+                    <div class="col-md-4 text-right" *ngIf="selectedItem.issueType === 'Epic'">
+                        <a class="btn btn-link mr-1" [routerLink]="['../../storyboard',selectedItem.key]"
+                            [routerLinkActive]="'active'">
+                            <fa-icon icon="map" size="sm"></fa-icon> Storyboard
+                            <fa-icon icon="chevron-right" size="sm"></fa-icon>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

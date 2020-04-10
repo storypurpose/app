@@ -44,6 +44,18 @@ export function isHeaderNode(args) {
         args.issueType === CustomNodeTypes.Hierarchy;
 }
 
+export function populateFieldValuesCompact(node) {
+    if (node && node.fields) {
+        return {
+            key: node.key,
+            issueType: node.fields.issuetype ? node.fields.issuetype.name : 'unknown',
+            status: node.fields.status ? node.fields.status.name : 'unknown',
+            title: node.fields.summary,
+            icon: getIcon(node.issueType)
+        }
+    }
+    return null;
+}
 export function populateFieldValues(node) {
     if (node && node.fields) {
         node.project = _.pick(node.fields.project, ['id', 'key', 'name']);

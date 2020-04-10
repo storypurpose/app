@@ -1,0 +1,50 @@
+<div class="pane">
+    <div class="pane-header">
+        <button class="btn btn-link text-white float-right" (click)="onClose()">
+            <fa-icon icon="times" size="lg"></fa-icon>
+        </button>
+
+        <h4>Search</h4>
+    </div>
+
+    <div class="pane-body">
+        <div class=" input-group sticky-title p-3 bg-light border-bottom">
+            <input type="text" class="form-control rounded-0 " name="query" [(ngModel)]="query" placeholder="query"
+                id="query" type="text" (keydown.enter)="executeQuery()" />
+            <div class="input-group-append">
+                <button [disabled]="!canExecuteQuery()" class="btn btn-white rounded-0 border border-left-0 "
+                    type="button" (click)="executeQuery()">
+                    <fa-icon icon="search" [size]="['fw', 'sm']"></fa-icon>
+                </button>
+            </div>
+        </div>
+
+        <div *ngIf="issuelist" class="pl-1 pr-1 pb-3 pt-0">
+
+            <div *ngFor="let issue of issuelist.results">
+                <a class="btn btn-link btn-sm text-dark text-left w-100 pt-0" (click)="onClose()"
+                    [routerLink]="['/for', issue.key, 'selected', issue.key]">
+                    <sub class="text-primary text-uppercase">{{issue.issueType}}: {{issue.key}}</sub>
+
+                    <div>
+                        {{issue.title}}
+                        <span class="badge badge-light font-weight-normal">{{issue.status}}</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="pane-footer">
+        <table class="row" *ngIf="issuelist">
+            <div class="col-md-3 pt-2 small">
+                {{issuelist.startAt + 1}} - {{issuelist.endAt}} / <b>{{issuelist.total}}</b>
+            </div>
+            <div class="col-md-9">
+                <ngb-pagination class="float-right" [maxSize]="3" [(page)]="currentPageIndex" [boundaryLinks]="true"
+                    [pageSize]="issuelist.pageSize" size="sm" (pageChange)="onPageChange($event)"
+                    [collectionSize]="issuelist.total">
+                </ngb-pagination>
+            </div>
+        </table>
+    </div>
+</div>

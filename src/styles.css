@@ -135,7 +135,6 @@ body .ui-sidebar {
   width: 100%;
   margin: 0;
   overflow: auto;
-  padding: 1rem;
 }
 .pane .pane-footer {
   bottom: 0;

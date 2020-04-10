@@ -46,10 +46,6 @@ export class JiraService {
     }
 
     testConnection(connectionDetails) {
-        // const pwd = connectionDetails.authenticationType === AuthenticationModeTypes.JiraCloud
-        //     ? connectionDetails.password
-        //     : btoa(connectionDetails.password);
-
         return this.http.get(`${this.proxyurl}/${connectionDetails.serverUrl}${this.restVersionEndpoint}/myself`,
             {
                 headers: new HttpHeaders({
@@ -77,12 +73,13 @@ export class JiraService {
         return combineLatest(projectUrl$, fieldsUrl$);
     }
 
-    executeJql(jql, extendedFields = [], srcJson = null) {
+    executeJql(jql, pageIndex = 0, pageSize = 10, extendedFields = [], srcJson = null) {
         if (this.isOnlineMode === false && srcJson && srcJson.length > 0) {
             return this.http.get(`${this.staticFileLocation}/${srcJson}`, this.httpOptions)
         }
+        const startAt = pageIndex * pageSize;
         const fieldCodes = _.join(_.concat(this.fieldList, extendedFields));
-        const url = `search?jql=${jql}&fields=${fieldCodes}`;
+        const url = `search?jql=${jql}&fields=${fieldCodes}&startAt=${startAt}&maxResult=${pageSize}`;
         return this.http.get(`${this.proxyurl}/${this.baseUrl}/${url}`, this.httpOptions);
     }
 }

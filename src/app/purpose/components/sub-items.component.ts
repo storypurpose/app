@@ -59,7 +59,7 @@ export class SubItemsComponent implements OnInit, OnDestroy {
 
             const codelist = _.map(extendedFields, 'id');
 
-            this.jiraService.executeJql(`issuetype in (${subTaskIssueTypes}) AND parent=${issue.key}`, codelist, 'test-cases.json')
+            this.jiraService.executeJql(`issuetype in (${subTaskIssueTypes}) AND parent=${issue.key}`, 0, 100, codelist, 'test-cases.json')
                 .pipe(filter((data: any) => data && data.issues))
                 .subscribe((data: any) => {
                     this.childItems = flattenNodes(data.issues);

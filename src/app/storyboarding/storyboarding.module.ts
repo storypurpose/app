@@ -19,9 +19,9 @@ import 'chartjs-plugin-labels';
 
 const routes: Route[] = [
   {
-    path: '', component: StoryboardingContainerComponent, children: [
+    path: ':selected', component: StoryboardingContainerComponent, children: [
       { path: 'details', component: StoryboardComponent },
-      { path: '', redirectTo: 'details', pathMatch: 'full' }
+      { path: '', redirectTo: "details", pathMatch: "full" }
     ]
   }
 ];
@@ -45,6 +45,7 @@ const routes: Route[] = [
     CommonComponentsModule,
 
     StoreModule.forFeature("storyboarding", storyboardingReducer, { initialState: storyboardingInitialState }),
+
     RouterModule.forChild(routes)
   ]
 })

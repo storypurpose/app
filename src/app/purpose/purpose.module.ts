@@ -18,11 +18,11 @@ import { SelectedItemContainerComponent } from './components/container.component
 
 const routes: Route[] = [
   {
-    path: '', component: SelectedItemContainerComponent, children: [
+    path: ':selected', component: SelectedItemContainerComponent, children: [
       { path: 'items', component: SubItemsComponent },
       { path: 'details', component: ExtendedFieldsComponent },
       { path: 'purpose', component: PurposeDetailsComponent },
-      { path: '', redirectTo: 'purpose', pathMatch: 'full' }
+      { path: '', redirectTo: "purpose", pathMatch: "full" }
     ]
   }
 ];
@@ -43,8 +43,8 @@ const routes: Route[] = [
     SidebarModule,
 
     CommonComponentsModule,
-
     StoreModule.forFeature("purpose", purposeReducer, { initialState: purposeInitialState }),
+
     RouterModule.forChild(routes)
   ]
 })

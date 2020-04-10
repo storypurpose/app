@@ -48,10 +48,11 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { environment } from '../environments/environment';
 import { ProjectConfigComponent } from './components/setup/project-config.component';
 import { FieldSelectorListComponent } from './components/setup/field-selector-list.component';
+import { IssuelistComponent } from './components/issue-list.component';
 
 @NgModule({
   declarations: [
-    AboutComponent, CopyrightComponent, WorkspaceComponent, FooterComponent,
+    IssuelistComponent, AboutComponent, CopyrightComponent, WorkspaceComponent, FooterComponent,
 
     AppComponent, PageNotFoundComponent,
     IssueviewerComponent,
@@ -103,7 +104,6 @@ import { FieldSelectorListComponent } from './components/setup/field-selector-li
     }),
 
     CommonComponentsModule,
-    PurposeModule,
 
     AppRoutingModule
   ],

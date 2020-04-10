@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, ViewChild, Output, EventEmitter } from '@angular/core';
 import * as _ from 'lodash';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AppState } from '../+state/app.state';
@@ -13,7 +13,10 @@ import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 })
 export class IssueEntryComponent implements OnInit, OnDestroy {
     @Input() issueLookup: any;
-    @Input() showRecentlyVisited = false;
+    @Input() hideIssuelistNavigator = true;
+
+    @Output() showIssuelist = new EventEmitter<any>();
+
     issue: string;
     subscription: Subscription;
     constructor(public router: Router,
@@ -63,5 +66,9 @@ export class IssueEntryComponent implements OnInit, OnDestroy {
                         : _.filter(this.issueLookup || [], v => v.toLowerCase().indexOf(term.toLowerCase()) > -1)),
                 map(list => (list || []).slice(0, 20))
             );
+    }
+
+    onShowEpiclist(){
+        this.showIssuelist.emit(true);
     }
 }

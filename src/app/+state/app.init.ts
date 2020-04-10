@@ -6,6 +6,8 @@ export const appInitialState: App = {
     customFieldEditorVisible: null,
     projectConfigEditorVisible: null,
 
+    issuelist: null,
+
     currentIssueKey: null,
     hierarchicalIssue: null,
     epicChildrenLoaded: false,

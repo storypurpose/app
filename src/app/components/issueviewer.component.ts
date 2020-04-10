@@ -5,7 +5,7 @@ import {
     CustomNodeTypes, isCustomNode, getExtendedFieldValue, getIcon, createEpicChildrenNode
 } from '../lib/jira-tree-utils';
 import * as _ from 'lodash';
-import { ActivatedRoute, Router, PRIMARY_OUTLET } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
 import { PersistenceService } from '../lib/persistence.service';
 import { Store } from '@ngrx/store';
@@ -60,6 +60,8 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     currentProject$: Subscription;
 
     public issueLookup: any;
+
+    showIssuelist = false;
 
     constructor(public router: Router,
         public activatedRoute: ActivatedRoute,
@@ -196,7 +198,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
 
         this.store$.dispatch(new EpicChildrenLoadedAction(false));
 
-        this.jiraService.executeJql(`'epic Link'=${epicKey}`, ['description', 'components', 'labels', 'fixVersions'], 'epic-children.json')
+        this.jiraService.executeJql(`'epic Link'=${epicKey}`, 0, 100, ['description', 'components', 'labels', 'fixVersions'], 'epic-children.json')
             .subscribe((data: any) => {
                 if (data && data.issues) {
                     node.children = _.map(data.issues, (item) => transformParentNode(item, null));;
@@ -209,7 +211,6 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     }
 
     public nodeSelected(event) {
-        
         let routelet = getRoutelet(this.router, 'purpose');
         this.router.navigate(['selected', event.node.key, routelet], { relativeTo: this.activatedRoute });
     }
@@ -225,7 +226,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
             {
                 label: 'Storyboard', icon: 'far fa-map', menuType: CustomNodeTypes.Epic,
                 command: (args) => (args.item && args.item.data)
-                    ? this.router.navigate(['storyboarding', args.item.data.key, 'details'], { relativeTo: this.activatedRoute })
+                    ? this.router.navigate(['storyboard', args.item.data.key, 'details'], { relativeTo: this.activatedRoute })
                     : null
             },
             {
@@ -248,7 +249,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
         ];
     }
 
-    nodeContextMenuSelect(treeNode, contextMenu) {
+    nodeContextMenuSelect(treeNode) {
         this.menulist = null;
         if (treeNode) {
             switch (treeNode.menuType) {

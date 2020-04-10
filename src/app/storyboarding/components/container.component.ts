@@ -1,13 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as _ from "lodash";
 import { Subscription, Observable, combineLatest } from 'rxjs';
-import { filter, map, debounce, debounceTime } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
-import { CustomNodeTypes, searchTreeByKey, copyFieldValues, populateFieldValues, searchTreeByIssueType } from 'src/app/lib/jira-tree-utils';
+import { CustomNodeTypes, searchTreeByKey } from 'src/app/lib/jira-tree-utils';
 import { PersistenceService } from 'src/app/lib/persistence.service';
 import { ActivatedRoute } from '@angular/router';
 import { AppState } from 'src/app/+state/app.state';
-import { getExtendedFields } from 'src/app/lib/project-config.utils';
 import { JiraService } from 'src/app/lib/jira.service';
 import { SetStoryboardItemAction } from '../+state/storyboarding.actions';
 import { ChartOptions } from 'chart.js';
@@ -59,16 +58,13 @@ export class StoryboardingContainerComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.localNodeType = CustomNodeTypes;
 
-        this.selectedItem$ = this.store$.select(p => p.purpose.selectedItem).pipe(filter(p => p))
-            .subscribe(p => this.selectedItem = p);
-
         this.epicChildrenLoadedQuery$ = this.store$.select(p => p.app.epicChildrenLoaded).pipe(filter(issue => issue === true));
         this.issueQuery$ = this.store$.select(p => p.app.hierarchicalIssue).pipe(filter(issue => issue));
         this.paramsQuery$ = this.activatedRoute.params.pipe(filter(p => p && p["selected"] && p["selected"].length > 0), map(p => p["selected"]));
         this.projectsQuery$ = this.store$.select(p => p.app.projects).pipe(filter(p => p))
 
         this.combined$ = combineLatest(this.issueQuery$, this.paramsQuery$, this.projectsQuery$, this.epicChildrenLoadedQuery$)
-            .subscribe(([hierarchicalIssue, rpSelected, projects, epicChildrenLoaded]) => {
+            .subscribe(([hierarchicalIssue, rpSelected, projects]) => {
                 this.projects = projects;
                 const selectedNode = searchTreeByKey(hierarchicalIssue, rpSelected);
                 if (selectedNode && selectedNode.issueType === CustomNodeTypes.Epic) {
@@ -84,8 +80,6 @@ export class StoryboardingContainerComponent implements OnInit, OnDestroy {
 
                         this.chartLabels = _.map(this.storyboardItem.statistics, s => `${s.key} (${s.count})`);
                         this.chartData = _.map(this.storyboardItem.statistics, 'count');
-
-                        console.log(this.storyboardItem.statistics, this.chartLabels, this.chartData);
 
                         this.storyboardItem.count = this.storyboardItem.children ? this.storyboardItem.children.length : 0;
 
@@ -116,7 +110,6 @@ export class StoryboardingContainerComponent implements OnInit, OnDestroy {
                                 }
                             });
                         const found = _.find(this.storyboardItem.components, { title: NO_COMPONENT })
-                        console.log(found);
                         if (!found || found.count === 0) {
                             _.remove(this.storyboardItem.components, { title: NO_COMPONENT });
                         }

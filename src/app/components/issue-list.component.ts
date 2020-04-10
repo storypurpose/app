@@ -1,0 +1,68 @@
+import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
+import * as _ from 'lodash';
+import { Router, ActivatedRoute } from '@angular/router';
+import { AppState } from '../+state/app.state';
+import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
+import { filter, tap, map } from 'rxjs/operators';
+import { JiraService } from '../lib/jira.service';
+import { SetIssuelistAction } from '../+state/app.actions';
+import { populateFieldValuesCompact } from '../lib/jira-tree-utils';
+
+@Component({
+    selector: 'app-issue-list',
+    templateUrl: './issue-list.component.html'
+})
+export class IssuelistComponent implements OnInit, OnDestroy {
+    @Output() close = new EventEmitter<any>();
+
+    query: string = "issuetype = epic";
+    issuelist: any;
+    issuelist$: Subscription;
+
+    public currentPageIndex = 1;
+    constructor(public router: Router,
+        public activatedRoute: ActivatedRoute,
+        public jiraService: JiraService,
+        public store$: Store<AppState>) {
+    }
+    ngOnInit(): void {
+        this.issuelist$ = this.store$.select(p => p.app.issuelist).pipe(tap(p => console.log(p)), filter(p => p))
+            .subscribe(key => this.issuelist = key);
+
+        this.executeQuery();
+    }
+    ngOnDestroy(): void {
+        this.issuelist$ ? this.issuelist$.unsubscribe : null;
+    }
+
+    canNavigate = () => this.issuelist && this.issuelist.trim().length > 0;
+    navigateTo(issue) {
+        if (this.canNavigate()) {
+            this.router.navigate(['/for', issue.trim()]);
+        }
+    }
+
+    canExecuteQuery = () => this.query && this.query.trim().length > 0;
+    executeQuery() {
+        if (this.canExecuteQuery()) {
+            this.jiraService.executeJql(this.query, this.currentPageIndex - 1, 50, [], 'issuelist.json')
+                .pipe(map((p: any) => {
+                    return {
+                        total: p.total,
+                        startAt: p.startAt,
+                        endAt: ((p.startAt + p.maxResults) < p.total) ? p.startAt + p.maxResults : p.total,
+                        pageSize: p.maxResults,
+                        results: _.map(p.issues, p => populateFieldValuesCompact(p))
+                    }
+                }))
+                .subscribe(p => this.store$.dispatch(new SetIssuelistAction(p)));
+        }
+    }
+    onPageChange(index) {
+        this.executeQuery();
+    }
+    onClose() {
+        this.close.emit(null);
+    }
+}

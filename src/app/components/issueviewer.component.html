@@ -3,26 +3,25 @@
     <div class="body-container">
         <as-split direction="horizontal">
             <as-split-area size="20" class="border-right">
-                <div class="pl-4">
-                    <div class="sticky-title pt-2 pr-2 pb-1 pl-2">
-                        <app-issue-entry [showRecentlyVisited]="true" [issueLookup]="issueLookup"></app-issue-entry>
-                    </div>
-                    <div *ngIf="treeNodes" class="pb-5">
-                        <p-contextMenu #cm [model]="menulist" appendTo="body"></p-contextMenu>
-                        <p-tree [value]="treeNodes" selectionMode="single" (onNodeExpand)="loadNode($event)"
-                            [(selection)]="selectedNode" (onNodeSelect)="nodeSelected($event)" [contextMenu]="cm"
-                            (onNodeContextMenuSelect)="nodeContextMenuSelect($event.node, cm)">
-                            <ng-template let-node pTemplate="default">
-                                <div style="font-size: 90%;" [ngClass]="{
+                <div class="sticky-title pt-2 pr-2 pb-1">
+                    <app-issue-entry [hideIssuelistNavigator]="false" [issueLookup]="issueLookup"
+                        (showIssuelist)="showIssuelist = true"></app-issue-entry>
+                </div>
+                <div *ngIf="treeNodes" class="pl-4 pb-5">
+                    <p-contextMenu #cm [model]="menulist" appendTo="body"></p-contextMenu>
+                    <p-tree [value]="treeNodes" selectionMode="single" (onNodeExpand)="loadNode($event)"
+                        [(selection)]="selectedNode" (onNodeSelect)="nodeSelected($event)" [contextMenu]="cm"
+                        (onNodeContextMenuSelect)="nodeContextMenuSelect($event.node)">
+                        <ng-template let-node pTemplate="default">
+                            <div style="font-size: 90%;" [ngClass]="{
                                         'small text-muted text-uppercase font-italic': checkIfCustomNode(node),
                                         'font-weight-bold': node.key === issueKey
                                 }" [title]="getIssueTitle(node)">{{node.label}}</div>
-                            </ng-template>
-                            <ng-template let-node pTemplate="Heading">
-                                <div [title]="getHeaderTitle(node)">{{node.label}}</div>
-                            </ng-template>
-                        </p-tree>
-                    </div>
+                        </ng-template>
+                        <ng-template let-node pTemplate="Heading">
+                            <div [title]="getHeaderTitle(node)">{{node.label}}</div>
+                        </ng-template>
+                    </p-tree>
                 </div>
             </as-split-area>
 
@@ -36,6 +35,11 @@
 <!-- <p-sidebar [(visible)]="showDetails" styleClass="ui-sidebar-lg" position="right">
     <app-sub-items [project]="currentProject" [issue]="selectedIssue"></app-sub-items>
 </p-sidebar> -->
+
+<p-sidebar [(visible)]="showIssuelist" styleClass="ui-sidebar-md" position="left">
+    <app-issue-list (close)="this.showIssuelist = false">
+    </app-issue-list>
+</p-sidebar>
 
 <p-sidebar [(visible)]="showProjectConfigSetup" styleClass="ui-sidebar-md" position="right">
     <app-project-config [project]="currentProject" (close)="projectConfigSetupCompleted($event)">

@@ -12,18 +12,9 @@ const routes: Routes = [
     path: 'for', component: WorkspaceComponent, children: [
       {
         path: ':issue', component: IssueviewerComponent, children: [
-          {
-            path: 'selected/:selected',
-            loadChildren: () => import('./purpose/purpose.module').then(m => m.PurposeModule)
-          },
-          {
-            path: 'storyboarding/:selected',
-            loadChildren: () => import('./storyboarding/storyboarding.module').then(m => m.StoryboardingModule)
-          },
-        ]
-      },
-      { path: '', component: PageNotFoundComponent, pathMatch: 'full' }
-    ]
+          { path: 'selected', loadChildren: () => import('./purpose/purpose.module').then(m => m.PurposeModule) },
+          { path: 'storyboard', loadChildren: () => import('./storyboarding/storyboarding.module').then(m => m.StoryboardingModule) }]
+      }]
   },
   { path: '', redirectTo: '/about', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
@@ -34,4 +25,3 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
-  

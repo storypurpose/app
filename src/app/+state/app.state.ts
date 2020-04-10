@@ -6,6 +6,8 @@ export interface App {
   customFieldEditorVisible: any;
   projectConfigEditorVisible: any;
 
+  issuelist: any;
+
   currentIssueKey: string;
   hierarchicalIssue: any;
   epicChildrenLoaded: boolean;

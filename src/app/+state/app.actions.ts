@@ -10,6 +10,8 @@ export const ActionTypes = {
     SetHierarchicalIssue: type("[SetHierarchicalIssue]"),
     EpicChildrenLoaded: type('[EpicChildrenLoaded]'),
 
+    SetIssuelist: type("[SetIssuelist]"),
+
     SetMode: type("[SetMode]"),
     SetConnectionDetails: type("[SetConnectionDetails]"),
     ConnectionDetailsVerified: type('[ConnectionDetailsVerified]'),
@@ -48,6 +50,11 @@ export class EpicChildrenLoadedAction implements Action {
     constructor(public payload: any) { }
 }
 
+export class SetIssuelistAction implements Action {
+    type = ActionTypes.SetIssuelist;
+    constructor(public payload: any) { }
+}
+
 export class SetModeAction implements Action {
     type = ActionTypes.SetMode;
     constructor(public payload: any) { }
@@ -78,6 +85,8 @@ export type Actions =
     | SetCurrentIssueKeyAction
     | SetHierarchicalIssueAction
     | EpicChildrenLoadedAction
+
+    | SetIssuelistAction
     
     | SetModeAction
 

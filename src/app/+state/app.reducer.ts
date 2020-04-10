@@ -13,8 +13,13 @@ export function appReducer(state: App, action: any): App {
         case ActionTypes.ShowProjectConfigEditor: {
             return { ...state, projectConfigEditorVisible: action.payload };
         }
+
         case ActionTypes.SetMode: {
             return { ...state, mode: action.payload };
+        }
+
+        case ActionTypes.SetIssuelist: {
+            return { ...state, issuelist: action.payload };
         }
 
         case ActionTypes.SetCurrentIssueKey: {

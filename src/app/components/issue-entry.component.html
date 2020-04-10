@@ -1,7 +1,14 @@
 <div class=" input-group">
 
-  <input type="text" class="form-control rounded-0 bg-light" name="issueByKeyId" [(ngModel)]="issue" placeholder="Jira issue key"
-    id="typeahead-focus" type="text" [ngbTypeahead]="search" (focus)="focus$.next($any($event).target.value)"
+  <div class="input-group-prepend" *ngIf="!hideIssuelistNavigator">
+    <button class="btn btn-link" (click)="onShowEpiclist()">
+      <fa-icon icon="bars"></fa-icon>
+    </button>
+  </div>
+
+  <input type="text" class="form-control rounded-0 bg-light" [ngClass]="{'ml-4':hideIssuelistNavigator}"
+    name="issueByKeyId" [(ngModel)]="issue" placeholder="Jira issue key" id="typeahead-focus" type="text"
+    [ngbTypeahead]="search" (focus)="focus$.next($any($event).target.value)"
     (click)="click$.next($any($event).target.value)" #instance="ngbTypeahead" (keydown.enter)="selectTo(issue)"
     (keydown.control.enter)="navigateTo(issue)" />
   <div class="input-group-append">
@@ -9,7 +16,5 @@
       (click)="navigateTo(issue)">
       <fa-icon icon="search" [size]="['fw', 'sm']"></fa-icon>
     </button>
-
-    <app-recently-viewed *ngIf="showRecentlyVisited"></app-recently-viewed>
   </div>
 </div>

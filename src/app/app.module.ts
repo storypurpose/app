@@ -50,6 +50,8 @@ import { FieldSelectorListComponent } from './components/setup/field-selector-li
 import { IssuelistComponent } from './components/issue-list.component';
 import { HierarchyFieldEditorComponent } from './components/setup/hierarchy-field.component';
 import { OrganizationComponent } from './components/setup/organization.component';
+import { PrivacyComponent } from './components/help/privacy.component';
+import { TermsComponent } from './components/help/terms.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +64,9 @@ import { OrganizationComponent } from './components/setup/organization.component
 
     ConnectionDetailsComponent, ProjectConfigComponent, OrganizationComponent, HierarchyFieldEditorComponent,
 
-    FieldSelectorListComponent
+    FieldSelectorListComponent,
+
+    PrivacyComponent, TermsComponent
   ],
   imports: [
     BrowserModule,

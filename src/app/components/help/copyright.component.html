@@ -1,7 +1,6 @@
 <div class="btn-group btn-group-sm">
     <div ngbDropdown display="dynamic" placement="bottom-right">
-        <a class="btn btn-link text-muted hide-caret" id="dropdownBasic1" ngbDropdownToggle
-            title="recently viewed">
+        <a class="btn btn-link text-muted hide-caret" id="dropdownBasic1" ngbDropdownToggle title="recently viewed">
             <fa-icon icon="ellipsis-v"></fa-icon>
         </a>
         <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-menu-right">
@@ -9,13 +8,23 @@
                 <fa-icon size="fw" icon="bullhorn" class="text-muted"></fa-icon>
                 Report issue
             </a>
-            <a ngbDropdownItem target="_blank"
+            <!-- <a ngbDropdownItem target="_blank"
                 href="https://raw.githubusercontent.com/adhamankar/storypurpose/master/terms.md">
                 <fa-icon size="fw" icon="balance-scale" class="text-muted"></fa-icon>
                 Terms
             </a>
 
             <a ngbDropdownItem target="_blank" href="https://github.com/adhamankar/storypurpose/blob/master/privacy.md">
+                <fa-icon size="fw" icon="user-secret" class="text-muted"></fa-icon>
+                Privacy
+            </a> -->
+
+            <a ngbDropdownItem routerLink="/terms">
+                <fa-icon size="fw" icon="balance-scale" class="text-muted"></fa-icon>
+                Terms
+            </a>
+
+            <a ngbDropdownItem routerLink="/privacy">
                 <fa-icon size="fw" icon="user-secret" class="text-muted"></fa-icon>
                 Privacy
             </a>

@@ -8,6 +8,8 @@ import { filter } from 'rxjs/operators';
 import { of, combineLatest } from 'rxjs';
 import { ModeTypes } from '../+state/app.actions';
 
+import { environment } from '../../environments/environment';
+
 export const AuthenticationModeTypes = {
     JiraCloud: 0,
     JiraServer: 1
@@ -17,7 +19,7 @@ export const AuthenticationModeTypes = {
 export class JiraService {
     isOnlineMode = false;
     connectionDetails: any;
-    proxyurl = "https://cors-anywhere.herokuapp.com";
+    proxyurl = environment.proxyurl;
     baseUrl = "https://storypurpose.atlassian.net/";
     restVersionEndpoint = "/rest/api/latest";
     fieldList = ['project', 'reporter', 'assignee', 'status', 'summary', 'key', 'issuelinks', 'issuetype', 'parent'];

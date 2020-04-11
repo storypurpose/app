@@ -2,14 +2,13 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { JiraService } from '../lib/jira.service';
 import {
     transformParentNode, populateFieldValues, buildIssueLinks,
-    CustomNodeTypes, isCustomNode, getExtendedFieldValue, getIcon, createEpicChildrenNode
+    CustomNodeTypes, isCustomNode, isHeaderNode, getExtendedFieldValue, getIcon, createEpicChildrenNode, isCustomMenuType
 } from '../lib/jira-tree-utils';
 import * as _ from 'lodash';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
 import { PersistenceService } from '../lib/persistence.service';
 import { Store } from '@ngrx/store';
-import { ManageOrganizationEditorVisibilityAction, ManageHierarchyEditorVisibilityAction } from '../purpose/+state/purpose.actions';
 import { AppState } from '../+state/app.state';
 import { SetCurrentIssueKeyAction, UpsertProjectAction, SetHierarchicalIssueAction, EpicChildrenLoadedAction } from '../+state/app.actions';
 import { Subscription } from 'rxjs';
@@ -21,8 +20,9 @@ import { getRoutelet } from '../lib/route-utils';
     templateUrl: './issueviewer.component.html'
 })
 export class IssueviewerComponent implements OnInit, OnDestroy {
-    public initiativeToEdit: any;
-    public showInitiativeSetup = false;
+    public showOrganizationSetup = false;
+    public showHierarchyFieldSetup = false;
+    public hierarchyFieldPurpose: any;
 
     public title = 'text-matrix';
     public keyId = "GBP-35381";
@@ -62,7 +62,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     public issueLookup: any;
 
     showIssuelist = false;
-
+    
     constructor(public router: Router,
         public activatedRoute: ActivatedRoute,
         public jiraService: JiraService,
@@ -72,6 +72,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
 
         this.initializeMasterMenulist();
+        this.organizationDetails = this.persistenceService.getOrganizationDetails();
 
         this.hierarchicalIssue$ = this.store$.select(p => p.app.hierarchicalIssue)
             .pipe(filter(issueNode => issueNode))
@@ -218,27 +219,33 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     private initializeMasterMenulist() {
         this.masterMenulist = [
             {
-                label: 'Browse', icon: 'fa fa-external-link-alt', menuType: CustomNodeTypes.Issue,
+                label: 'Browse', icon: 'fa fa-external-link-alt', menuType: [CustomNodeTypes.Issue, CustomNodeTypes.Epic],
                 command: (args) => (args.item && args.item.data)
                     ? this.router.navigate(['..', args.item.data.key, 'selected', args.item.data.key], { relativeTo: this.activatedRoute })
                     : null
             },
             {
-                label: 'Storyboard', icon: 'far fa-map', menuType: CustomNodeTypes.Epic,
+                label: 'Storyboard', icon: 'far fa-map', menuType: [CustomNodeTypes.Epic],
                 command: (args) => (args.item && args.item.data)
                     ? this.router.navigate(['storyboard', args.item.data.key, 'details'], { relativeTo: this.activatedRoute })
                     : null
             },
             {
-                label: 'Configure', icon: 'far fa-sun', menuType: CustomNodeTypes.Organization,
-                command: () => this.store$.dispatch(new ManageOrganizationEditorVisibilityAction(true))
+                label: 'Configure', icon: 'far fa-sun', menuType: [CustomNodeTypes.Organization],
+                command: (args) => this.showOrganizationSetup = true
             },
             {
-                label: 'Configure', icon: 'far fa-sun', menuType: CustomNodeTypes.Hierarchy,
-                command: () => this.store$.dispatch(new ManageHierarchyEditorVisibilityAction(true))
+                label: 'Configure', icon: 'far fa-sun', menuType: [CustomNodeTypes.Hierarchy],
+                command: (args) => {
+                    if (args.item && args.item.data) {
+                        this.hierarchyFieldPurpose = _.pick(args.item.data, ['key', 'hfKey', 'title', 'description', 'issueType']);
+                        this.hierarchyFieldPurpose.purpose = this.hierarchyFieldPurpose.description;
+                        this.showHierarchyFieldSetup = true;
+                    }
+                }
             },
             {
-                label: 'Configure', icon: 'far fa-sun', menuType: CustomNodeTypes.Project,
+                label: 'Configure', icon: 'far fa-sun', menuType: [CustomNodeTypes.Project],
                 command: (args) => {
                     if (args.item && args.item.data) {
                         this.currentProject = _.find(this.projects, { key: args.item.data.key });
@@ -252,20 +259,22 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     nodeContextMenuSelect(treeNode) {
         this.menulist = null;
         if (treeNode) {
-            switch (treeNode.menuType) {
-                case CustomNodeTypes.Organization:
-                case CustomNodeTypes.Hierarchy:
-                case CustomNodeTypes.Project:
-                    this.menulist = _.filter(this.masterMenulist, { menuType: treeNode.menuType });
-                    break;
-                case CustomNodeTypes.Epic:
-                    this.menulist = _.filter(this.masterMenulist,
-                        (menu) => menu.menuType === CustomNodeTypes.Issue || menu.menuType === CustomNodeTypes.Epic);
-                    break;
-                default:
-                    this.menulist = _.filter(this.masterMenulist, { menuType: CustomNodeTypes.Issue });
-                    break;
-            }
+            // switch (treeNode.menuType) {
+            //     case CustomNodeTypes.Organization:
+            //     case CustomNodeTypes.Hierarchy:
+            //     case CustomNodeTypes.Project:
+            //         this.menulist = _.filter(this.masterMenulist, { menuType: treeNode.menuType });
+            //         break;
+            //     case CustomNodeTypes.Epic:
+            //         this.menulist = _.filter(this.masterMenulist,
+            //             (menu) => menu.menuType === CustomNodeTypes.Issue || menu.menuType === CustomNodeTypes.Epic);
+            //         break;
+            //     default:
+            //         this.menulist = _.filter(this.masterMenulist, { menuType: CustomNodeTypes.Issue });
+            //         break;
+            // }
+            const menuType = isCustomMenuType(treeNode) ? treeNode.menuType : CustomNodeTypes.Issue;
+            this.menulist = _.filter(this.masterMenulist, (menu) => _.includes(menu.menuType, menuType));
 
             if (this.menulist && this.menulist.length > 0) {
                 this.menulist.forEach(u => u.data = treeNode);
@@ -388,7 +397,6 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     }
 
     public createOrganizationNode() {
-        this.organizationDetails = this.persistenceService.getOrganizationDetails();
         if (this.organizationDetails) {
             return {
                 key: this.organizationDetails.name,
@@ -411,6 +419,16 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
         this.showProjectConfigSetup = false;
         if (reload) {
             window.location.reload();
+        }
+    }
+    setupCompleted(shouldReload) {
+        this.showOrganizationSetup = false;
+        this.showHierarchyFieldSetup = false;
+        if (shouldReload) {
+            window.location.reload();
+            // } else {
+            //     this.store$.dispatch(new ManageOrganizationEditorVisibilityAction(false));
+            //     this.store$.dispatch(new ManageHierarchyEditorVisibilityAction(false));
         }
     }
 

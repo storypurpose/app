@@ -3,91 +3,91 @@
         <h4>{{project.name}}</h4>
     </div>
 
-    <div class="pane-body p-3">
+    <div class="pane-body">
+        <div class="container pt-3">
+            <a class="btn btn-sm btn-outline-primary float-right" title="Download JSON" [href]="downloadJsonHref"
+                download="storypurpose-config.json">
+                <fa-icon icon="download"></fa-icon> Download config
+            </a>
 
-        <a class="btn btn-sm btn-outline-primary float-right" title="Download JSON" [href]="downloadJsonHref"
-            download="storypurpose-config.json">
-            <fa-icon icon="download"></fa-icon> Download config
-        </a>
+            <h6 class="mt-2">
+                <button class="btn btn-sm btn-link text-muted" (click)="project.showHierarchy = !project.showHierarchy">
+                    <fa-icon [icon]="project.showHierarchy ? 'chevron-down' : 'chevron-right'">
+                    </fa-icon>
+                </button>
 
-        <h6 class="mt-2">
-            <button class="btn btn-sm btn-link text-muted" (click)="project.showHierarchy = !project.showHierarchy">
-                <fa-icon [icon]="project.showHierarchy ? 'chevron-down' : 'chevron-right'">
-                </fa-icon>
-            </button>
+                Extend Hierarchy
+            </h6>
+            <div class="alert bg-light mb-4" *ngIf="project.showHierarchy">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="ml-3">
+                            <app-field-selector-list [customFields]="project.customFields" [(list)]="project.hierarchy">
+                            </app-field-selector-list>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-            Extend Hierarchy
-        </h6>
-        <div class="alert bg-light mb-4" *ngIf="project.showHierarchy">
-            <div class="row">
-                <div class="col-md-8">
-                    <div class="ml-3">
-                        <app-field-selector-list [customFields]="project.customFields" [(list)]="project.hierarchy">
-                        </app-field-selector-list>
+            <h6>
+                <button class="btn btn-sm btn-link text-muted"
+                    (click)="project.showStandardIssueTypes = !project.showStandardIssueTypes">
+                    <fa-icon [icon]="project.showStandardIssueTypes ? 'chevron-down' : 'chevron-right'">
+                    </fa-icon>
+                </button>
+
+                Standard Issue types
+            </h6>
+            <div class="bg-light pt-2 pb-2 mb-4" *ngIf="project.showStandardIssueTypes">
+                <div class="row" *ngFor="let issuetype of project.standardIssueTypes;let i = index">
+                    <div class="col-md-8">
+                        <button class="btn btn-sm btn-link text-muted" (click)="issuetype.show = !issuetype.show">
+                            <fa-icon [icon]="issuetype.show ? 'angle-down' : 'angle-right'"></fa-icon>
+
+                            <span
+                                [ngClass]="{'font-weight-bold':!issuetype.show && issuetype.list && issuetype.list.length > 0}">
+                                {{issuetype.name}}
+                            </span>
+
+                        </button>
+
+                        <div class="ml-5" *ngIf="issuetype.show">
+                            <app-field-selector-list [customFields]="project.customFields" [(list)]="issuetype.list">
+                            </app-field-selector-list>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h6>
+                <button class="btn btn-sm btn-link text-muted"
+                    (click)="project.showSubTaskIssueTypes = !project.showSubTaskIssueTypes">
+                    <fa-icon [icon]="project.showSubTaskIssueTypes ? 'chevron-down' : 'chevron-right'">
+                    </fa-icon>
+                </button>
+                Sub-Task Issue types
+            </h6>
+            <div class="bg-light pt-2 pb-2 mb-4" *ngIf="project.showSubTaskIssueTypes">
+                <div class="row" *ngFor="let issuetype of project.subTaskIssueTypes;let i = index">
+
+                    <div class="col-md-8">
+                        <button class="btn btn-sm btn-link text-muted" (click)="issuetype.show = !issuetype.show">
+                            <fa-icon [icon]="issuetype.show ? 'angle-down' : 'angle-right'"></fa-icon>
+
+                            <span
+                                [ngClass]="{'font-weight-bold':!issuetype.show && issuetype.list && issuetype.list.length > 0}">
+                                {{issuetype.name}}
+                            </span>
+                        </button>
+
+                        <div class="ml-5" *ngIf="issuetype.show">
+                            <app-field-selector-list [customFields]="project.customFields" [(list)]="issuetype.list">
+                            </app-field-selector-list>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <h6>
-            <button class="btn btn-sm btn-link text-muted"
-                (click)="project.showStandardIssueTypes = !project.showStandardIssueTypes">
-                <fa-icon [icon]="project.showStandardIssueTypes ? 'chevron-down' : 'chevron-right'">
-                </fa-icon>
-            </button>
-
-            Standard Issue types
-        </h6>
-        <div class="bg-light pt-2 pb-2 mb-4" *ngIf="project.showStandardIssueTypes">
-            <div class="row" *ngFor="let issuetype of project.standardIssueTypes;let i = index">
-                <div class="col-md-8">
-                    <button class="btn btn-sm btn-link text-muted" (click)="issuetype.show = !issuetype.show">
-                        <fa-icon [icon]="issuetype.show ? 'angle-down' : 'angle-right'"></fa-icon>
-
-                        <span
-                            [ngClass]="{'font-weight-bold':!issuetype.show && issuetype.list && issuetype.list.length > 0}">
-                            {{issuetype.name}}
-                        </span>
-
-                    </button>
-
-                    <div class="ml-5" *ngIf="issuetype.show">
-                        <app-field-selector-list [customFields]="project.customFields" [(list)]="issuetype.list">
-                        </app-field-selector-list>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <h6>
-            <button class="btn btn-sm btn-link text-muted"
-                (click)="project.showSubTaskIssueTypes = !project.showSubTaskIssueTypes">
-                <fa-icon [icon]="project.showSubTaskIssueTypes ? 'chevron-down' : 'chevron-right'">
-                </fa-icon>
-            </button>
-            Sub-Task Issue types
-        </h6>
-        <div class="bg-light pt-2 pb-2 mb-4" *ngIf="project.showSubTaskIssueTypes">
-            <div class="row" *ngFor="let issuetype of project.subTaskIssueTypes;let i = index">
-
-                <div class="col-md-8">
-                    <button class="btn btn-sm btn-link text-muted" (click)="issuetype.show = !issuetype.show">
-                        <fa-icon [icon]="issuetype.show ? 'angle-down' : 'angle-right'"></fa-icon>
-
-                        <span
-                            [ngClass]="{'font-weight-bold':!issuetype.show && issuetype.list && issuetype.list.length > 0}">
-                            {{issuetype.name}}
-                        </span>
-                    </button>
-
-                    <div class="ml-5" *ngIf="issuetype.show">
-                        <app-field-selector-list [customFields]="project.customFields" [(list)]="issuetype.list">
-                        </app-field-selector-list>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </div>
 
     <div class="pane-footer">

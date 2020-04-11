@@ -9,7 +9,7 @@ import { IssueviewerComponent } from './components/issueviewer.component';
 const routes: Routes = [
   { path: 'about', component: AboutComponent },
   {
-    path: 'for', component: WorkspaceComponent, children: [
+    path: 'browse', component: WorkspaceComponent, children: [
       {
         path: ':issue', component: IssueviewerComponent, children: [
           { path: 'selected', loadChildren: () => import('./purpose/purpose.module').then(m => m.PurposeModule) },

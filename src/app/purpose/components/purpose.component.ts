@@ -18,11 +18,9 @@ export class PurposeDetailsComponent implements OnInit, OnDestroy {
     public purpose: any;
     public showAll = false;
 
-    public showOrganizationSetup = false;
     public organizationPurpose: any;
     public showOrgPurposeEditor = false;
 
-    public showHierarchyFieldSetup = false;
     public hierarchyFieldPurpose: any;
 
     public purpose$: Subscription;
@@ -30,7 +28,7 @@ export class PurposeDetailsComponent implements OnInit, OnDestroy {
     public orgSetupVisibility$: Subscription;
 
     public fontSizeSmall = false;
-    
+
     constructor(public persistenceService: PersistenceService,
         public store$: Store<PurposeState>
     ) {
@@ -44,11 +42,11 @@ export class PurposeDetailsComponent implements OnInit, OnDestroy {
                 this.showHideAllPurposes(false);
             });
 
-        this.orgSetupVisibility$ = this.store$.select(p => p.purpose.organizationEditorVisible)
-            .subscribe(visibility => this.showOrganizationSetup = visibility)
+        // this.orgSetupVisibility$ = this.store$.select(p => p.purpose.organizationEditorVisible)
+        //     .subscribe(visibility => this.showOrganizationSetup = visibility)
 
-        this.hierarchySetupVisibility$ = this.store$.select(p => p.purpose.hierarchyEditorVisible)
-            .subscribe(visibility => this.showHierarchyFieldSetup = visibility)
+        // this.hierarchySetupVisibility$ = this.store$.select(p => p.purpose.hierarchyEditorVisible)
+        //     .subscribe(visibility => this.showHierarchyFieldSetup = visibility)
     }
 
     ngOnDestroy(): void {
@@ -57,29 +55,16 @@ export class PurposeDetailsComponent implements OnInit, OnDestroy {
         this.hierarchySetupVisibility$ ? this.hierarchySetupVisibility$.unsubscribe() : null;
     }
 
-    onEdit(item) {
-        if (item.issueType === CustomNodeTypes.Organization) {
-            this.showOrganizationSetup = true;
-        } else if (item.editable === true) {
-            this.hierarchyFieldPurpose = _.clone(item);
-            this.showHierarchyFieldSetup = true;
-        }
-        this.edit.emit(item);
-    }
+    // onEdit(item) {
+    //     if (item.issueType === CustomNodeTypes.Organization) {
+    //         this.showOrganizationSetup = true;
+    //     } else if (item.editable === true) {
+    //         this.hierarchyFieldPurpose = _.clone(item);
+    //         this.showHierarchyFieldSetup = true;
+    //     }
+    //     this.edit.emit(item);
+    // }
 
-    public setupOrganization() {
-        this.showOrganizationSetup = true;
-    }
-    setupCompleted(shouldReload) {
-        if (shouldReload) {
-            window.location.reload();
-        } else {
-            this.showOrganizationSetup = false;
-            this.showHierarchyFieldSetup = false;
-            this.store$.dispatch(new ManageOrganizationEditorVisibilityAction(false));
-            this.store$.dispatch(new ManageHierarchyEditorVisibilityAction(false));
-        }
-    }
     showHideAllPurposes(value) {
         this.showAll = value;
         if (this.purpose) {

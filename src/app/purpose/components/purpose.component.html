@@ -10,8 +10,7 @@
                 </a>
             </div>
 
-
-            <div [ngClass]="{'float-left': !showOrgPurposeEditor}" *ngIf="!organizationPurpose">
+            <!-- <div [ngClass]="{'float-left': !showOrgPurposeEditor}" *ngIf="!organizationPurpose">
                 <div class="clearfix"></div>
                 <div class="text-uppercase text-muted">
                     <a (click)="showOrgPurposeEditor = !showOrgPurposeEditor"
@@ -32,7 +31,7 @@
                     </div>
                 </div>
             </div>
-
+ -->
 
             <div [ngClass]="{'float-left': !item.show}" *ngFor="let item of purpose">
                 <div class="clearfix"></div>
@@ -44,12 +43,9 @@
                     </a>
                 </div>
 
-                <div *ngIf="item.show" class="ml-3 hover-container pl-3 pr-3 border-left" style="overflow:auto"
-                    [ngClass]="{'readonly': !item.editable}">
-                    <h5 class=" text-dark font-weight-normal mt-1">{{item.title}}
-                        <a class="small text-muted ml-2 hover-button" *ngIf="item.editable" (click)="onEdit(item)">
-                            <fa-icon icon="pencil-alt" size="sm"></fa-icon>
-                        </a>
+                <div *ngIf="item.show" class="ml-3 pl-3 pr-3 border-left" style="overflow:auto">
+                    <h5 class=" text-dark font-weight-normal mt-1">
+                        {{item.title}}
                     </h5>
                     <ngx-md>
                         {{item.purpose}}
@@ -66,13 +62,3 @@
         </div>
     </div>
 </div>
-
-
-<p-sidebar [(visible)]="showOrganizationSetup" styleClass="ui-sidebar-md" position="right">
-    <app-organization (close)="setupCompleted($event)"></app-organization>
-</p-sidebar>
-
-<p-sidebar [(visible)]="showHierarchyFieldSetup" styleClass="ui-sidebar-md" position="right">
-    <app-hierarchy-field [hierarchyField]="hierarchyFieldPurpose" (close)="setupCompleted($event)">
-    </app-hierarchy-field>
-</p-sidebar>

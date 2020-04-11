@@ -27,7 +27,7 @@ export class IssuelistComponent implements OnInit, OnDestroy {
         public store$: Store<AppState>) {
     }
     ngOnInit(): void {
-        this.issuelist$ = this.store$.select(p => p.app.issuelist).pipe(tap(p => console.log(p)), filter(p => p))
+        this.issuelist$ = this.store$.select(p => p.app.issuelist).pipe(filter(p => p))
             .subscribe(key => this.issuelist = key);
 
         this.executeQuery();
@@ -39,7 +39,7 @@ export class IssuelistComponent implements OnInit, OnDestroy {
     canNavigate = () => this.issuelist && this.issuelist.trim().length > 0;
     navigateTo(issue) {
         if (this.canNavigate()) {
-            this.router.navigate(['/for', issue.trim()]);
+            this.router.navigate(['/browse', issue.trim()]);
         }
     }
 

@@ -7,8 +7,6 @@ import { PurposeDetailsComponent } from './components/purpose.component';
 import { NgxMdModule } from 'ngx-md';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RouterModule, Route } from '@angular/router';
-import { HierarchyFieldEditorComponent } from './components/hierarchy-field.component';
-import { OrganizationComponent } from './components/organization.component';
 import { CommonComponentsModule } from '../common-components/common-components.module';
 import { FormsModule } from '@angular/forms';
 import { SidebarModule } from 'primeng/sidebar';
@@ -30,8 +28,7 @@ const routes: Route[] = [
 @NgModule({
   declarations: [
     SelectedItemContainerComponent,
-    PurposeDetailsComponent, SubItemsComponent, ExtendedFieldsComponent,
-    OrganizationComponent, HierarchyFieldEditorComponent
+    PurposeDetailsComponent, SubItemsComponent, ExtendedFieldsComponent
   ],
   imports: [
     CommonModule,

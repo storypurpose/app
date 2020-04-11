@@ -15,6 +15,7 @@ export class OrganizationComponent implements OnInit {
 
     ngOnInit() {
         this.organization = this.persistenceService.getOrganizationDetails() || {};
+        console.log('this.organization', this.organization);
     }
 
     onSave() {

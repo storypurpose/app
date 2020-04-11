@@ -1,0 +1,18 @@
+<div class="pane">
+    <div class="pane-header">
+        <h4 class="mb-2" *ngIf="hierarchyField">{{hierarchyField.title}}</h4>
+    </div>
+
+    <div class="pane-body">
+        <div class="container pt-3" *ngIf="hierarchyField">
+            <div class="form-group">
+                <label for="name">Purpose</label>
+                <textarea class="form-control" rows="5" [(ngModel)]="hierarchyField.purpose"
+                    (keydown.control.enter)="onSave()"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="pane-footer">
+        <app-button-panel (save)="onSave()" (close)="onClose(false)" (reset)="onReset()"></app-button-panel>
+    </div>
+</div>

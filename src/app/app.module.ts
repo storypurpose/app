@@ -36,7 +36,6 @@ import { FooterComponent } from './components/footer.component';
 import { GoogleAnalyticsService } from './lib/google-analytics.service';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { PurposeModule } from './purpose/purpose.module';
 import { RecentlyViewedComponent } from './components/recently-viewed.component';
 
 import { appInitialState } from './+state/app.init';
@@ -49,6 +48,8 @@ import { environment } from '../environments/environment';
 import { ProjectConfigComponent } from './components/setup/project-config.component';
 import { FieldSelectorListComponent } from './components/setup/field-selector-list.component';
 import { IssuelistComponent } from './components/issue-list.component';
+import { HierarchyFieldEditorComponent } from './components/setup/hierarchy-field.component';
+import { OrganizationComponent } from './components/setup/organization.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { IssuelistComponent } from './components/issue-list.component';
 
     IssueEntryComponent, RecentlyViewedComponent,
 
-    ConnectionDetailsComponent, ProjectConfigComponent,
+    ConnectionDetailsComponent, ProjectConfigComponent, OrganizationComponent, HierarchyFieldEditorComponent,
+
     FieldSelectorListComponent
   ],
   imports: [

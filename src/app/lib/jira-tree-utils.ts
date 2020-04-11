@@ -44,6 +44,13 @@ export function isHeaderNode(args) {
         args.issueType === CustomNodeTypes.Hierarchy;
 }
 
+export function isCustomMenuType(args) {
+    return args.menuType === CustomNodeTypes.Organization ||
+        args.menuType === CustomNodeTypes.Project ||
+        args.menuType === CustomNodeTypes.Hierarchy ||
+        args.menuType === CustomNodeTypes.Epic;
+}
+
 export function populateFieldValuesCompact(node) {
     if (node && node.fields) {
         return {

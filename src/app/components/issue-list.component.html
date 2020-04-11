@@ -19,9 +19,9 @@
             </div>
         </div>
 
-        <div *ngIf="issuelist" class="pl-1 pr-1 pb-3 pt-0">
+        <div *ngIf="issuelist" class="pl-2 pr-1 pb-3 pt-0">
 
-            <div *ngFor="let issue of issuelist.results">
+            <div *ngFor="let issue of issuelist.results" class="issue-list-item">
                 <a class="btn btn-link btn-sm text-dark text-left w-100 pt-0" (click)="onClose()"
                     [routerLink]="['/browse', issue.key, 'selected', issue.key]">
                     <sub class="text-primary text-uppercase">{{issue.issueType}}: {{issue.key}}</sub>

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter, Input } from '@angular/core';
 import * as _ from 'lodash';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AppState } from '../+state/app.state';
@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs';
 import { filter, tap, map } from 'rxjs/operators';
 import { JiraService } from '../lib/jira.service';
 import { SetIssuelistAction } from '../+state/app.actions';
-import { populateFieldValuesCompact } from '../lib/jira-tree-utils';
+import { populateFieldValuesCompact, CustomNodeTypes } from '../lib/jira-tree-utils';
 
 @Component({
     selector: 'app-issue-list',
@@ -16,11 +16,24 @@ import { populateFieldValuesCompact } from '../lib/jira-tree-utils';
 export class IssuelistComponent implements OnInit, OnDestroy {
     @Output() close = new EventEmitter<any>();
 
+    @Input() set selectedItem(value: any) {
+        let parsedList = [];
+        this.parseSelectedItem(value, parsedList);
+        parsedList = _.reverse(parsedList);
+        this.query = (parsedList.length > 0)
+            ? _.join(_.map(parsedList, pl => `'${pl.key}' = '${pl.value}'`), ' AND ') + ' ORDER BY ' +
+            _.join(_.map(parsedList, pl => `'${pl.key}'`), ',') + ', issuetype'
+            : "issuetype = epic ";
+        this.executeQuery();
+    }
+
+
     query: string = "issuetype = epic";
     issuelist: any;
     issuelist$: Subscription;
 
     public currentPageIndex = 1;
+
     constructor(public router: Router,
         public activatedRoute: ActivatedRoute,
         public jiraService: JiraService,
@@ -34,6 +47,15 @@ export class IssuelistComponent implements OnInit, OnDestroy {
     }
     ngOnDestroy(): void {
         this.issuelist$ ? this.issuelist$.unsubscribe : null;
+    }
+
+    parseSelectedItem(value: any, parsedList) {
+        if (!value) return;
+
+        if (value.issueType !== CustomNodeTypes.Organization) {
+            parsedList.push({ key: value.issueType, value: value.key });
+        }
+        return value.parent ? this.parseSelectedItem(value.parent, parsedList) : null;
     }
 
     canNavigate = () => this.issuelist && this.issuelist.trim().length > 0;

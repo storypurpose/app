@@ -8,7 +8,8 @@
                         (showIssuelist)="showIssuelist = true"></app-issue-entry>
                 </div>
 
-                <button class="btn btn-link btn-sm pl-4" *ngIf="!organizationDetails" (click)="showOrganizationSetup = true">
+                <button class="btn btn-link btn-sm pl-4" *ngIf="!organizationDetails"
+                    (click)="showOrganizationSetup = true">
                     <fa-icon icon="wrench" size="sm"></fa-icon> Organization purpose
                 </button>
 
@@ -38,7 +39,7 @@
 </div>
 
 <p-sidebar [(visible)]="showIssuelist" styleClass="ui-sidebar-md" position="left">
-    <app-issue-list (close)="this.showIssuelist = false">
+    <app-issue-list [selectedItem]="selectedMenuItem" (close)="this.showIssuelist = false">
     </app-issue-list>
 </p-sidebar>
 

@@ -20,12 +20,12 @@ import { getRoutelet } from '../lib/route-utils';
     templateUrl: './issueviewer.component.html'
 })
 export class IssueviewerComponent implements OnInit, OnDestroy {
+    public selectedMenuItem: any;
+
     public showOrganizationSetup = false;
     public showHierarchyFieldSetup = false;
     public hierarchyFieldPurpose: any;
 
-    public title = 'text-matrix';
-    public keyId = "GBP-35381";
     public result: any;
     public treeNodes: any;
     public hierarchicalIssue$: Subscription;
@@ -62,7 +62,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     public issueLookup: any;
 
     showIssuelist = false;
-    
+
     constructor(public router: Router,
         public activatedRoute: ActivatedRoute,
         public jiraService: JiraService,
@@ -218,6 +218,15 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
 
     private initializeMasterMenulist() {
         this.masterMenulist = [
+            {
+                label: 'Find related', icon: 'fa fa-bars', menuType: [CustomNodeTypes.Hierarchy, CustomNodeTypes.Organization, CustomNodeTypes.Project],
+                command: (args) => {
+                    if (args.item && args.item.data) {
+                        this.selectedMenuItem = args.item.data;
+                        this.showIssuelist = true;
+                    }
+                }
+            },
             {
                 label: 'Browse', icon: 'fa fa-external-link-alt', menuType: [CustomNodeTypes.Issue, CustomNodeTypes.Epic],
                 command: (args) => (args.item && args.item.data)

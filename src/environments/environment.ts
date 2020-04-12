@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   gacode: '',
-  proxyurl: 'https://cors-anywhere.herokuapp.com'
+  proxyurl: 'https://ad-cors.herokuapp.com'
 };
 
 /*

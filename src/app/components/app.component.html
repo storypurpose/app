@@ -1,37 +1,39 @@
 <nav class="navbar navbar-expand-md fixed-top bg-white">
   <div class="container-fluid p-0">
     <a class=" text-muted h4 font-weight-light" routerLink="/about">
-      <fa-icon icon="sitemap" size="sm"></fa-icon> <b class="ml-2">Purpose</b>
+      <fa-icon icon="sitemap" size="sm" style="color: #FF8000;"></fa-icon> <b class="ml-2 text-dark">Purpose</b>
     </a>
-    <button class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse"
-      (click)="isNavbarCollapsed = !isNavbarCollapsed" data-target="#navbarsDefault" aria-controls="navbarsDefault"
-      aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div [ngbCollapse]="isNavbarCollapsed" class="collapse navbar-collapse" id="navbarsDefault">
-      <ui-switch [title]="isOnlineMode ? 'Online mode': 'Offline mode'" class="nav-link" [(ngModel)]="isOnlineMode"
-        (change)="onModeChange($event)" size="small" *ngIf="allowOfflineMode">
-      </ui-switch>
+    <ui-switch [title]="isOnlineMode ? 'Online mode': 'Offline mode'" class="nav-link" [(ngModel)]="isOnlineMode"
+      (change)="onModeChange($event)" size="small" *ngIf="allowOfflineMode">
+    </ui-switch>
 
-      <ul class="navbar-nav ml-auto">
-        <li class="navbar-text  text-muted"
-          *ngIf="connectionDetails && connectionDetails.displayName && connectionDetails.displayName.length > 0">
-          <fa-icon icon="user" class=" mr-1"></fa-icon>
-          {{connectionDetails.displayName}}
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-muted ml-2" #connectionDetailPopover="ngbPopover" triggers="manual"
-            (click)="openConnectionDetailEditor()" [autoClose]="false" [ngbPopover]="connectDetailsPopover"
-            popoverTitle="Connection details">
-            <fa-icon [icon]="['far', 'sun']"></fa-icon>
-          </a>
-        </li>
+    <ul class="navbar-nav ml-sm-auto">
+      <li class="navbar-text text-muted ml-2"
+        *ngIf="connectionDetails && connectionDetails.displayName && connectionDetails.displayName.length > 0">
+        <fa-icon icon="user" size="fw" class="mr-1"></fa-icon>
+        {{connectionDetails.displayName}}
+      </li>
 
-        <li class="nav-item">
-          <app-copyright></app-copyright>
-        </li>
-      </ul>
-    </div>
+      <!-- <li class="nav-item">
+        <a class="nav-link text-muted ml-2" (click)="signIn()">
+          <fa-icon [icon]="['fab', 'google-drive']" size="fw"></fa-icon>
+          <span class="d-inline d-sm-none"> Google drive</span>
+        </a>
+      </li> -->
+
+      <li class="nav-item">
+        <a class="nav-link text-muted ml-2" #connectionDetailPopover="ngbPopover" triggers="manual"
+          (click)="openConnectionDetailEditor()" [autoClose]="false" [ngbPopover]="connectDetailsPopover"
+          popoverTitle="Connection details">
+          <fa-icon [icon]="['far', 'sun']" size="fw"></fa-icon>
+          <span class="d-inline d-sm-none"> Connection details</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <app-copyright></app-copyright>
+      </li>
+    </ul>
   </div>
 
 </nav>

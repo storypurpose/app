@@ -11,6 +11,7 @@ import { AppState } from '../+state/app.state';
 import { Store } from '@ngrx/store';
 import { SetModeAction, ModeTypes, SetConnectionDetailsAction, LoadProjectsAction, ShowConnectionEditorAction } from '../+state/app.actions';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
+import { GapiSession } from '../googledrive/gapi.session';
 
 declare let gtag: Function;
 
@@ -50,7 +51,8 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(public router: Router,
     public persistenceService: PersistenceService,
     public sanitizer: DomSanitizer,
-    public store$: Store<AppState>) {
+    public store$: Store<AppState>,
+    public gapiSession: GapiSession,) {
 
     if (environment.production) {
       this.router.events.subscribe(event => {
@@ -140,5 +142,15 @@ export class AppComponent implements OnInit, OnDestroy {
     if (projects) {
       this.store$.dispatch(new LoadProjectsAction(projects));
     }
+  }
+
+  signIn() {
+    this.gapiSession.signIn()
+      .then(() => {
+        if (this.gapiSession.isSignedIn) {
+          window.location.reload();
+        }
+      });
+
   }
 }

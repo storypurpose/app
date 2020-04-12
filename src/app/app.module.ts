@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { FormsModule } from "@angular/forms";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './components/app.component';
@@ -52,7 +52,14 @@ import { HierarchyFieldEditorComponent } from './components/setup/hierarchy-fiel
 import { OrganizationComponent } from './components/setup/organization.component';
 import { PrivacyComponent } from './components/help/privacy.component';
 import { TermsComponent } from './components/help/terms.component';
+import { GapiSession } from './googledrive/gapi.session';
+import { AppRepository } from './googledrive/app.repository';
+import { FileRepository } from './googledrive/file.repository';
+import { UserRepository } from './googledrive/user.repository';
 
+export function initGapi(gapiSession: GapiSession) {
+  return () => gapiSession.initClient();
+}
 @NgModule({
   declarations: [
     IssuelistComponent, AboutComponent, CopyrightComponent, WorkspaceComponent, FooterComponent,
@@ -116,7 +123,12 @@ import { TermsComponent } from './components/help/terms.component';
   providers: [
     GoogleAnalyticsService,
     MessageService,
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorHandlingInterceptor, multi: true }
+    { provide: APP_INITIALIZER, useFactory: initGapi, deps: [GapiSession], multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorHandlingInterceptor, multi: true },
+    GapiSession,
+    AppRepository,
+    FileRepository,
+    UserRepository
   ],
   bootstrap: [AppComponent]
 })

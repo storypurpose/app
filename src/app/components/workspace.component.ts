@@ -4,7 +4,7 @@ import { PersistenceService } from '../lib/persistence.service';
 import { MessageService } from 'primeng/api';
 import { AppState } from '../+state/app.state';
 import { Store } from '@ngrx/store';
-import { ShowConnectionEditorAction, ModeTypes } from '../+state/app.actions';
+import { ShowConnectionEditorAction, ModeTypes, SetConnectionDetailsAction, SetOrganizationDetailsAction, LoadProjectsAction } from '../+state/app.actions';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -28,9 +28,9 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         this.connectionDetailsSubscription = this.store$.select(p => p.app.connectionDetails)
             .subscribe(p => {
                 this.connectionDetails = p;
-                if (this.connectionDetails && !this.connectionDetails.verified) {
-                    this.onShowSetup();
-                }
+                // if (this.connectionDetails && !this.connectionDetails.verified) {
+                //     this.onShowSetup();
+                // }
             });
     }
     ngOnDestroy(): void {
@@ -40,31 +40,36 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     onShowSetup() {
         this.store$.dispatch(new ShowConnectionEditorAction(true));
     }
-    myUpload(args) {
-        console.log(args);
-    }
+
     onFileUpload(args, configUploader) {
-        console.log(args, configUploader);
 
         const file = args.files && args.files.length === 1 ? args.files[0] : null; // FileList object
         if (file) {
             var reader = new FileReader();
-            reader.onload = (function (file, ms, ps) {
+            reader.onload = (function (file, ms, ps, store$) {
                 return function (e) {
                     if (e.target.result) {
                         try {
                             const config = JSON.parse(e.target.result);
                             if (config) {
-                                if (config.connectionDetails) ps.setConnectionDetails(config.connectionDetails);
-                                if (config.organizationDetails) ps.setOrganizationDetails(config.organizationDetails);
-                                if (config.projects) ps.setProjects(config.projects);
+                                if (config.connectionDetails) {
+                                    store$.dispatch(new SetConnectionDetailsAction(config.connectionDetails));
+                                    ps.setConnectionDetails(config.connectionDetails);
+                                }
+                                if (config.organizationDetails) {
+                                    store$.dispatch(new SetOrganizationDetailsAction(config.organizationDetails));
+                                    ps.setOrganizationDetails(config.organizationDetails);
+                                }
+                                if (config.projects) {
+                                    store$.dispatch(new LoadProjectsAction(config.projects));
+                                    ps.setProjects(config.projects);
+                                }
 
                                 ms.add({
                                     severity: 'success', detail: 'Configurations loaded successfully. Setup user credentials',
                                     life: 5000, closable: true
                                 });
 
-                                window.location.reload();
                             }
                         } catch (ex) {
                             ms.add({ severity: 'error', detail: 'Invalid file.' + ex.message, life: 5000, closable: true });
@@ -75,7 +80,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                         configUploader.clear();
                     }
                 };
-            })(file, this.messageService, this.persistenceService);
+            })(file, this.messageService, this.persistenceService, this.store$);
 
             reader.readAsText(file);
         }

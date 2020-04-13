@@ -8,7 +8,7 @@
 a {
   cursor: pointer;
 }
-.btn-link:hover {
+a:hover, .btn-link:hover {
   text-decoration: none;
 }
 @media screen and (min-width: 480px) {
@@ -210,7 +210,9 @@ body .ui-toast .ui-toast-message {
   box-shadow: 0 0 6px 0 #888;
   border-radius: 2pt;
 }
-
+body .ui-dialog .ui-dialog-content {
+  background-color: #f8f8f8 !important;
+}
 body .ui-toast .ui-toast-message.ui-toast-message-error {
   background-color: #fff;
   color: #900;

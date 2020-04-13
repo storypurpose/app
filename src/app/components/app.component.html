@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md fixed-top bg-white">
+<nav class="navbar navbar-expand-md bg-white">
   <div class="container-fluid p-0">
     <a class=" text-muted h4 font-weight-light" routerLink="/about">
       <fa-icon icon="sitemap" size="sm" style="color: #FF8000;"></fa-icon> <b class="ml-2 text-dark">Purpose</b>
@@ -22,12 +22,17 @@
       </li> -->
 
       <li class="nav-item">
-        <a class="nav-link text-muted ml-2" #connectionDetailPopover="ngbPopover" triggers="manual"
+        <a class="nav-link text-muted ml-2" (click)="openConnectionDetailEditor()">
+          <fa-icon [icon]="['far', 'sun']" size="fw"></fa-icon>
+          <span class="d-inline d-sm-none"> Connection details</span>
+        </a>
+
+        <!-- <a class="nav-link text-muted ml-2" #connectionDetailPopover="ngbPopover" triggers="manual"
           (click)="openConnectionDetailEditor()" [autoClose]="false" [ngbPopover]="connectDetailsPopover"
           popoverTitle="Connection details">
           <fa-icon [icon]="['far', 'sun']" size="fw"></fa-icon>
           <span class="d-inline d-sm-none"> Connection details</span>
-        </a>
+        </a> -->
       </li>
 
       <li class="nav-item">
@@ -38,19 +43,19 @@
 
 </nav>
 
-
-<ng-template #connectDetailsPopover>
+<p-dialog header="Connection details" position="topright" class="bg-light" [(visible)]="showConnectionEditor"
+  (onHide)="connectionDetailsSetupCompleted(false)">
   <app-connection-details [connectionDetails]="connectionDetails" (close)="connectionDetailsSetupCompleted($event)">
   </app-connection-details>
-</ng-template>
+</p-dialog>
+
+<!-- <ng-template #connectDetailsPopover>
+  <app-connection-details [connectionDetails]="connectionDetails" (close)="connectionDetailsSetupCompleted($event)">
+  </app-connection-details>
+</ng-template> -->
 
 <ngx-loading-bar color="#FF8000" height="4pt" [includeSpinner]="false"></ngx-loading-bar>
 
 <p-toast position="bottom-right"></p-toast>
-
-<!-- <p-sidebar [(visible)]="showConnectionEditor" styleClass="ui-sidebar-md" position="right">
-  <app-connection-details [connectionDetails]="connectionDetails" (close)="connectionDetailsSetupCompleted($event)">
-  </app-connection-details>
-</p-sidebar> -->
 
 <router-outlet> </router-outlet>

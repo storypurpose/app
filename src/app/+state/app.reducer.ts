@@ -7,9 +7,9 @@ export function appReducer(state: App, action: any): App {
         case ActionTypes.ShowConnectionEditor: {
             return { ...state, connectionEditorVisible: action.payload };
         }
-        case ActionTypes.ShowCustomFieldEditor: {
-            return { ...state, customFieldEditorVisible: action.payload };
-        }
+        // case ActionTypes.ShowCustomFieldEditor: {
+        //     return { ...state, customFieldEditorVisible: action.payload };
+        // }
         case ActionTypes.ShowProjectConfigEditor: {
             return { ...state, projectConfigEditorVisible: action.payload };
         }
@@ -36,8 +36,20 @@ export function appReducer(state: App, action: any): App {
             return { ...state, connectionDetails: action.payload };
         }
 
+        case ActionTypes.SetOrganizationDetails: {
+            return { ...state, organizationDetails: action.payload };
+        }
+
         case ActionTypes.ConnectionDetailsVerified: {
-            return { ...state, connectionDetails: { ...state.connectionDetails, verified: true } };
+            console.log('ConnectionDetailsVerified', action.payload);
+            return {
+                ...state, connectionDetails: {
+                    ...state.connectionDetails,
+                    username: action.payload.username,
+                    password: action.payload.password,
+                    verified: true
+                }
+            };
         }
 
         case ActionTypes.LoadProjects: {

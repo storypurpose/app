@@ -20,6 +20,7 @@ import { ToastModule } from 'primeng/toast';
 import { ContextMenuModule } from 'primeng/contextmenu';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { FileUploadModule } from 'primeng/fileupload';
+import { DialogModule } from 'primeng/dialog';
 
 import { AngularSplitModule } from 'angular-split';
 import { ConnectionDetailsComponent } from './components/setup/connection-details.component';
@@ -95,6 +96,7 @@ export function initGapi(gapiSession: GapiSession) {
     ContextMenuModule,
     SplitButtonModule,
     FileUploadModule,
+    DialogModule,
 
     AngularSplitModule.forRoot(),
     NgxMdModule.forRoot(),
@@ -123,7 +125,7 @@ export function initGapi(gapiSession: GapiSession) {
   providers: [
     GoogleAnalyticsService,
     MessageService,
-    { provide: APP_INITIALIZER, useFactory: initGapi, deps: [GapiSession], multi: true },
+    // { provide: APP_INITIALIZER, useFactory: initGapi, deps: [GapiSession], multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorHandlingInterceptor, multi: true },
     GapiSession,
     AppRepository,

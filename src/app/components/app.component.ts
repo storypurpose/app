@@ -52,7 +52,7 @@ export class AppComponent implements OnInit, OnDestroy {
     public persistenceService: PersistenceService,
     public sanitizer: DomSanitizer,
     public store$: Store<AppState>,
-    public gapiSession: GapiSession,) {
+    public gapiSession: GapiSession, ) {
 
     if (environment.production) {
       this.router.events.subscribe(event => {
@@ -74,15 +74,16 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.connectionSubscription = this.store$.select(p => p.app.connectionEditorVisible)
       .subscribe(show => {
-        (show) ? this.connectionDetailPopover.open() : this.connectionDetailPopover.close();
+        this.showConnectionEditor = show;
+        //(show) ? this.connectionDetailPopover.open() : this.connectionDetailPopover.close();
       });
 
-    this.customFieldSubscription = this.store$.select(p => p.app.customFieldEditorVisible)
-      .pipe(filter(issueType => issueType))
-      .subscribe(issueType => {
-        this.showCustomFieldSetup = true;
-        this.issueType = issueType;
-      });
+    // this.customFieldSubscription = this.store$.select(p => p.app.customFieldEditorVisible)
+    //   .pipe(filter(issueType => issueType))
+    //   .subscribe(issueType => {
+    //     this.showCustomFieldSetup = true;
+    //     this.issueType = issueType;
+    //   });
 
     this.modeSubscription = this.store$.select(p => p.app.mode)
       .subscribe(p => this.isOnlineMode = p && p === ModeTypes.Online);
@@ -110,17 +111,17 @@ export class AppComponent implements OnInit, OnDestroy {
   }
   connectionDetailsSetupCompleted(showReload) {
     this.store$.dispatch(new ShowConnectionEditorAction(false));
-    if (showReload) {
-      window.location.reload();
-    }
+    // if (showReload) {
+    //   window.location.reload();
+    // }
   }
 
-  customFieldSetupCompleted(reload) {
-    this.showCustomFieldSetup = false;
-    if (reload) {
-      window.location.reload();
-    }
-  }
+  // customFieldSetupCompleted(reload) {
+  //   this.showCustomFieldSetup = false;
+  //   if (reload) {
+  //     window.location.reload();
+  //   }
+  // }
 
   onModeChange(isOnlineMode) {
     this.initiatizeModeState(isOnlineMode ? ModeTypes.Online : ModeTypes.Offline);

@@ -5,7 +5,7 @@ import { PersistenceService } from 'src/app/lib/persistence.service';
 import { MessageService } from 'primeng/api';
 import { AppState } from 'src/app/+state/app.state';
 import { Store } from '@ngrx/store';
-import { SetConnectionDetailsAction } from 'src/app/+state/app.actions';
+import { SetConnectionDetailsAction, ConnectionDetailsVerifiedAction } from 'src/app/+state/app.actions';
 
 @Component({
     selector: 'app-connection-details',
@@ -34,11 +34,10 @@ export class ConnectionDetailsComponent implements OnInit {
             && this.connectionDetails.username && this.connectionDetails.username.length > 0
             && this.connectionDetails.password && this.connectionDetails.password.length > 0;
     }
-    onSave() {
-        this.onClose(false);
-
-        // this.onClose(true);
-    }
+    // onSave() {
+    //     this.onClose(false);
+    //     // this.onClose(true);
+    // }
     onClose(shouldReload) {
         this.close.emit(shouldReload);
     }
@@ -48,8 +47,8 @@ export class ConnectionDetailsComponent implements OnInit {
             .subscribe((result: any) => {
                 this.connectionDetails.displayName = result.displayName;
                 this.connectionDetails.verified = true;
+                this.store$.dispatch(new ConnectionDetailsVerifiedAction(this.connectionDetails));
                 this.persistenceService.setConnectionDetails(this.connectionDetails);
-                this.store$.dispatch(new SetConnectionDetailsAction(this.connectionDetails));
 
                 this.messageService.add({ severity: "success", summary: "Success", detail: "Connection tested successfully", life: 5000, closable: true });
                 this.testSuccessful = true;

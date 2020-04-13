@@ -3,7 +3,7 @@ import { App } from './app.state';
 export const appInitialState: App = {
     mode: 'offline',
     connectionEditorVisible: false,
-    customFieldEditorVisible: null,
+    // customFieldEditorVisible: null,
     projectConfigEditorVisible: null,
 
     issuelist: null,
@@ -13,6 +13,8 @@ export const appInitialState: App = {
     epicChildrenLoaded: false,
 
     connectionDetails: null,
+    organizationDetails: null,
+    
     projects: null,
     currentProject: null
 };

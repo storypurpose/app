@@ -42,47 +42,52 @@
         </label>
 
         <input type="url" class="form-control form-control-sm" id="serverUrl" name="serverUrl"
-            aria-describedby="jiraserver" placeholder="Jira server url" [(ngModel)]="connectionDetails.serverUrl"
-            (keydown.control.enter)="onSave()">
+            aria-describedby="jiraserver" placeholder="Jira server url" [(ngModel)]="connectionDetails.serverUrl">
     </div>
 
-    <div class="form-group">
-        <label for="username">
-            <span *ngIf="connectionDetails.authenticationType === authMode.JiraCloud">Atlassian
-                account email</span>
-            <span *ngIf="connectionDetails.authenticationType === authMode.JiraServer">Username</span>
-        </label>
-        <input type="text" class="form-control form-control-sm" id="username" name="username" placeholder="username"
-            [(ngModel)]="connectionDetails.username" (keydown.control.enter)="onSave()">
-    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="username">
+                    <span *ngIf="connectionDetails.authenticationType === authMode.JiraCloud">Atlassian
+                        account email</span>
+                    <span *ngIf="connectionDetails.authenticationType === authMode.JiraServer">Username</span>
+                </label>
+                <input type="text" class="form-control form-control-sm" id="username" name="username"
+                    placeholder="username" [(ngModel)]="connectionDetails.username">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="password">
+                    <span *ngIf="connectionDetails.authenticationType === authMode.JiraCloud">
+                        API Token
+                        <i class="small ml-2">
+                            <a target="_blank"
+                                href="https://developer.atlassian.com/cloud/jira/platform/basic-auth-for-rest-apis/">
+                                Jira cloud
+                                <fa-icon class="ml-1" icon="external-link-alt"></fa-icon>
+                            </a>
+                        </i>
+                    </span>
+                    <span *ngIf="connectionDetails.authenticationType === authMode.JiraServer">
+                        Password
+                        <i class="small ml-2">
+                            <a target="_blank"
+                                href="https://developer.atlassian.com/server/jira/platform/basic-authentication/">Jira
+                                server
+                                <fa-icon class="ml-1" icon="external-link-alt"></fa-icon>
+                            </a>
+                        </i>
 
-    <div class="form-group">
-        <label for="password">
-            <span *ngIf="connectionDetails.authenticationType === authMode.JiraCloud">
-                API Token
-                <i class="small ml-2">
-                    <a target="_blank"
-                        href="https://developer.atlassian.com/cloud/jira/platform/basic-auth-for-rest-apis/">
-                        Jira cloud
-                        <fa-icon class="ml-1" icon="external-link-alt"></fa-icon>
-                    </a>
-                </i>
-            </span>
-            <span *ngIf="connectionDetails.authenticationType === authMode.JiraServer">
-                Password
-                <i class="small ml-2">
-                    <a target="_blank"
-                        href="https://developer.atlassian.com/server/jira/platform/basic-authentication/">Jira
-                        server
-                        <fa-icon class="ml-1" icon="external-link-alt"></fa-icon>
-                    </a>
-                </i>
+                    </span>
+                </label>
 
-            </span>
-        </label>
-
-        <input type="password" class="form-control form-control-sm" id="password" name="password" placeholder="Password"
-            [(ngModel)]="connectionDetails.password" (keydown.control.enter)="onSave()">
+                <input type="password" class="form-control form-control-sm" id="password" name="password"
+                    placeholder="Password" [(ngModel)]="connectionDetails.password"
+                    (keydown.control.enter)="testConnection()">
+            </div>
+        </div>
     </div>
 
     <div class="text-center">
@@ -110,6 +115,5 @@
     </div>
 </div>
 
-<app-button-panel [showSave]="false" [canSave]="canSave()" (save)="onSave()" (close)="onClose(false)"
-    (reset)="onReset()">
+<app-button-panel [showSave]="false" (close)="onClose(false)" (reset)="onReset()">
 </app-button-panel>

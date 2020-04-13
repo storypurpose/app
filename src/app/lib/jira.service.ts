@@ -20,7 +20,7 @@ export class JiraService {
     isOnlineMode = false;
     connectionDetails: any;
     proxyurl = environment.proxyurl;
-    baseUrl = "https://storypurpose.atlassian.net/";
+    baseUrl = "";
     restVersionEndpoint = "/rest/api/latest";
     fieldList = ['project', 'reporter', 'assignee', 'status', 'summary', 'key', 'issuelinks', 'issuetype', 'parent'];
     detailFields = ['description', 'components', 'labels', 'fixVersions'];
@@ -33,7 +33,7 @@ export class JiraService {
             .subscribe(mode => this.isOnlineMode = mode && mode === ModeTypes.Online);
 
         store$.select(p => p.app.connectionDetails)
-            .pipe(filter(p => p && p.verified))
+            .pipe(filter(p => p)) // && p.verified
             .subscribe(cd => {
                 this.connectionDetails = cd;
                 this.baseUrl = `${this.connectionDetails.serverUrl}${this.restVersionEndpoint}`;
@@ -43,7 +43,7 @@ export class JiraService {
                         'Authorization': `Basic ${this.persistenceService.encodeCredentials(this.connectionDetails.username, this.connectionDetails.password)}`
                     })
                 };
-                // }
+                console.log('cd', cd, this.baseUrl);
             })
     }
 
@@ -63,6 +63,7 @@ export class JiraService {
         }
         const fieldCodes = _.join(_.concat(this.fieldList, this.detailFields, extendedFields));
         const url = `issue/${keyId}?fields=${fieldCodes}`;
+        console.log('getIssueDetails', this.baseUrl, url);
         return this.http.get(`${this.proxyurl}/${this.baseUrl}/${url}`, this.httpOptions);
     }
     getProjectDetails(projectKey) {

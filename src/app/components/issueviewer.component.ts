@@ -83,6 +83,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
             });
 
         this.connectionDetails$ = this.store$.select(p => p.app.connectionDetails)
+            .pipe(filter(p => p.verified))
             .subscribe(cd => this.connectionDetails = cd);
 
         this.currentProject$ = this.store$.select(p => p.app.currentProject)

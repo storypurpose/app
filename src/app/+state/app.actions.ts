@@ -67,7 +67,7 @@ export class ConnectionDetailsVerifiedAction implements Action {
 }
 export class SetConnectionDetailsAction implements Action {
     type = ActionTypes.SetConnectionDetails;
-    constructor(public payload: any) { console.log(payload)}
+    constructor(public payload: any) { }
 }
 
 export class SetOrganizationDetailsAction implements Action {
@@ -95,14 +95,14 @@ export type Actions =
     | EpicChildrenLoadedAction
 
     | SetIssuelistAction
-    
+
     | SetModeAction
 
     | SetConnectionDetailsAction
     | ConnectionDetailsVerifiedAction
 
     | SetOrganizationDetailsAction
-    
+
     | UpsertProjectAction
     | LoadProjectsAction
     ;

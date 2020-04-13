@@ -10,17 +10,18 @@ import { RouterModule, Route } from '@angular/router';
 import { CommonComponentsModule } from '../common-components/common-components.module';
 import { FormsModule } from '@angular/forms';
 import { SidebarModule } from 'primeng/sidebar';
-import { SubItemsComponent } from './components/sub-items.component';
+import { TasklistComponent } from './components/task-list.component';
 import { ExtendedFieldsComponent } from './components/extended-fields.component';
 import { SelectedItemContainerComponent } from './components/container.component';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 const routes: Route[] = [
   {
     path: ':selected', component: SelectedItemContainerComponent, children: [
-      { path: 'items', component: SubItemsComponent },
-      { path: 'details', component: ExtendedFieldsComponent },
-      { path: 'purpose', component: PurposeDetailsComponent },
-      { path: '', redirectTo: "purpose", pathMatch: "full" }
+      { path: 'items', component: TasklistComponent },
+      { path: 'attributes', component: ExtendedFieldsComponent },
+      { path: 'details', component: PurposeDetailsComponent },
+      { path: '', redirectTo: "details", pathMatch: "full" }
     ]
   }
 ];
@@ -28,7 +29,7 @@ const routes: Route[] = [
 @NgModule({
   declarations: [
     SelectedItemContainerComponent,
-    PurposeDetailsComponent, SubItemsComponent, ExtendedFieldsComponent
+    PurposeDetailsComponent, TasklistComponent, ExtendedFieldsComponent
   ],
   imports: [
     CommonModule,
@@ -38,6 +39,7 @@ const routes: Route[] = [
     FontAwesomeModule,
 
     SidebarModule,
+    NgbDropdownModule,
 
     CommonComponentsModule,
     StoreModule.forFeature("purpose", purposeReducer, { initialState: purposeInitialState }),

@@ -37,7 +37,7 @@ export class SelectedItemContainerComponent implements OnInit, OnDestroy {
     }
     ngOnInit(): void {
         this.localNodeType = CustomNodeTypes;
-        
+
         this.selectedItem$ = this.store$.select(p => p.purpose.selectedItem).pipe(filter(p => p))
             .subscribe(p => this.selectedItem = p);
 
@@ -65,7 +65,8 @@ export class SelectedItemContainerComponent implements OnInit, OnDestroy {
                             });
 
                             const temp = _.pick(selectedNode,
-                                ['key', 'label', 'title', 'issueType', 'project', 'status', 'description', 'components', 'labels', 'fixVersions', 'extendedFields']);
+                                ['key', 'label', 'title', 'issueType', 'project', 'status', 'description',
+                                    'components', 'labels', 'fixVersions', 'extendedFields', 'children']);
 
                             this.store$.dispatch(new SetSelectedItemAction(temp));
                         });

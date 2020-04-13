@@ -213,8 +213,8 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     }
 
     public nodeSelected(event) {
-        let routelet = getRoutelet(this.router, 'purpose');
-        this.router.navigate(['selected', event.node.key, routelet], { relativeTo: this.activatedRoute });
+        let routelet = getRoutelet(this.router, 'details');
+        this.router.navigate(['purpose', event.node.key, routelet], { relativeTo: this.activatedRoute });
     }
 
     private initializeMasterMenulist() {
@@ -231,7 +231,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
             {
                 label: 'Browse', icon: 'fa fa-external-link-alt', menuType: [CustomNodeTypes.Issue, CustomNodeTypes.Epic],
                 command: (args) => (args.item && args.item.data)
-                    ? this.router.navigate(['..', args.item.data.key, 'selected', args.item.data.key], { relativeTo: this.activatedRoute })
+                    ? this.router.navigate(['..', args.item.data.key, 'purpose', args.item.data.key], { relativeTo: this.activatedRoute })
                     : null
             },
             {

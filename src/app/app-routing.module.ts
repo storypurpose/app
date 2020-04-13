@@ -16,7 +16,7 @@ const routes: Routes = [
     path: 'browse', component: WorkspaceComponent, children: [
       {
         path: ':issue', component: IssueviewerComponent, children: [
-          { path: 'selected', loadChildren: () => import('./purpose/purpose.module').then(m => m.PurposeModule) },
+          { path: 'purpose', loadChildren: () => import('./purpose/purpose.module').then(m => m.PurposeModule) },
           { path: 'storyboard', loadChildren: () => import('./storyboarding/storyboarding.module').then(m => m.StoryboardingModule) }]
       }]
   },

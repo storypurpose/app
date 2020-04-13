@@ -1,0 +1,15 @@
+
+<div class="row">
+
+    <div class="col-md-6">
+        <h5>Status</h5>
+        <canvas *ngIf="statusChartData && statusChartLabels" baseChart [data]="statusChartData"
+            [options]="chartOptions" [labels]="statusChartLabels" chartType="doughnut"></canvas>
+    </div>
+    <div class="col-md-6">
+        <h5>Issuetypes</h5>
+        <canvas *ngIf="issueTypeChartData && issueTypeChartLabels" baseChart [data]="issueTypeChartData"
+            [options]="chartOptions" [labels]="issueTypeChartLabels" chartType="doughnut"></canvas>
+    </div>
+
+</div>

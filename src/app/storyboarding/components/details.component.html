@@ -7,8 +7,8 @@
                         (click)="expandCollapseAll()">
                         <fa-icon [icon]="expandedAll ? 'angle-double-down' : 'angle-double-right'" class="text-muted">
                         </fa-icon>
-                        Total: <span class="badge badge-white"
-                            *ngIf="storyboardItem.count > 0">{{storyboardItem.count}}</span>
+                        <!-- Total: <span class="badge badge-white"
+                            *ngIf="storyboardItem.count > 0">{{storyboardItem.count}}</span> -->
                     </button>
                 </td>
                 <td *ngFor="let c of storyboardItem.components"

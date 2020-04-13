@@ -2,7 +2,7 @@
     <div class="col-md-10">
         <div *ngIf="issue">
             <div *ngIf="!issue.extendedFields || issue.extendedFields.length === 0">
-                <fa-icon class="text-info" icon="exclamation-triangle"></fa-icon> There are no extended fields.
+                <fa-icon class="text-info" icon="exclamation-triangle"></fa-icon> There are no extended fields/attributes for this record.
             </div>
 
             <div class="list-group list-group-flush" *ngIf="issue.extendedFields && issue.extendedFields.length > 0">

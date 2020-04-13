@@ -9,10 +9,10 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../+state/app.state';
 
 @Component({
-    selector: 'app-sub-items',
-    templateUrl: './sub-items.component.html'
+    selector: 'app-task-list',
+    templateUrl: './task-list.component.html'
 })
-export class SubItemsComponent implements OnInit, OnDestroy {
+export class TasklistComponent implements OnInit, OnDestroy {
     issue: any;
     childIssueType = '';
     childItems: any;
@@ -81,7 +81,7 @@ export class SubItemsComponent implements OnInit, OnDestroy {
             (ci) => (!this.statusFilter || this.statusFilter === "all" || ci.status === this.statusFilter) &&
                 (!this.issueTypeFilter || this.issueTypeFilter === "all" || ci.issueType === this.issueTypeFilter))
 
-        this.filteredItems = _.orderBy(this.filteredItems, 'issueType');
+        this.filteredItems = _.orderBy(this.filteredItems, ['issueType', 'status']);
     }
 
     showHideExtendedFields() {

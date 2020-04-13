@@ -7,10 +7,11 @@
                     <span class="badge badge-light ml-1" *ngFor="let fv of selectedItem.fixVersions">{{fv}}</span>
                 </div>
                 <sub class="text-uppercase mr-2">{{selectedItem.issueType}}: {{selectedItem.key}}</sub>
-                <sub
-                    class="badge badge-light small text-muted text-uppercase font-weight-normal">{{selectedItem.status}}</sub>
+                <sub class="badge badge-light small text-muted text-uppercase font-weight-normal">
+                    {{selectedItem.status}}
+                </sub>
             </div>
-            <h2 class="font-weight-light">
+            <h2 class="font-weight-light mb-0">
                 {{selectedItem.title}}
             </h2>
             <div class="small" *ngIf="selectedItem.labels && selectedItem.labels.length > 0">
@@ -20,26 +21,39 @@
             <div class="pb-2">
                 <div class="row">
                     <div class="col-md-8">
-                        <a class="btn btn-link mr-1 pl-0" [routerLink]="['purpose']" title="View purpose"
+                        <a class="btn btn-link mr-1 pl-0" [routerLink]="['details']" title="View purpose"
                             [routerLinkActive]="'active'">
                             <fa-icon [icon]="['far', 'lightbulb']" size="sm"></fa-icon> Purpose
                         </a>
                         <a class="btn btn-link mr-1"
                             *ngIf="selectedItem.extendedFields && selectedItem.extendedFields.length > 0"
-                            routerLink="details" [routerLinkActive]="'active'">
-                            <fa-icon [icon]="['far', 'list-alt']" size="sm"></fa-icon> Details
+                            routerLink="attributes" [routerLinkActive]="'active'">
+                            <fa-icon [icon]="['far', 'list-alt']" size="sm"></fa-icon> Attributes
                         </a>
-                        <a class="btn btn-link mr-1" routerLink="items" [routerLinkActive]="'active'">
-                            <fa-icon icon="list-ol" size="sm"></fa-icon> Sub items
-                        </a>
-                    </div>
-                    <div class="col-md-4 text-right" *ngIf="selectedItem.issueType === 'Epic'">
-                        <a class="btn btn-link mr-1" [routerLink]="['../../storyboard',selectedItem.key]"
+                        <a class="btn btn-link mr-1" routerLink="items" *ngIf="selectedItem.issueType !== 'Epic'"
                             [routerLinkActive]="'active'">
-                            <fa-icon icon="map" size="sm"></fa-icon> Storyboard
-                            <fa-icon icon="chevron-right" size="sm"></fa-icon>
+                            <fa-icon icon="list-ol" size="sm"></fa-icon> Task breakup
                         </a>
+
+                        <div class="btn-group mr-1" *ngIf="selectedItem.issueType === 'Epic'">
+                            <a class="btn btn-link pr-0" [routerLink]="['../../storyboard',selectedItem.key, 'details']"
+                                [routerLinkActive]="'active'">
+                                <fa-icon icon="map" size="sm"></fa-icon> Storyboard
+                            </a>
+                            <div ngbDropdown display="dynamic" placement="bottom-right">
+                                <button class="btn btn-link" id="dropdownBasic1" ngbDropdownToggle
+                                    title="story list"></button>
+                                <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-menu-right">
+                                    <a ngbDropdownItem [routerLink]="['../../storyboard',selectedItem.key, 'list']"
+                                        [routerLinkActive]="'active'">
+                                        <fa-icon [icon]="['far', 'copy']" size="sm"></fa-icon> Story list
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
+
                 </div>
             </div>
         </div>

@@ -14,12 +14,12 @@ export function purposeReducer(state: Purpose, action: any): Purpose {
         case ActionTypes.SetRecentlyViewed: {
             return { ...state, recentmostItem: action.payload };
         }
-        case ActionTypes.ManageOrganizationEditorVisibility: {
-            return { ...state, organizationEditorVisible: action.payload };
-        }
-        case ActionTypes.ManageHierarchyEditorVisibility: {
-            return { ...state, hierarchyEditorVisible: action.payload };
-        }
+        // case ActionTypes.ManageOrganizationEditorVisibility: {
+        //     return { ...state, organizationEditorVisible: action.payload };
+        // }
+        // case ActionTypes.ManageHierarchyEditorVisibility: {
+        //     return { ...state, hierarchyEditorVisible: action.payload };
+        // }
         default: return state;
     }
 }

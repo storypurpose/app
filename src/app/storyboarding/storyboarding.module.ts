@@ -16,10 +16,14 @@ import { TreeNode } from 'primeng/api';
 
 import { ChartsModule } from 'ng2-charts';
 import 'chartjs-plugin-labels';
+import { StoryListComponent } from './components/story-list.component';
+import { StatisticsComponent } from './components/statistics.component';
+import { DialogModule } from 'primeng/dialog';
 
 const routes: Route[] = [
   {
     path: ':selected', component: StoryboardingContainerComponent, children: [
+      { path: 'list', component: StoryListComponent },
       { path: 'details', component: StoryboardComponent },
       { path: '', redirectTo: "details", pathMatch: "full" }
     ]
@@ -28,7 +32,7 @@ const routes: Route[] = [
 
 @NgModule({
   declarations: [
-    StoryboardingContainerComponent, StoryboardComponent
+    StoryboardingContainerComponent, StoryboardComponent, StoryListComponent, StatisticsComponent
   ],
   imports: [
     CommonModule,
@@ -39,7 +43,7 @@ const routes: Route[] = [
 
     SidebarModule,
     TreeTableModule,
-
+    DialogModule,
     ChartsModule,
 
     CommonComponentsModule,

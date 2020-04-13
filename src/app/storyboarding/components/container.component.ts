@@ -9,7 +9,6 @@ import { ActivatedRoute } from '@angular/router';
 import { AppState } from 'src/app/+state/app.state';
 import { JiraService } from 'src/app/lib/jira.service';
 import { SetStoryboardItemAction } from '../+state/storyboarding.actions';
-import { ChartOptions } from 'chart.js';
 
 const NO_COMPONENT = 'No component';
 @Component({
@@ -17,6 +16,7 @@ const NO_COMPONENT = 'No component';
     templateUrl: './container.component.html'
 })
 export class StoryboardingContainerComponent implements OnInit, OnDestroy {
+    showStatistics = false;
 
     epicChildrenLoadedQuery$: Observable<any>;
     issueQuery$: Observable<any>;
@@ -33,21 +33,6 @@ export class StoryboardingContainerComponent implements OnInit, OnDestroy {
     localNodeType: any;
 
     fieldlist = ['key', 'project', 'title', 'status', 'components', 'fixVersions', 'labels', 'issueType'];
-
-    public chartLabels: any; // = ['Sales Q1', 'Sales Q2', 'Sales Q3', 'Sales Q4'];
-    public chartData: any; // = [120, 150, 180, 90];
-    public chartOptions: ChartOptions = {
-        responsive: true,
-        tooltips: { enabled: false },
-        legend: { position: 'right' },
-        plugins: {
-            labels: [
-                {
-                    render: 'value',
-                    fontColor: '#000'
-                }]
-        }
-    };
 
     constructor(public activatedRoute: ActivatedRoute,
         public persistenceService: PersistenceService,
@@ -74,13 +59,6 @@ export class StoryboardingContainerComponent implements OnInit, OnDestroy {
                     const epicChildren = _.find(selectedNode.children, { issueType: CustomNodeTypes.EpicChildren });
                     if (epicChildren && epicChildren.children) {
                         this.storyboardItem.children = _.map(_.clone(epicChildren.children), p => _.pick(p, this.fieldlist));
-
-                        const statusResultSet = _.mapValues(_.groupBy(_.map(this.storyboardItem.children, 'status')), (s) => s.length);
-                        this.storyboardItem.statistics = Object.keys(statusResultSet).map((key) => { return { key, count: statusResultSet[key] } });
-
-                        this.chartLabels = _.map(this.storyboardItem.statistics, s => `${s.key} (${s.count})`);
-                        this.chartData = _.map(this.storyboardItem.statistics, 'count');
-
                         this.storyboardItem.count = this.storyboardItem.children ? this.storyboardItem.children.length : 0;
 
                         this.storyboardItem.labels = _.union(_.flatten(_.map(epicChildren.children, p => p.labels)));
@@ -114,10 +92,23 @@ export class StoryboardingContainerComponent implements OnInit, OnDestroy {
                             _.remove(this.storyboardItem.components, { title: NO_COMPONENT });
                         }
 
+                        this.storyboardItem.statistics = this.populateStatistics(this.storyboardItem);
+
                         this.store$.dispatch(new SetStoryboardItemAction(this.storyboardItem));
                     }
                 }
             })
+    }
+
+    private populateStatistics(record) {
+        const statusResultSet = _.mapValues(_.groupBy(_.map(record.children, 'status')), (s) => s.length);
+        const issueTypeResultSet = _.mapValues(_.groupBy(_.map(record.children, 'issueType')), (s) => s.length);
+
+        return {
+            components: _.map(record.components, c => { return { key: c.title, count: c.count } }),
+            status: Object.keys(statusResultSet).map((key) => { return { key, count: statusResultSet[key] }; }),
+            issueTypes: Object.keys(issueTypeResultSet).map((key) => { return { key, count: issueTypeResultSet[key] }; })
+        };
     }
 
     ngOnDestroy(): void {

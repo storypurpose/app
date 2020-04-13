@@ -6,6 +6,6 @@ export const purposeInitialState: Purpose = {
     item: null,
     recentlyViewedItems: [],
     recentmostItem: null,
-    organizationEditorVisible: false,
-    hierarchyEditorVisible: false
+    // organizationEditorVisible: false,
+    // hierarchyEditorVisible: false
 };

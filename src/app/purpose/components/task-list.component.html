@@ -47,10 +47,12 @@
                     <div>{{record.title}}</div>
                     <div style="overflow: auto;" class="alert mt-2 p-0 rounded-0 border-0"
                         *ngIf="!record.hideExtendedFields && record.extendedFields && record.extendedFields.length > 0">
-                        <table class="table table-small small p-0 m-0 border-0 bg-light">
+                        <table class="table table-small small p-0 m-0 border-0 bg-light extended-fields">
                             <tr *ngFor="let ef of record.extendedFields">
                                 <td class="p-1 text-nowrap text-muted" width="10%">{{ef.name}}:</td>
-                                <td class="p-1 text-dark">{{ef.value}}</td>
+                                <td class="p-1 text-dark" Markdown>
+                                    {{ef.value}}
+                                </td>
                             </tr>
                         </table>
                     </div>

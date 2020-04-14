@@ -1,16 +1,16 @@
-<div class="mb-4 text-center alert bg-white">
+<div class="mb-4 text-center alert bg-light">
     <div class="text-muted mt-2 mb-1">
         Select the jira service type
         <button type="button" class="btn btn-link text-muted p-0" (click)="hideWhatDoYouUse = !hideWhatDoYouUse">
             <fa-icon icon="info-circle"></fa-icon>
         </button>
     </div>
-    <div [ngbCollapse]="hideWhatDoYouUse" class="text-muted mt-0 small">
+    <div [ngbCollapse]="hideWhatDoYouUse" class="text-muted mt-0 small mb-2">
         <i>
             You are using <b>Jira cloud</b>, if your jira access url looks like the one below
-            <div class="mb-3 mt-3">
-                <span class="bg-light text-primary"> https://<i>&lt;yoursitename&gt;</i>.atlassian.net</span>
-            </div>
+            <pre class="p-1 bg-white border mt-1 mb-1">
+                <span class="text-primary"> https://<i>&lt;yoursitename&gt;</i>.atlassian.net</span>
+            </pre>
             Anything other than this, is a <b>Jira server</b> setup.
         </i>
     </div>
@@ -95,6 +95,7 @@
             <fa-icon icon="check-circle"></fa-icon> Verify &amp; Save
         </button>
     </div>
+
 
 
     <div class="mt-3 mb-5">

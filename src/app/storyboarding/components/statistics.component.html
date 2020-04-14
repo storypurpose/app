@@ -1,15 +1,19 @@
-
-<div class="row">
-
-    <div class="col-md-6">
-        <h5>Status</h5>
-        <canvas *ngIf="statusChartData && statusChartLabels" baseChart [data]="statusChartData"
-            [options]="chartOptions" [labels]="statusChartLabels" chartType="doughnut"></canvas>
+<div>
+    <div class="row">
+        <div class="col-md-6">
+            <h5 class=" border-bottom pb-2">Status</h5>
+            <canvas *ngIf="statusChartData && statusChartLabels" baseChart [data]="statusChartData"
+                [options]="chartOptions" [labels]="statusChartLabels" chartType="doughnut"></canvas>
+        </div>
+        <div class="col-md-6">
+            <h5 class=" border-bottom pb-2">Issuetypes</h5>
+            <canvas *ngIf="issueTypeChartData && issueTypeChartLabels" baseChart [data]="issueTypeChartData"
+                [options]="chartOptions" [labels]="issueTypeChartLabels" chartType="doughnut"></canvas>
+        </div>
     </div>
-    <div class="col-md-6">
-        <h5>Issuetypes</h5>
-        <canvas *ngIf="issueTypeChartData && issueTypeChartLabels" baseChart [data]="issueTypeChartData"
-            [options]="chartOptions" [labels]="issueTypeChartLabels" chartType="doughnut"></canvas>
-    </div>
+
+    <h5 class="mt-3 border-bottom pb-2">Components</h5>
+    <canvas *ngIf="componentChartData && componentChartLabels" baseChart [data]="componentChartData"
+        [options]="chartOptions" [labels]="componentChartLabels" chartType="doughnut"></canvas>
 
 </div>

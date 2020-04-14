@@ -10,11 +10,15 @@ export class StatisticsComponent {
     @Input() set statusStats(value: any) {
         this.initStatusCharts(value);
     }
-    _issueTypeStats: any
     @Input() set issueTypeStats(value: any) {
         this.initIssueTypeCharts(value);
     }
+    @Input() set componentStats(value: any) {
+        this.initComponentCharts(value);
+    }
 
+    public componentChartLabels: any;
+    public componentChartData: any;
     public statusChartLabels: any;
     public statusChartData: any;
     public issueTypeChartLabels: any;
@@ -32,12 +36,16 @@ export class StatisticsComponent {
         }
     };
 
+    initComponentCharts(stats) {
+        this.componentChartLabels = _.map(stats, s => `${s.key} / ${s.count}`);
+        this.componentChartData = _.map(stats, 'count');
+    }
     initStatusCharts(stats) {
-        this.statusChartLabels = _.map(stats, s => `${s.key} (${s.count})`);
+        this.statusChartLabels = _.map(stats, s => `${s.key} / ${s.count}`);
         this.statusChartData = _.map(stats, 'count');
     }
     initIssueTypeCharts(stats) {
-        this.issueTypeChartLabels = _.map(stats, s => `${s.key} (${s.count})`);
+        this.issueTypeChartLabels = _.map(stats, s => `${s.key} / ${s.count}`);
         this.issueTypeChartData = _.map(stats, 'count');
     }
 }

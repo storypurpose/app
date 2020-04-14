@@ -36,5 +36,6 @@
 <p-dialog header="Statistics" *ngIf="storyboardItem && storyboardItem.statistics" position="topright" class="bg-light"
     [(visible)]="showStatistics">
     <app-epic-statistics [statusStats]="storyboardItem.statistics.status"
-        [issueTypeStats]="storyboardItem.statistics.issueType"></app-epic-statistics>
+        [issueTypeStats]="storyboardItem.statistics.issueTypes" [componentStats]="storyboardItem.statistics.components">
+    </app-epic-statistics>
 </p-dialog>

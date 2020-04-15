@@ -1,14 +1,46 @@
 <div>
-    <h4 class="font-weight-normal mb-0">Import configurations</h4>
-
-    <p-fileUpload #configUploader name="myfile[]" class="float-right" customUpload="true"
-        (uploadHandler)="onFileUpload($event, configUploader)" maxFileSize="1000000" mode="basic"
-        accept="application/json" chooseLabel="Import" chooseIcon="pi pi-upload" styleClass="ui-button-primary"
-        [auto]="true">
-    </p-fileUpload>
+    <h4 class="font-weight-normal">Import configurations</h4>
 
     <div class="mb-3">
         Choose configuration file from your local drive
     </div>
+
+    <p-fileUpload #configUploader name="myfile[]" *ngIf="!fileLoaded" customUpload="true"
+        (uploadHandler)="onFileUpload($event, configUploader)" maxFileSize="1000000" mode="basic"
+        accept="application/json" styleClass="ui-button-primary" [auto]="true">
+    </p-fileUpload>
+
+    <div *ngIf="fileLoaded">
+        <div class="mb-3 p-3 bg-light border-light rounded small">
+            SELECT SECTIONS
+
+            <ul class="list-group list-group-flush m-2">
+                <li class="list-group-item p-1 bg-light" *ngIf="configurations && configurations.connectionDetails">
+                    <input type="checkbox" [(ngModel)]="selectConnectionDetails"> Jira
+                    connection details
+                </li>
+                <li class="list-group-item p-1 bg-light" *ngIf="configurations && configurations.projects">
+                    <input type="checkbox" [(ngModel)]="selectProjects"> Project
+                    configurations
+                </li>
+                <li class="list-group-item p-1 bg-light" *ngIf="configurations && configurations.organization">
+                    <input type="checkbox" [(ngModel)]="selectOrganization"> Organization details
+                </li>
+                <li class="list-group-item p-1 bg-light border-0"
+                    *ngIf="configurations && configurations.extendedHierarchy">
+                    <input type="checkbox" [(ngModel)]="selectExtendedHierarchy"> Extended Hierarchy
+                </li>
+            </ul>
+        </div>
+        <button class="btn btn-sm btn-primary"
+            [disabled]="!selectConnectionDetails && !selectProjects && !selectOrganization && !selectExtendedHierarchy"
+            (click)="confirmSelection()">
+            <fa-icon icon="file-import" class="mr-2"></fa-icon> Load
+        </button>
+        <button class="btn btn-sm btn-light ml-1" (click)="fileLoaded = false">
+            <fa-icon icon="times"></fa-icon> Cancel
+        </button>
+    </div>
+
 
 </div>

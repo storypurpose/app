@@ -5,12 +5,7 @@
 
     <div class="pane-body">
         <div class="container pt-3">
-            <a class="btn btn-sm btn-outline-primary float-right" title="Download JSON" [href]="downloadJsonHref"
-                download="storypurpose-config.json">
-                <fa-icon icon="download"></fa-icon> Download config
-            </a>
-
-            <h6 class="mt-2">
+            <h6>
                 <button class="btn btn-sm btn-link text-muted" (click)="project.showHierarchy = !project.showHierarchy">
                     <fa-icon [icon]="project.showHierarchy ? 'chevron-down' : 'chevron-right'">
                     </fa-icon>

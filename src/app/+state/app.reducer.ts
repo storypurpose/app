@@ -36,12 +36,14 @@ export function appReducer(state: App, action: any): App {
             return { ...state, connectionDetails: action.payload };
         }
 
-        case ActionTypes.SetOrganizationDetails: {
-            return { ...state, organizationDetails: action.payload };
+        case ActionTypes.SetOrganization: {
+            return { ...state, organization: action.payload };
+        }
+        case ActionTypes.SetExtendedHierarchyDetails: {
+            return { ...state, extendedHierarchy: action.payload };
         }
 
         case ActionTypes.ConnectionDetailsVerified: {
-            console.log('ConnectionDetailsVerified', action.payload);
             return {
                 ...state, connectionDetails: {
                     ...state.connectionDetails,

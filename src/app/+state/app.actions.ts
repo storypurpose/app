@@ -16,8 +16,8 @@ export const ActionTypes = {
     SetConnectionDetails: type("[SetConnectionDetails]"),
     ConnectionDetailsVerified: type('[ConnectionDetailsVerified]'),
 
-    SetOrganizationDetails: type("[SetOrganizationDetails]"),
-
+    SetOrganization: type("[SetOrganization]"),
+    SetExtendedHierarchyDetails: type("SetExtendedHierarchyDetails"),
     LoadProjects: type("[LoadProjects]"),
     UpsertProject: type("[UpsertProject]")
 }
@@ -70,8 +70,12 @@ export class SetConnectionDetailsAction implements Action {
     constructor(public payload: any) { }
 }
 
-export class SetOrganizationDetailsAction implements Action {
-    type = ActionTypes.SetOrganizationDetails;
+export class SetOrganizationAction implements Action {
+    type = ActionTypes.SetOrganization;
+    constructor(public payload: any) { }
+}
+export class SetExtendedHierarchyDetailsAction implements Action {
+    type = ActionTypes.SetExtendedHierarchyDetails;
     constructor(public payload: any) { }
 }
 
@@ -101,7 +105,8 @@ export type Actions =
     | SetConnectionDetailsAction
     | ConnectionDetailsVerifiedAction
 
-    | SetOrganizationDetailsAction
+    | SetOrganizationAction
+    | SetExtendedHierarchyDetailsAction
 
     | UpsertProjectAction
     | LoadProjectsAction

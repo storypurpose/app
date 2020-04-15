@@ -20,7 +20,8 @@ const routes: Routes = [
         path: ':issue', component: IssueviewerComponent, children: [
           { path: 'purpose', loadChildren: () => import('./purpose/purpose.module').then(m => m.PurposeModule) },
           { path: 'storyboard', loadChildren: () => import('./storyboarding/storyboarding.module').then(m => m.StoryboardingModule) }]
-      }]
+      },
+      { path: '', component: PageNotFoundComponent }]
   },
   { path: '', redirectTo: '/about', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }

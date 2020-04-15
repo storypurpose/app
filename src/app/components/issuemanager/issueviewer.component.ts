@@ -43,7 +43,10 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     public allHierarchyAndEpicLinkFields: any;
     public mappedHierarchyFields: any;
     public relatedEpic: any;
-    public organizationDetails: any;
+    public organization: any;
+    public organization$: Subscription;
+    public extendedHierarchy: any;
+    public extendedHierarchy$: Subscription;
 
     public purpose = [];
     public menulist: any;
@@ -72,7 +75,10 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
 
         this.initializeMasterMenulist();
-        this.organizationDetails = this.persistenceService.getOrganizationDetails();
+        this.organization$ = this.store$.select(p => p.app.organization)
+            .subscribe(p => this.organization = p || {});
+        this.extendedHierarchy$ = this.store$.select(p => p.app.extendedHierarchy)
+            .subscribe(p => this.extendedHierarchy = p || []);
 
         this.hierarchicalIssue$ = this.store$.select(p => p.app.hierarchicalIssue)
             .pipe(filter(issueNode => issueNode))
@@ -137,6 +143,8 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
         this.connectionDetails$ ? this.connectionDetails$.unsubscribe() : null;
         this.projects$ ? this.projects$.unsubscribe() : null;
         this.currentProject$ ? this.currentProject$.unsubscribe() : null;
+        this.organization$ ? this.organization$.unsubscribe() : null;
+        this.extendedHierarchy$ ? this.extendedHierarchy$.unsubscribe() : null;
     }
 
     public populateExtendedFields(project) {
@@ -241,11 +249,11 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
                     : null
             },
             {
-                label: 'Configure', icon: 'far fa-sun', menuType: [CustomNodeTypes.Organization],
+                label: 'Define purpose', icon: 'far fa-lightbulb', menuType: [CustomNodeTypes.Organization],
                 command: (args) => this.showOrganizationSetup = true
             },
             {
-                label: 'Configure', icon: 'far fa-sun', menuType: [CustomNodeTypes.Hierarchy],
+                label: 'Define purpose', icon: 'far fa-lightbulb', menuType: [CustomNodeTypes.Hierarchy],
                 command: (args) => {
                     if (args.item && args.item.data) {
                         this.hierarchyFieldPurpose = _.pick(args.item.data, ['key', 'hfKey', 'title', 'description', 'issueType']);
@@ -269,20 +277,6 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     nodeContextMenuSelect(treeNode) {
         this.menulist = null;
         if (treeNode) {
-            // switch (treeNode.menuType) {
-            //     case CustomNodeTypes.Organization:
-            //     case CustomNodeTypes.Hierarchy:
-            //     case CustomNodeTypes.Project:
-            //         this.menulist = _.filter(this.masterMenulist, { menuType: treeNode.menuType });
-            //         break;
-            //     case CustomNodeTypes.Epic:
-            //         this.menulist = _.filter(this.masterMenulist,
-            //             (menu) => menu.menuType === CustomNodeTypes.Issue || menu.menuType === CustomNodeTypes.Epic);
-            //         break;
-            //     default:
-            //         this.menulist = _.filter(this.masterMenulist, { menuType: CustomNodeTypes.Issue });
-            //         break;
-            // }
             const menuType = isCustomMenuType(treeNode) ? treeNode.menuType : CustomNodeTypes.Issue;
             this.menulist = _.filter(this.masterMenulist, (menu) => _.includes(menu.menuType, menuType));
 
@@ -348,7 +342,8 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
                         menuType: CustomNodeTypes.Hierarchy
                     };
 
-                    const details: any = this.persistenceService.getHierarchyFieldDetails(hf.id, extendedNode.key);
+                    //const details: any = this.persistenceService.getExtendedHierarchyDetails(hf.id, extendedNode.key);
+                    const details: any = _.find(this.extendedHierarchy, { key: extendedNode.key, hfKey: hf.id })
                     if (details) {
                         extendedNode.description = details.purpose;
                     }
@@ -407,12 +402,12 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     }
 
     public createOrganizationNode() {
-        if (this.organizationDetails) {
+        if (this.organization) {
             return {
-                key: this.organizationDetails.name,
-                title: this.organizationDetails.name,
-                label: this.organizationDetails.name,
-                description: this.organizationDetails.purpose,
+                key: this.organization.name,
+                title: this.organization.name,
+                label: this.organization.name,
+                description: this.organization.purpose,
                 type: "Heading",
                 menuType: CustomNodeTypes.Organization,
                 issueType: CustomNodeTypes.Organization,

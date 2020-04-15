@@ -16,21 +16,14 @@ export class PurposeDetailsComponent implements OnInit, OnDestroy {
     public purpose: any;
     public showAll = false;
 
-    public organizationPurpose: any;
-    public showOrgPurposeEditor = false;
-
-    public hierarchyFieldPurpose: any;
-
     public purpose$: Subscription;
     public hierarchySetupVisibility$: Subscription;
-    public orgSetupVisibility$: Subscription;
 
     public fontSizeSmall = false;
 
     constructor(public persistenceService: PersistenceService,
         public store$: Store<PurposeState>
     ) {
-        this.organizationPurpose = this.persistenceService.getOrganizationDetails();
     }
 
     ngOnInit(): void {
@@ -43,7 +36,6 @@ export class PurposeDetailsComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.purpose$ ? this.purpose$.unsubscribe() : null;
-        this.orgSetupVisibility$ ? this.orgSetupVisibility$.unsubscribe() : null;
         this.hierarchySetupVisibility$ ? this.hierarchySetupVisibility$.unsubscribe() : null;
     }
 

@@ -5,7 +5,7 @@
     {{ff.name}}
 </div>
 <div class="input-group input-group-sm pt-1" *ngIf="customFields && customFields.length > 0">
-    <select class="form-control rounded-0" [(ngModel)]="selectedField">
+    <select class="form-control rounded-0" [(ngModel)]="selectedField" (keydown.control.enter)="add()">
         <option *ngFor="let ff of customFields" [value]="ff.id">{{ff.name}}</option>
     </select>
     <div class="input-group-append">

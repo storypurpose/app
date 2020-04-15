@@ -3,7 +3,6 @@ import { Purpose } from '../purpose/+state/purpose.state';
 export interface App {
   mode: string;
   connectionEditorVisible: boolean;
-  // customFieldEditorVisible: any;
   projectConfigEditorVisible: any;
 
   issuelist: any;
@@ -11,11 +10,11 @@ export interface App {
   currentIssueKey: string;
   hierarchicalIssue: any;
   epicChildrenLoaded: boolean;
-  
+
   connectionDetails: any;
 
-  organizationDetails: any;
-
+  organization: any;
+  extendedHierarchy: any;
   projects: any;
   currentProject: any;
 }

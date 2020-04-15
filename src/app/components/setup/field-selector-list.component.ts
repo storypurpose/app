@@ -17,10 +17,12 @@ export class FieldSelectorListComponent implements OnInit {
     }
 
     add() {
-        const found = _.find(this.customFields, { id: this.selectedField });
-        if (found) {
-            if (!_.find(this.list, { id: found.id })) {
-                this.list.push(_.clone(found));
+        if (this.selectedField) {
+            const found = _.find(this.customFields, { id: this.selectedField });
+            if (found) {
+                if (!_.find(this.list, { id: found.id })) {
+                    this.list.push(_.clone(found));
+                }
             }
         }
     }

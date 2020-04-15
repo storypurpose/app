@@ -14,18 +14,6 @@
         {{connectionDetails.displayName}}
       </li>
 
-      <!-- <li class="nav-item">
-        <a class="nav-link text-muted ml-2" (click)="openConnectionDetailEditor()">
-          <fa-icon [icon]="['far', 'sun']" size="fw"></fa-icon>
-          <span class="d-inline d-sm-none"> Connection details</span>
-        </a>
-      </li> -->
-      <!-- <li class="nav-item">
-        <a class="nav-link text-muted ml-2" routerLink="import-config">
-          <fa-icon icon="file-import" size="fw"></fa-icon>
-          <span class="d-inline d-sm-none"> Import configurations</span>
-        </a>
-      </li> -->
       <li class="nav-item">
         <app-tools></app-tools>
       </li>
@@ -38,8 +26,8 @@
 </nav>
 
 <p-dialog header="Connection details" position="topright" class="bg-light" [(visible)]="showConnectionEditor"
-  (onHide)="connectionDetailsSetupCompleted(false)">
-  <app-connection-details [connectionDetails]="connectionDetails" (close)="connectionDetailsSetupCompleted($event)">
+  (onHide)="connectionDetailsSetupCompleted()">
+  <app-connection-details [connectionDetails]="connectionDetails" (close)="connectionDetailsSetupCompleted()">
   </app-connection-details>
 </p-dialog>
 

@@ -3,13 +3,15 @@ import * as _ from 'lodash';
 import { Router, NavigationEnd } from '@angular/router';
 import { PersistenceService } from '../lib/persistence.service';
 import { Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
 import { DomSanitizer } from '@angular/platform-browser';
 
 import { environment } from '../../environments/environment';
 import { AppState } from '../+state/app.state';
 import { Store } from '@ngrx/store';
-import { SetModeAction, ModeTypes, SetConnectionDetailsAction, LoadProjectsAction, ShowConnectionEditorAction } from '../+state/app.actions';
+import {
+  SetModeAction, ModeTypes, ShowConnectionEditorAction,
+  SetConnectionDetailsAction, LoadProjectsAction, SetOrganizationAction, SetExtendedHierarchyDetailsAction
+} from '../+state/app.actions';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { GapiSession } from '../googledrive/gapi.session';
 
@@ -35,9 +37,9 @@ export class AppComponent implements OnInit, OnDestroy {
   connectionSubscription: Subscription;
   customFieldSubscription: Subscription;
   projectConfigSubscription: Subscription;
-  modeSubscription: Subscription;
+  mode$: Subscription;
 
-  connectionDetailsSubscription: Subscription;
+  connectionDetails$: Subscription;
   // fieldMappingSubscription: Subscription;
   projectsSubscription: Subscription;
 
@@ -85,43 +87,32 @@ export class AppComponent implements OnInit, OnDestroy {
     //     this.issueType = issueType;
     //   });
 
-    this.modeSubscription = this.store$.select(p => p.app.mode)
+    this.mode$ = this.store$.select(p => p.app.mode)
       .subscribe(p => this.isOnlineMode = p && p === ModeTypes.Online);
-    this.connectionDetailsSubscription = this.store$.select(p => p.app.connectionDetails)
+    this.connectionDetails$ = this.store$.select(p => p.app.connectionDetails)
       .subscribe(p => this.connectionDetails = p);
     this.initiatizeConnectionDetailsState(this.persistenceService.getConnectionDetails());
     this.initiatizeModeState(this.persistenceService.getMode());
     this.initiatizeProjectState(this.persistenceService.getProjects());
+    this.initiatizeOrganizationState(this.persistenceService.getOrganization());
+    this.initiatizeExtendedHierarchyState(this.persistenceService.getExtendedHierarchy());
   }
 
   ngOnDestroy() {
     this.connectionSubscription ? this.connectionSubscription.unsubscribe() : null;
     this.customFieldSubscription ? this.customFieldSubscription.unsubscribe() : null;
-    this.modeSubscription ? this.modeSubscription.unsubscribe() : null;
+    this.mode$ ? this.mode$.unsubscribe() : null;
 
-    this.connectionDetailsSubscription ? this.connectionDetailsSubscription.unsubscribe() : null;
+    this.connectionDetails$ ? this.connectionDetails$.unsubscribe() : null;
   }
 
   navigateTo(issue) {
     this.router.navigate([issue]);
   }
 
-  // openConnectionDetailEditor() {
-  //   this.store$.dispatch(new ShowConnectionEditorAction(true));
-  // }
-  connectionDetailsSetupCompleted(showReload) {
+  connectionDetailsSetupCompleted() {
     this.store$.dispatch(new ShowConnectionEditorAction(false));
-    // if (showReload) {
-    //   window.location.reload();
-    // }
   }
-
-  // customFieldSetupCompleted(reload) {
-  //   this.showCustomFieldSetup = false;
-  //   if (reload) {
-  //     window.location.reload();
-  //   }
-  // }
 
   onModeChange(isOnlineMode) {
     this.initiatizeModeState(isOnlineMode ? ModeTypes.Online : ModeTypes.Offline);
@@ -140,11 +131,20 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   initiatizeProjectState(projects) {
-    if (projects) {
+    if (projects && projects.length > 0) {
       this.store$.dispatch(new LoadProjectsAction(projects));
     }
   }
-
+  initiatizeOrganizationState(organization) {
+    if (organization) {
+      this.store$.dispatch(new SetOrganizationAction(organization));
+    }
+  }
+  initiatizeExtendedHierarchyState(extendedHierarchy) {
+    if (extendedHierarchy) {
+      this.store$.dispatch(new SetExtendedHierarchyDetailsAction(extendedHierarchy));
+    }
+  }
   signIn() {
     this.gapiSession.signIn()
       .then(() => {

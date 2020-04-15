@@ -20,8 +20,8 @@
                 Manual setup <fa-icon icon="angle-right"></fa-icon>
             </a>
 
-            <a class="btn btn-light border btn-sm " routerLink="../import-config">
-                <fa-icon icon="file-import" class="text-muted"></fa-icon> Import 
+            <a class="btn btn-light border btn-sm " routerLink="../configurations" [queryParams]="{mode:'import'}">
+                <fa-icon icon="file-import" class="text-muted"></fa-icon> Import
             </a>
 
             <!-- <p-fileUpload #configUploader name="myfile[]" customUpload="true"

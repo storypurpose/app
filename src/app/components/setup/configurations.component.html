@@ -1,7 +1,9 @@
 <div class="center-text custom-shadow p-3 text-left">
-
+  <a class="float-right btn btn-sm btn-link text-muted" routerLink="/browse">
+    <fa-icon icon="times"></fa-icon>
+  </a>
   <div *ngIf="mode !== 'import' && mode !== 'export'">
-    <h4 class="font-weight-normal mb-0">Manage configurations</h4>
+    <h4 class="font-weight-normal">Manage configurations</h4>
     <div class="mb-3">
       Please select action
     </div>
@@ -18,7 +20,7 @@
   </div>
 
 
-  <app-export-configuration *ngIf="mode === 'export'" [configurations]="configurations"></app-export-configuration>
+  <app-export-configuration *ngIf="mode === 'export'"></app-export-configuration>
 
   <app-import-configuration *ngIf="mode === 'import'"></app-import-configuration>
 

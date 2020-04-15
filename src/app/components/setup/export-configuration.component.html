@@ -1,5 +1,5 @@
 <div>
-    <h4 class="font-weight-normal mb-0">Export configurations</h4>
+    <h4 class="font-weight-normal">Export configurations</h4>
     <div class="alert alert-warning mt-2" *ngIf="!configurations">
         <fa-icon icon="exclamation-triangle" size="sm"></fa-icon>
         No configurations to export.
@@ -23,12 +23,21 @@
                     <input type="checkbox" [disabled]="selectionConfirmed" [(ngModel)]="selectProjects"> Project
                     configurations
                 </li>
+                <li class="list-group-item p-1 bg-light" *ngIf="configurations && configurations.organization">
+                    <input type="checkbox" [disabled]="selectionConfirmed" [(ngModel)]="selectOrganization">
+                    Organization details
+                </li>
+                <li class="list-group-item p-1 bg-light border-0" *ngIf="configurations && configurations.extendedHierarchy">
+                    <input type="checkbox" [disabled]="selectionConfirmed" [(ngModel)]="selectExtendedHierarchy">
+                    Extended hierachy
+                </li>
             </ul>
 
             <button class="btn btn-link btn-sm mt-2" *ngIf="selectionConfirmed" (click)="selectionConfirmed = false">
                 <fa-icon icon="redo"></fa-icon> reset
             </button>
-            <button class="btn btn-outline-primary btn-sm mt-2" [disabled]="!selectConnectionDetails && !selectProjects"
+            <button class="btn btn-outline-primary btn-sm mt-2"
+                [disabled]="!selectConnectionDetails && !selectProjects && !selectOrganization && !selectExtendedHierarchy"
                 *ngIf="!selectionConfirmed" (click)="confirmSelection()">
                 <fa-icon icon="check"></fa-icon> Confirm
             </button>

@@ -3,7 +3,7 @@ import * as _ from 'lodash';
 
 import { MessageService } from 'primeng/api';
 import { Store } from '@ngrx/store';
-import { SetConnectionDetailsAction, SetOrganizationDetailsAction, LoadProjectsAction } from "../../+state/app.actions";
+import { SetConnectionDetailsAction, SetOrganizationAction, LoadProjectsAction, SetExtendedHierarchyDetailsAction } from "../../+state/app.actions";
 import { PersistenceService } from '../../lib/persistence.service';
 import { AppState } from '../../+state/app.state';
 import { Router } from '@angular/router';
@@ -13,6 +13,15 @@ import { Router } from '@angular/router';
     templateUrl: './import-configuration.component.html'
 })
 export class ImportConfigurationComponent {
+
+    fileLoaded = false;
+    configurations: any;
+
+    selectConnectionDetails = false;
+    selectProjects = false;
+    selectOrganization = false;
+    selectExtendedHierarchy = false;
+
     constructor(public persistenceService: PersistenceService,
         public messageService: MessageService,
         public router: Router,
@@ -20,49 +29,65 @@ export class ImportConfigurationComponent {
     }
 
     onFileUpload(args, configUploader) {
-
         const file = args.files && args.files.length === 1 ? args.files[0] : null; // FileList object
         if (file) {
-            var reader = new FileReader();
-            reader.onload = (function (file, router, ms, ps, store$) {
-                return function (e) {
-                    if (e.target.result) {
-                        try {
-                            const config = JSON.parse(e.target.result);
-                            if (config) {
-                                if (config.connectionDetails) {
-                                    store$.dispatch(new SetConnectionDetailsAction(config.connectionDetails));
-                                    ps.setConnectionDetails(config.connectionDetails);
-                                }
-                                if (config.organizationDetails) {
-                                    store$.dispatch(new SetOrganizationDetailsAction(config.organizationDetails));
-                                    ps.setOrganizationDetails(config.organizationDetails);
-                                }
-                                if (config.projects) {
-                                    store$.dispatch(new LoadProjectsAction(config.projects));
-                                    ps.setProjects(config.projects);
-                                }
-
-                                ms.add({
-                                    severity: 'success', detail: 'Configurations loaded successfully. Setup user credentials',
-                                    life: 5000, closable: true
-                                });
-
-                                router.navigate(['browse']);
-                            }
-                        } catch (ex) {
-                            ms.add({ severity: 'error', detail: 'Invalid file.' + ex.message, life: 5000, closable: true });
-                        }
-                    }
-
-                    if (configUploader) {
-                        configUploader.clear();
-                    }
-                };
-            })(file, this.router, this.messageService, this.persistenceService, this.store$);
-
-            reader.readAsText(file);
+            this.getConfigurations(file)
+                .then((config) => {
+                    this.configurations = config;
+                    this.fileLoaded = true;
+                }, (err) => {
+                    this.messageService.add({
+                        severity: 'error', detail: 'Error:' + err,
+                        life: 5000, closable: true
+                    });
+                    configUploader.clear();
+                }
+                )
         }
     }
 
+    confirmSelection() {
+        if (this.configurations) {
+            if (this.selectConnectionDetails) {
+                this.store$.dispatch(new SetConnectionDetailsAction(this.configurations.connectionDetails));
+                this.persistenceService.setConnectionDetails(this.configurations.connectionDetails);
+            }
+            if (this.selectOrganization) {
+                this.store$.dispatch(new SetOrganizationAction(this.configurations.organization));
+                this.persistenceService.setOrganization(this.configurations.organization);
+            }
+            if (this.selectExtendedHierarchy) {
+                this.store$.dispatch(new SetExtendedHierarchyDetailsAction(this.configurations.extendedHierarchy));
+                this.persistenceService.setExtendedHierarchy(this.configurations.extendedHierarchy);
+            }
+            if (this.selectProjects) {
+                this.store$.dispatch(new LoadProjectsAction(this.configurations.projects));
+                this.persistenceService.setProjects(this.configurations.projects);
+            }
+
+            this.messageService.add({
+                severity: 'success',
+                detail: `Configurations loaded successfully. ${this.selectConnectionDetails ? 'Setup user credentials' : ''}`,
+                life: 5000, closable: true
+            });
+
+            this.router.navigate(['browse']);
+        }
+    }
+
+    async getConfigurations(file: File) {
+        return new Promise<any>((resolve, reject) => {
+            var reader = new FileReader();
+
+            reader.onload = (event: any) => {
+                var data = event.target.result;
+                try {
+                    resolve(JSON.parse(data))
+                } catch (ex) {
+                    reject("Invalid file")
+                }
+            };
+            reader.readAsText(file);
+        });
+    }
 }

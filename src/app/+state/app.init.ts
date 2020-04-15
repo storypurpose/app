@@ -13,8 +13,8 @@ export const appInitialState: App = {
     epicChildrenLoaded: false,
 
     connectionDetails: null,
-    organizationDetails: null,
-    
+    organization: null,
+    extendedHierarchy: null, 
     projects: null,
     currentProject: null
 };

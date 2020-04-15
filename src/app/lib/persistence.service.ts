@@ -10,7 +10,7 @@ const DataTypes = {
     // FieldMapping: "FieldMapping",
     Projects: "Projects",
     Initiatives: "Initiatives",
-    HierarchyFields: "HierarchyFields"
+    ExtendedHierarchy: "ExtendedHierarchy"
 }
 
 @Injectable({ providedIn: "root" })
@@ -63,14 +63,14 @@ export class PersistenceService {
     //#endregion
 
     //#region organization
-    getOrganizationDetails() {
+    getOrganization() {
         const payload = localStorage.getItem(DataTypes.Organization);
         return JSON.parse(payload);
     }
-    setOrganizationDetails(payload) {
+    setOrganization(payload) {
         localStorage.setItem(DataTypes.Organization, JSON.stringify(payload))
     }
-    resetOrganizationDetails() {
+    resetOrganization() {
         localStorage.removeItem(DataTypes.Organization);
     }
     //#endregion 
@@ -131,26 +131,30 @@ export class PersistenceService {
     //#endregion
 
     //#region HierarchyFields
-    getHierarchyFields() {
-        const payload = localStorage.getItem(DataTypes.HierarchyFields);
+    getExtendedHierarchy() {
+        const payload = localStorage.getItem(DataTypes.ExtendedHierarchy);
+        console.log('payload', payload);
         return JSON.parse(payload) || [];
     }
-    resetHierarchyFields() {
-        localStorage.removeItem(DataTypes.HierarchyFields);
+    setExtendedHierarchy(hierarchies) {
+        localStorage.setItem(DataTypes.ExtendedHierarchy, JSON.stringify(hierarchies))
     }
-    getHierarchyFieldDetails(hfKey, key) {
-        const hierarchyFields = this.getHierarchyFields();
-        return _.find(hierarchyFields, { key: key, hfKey: hfKey })
+    resetExtendedHierarchy() {
+        localStorage.removeItem(DataTypes.ExtendedHierarchy);
     }
-    setHierarchyFieldDetails(payload) {
-        const hierarchyFields = this.getHierarchyFields();
-        const found = _.find(hierarchyFields, { key: payload.key, hfKey: payload.hfKey })
+    getExtendedHierarchyDetails(hfKey, key) {
+        const hierarchies = this.getExtendedHierarchy();
+        return _.find(hierarchies, { key: key, hfKey: hfKey })
+    }
+    setExtendedHierarchyDetails(payload) {
+        const hierarchies = this.getExtendedHierarchy();
+        const found = _.find(hierarchies, { key: payload.key, hfKey: payload.hfKey })
         if (found) {
             found.purpose = payload.purpose;
         } else {
-            hierarchyFields.push(payload);
+            hierarchies.push(payload);
         }
-        localStorage.setItem(DataTypes.HierarchyFields, JSON.stringify(hierarchyFields))
+        localStorage.setItem(DataTypes.ExtendedHierarchy, JSON.stringify(hierarchies))
     }
     //#endregion
 

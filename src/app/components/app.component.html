@@ -15,26 +15,20 @@
       </li>
 
       <!-- <li class="nav-item">
-        <a class="nav-link text-muted ml-2" (click)="signIn()">
-          <fa-icon [icon]="['fab', 'google-drive']" size="fw"></fa-icon>
-          <span class="d-inline d-sm-none"> Google drive</span>
-        </a>
-      </li> -->
-
-      <li class="nav-item">
         <a class="nav-link text-muted ml-2" (click)="openConnectionDetailEditor()">
           <fa-icon [icon]="['far', 'sun']" size="fw"></fa-icon>
           <span class="d-inline d-sm-none"> Connection details</span>
         </a>
-
-        <!-- <a class="nav-link text-muted ml-2" #connectionDetailPopover="ngbPopover" triggers="manual"
-          (click)="openConnectionDetailEditor()" [autoClose]="false" [ngbPopover]="connectDetailsPopover"
-          popoverTitle="Connection details">
-          <fa-icon [icon]="['far', 'sun']" size="fw"></fa-icon>
-          <span class="d-inline d-sm-none"> Connection details</span>
-        </a> -->
+      </li> -->
+      <!-- <li class="nav-item">
+        <a class="nav-link text-muted ml-2" routerLink="import-config">
+          <fa-icon icon="file-import" size="fw"></fa-icon>
+          <span class="d-inline d-sm-none"> Import configurations</span>
+        </a>
+      </li> -->
+      <li class="nav-item">
+        <app-tools></app-tools>
       </li>
-
       <li class="nav-item">
         <app-copyright></app-copyright>
       </li>
@@ -48,11 +42,6 @@
   <app-connection-details [connectionDetails]="connectionDetails" (close)="connectionDetailsSetupCompleted($event)">
   </app-connection-details>
 </p-dialog>
-
-<!-- <ng-template #connectDetailsPopover>
-  <app-connection-details [connectionDetails]="connectionDetails" (close)="connectionDetailsSetupCompleted($event)">
-  </app-connection-details>
-</ng-template> -->
 
 <ngx-loading-bar color="#FF8000" height="4pt" [includeSpinner]="false"></ngx-loading-bar>
 

@@ -1,13 +1,13 @@
 import { Component, OnInit, OnDestroy, Output, EventEmitter, Input } from '@angular/core';
 import * as _ from 'lodash';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AppState } from '../+state/app.state';
+import { AppState } from '../../+state/app.state';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { filter, tap, map } from 'rxjs/operators';
-import { JiraService } from '../lib/jira.service';
-import { SetIssuelistAction } from '../+state/app.actions';
-import { populateFieldValuesCompact, CustomNodeTypes } from '../lib/jira-tree-utils';
+import { JiraService } from '../../lib/jira.service';
+import { SetIssuelistAction } from '../../+state/app.actions';
+import { populateFieldValuesCompact, CustomNodeTypes } from '../../lib/jira-tree-utils';
 
 @Component({
     selector: 'app-issue-list',

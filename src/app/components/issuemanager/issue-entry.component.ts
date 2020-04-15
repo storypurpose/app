@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, Input, ViewChild, Output, EventEmitter } from '@angular/core';
 import * as _ from 'lodash';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AppState } from '../+state/app.state';
+import { AppState } from '../../+state/app.state';
 import { Store } from '@ngrx/store';
 import { Subscription, Subject, Observable, merge } from 'rxjs';
 import { filter, map, debounceTime, distinctUntilChanged } from 'rxjs/operators';

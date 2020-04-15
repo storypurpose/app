@@ -6,7 +6,7 @@
                 <fa-icon icon="exclamation-triangle" class="text-warning"></fa-icon>
                 Connection details are incomplete.
             </div>
-                <a class="btn btn-sm btn-primary text-white mt-2" (click)="onShowSetup()">
+            <a class="btn btn-sm btn-primary text-white mt-2" (click)="onShowSetup()">
                 Enter credentials <fa-icon icon="chevron-right"></fa-icon>
             </a>
         </div>
@@ -16,14 +16,18 @@
                 <fa-icon icon="exclamation-triangle" class="text-warning"></fa-icon>
                 Connection details are missing.
             </div>
-                <a class="btn btn-primary btn-sm text-white mr-2" style="margin-top: -18pt;" (click)="onShowSetup()">
-                Manual setup <fa-icon icon="chevron-right"></fa-icon>
+            <a class="btn btn-primary btn-sm text-white mr-2" (click)="onShowSetup()">
+                Manual setup <fa-icon icon="angle-right"></fa-icon>
             </a>
 
-            <p-fileUpload #configUploader name="myfile[]" customUpload="true"
+            <a class="btn btn-light border btn-sm " routerLink="../import-config">
+                <fa-icon icon="file-import" class="text-muted"></fa-icon> Import 
+            </a>
+
+            <!-- <p-fileUpload #configUploader name="myfile[]" customUpload="true"
                 (uploadHandler)="onFileUpload($event, configUploader)" maxFileSize="1000000" mode="basic"
                 accept="application/json" chooseLabel="Import" styleClass="ui-button-secondary" [auto]="true">
-            </p-fileUpload>
+            </p-fileUpload> -->
 
         </div>
 

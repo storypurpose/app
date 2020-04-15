@@ -106,9 +106,9 @@ export class AppComponent implements OnInit, OnDestroy {
     this.router.navigate([issue]);
   }
 
-  openConnectionDetailEditor() {
-    this.store$.dispatch(new ShowConnectionEditorAction(true));
-  }
+  // openConnectionDetailEditor() {
+  //   this.store$.dispatch(new ShowConnectionEditorAction(true));
+  // }
   connectionDetailsSetupCompleted(showReload) {
     this.store$.dispatch(new ShowConnectionEditorAction(false));
     // if (showReload) {

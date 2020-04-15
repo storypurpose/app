@@ -1,0 +1,14 @@
+<div>
+    <h4 class="font-weight-normal mb-0">Import configurations</h4>
+
+    <p-fileUpload #configUploader name="myfile[]" class="float-right" customUpload="true"
+        (uploadHandler)="onFileUpload($event, configUploader)" maxFileSize="1000000" mode="basic"
+        accept="application/json" chooseLabel="Import" chooseIcon="pi pi-upload" styleClass="ui-button-primary"
+        [auto]="true">
+    </p-fileUpload>
+
+    <div class="mb-3">
+        Choose configuration file from your local drive
+    </div>
+
+</div>

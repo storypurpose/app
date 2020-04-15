@@ -25,8 +25,8 @@ import { DialogModule } from 'primeng/dialog';
 import { AngularSplitModule } from 'angular-split';
 import { ConnectionDetailsComponent } from './components/setup/connection-details.component';
 import { PageNotFoundComponent } from './components/page-not-found.component';
-import { IssueviewerComponent } from './components/issueviewer.component';
-import { IssueEntryComponent } from './components/issue-entry.component';
+import { IssueviewerComponent } from './components/issuemanager/issueviewer.component';
+import { IssueEntryComponent } from './components/issuemanager/issue-entry.component';
 
 import { DisqusModule } from "ngx-disqus";
 import { NgxMdModule } from 'ngx-md';
@@ -37,7 +37,7 @@ import { FooterComponent } from './components/footer.component';
 import { GoogleAnalyticsService } from './lib/google-analytics.service';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { RecentlyViewedComponent } from './components/recently-viewed.component';
+import { RecentlyViewedComponent } from './components/issuemanager/recently-viewed.component';
 
 import { appInitialState } from './+state/app.init';
 import { appReducer } from './+state/app.reducer';
@@ -48,7 +48,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { environment } from '../environments/environment';
 import { ProjectConfigComponent } from './components/setup/project-config.component';
 import { FieldSelectorListComponent } from './components/setup/field-selector-list.component';
-import { IssuelistComponent } from './components/issue-list.component';
+import { IssuelistComponent } from './components/issuemanager/issue-list.component';
 import { HierarchyFieldEditorComponent } from './components/setup/hierarchy-field.component';
 import { OrganizationComponent } from './components/setup/organization.component';
 import { PrivacyComponent } from './components/help/privacy.component';
@@ -57,6 +57,10 @@ import { GapiSession } from './googledrive/gapi.session';
 import { AppRepository } from './googledrive/app.repository';
 import { FileRepository } from './googledrive/file.repository';
 import { UserRepository } from './googledrive/user.repository';
+import { ConfigurationsComponent } from './components/setup/configurations.component';
+import { ToolsComponent } from './components/setup/tools.component';
+import { ExportConfigurationComponent } from './components/setup/export-configuration.component';
+import { ImportConfigurationComponent } from './components/setup/import-configuration.component';
 
 export function initGapi(gapiSession: GapiSession) {
   return () => gapiSession.initClient();
@@ -70,11 +74,12 @@ export function initGapi(gapiSession: GapiSession) {
 
     IssueEntryComponent, RecentlyViewedComponent,
 
-    ConnectionDetailsComponent, ProjectConfigComponent, OrganizationComponent, HierarchyFieldEditorComponent,
+    ConnectionDetailsComponent, ProjectConfigComponent, OrganizationComponent, HierarchyFieldEditorComponent, 
+    ConfigurationsComponent, ExportConfigurationComponent, ImportConfigurationComponent,
 
     FieldSelectorListComponent,
 
-    PrivacyComponent, TermsComponent
+    PrivacyComponent, TermsComponent, ToolsComponent
   ],
   imports: [
     BrowserModule,

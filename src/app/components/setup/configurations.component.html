@@ -1,0 +1,25 @@
+<div class="center-text custom-shadow p-3 text-left">
+
+  <div *ngIf="mode !== 'import' && mode !== 'export'">
+    <h4 class="font-weight-normal mb-0">Manage configurations</h4>
+    <div class="mb-3">
+      Please select action
+    </div>
+    <a class="btn btn-outline-primary btn-sm mr-2" routerLink="/configurations" [queryParams]="{ mode: 'import' }"
+      queryParamsHandling="merge">
+      <fa-icon icon="upload" size="fw"></fa-icon>
+      Import
+    </a>
+    <a class="btn btn-outline-primary btn-sm" routerLink="/configurations" [queryParams]="{ mode: 'export' }"
+      queryParamsHandling="merge">
+      <fa-icon size="fw" icon="download"></fa-icon>
+      Export
+    </a>
+  </div>
+
+
+  <app-export-configuration *ngIf="mode === 'export'" [configurations]="configurations"></app-export-configuration>
+
+  <app-import-configuration *ngIf="mode === 'import'"></app-import-configuration>
+
+</div>

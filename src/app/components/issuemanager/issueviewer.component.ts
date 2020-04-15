@@ -1,19 +1,19 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { JiraService } from '../lib/jira.service';
+import { JiraService } from '../../lib/jira.service';
 import {
     transformParentNode, populateFieldValues, buildIssueLinks,
     CustomNodeTypes, isCustomNode, isHeaderNode, getExtendedFieldValue, getIcon, createEpicChildrenNode, isCustomMenuType
-} from '../lib/jira-tree-utils';
+} from '../../lib/jira-tree-utils';
 import * as _ from 'lodash';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
-import { PersistenceService } from '../lib/persistence.service';
+import { PersistenceService } from '../../lib/persistence.service';
 import { Store } from '@ngrx/store';
-import { AppState } from '../+state/app.state';
-import { SetCurrentIssueKeyAction, UpsertProjectAction, SetHierarchicalIssueAction, EpicChildrenLoadedAction } from '../+state/app.actions';
+import { AppState } from '../../+state/app.state';
+import { SetCurrentIssueKeyAction, UpsertProjectAction, SetHierarchicalIssueAction, EpicChildrenLoadedAction } from '../../+state/app.actions';
 import { Subscription } from 'rxjs';
-import { getExtendedFields } from '../lib/project-config.utils';
-import { getRoutelet } from '../lib/route-utils';
+import { getExtendedFields } from '../../lib/project-config.utils';
+import { getRoutelet } from '../../lib/route-utils';
 
 @Component({
     selector: 'app-issueviewer',

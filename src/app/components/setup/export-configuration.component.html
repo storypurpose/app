@@ -1,0 +1,45 @@
+<div>
+    <h4 class="font-weight-normal mb-0">Export configurations</h4>
+    <div class="alert alert-warning mt-2" *ngIf="!configurations">
+        <fa-icon icon="exclamation-triangle" size="sm"></fa-icon>
+        No configurations to export.
+    </div>
+    <div *ngIf="configurations">
+
+        <div class="mb-3">
+            Store the configurations locally for future use.
+        </div>
+
+        <div class="mb-3 p-3 bg-light border-light rounded small">
+            SELECT SECTIONS
+
+            <ul class="list-group list-group-flush m-2">
+                <li class="list-group-item p-1 bg-light" *ngIf="configurations && configurations.connectionDetails">
+                    <input type="checkbox" [disabled]="selectionConfirmed" [(ngModel)]="selectConnectionDetails"> Jira
+                    connection details
+                    <span class="text-muted"> / <i>without credentials</i></span>
+                </li>
+                <li class="list-group-item p-1 bg-light" *ngIf="configurations && configurations.projects">
+                    <input type="checkbox" [disabled]="selectionConfirmed" [(ngModel)]="selectProjects"> Project
+                    configurations
+                </li>
+            </ul>
+
+            <button class="btn btn-link btn-sm mt-2" *ngIf="selectionConfirmed" (click)="selectionConfirmed = false">
+                <fa-icon icon="redo"></fa-icon> reset
+            </button>
+            <button class="btn btn-outline-primary btn-sm mt-2" [disabled]="!selectConnectionDetails && !selectProjects"
+                *ngIf="!selectionConfirmed" (click)="confirmSelection()">
+                <fa-icon icon="check"></fa-icon> Confirm
+            </button>
+        </div>
+        <div *ngIf="selectionConfirmed">
+            <a class="btn btn-sm btn-primary float-right" title="Download JSON" [href]="downloadJsonHref"
+                download="storypurpose-config.json">
+                <fa-icon icon="download" class="mr-2"></fa-icon> Export
+            </a>
+
+            The file is ready to be exported.
+        </div>
+    </div>
+</div>

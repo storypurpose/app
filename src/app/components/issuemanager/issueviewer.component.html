@@ -8,8 +8,7 @@
                         (showIssuelist)="showIssuelist = true"></app-issue-entry>
                 </div>
 
-                <button class="btn btn-link btn-sm pl-4" *ngIf="!organization"
-                    (click)="showOrganizationSetup = true">
+                <button class="btn btn-link btn-sm pl-4" *ngIf="!organization" (click)="showOrganizationSetup = true">
                     <fa-icon icon="wrench" size="sm"></fa-icon> Organization purpose
                 </button>
 
@@ -22,7 +21,8 @@
                             <div style="font-size: 90%;" [ngClass]="{
                                         'small text-muted text-uppercase font-italic': checkIfCustomNode(node),
                                         'font-weight-bold': node.key === issueKey
-                                }" [title]="getIssueTitle(node)">{{node.label}}</div>
+                                }" [title]="getIssueTitle(node)">
+                                {{node.label}}</div>
                         </ng-template>
                         <ng-template let-node pTemplate="Heading">
                             <div [title]="getHeaderTitle(node)">{{node.label}}</div>

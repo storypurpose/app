@@ -197,16 +197,24 @@ export function buildIssueLinks(node: any) {
         if (node.project && node.project.key) {
             children.forEach(u => u.project = node.project);
         }
-        if (children.length > 0) {
-            issueLinks.push({
-                "label": `Related issues`, title: `${children.length} issues linked`, key: `RL_${node.key}`, parentId: node.key,
+        const grouped = _.groupBy(children, 'linkType');
+        children = Object.keys(grouped).map(key => {
+            return {
+                "label": key, title: `${key} ${grouped[key].length} issues`, key: `RL_${node.key}`, parentId: node.key,
                 selectable: false, issueType: CustomNodeTypes.RelatedLink,
-                "children": children,
-                expanded: true
-            });
+                children: grouped[key], expanded: true
+            }
+        })
 
-        }
-        return issueLinks;
+        // if (children.length > 0) {
+        //     issueLinks.push({
+        //         "label": `Related issues`, title: `${children.length} issues linked`, key: `RL_${node.key}`, parentId: node.key,
+        //         selectable: false, issueType: CustomNodeTypes.RelatedLink,
+        //         "children": children,
+        //         expanded: true
+        //     });
+        // }
+        return children;
     }
     return null;
 }

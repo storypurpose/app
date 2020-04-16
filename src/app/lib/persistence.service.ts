@@ -133,7 +133,6 @@ export class PersistenceService {
     //#region HierarchyFields
     getExtendedHierarchy() {
         const payload = localStorage.getItem(DataTypes.ExtendedHierarchy);
-        console.log('payload', payload);
         return JSON.parse(payload) || [];
     }
     setExtendedHierarchy(hierarchies) {

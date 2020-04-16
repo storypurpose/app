@@ -1,5 +1,8 @@
+import { version } from '../../package.json';
+
 export const environment = {
   production: true,
-  gacode: 'UA-160827143-1',
+  VERSION: version,
+  gacode: '',
   proxyurl: 'https://ad-cors.herokuapp.com'
 };

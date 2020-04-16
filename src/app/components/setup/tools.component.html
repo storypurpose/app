@@ -1,14 +1,14 @@
 <div class="btn-group btn-group-sm">
     <div ngbDropdown display="dynamic" placement="bottom-right">
-        <a class="btn btn-link text-muted" id="dropdownBasic1" ngbDropdownToggle title="admin tools">
-            <fa-icon icon="tools"></fa-icon>
+        <a class="btn btn-link text-muted hide-caret" id="dropdownBasic1" ngbDropdownToggle title="admin tools">
+            <fa-icon [icon]="['far', 'sun']"></fa-icon>
             <span class="d-inline d-sm-none ml-2"> Tools</span>
         </a>
         <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-menu-right">
 
             <div class="text-muted small ml-2">JIRA SETUP</div>
             <a ngbDropdownItem (click)="openConnectionDetailEditor()">
-                <fa-icon [icon]="['far', 'sun']" size="fw" class="text-muted"></fa-icon>
+                <fa-icon icon="tools" size="fw" class="text-muted"></fa-icon>
                 Connection details
             </a>
 

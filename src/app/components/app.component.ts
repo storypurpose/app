@@ -49,7 +49,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
   @ViewChild('connectionDetailPopover', { static: true }) connectionDetailPopover: NgbPopover;
 
-
+  public isCollapsed = true;
+  public showDisplayName = false;
+  
   constructor(public router: Router,
     public persistenceService: PersistenceService,
     public sanitizer: DomSanitizer,

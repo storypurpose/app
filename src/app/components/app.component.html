@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md bg-white">
+<nav class="navbar navbar-expand-md bg-white" style="z-index: 1000;">
   <div class="container-fluid p-0">
     <a class=" text-muted h4 font-weight-light" routerLink="/about">
       <fa-icon icon="sitemap" size="sm" style="color: #FF8000;"></fa-icon> <b class="ml-2 text-dark">Purpose</b>
@@ -7,22 +7,32 @@
       (change)="onModeChange($event)" size="small" *ngIf="allowOfflineMode">
     </ui-switch>
 
-    <ul class="navbar-nav ml-sm-auto">
-      <li class="navbar-text text-muted ml-2"
-        *ngIf="connectionDetails && connectionDetails.displayName && connectionDetails.displayName.length > 0">
-        <fa-icon icon="user" size="fw" class="mr-1"></fa-icon>
-        {{connectionDetails.displayName}}
-      </li>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
+      (click)="isCollapsed = !isCollapsed">
+      <fa-icon icon="bars" size="lg" class="text-muted"></fa-icon>
+    </button>
 
-      <li class="nav-item">
-        <app-tools></app-tools>
-      </li>
-      <li class="nav-item">
-        <app-copyright></app-copyright>
-      </li>
-    </ul>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent" [ngbCollapse]="isCollapsed">
+      <ul class="navbar-nav ml-sm-auto">
+        <li class="navbar-text text-muted ml-2"
+          *ngIf="connectionDetails && connectionDetails.displayName && connectionDetails.displayName.length > 0">
+          <a style="border-radius: 40pt;" class="bg-light p-1" (click)="showDisplayName = !showDisplayName">
+            <fa-icon icon="user" size="fw" class="mr-1"></fa-icon>
+            <span *ngIf="showDisplayName || !isCollapsed">{{connectionDetails.displayName}}</span>
+          </a>
+
+        </li>
+
+        <li class="nav-item">
+          <app-tools></app-tools>
+        </li>
+        <li class="nav-item">
+          <app-copyright></app-copyright>
+        </li>
+      </ul>
+    </div>
   </div>
-
 </nav>
 
 <p-dialog header="Connection details" position="topright" class="bg-light" [(visible)]="showConnectionEditor"

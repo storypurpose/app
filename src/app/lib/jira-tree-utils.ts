@@ -225,10 +225,12 @@ function searchTree(node, valueToCompare, match) {
 }
 
 export function searchTreeByIssueType(node, issueType) {
-    console.log('searchTreeByIssueType', node, issueType);
-    return searchTree(node, issueType, (n, it) => n.issueType.toLowerCase() === it.toLowerCase())
+    return (node && issueType)
+        ? searchTree(node, issueType, (n, it) => n.issueType.toLowerCase() === it.toLowerCase())
+        : null;
 }
 export function searchTreeByKey(node, key) {
-    console.log('searchTreeByKey', node, key);
-    return searchTree(node, key, (n, it) => n.key.toLowerCase() === it.toLowerCase())
+    return (node && key)
+        ? searchTree(node, key, (n, it) => n.key.toLowerCase() === it.toLowerCase())
+        : null;
 }

@@ -49,8 +49,8 @@ export class StoryboardingContainerComponent implements OnInit, OnDestroy {
         this.projectsQuery$ = this.store$.select(p => p.app.projects).pipe(filter(p => p))
 
         this.combined$ = combineLatest(this.issueQuery$, this.paramsQuery$, this.projectsQuery$, this.epicChildrenLoadedQuery$)
-            .subscribe(([hierarchicalIssue, rpSelected, projects]) => {
-                //console.log(loaded);
+            .subscribe(([hierarchicalIssue, rpSelected, projects, loaded]) => {
+                console.log(loaded);
                 console.log('storyboard container', hierarchicalIssue, rpSelected);
                 this.projects = projects;
                 const selectedNode = searchTreeByKey(hierarchicalIssue, rpSelected);

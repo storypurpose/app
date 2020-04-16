@@ -50,6 +50,8 @@ export class StoryboardingContainerComponent implements OnInit, OnDestroy {
 
         this.combined$ = combineLatest(this.issueQuery$, this.paramsQuery$, this.projectsQuery$, this.epicChildrenLoadedQuery$)
             .subscribe(([hierarchicalIssue, rpSelected, projects]) => {
+                //console.log(loaded);
+                console.log('storyboard container', hierarchicalIssue, rpSelected);
                 this.projects = projects;
                 const selectedNode = searchTreeByKey(hierarchicalIssue, rpSelected);
                 if (selectedNode && selectedNode.issueType === CustomNodeTypes.Epic) {

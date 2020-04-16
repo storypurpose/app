@@ -48,6 +48,7 @@ export class SelectedItemContainerComponent implements OnInit, OnDestroy {
         this.combined$ = combineLatest(this.issueQuery$, this.paramsQuery$, this.projectsQuery$)
             .subscribe(([hierarchicalIssue, rpSelected, projects]) => {
                 this.projects = projects;
+                console.log('purpose container', hierarchicalIssue, rpSelected);
                 const currentProject = searchTreeByIssueType(hierarchicalIssue, CustomNodeTypes.Project);
                 const selectedNode = searchTreeByKey(hierarchicalIssue, rpSelected);
                 if (currentProject && selectedNode) {

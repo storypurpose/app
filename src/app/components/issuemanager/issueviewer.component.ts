@@ -76,7 +76,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
 
         this.initializeMasterMenulist();
         this.organization$ = this.store$.select(p => p.app.organization)
-            .subscribe(p => this.organization = p || {});
+            .subscribe(p => this.organization = p);
         this.extendedHierarchy$ = this.store$.select(p => p.app.extendedHierarchy)
             .subscribe(p => this.extendedHierarchy = p || []);
 
@@ -177,8 +177,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
                 }
             }
             this.loadedIssue = node;
-            console.log('loadedIssue', this.loadedIssue);
-            
+
             if (this.loadedIssue.project) {
                 this.loadedIssue.extendedFields = getExtendedFields(this.projects, this.loadedIssue.project.key, this.loadedIssue.issueType);
                 this.hasExtendedFields = this.loadedIssue.extendedFields && this.loadedIssue.extendedFields.length > 0;
@@ -187,19 +186,14 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
             let hierarchyNode = this.createHierarchyNodes(node);
             let projectNode = this.createProjectNode(node);
             const organizationNode = this.createOrganizationNode();
-            console.log('organizationNode', organizationNode);
-
+            
             projectNode = this.addToLeafNode(organizationNode, projectNode);
-            console.log('projectNode', projectNode);
 
             hierarchyNode = this.addToLeafNode(projectNode, hierarchyNode);
-            console.log('hierarchyNode', hierarchyNode);
 
             const epicNode = this.populateEpic(node);
-            console.log('epicNode', epicNode);
 
             node = this.addToLeafNode(hierarchyNode, epicNode);
-            console.log('node', node);
 
             this.store$.dispatch(new SetHierarchicalIssueAction(node));
         }

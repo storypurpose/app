@@ -23,7 +23,7 @@ const routes: Routes = [
       },
       { path: '', component: PageNotFoundComponent }]
   },
-  { path: '', redirectTo: '/about', pathMatch: 'full' },
+  { path: '', redirectTo: '/browse', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
 

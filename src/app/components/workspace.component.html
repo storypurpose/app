@@ -12,16 +12,16 @@
         </div>
 
         <div *ngIf="!connectionDetails">
-            <div class="mb-2">
-                <fa-icon icon="exclamation-triangle" class="text-warning"></fa-icon>
-                Connection details are missing.
+            <div class="mb-3 alert alert-warning">
+                <fa-icon [icon]="['fab', 'jira']" class="text-primary"></fa-icon>
+                Jira connection details are missing.
             </div>
             <a class="btn btn-primary btn-sm text-white mr-2" (click)="onShowSetup()">
                 Manual setup <fa-icon icon="angle-right"></fa-icon>
             </a>
 
             <a class="btn btn-light border btn-sm " routerLink="../configurations" [queryParams]="{mode:'import'}">
-                <fa-icon icon="file-import" class="text-muted"></fa-icon> Import
+                <fa-icon icon="file-import" class="text-muted"></fa-icon> Import config file
             </a>
 
             <!-- <p-fileUpload #configUploader name="myfile[]" customUpload="true"

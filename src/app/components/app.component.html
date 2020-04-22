@@ -1,7 +1,9 @@
 <nav class="navbar navbar-expand-md bg-white" style="z-index: 1000;">
   <div class="container-fluid p-0">
-    <a class=" text-muted h4 font-weight-light" routerLink="/about">
-      <fa-icon icon="sitemap" size="sm" style="color: #FF8000;"></fa-icon> <b class="ml-2 text-dark">Purpose</b>
+    <a class="text-dark h4" routerLink="/browse">
+      <img src="./assets/logo.png" height="26pt" />
+      <span class="font-weight-light ml-2">Story</span>
+      <span style="color: #ff8800;">Purpose</span>
     </a>
     <ui-switch [title]="isOnlineMode ? 'Online mode': 'Offline mode'" class="nav-link" [(ngModel)]="isOnlineMode"
       (change)="onModeChange($event)" size="small" *ngIf="allowOfflineMode">

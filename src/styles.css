@@ -308,3 +308,7 @@ body .ui-toast .ui-toast-message.ui-toast-message-error {
 .issue-list-item:hover {
   background-color: #fafafa;
 }
+
+.linked-issue {
+  border-left: 5px solid #f80;
+}

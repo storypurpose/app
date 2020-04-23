@@ -2,7 +2,7 @@
     <table class="table table-bordered mr-3">
         <thead>
             <tr class="bg-light">
-                <td>
+                <td style="width: 100px;">
                     <button class="btn btn-link text-dark p-0" style="white-space: nowrap;"
                         (click)="expandCollapseAll()">
                         <fa-icon [icon]="expandedAll ? 'angle-double-down' : 'angle-double-right'" class="text-muted">
@@ -28,10 +28,11 @@
                         <span class="badge badge-white" *ngIf="fv.count > 0">{{fv.count}}</span>
                     </button>
                 </td>
-                <td *ngFor="let c of storyboardItem.metadata.components" style="min-width: 250px;"
+                <td *ngFor="let c of storyboardItem.metadata.components" style="min-width: 250px; max-width:550px"
                     [ngClass]="{'bg-light-warning': c.title === 'No component'}">
                     <div *ngIf="fv.expanded">
-                        <div class="custom-shadow small p-2 mb-3 bg-white" style="width:250px"
+                        <div class="custom-shadow small p-2 mb-3 mr-2 bg-white float-left"
+                            [ngClass]="{'linked-issue': item.linkType && item.linkType.length> 0}" style="width:250px"
                             *ngFor="let item of getItems(fv, c)">
                             <div class="small text-muted text-uppercase mb-2">
                                 <div class="float-right">{{item.status}}</div>

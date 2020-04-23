@@ -133,6 +133,7 @@ export class StoryboardingContainerComponent implements OnInit, OnDestroy {
                     })
                 };
             });
+            record.fixVersions = _.orderBy(record.fixVersions, ['title'])
             const noComponent = _.find(record.components, { title: NO_COMPONENT });
             if (!noComponent || noComponent.count === 0) {
                 _.remove(record.components, { title: NO_COMPONENT });
@@ -152,7 +153,7 @@ export class StoryboardingContainerComponent implements OnInit, OnDestroy {
         const issueTypeResultSet = _.mapValues(_.groupBy(_.map(record.children, 'issueType')), (s) => s.length);
 
         return {
-            components: _.map(record.components, c => { return { key: c.title, count: c.count } }),
+            components: _.map(record.metadata.components, c => { return { key: c.title, count: c.count } }),
             status: Object.keys(statusResultSet).map((key) => { return { key, count: statusResultSet[key] }; }),
             issueTypes: Object.keys(issueTypeResultSet).map((key) => { return { key, count: issueTypeResultSet[key] }; })
         };
@@ -171,7 +172,6 @@ export class StoryboardingContainerComponent implements OnInit, OnDestroy {
             this.epicChildrenIncluded = true;
             this.storyboardItem.children = _.union(this.storyboardItem.children, this.storyboardItem.epicChildren)
             this.mergeMetadata(this.storyboardItem.metadata, this.extractMetadata(this.storyboardItem.epicChildren))
-            this.store$.dispatch(new SetStoryboardItemAction(this.storyboardItem));
         }
         if (this.includeRelatedIssues && this.storyboardItem.relatedLinks && this.storyboardItem.relatedLinks.length > 0) {
             if (!this.storyboardItem.relatedLinksLoaded) {
@@ -180,11 +180,12 @@ export class StoryboardingContainerComponent implements OnInit, OnDestroy {
                 this.relatedIssuesIncluded = true;
                 this.storyboardItem.children = _.union(this.storyboardItem.children, this.storyboardItem.relatedLinks)
                 this.mergeMetadata(this.storyboardItem.metadata, this.extractMetadata(this.storyboardItem.relatedLinks))
-                this.store$.dispatch(new SetStoryboardItemAction(this.storyboardItem));
             }
         }
 
-        this.storyboardItem.statistics = this.populateStatistics(this.storyboardItem.children);
+        this.storyboardItem.statistics = this.populateStatistics(this.storyboardItem);
+        console.log(this.storyboardItem.statistics);
+        this.store$.dispatch(new SetStoryboardItemAction(this.storyboardItem));
     }
 
     private populateRelatedLinks() {

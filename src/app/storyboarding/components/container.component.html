@@ -36,11 +36,11 @@
             *ngIf="(storyboardItem.epicChildren && storyboardItem.epicChildren.length > 0) || (storyboardItem.relatedLinks && storyboardItem.relatedLinks.length > 0)">
             <div *ngIf="storyboardItem.epicChildren && storyboardItem.epicChildren.length > 0">
                 <input type="checkbox" [(ngModel)]="includeEpicChildren" (change)="plotIssuesOnStoryboard()">
-                Include <b>{{storyboardItem.epicChildren.length}}</b> issues in this epic
+                <b class="badge badge-success ml-1">{{storyboardItem.epicChildren.length}}</b> issues in this epic
             </div>
             <div *ngIf="storyboardItem.relatedLinks && storyboardItem.relatedLinks.length > 0">
                 <input type="checkbox" [(ngModel)]="includeRelatedIssues" (change)="plotIssuesOnStoryboard()">
-                Include <b>{{storyboardItem.relatedLinks.length}}</b> related issues
+                <b class="badge badge-success ml-1">{{storyboardItem.relatedLinks.length}}</b> related issues
             </div>
         </div>
         <div class="col-md-4 mb-3"

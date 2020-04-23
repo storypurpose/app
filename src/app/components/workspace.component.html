@@ -12,9 +12,9 @@
         </div>
 
         <div *ngIf="!connectionDetails">
-            <div class="mb-3 alert alert-warning">
+            <div class="mb-3 alert-warning p-2 rounded">
                 <fa-icon [icon]="['fab', 'jira']" class="text-primary"></fa-icon>
-                Jira connection details are missing.
+                Please provide Jira connection details
             </div>
             <a class="btn btn-primary btn-sm text-white mr-2" (click)="onShowSetup()">
                 Manual setup <fa-icon icon="angle-right"></fa-icon>

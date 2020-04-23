@@ -21,8 +21,8 @@
                 </a>
                 <a class="btn btn-link mr-1" routerLink="list" [routerLinkActive]="'active'">
                     <fa-icon [icon]="['far', 'copy']" size="sm"></fa-icon> Story list
-                    <sub class="badge badge-white text-muted small">
-                        {{storyboardItem.count}}
+                    <sub class="badge badge-white text-muted small" *ngIf="storyboardItem.metadata">
+                        {{storyboardItem.metadata.count}}
                     </sub>
                 </a>
             </div>
@@ -30,12 +30,40 @@
             </div>
         </div>
     </div>
-    <router-outlet></router-outlet>
-</div>
 
-<p-dialog header="Statistics" *ngIf="storyboardItem && storyboardItem.statistics" position="topright" class="bg-light"
-    [(visible)]="showStatistics">
-    <app-epic-statistics [statusStats]="storyboardItem.statistics.status"
-        [issueTypeStats]="storyboardItem.statistics.issueTypes" [componentStats]="storyboardItem.statistics.components">
-    </app-epic-statistics>
-</p-dialog>
+    <div class="row small">
+        <div class="col-md-4 mb-3"
+            *ngIf="(storyboardItem.epicChildren && storyboardItem.epicChildren.length > 0) || (storyboardItem.relatedLinks && storyboardItem.relatedLinks.length > 0)">
+            <div *ngIf="storyboardItem.epicChildren && storyboardItem.epicChildren.length > 0">
+                <input type="checkbox" [(ngModel)]="includeEpicChildren" (change)="plotIssuesOnStoryboard()">
+                Include <b>{{storyboardItem.epicChildren.length}}</b> issues in this epic
+            </div>
+            <div *ngIf="storyboardItem.relatedLinks && storyboardItem.relatedLinks.length > 0">
+                <input type="checkbox" [(ngModel)]="includeRelatedIssues" (change)="plotIssuesOnStoryboard()">
+                Include <b>{{storyboardItem.relatedLinks.length}}</b> related issues
+            </div>
+        </div>
+        <div class="col-md-4 mb-3"
+            *ngIf="storyboardItem.metadata && (storyboardItem.metadata.backlogCount > 0 || storyboardItem.metadata.noComponentCount > 0)">
+            <div *ngIf="storyboardItem.metadata.backlogCount > 0" class="mr-4">
+                <span class="badge badge-warning">{{storyboardItem.metadata.backlogCount}}</span>
+                unplanned issues.
+            </div>
+            <div *ngIf="storyboardItem.metadata.noComponentCount > 0">
+                <span class="badge badge-warning">{{storyboardItem.metadata.noComponentCount}}</span>
+                issues in unknown functional areas.
+            </div>
+        </div>
+    </div>
+
+    <router-outlet></router-outlet>
+
+    <p-dialog header="Statistics" *ngIf="storyboardItem && storyboardItem.statistics" position="topright"
+        class="bg-light" [(visible)]="showStatistics">
+        <app-epic-statistics [statusStats]="storyboardItem.statistics.status"
+            [issueTypeStats]="storyboardItem.statistics.issueTypes"
+            [componentStats]="storyboardItem.statistics.components">
+        </app-epic-statistics>
+    </p-dialog>
+
+</div>

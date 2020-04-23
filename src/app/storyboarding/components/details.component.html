@@ -1,4 +1,4 @@
-<div *ngIf="storyboardItem">
+<div *ngIf="storyboardItem && storyboardItem.metadata && storyboardItem.children && storyboardItem.children.length > 0">
     <table class="table table-bordered mr-3">
         <thead>
             <tr class="bg-light">
@@ -11,7 +11,7 @@
                             *ngIf="storyboardItem.count > 0">{{storyboardItem.count}}</span> -->
                     </button>
                 </td>
-                <td *ngFor="let c of storyboardItem.components"
+                <td *ngFor="let c of storyboardItem.metadata.components"
                     [ngClass]="{'bg-light-warning': c.title === 'No component'}">
                     {{c.title}}
                     <span class="badge badge-white" *ngIf="c.count > 0">{{c.count}}</span>
@@ -19,7 +19,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let fv of storyboardItem.fixVersions">
+            <tr *ngFor="let fv of storyboardItem.metadata.fixVersions">
                 <td class="bg-light">
                     <button class="btn btn-link text-dark p-0" style="white-space: nowrap;"
                         (click)="fv.expanded = !fv.expanded">
@@ -28,7 +28,7 @@
                         <span class="badge badge-white" *ngIf="fv.count > 0">{{fv.count}}</span>
                     </button>
                 </td>
-                <td *ngFor="let c of storyboardItem.components" style="min-width: 250px;"
+                <td *ngFor="let c of storyboardItem.metadata.components" style="min-width: 250px;"
                     [ngClass]="{'bg-light-warning': c.title === 'No component'}">
                     <div *ngIf="fv.expanded">
                         <div class="custom-shadow small p-2 mb-3 bg-white" style="width:250px"
@@ -38,6 +38,9 @@
                                 <span>{{item.issueType}}: {{item.key}}</span>
                             </div>
                             {{item.title}}
+                            <div>
+                                <sub class="text-uppercase text-muted">{{item.linkType}}</sub>
+                            </div>
                         </div>
                     </div>
                 </td>

@@ -35,7 +35,9 @@ export class StoryboardComponent implements OnInit, OnDestroy {
         let records = [];
         if (fixVersion.componentWise) {
             const found = _.find(fixVersion.componentWise, { component: component.title });
-            records = found.values;
+            if (found) {
+                records = found.values;
+            }
         }
         return records;
     }

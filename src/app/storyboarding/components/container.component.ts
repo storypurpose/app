@@ -79,12 +79,12 @@ export class StoryboardingContainerComponent implements OnInit, OnDestroy {
                         const epicNode = _.find(selectedNode.children, { issueType: CustomNodeTypes.EpicChildren });
                         if (epicNode && epicNode.children && epicNode.children.length > 0) {
                             this.storyboardItem.epicChildren = _.map(_.clone(epicNode.children), p => _.pick(p, this.fieldlist));
-
                             this.includeEpicChildren = true;
-                            this.plotIssuesOnStoryboard();
                         }
+                    } else {
+                        this.includeRelatedIssues = true;
                     }
-
+                    this.plotIssuesOnStoryboard();
                 }
             })
     }

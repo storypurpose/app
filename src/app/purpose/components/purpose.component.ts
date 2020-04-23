@@ -13,10 +13,15 @@ import { PersistenceService } from 'src/app/lib/persistence.service';
 export class PurposeDetailsComponent implements OnInit, OnDestroy {
     @Output() edit = new EventEmitter<any>();
 
-    public purpose: any;
     public showAll = false;
+    hideExtendedFields = false;
+
+    selectedItem$: Subscription;
+    selectedItem: any;
 
     public purpose$: Subscription;
+    public purpose: any;
+
     public hierarchySetupVisibility$: Subscription;
 
     public fontSizeSmall = false;
@@ -27,6 +32,10 @@ export class PurposeDetailsComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        this.selectedItem$ = this.store$.select(p => p.purpose.selectedItem)
+            .pipe(filter(p => p))
+            .subscribe(p => this.selectedItem = p);
+
         this.purpose$ = this.store$.select(p => p.purpose.item).pipe(filter(p => p))
             .subscribe(data => {
                 this.purpose = data;
@@ -37,6 +46,7 @@ export class PurposeDetailsComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this.purpose$ ? this.purpose$.unsubscribe() : null;
         this.hierarchySetupVisibility$ ? this.hierarchySetupVisibility$.unsubscribe() : null;
+        this.selectedItem$ ? this.selectedItem$.unsubscribe() : null;
     }
 
     showHideAllPurposes(value) {

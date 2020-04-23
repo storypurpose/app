@@ -22,11 +22,15 @@ export class SelectedItemContainerComponent implements OnInit, OnDestroy {
     projectsQuery$: Observable<any>;
 
     combined$: Subscription;
+
     selectedItem$: Subscription;
+    selectedItem: any;
+
+    currentIssueKey$: Subscription;
+    currentIssueKey = '';
 
     purpose: any;
     projects: any;
-    selectedItem: any;
 
     localNodeType: any;
     constructor(public activatedRoute: ActivatedRoute,
@@ -38,7 +42,12 @@ export class SelectedItemContainerComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.localNodeType = CustomNodeTypes;
 
-        this.selectedItem$ = this.store$.select(p => p.purpose.selectedItem).pipe(filter(p => p))
+        this.currentIssueKey$ = this.store$.select(p => p.app.currentIssueKey)
+            .pipe(filter(p => p && p.length > 0))
+            .subscribe(key => this.currentIssueKey = key);
+
+        this.selectedItem$ = this.store$.select(p => p.purpose.selectedItem)
+            .pipe(filter(p => p))
             .subscribe(p => this.selectedItem = p);
 
         this.issueQuery$ = this.store$.select(p => p.app.hierarchicalIssue).pipe(filter(issue => issue));
@@ -79,6 +88,7 @@ export class SelectedItemContainerComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this.combined$ ? this.combined$.unsubscribe() : null;
         this.selectedItem$ ? this.selectedItem$.unsubscribe() : null;
+        this.currentIssueKey$ ? this.currentIssueKey$.unsubscribe() : null;
     }
 
     private markIssueSelected(node: any) {
@@ -127,5 +137,10 @@ export class SelectedItemContainerComponent implements OnInit, OnDestroy {
                 this.populatePurpose(node.parent);
             }
         }
+    }
+
+    canNavigateToStoryboard() {
+        return this.selectedItem &&
+            (this.selectedItem.issueType === 'Epic' || this.currentIssueKey.toLowerCase() === this.selectedItem.key.toLowerCase());
     }
 }

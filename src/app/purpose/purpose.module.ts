@@ -13,7 +13,7 @@ import { SidebarModule } from 'primeng/sidebar';
 import { TasklistComponent } from './components/task-list.component';
 import { ExtendedFieldsComponent } from './components/extended-fields.component';
 import { SelectedItemContainerComponent } from './components/container.component';
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 
 const routes: Route[] = [
   {
@@ -40,6 +40,7 @@ const routes: Route[] = [
 
     SidebarModule,
     NgbDropdownModule,
+    NgbCollapseModule,
 
     CommonComponentsModule,
     StoreModule.forFeature("purpose", purposeReducer, { initialState: purposeInitialState }),

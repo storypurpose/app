@@ -211,12 +211,29 @@ body .ui-toast .ui-toast-message {
   box-shadow: 0 0 6px 0 #888;
   border-radius: 2pt;
 }
+ngx-md h1,
 .extended-fields h1,
+ngx-md h2,
 .extended-fields h2,
+ngx-md h3,
 .extended-fields h3 {
-  font-size: small;
+  font-size: medium;
   font-weight: normal;
+  margin-left: 10px;
 }
+
+ngx-md h1:before,
+.extended-fields h1:before,
+ngx-md h2,
+.extended-fields h2:before,
+ngx-md h3,
+.extended-fields h3:before {
+  content: "-";
+  display: block;
+  float: left;
+  padding-right: 10px;
+}
+
 body .ui-toast .ui-toast-message.ui-toast-message-error {
   background-color: #fff;
   color: #900;

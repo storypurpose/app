@@ -1,7 +1,6 @@
 <div class="row">
     <div class="col-md-10">
         <div *ngIf="purpose && purpose.length > 0" [ngClass]="{'small': fontSizeSmall}">
-
             <div class="border-0 pb-0 mb-2 float-left">
                 <a (click)="showHideAllPurposes(!showAll)" class="btn btn-light btn-sm text-muted mr-2 "
                     title="Show/hide details">
@@ -24,10 +23,23 @@
                     <h5 class=" text-dark font-weight-normal mt-1">
                         {{item.title}}
                     </h5>
+
                     <ngx-md>
                         {{item.purpose}}
                     </ngx-md>
                 </div>
+            </div>
+        </div>
+
+        <div class="clearfix">&nbsp;</div>
+        <div class="ml-4 mr-5"
+            *ngIf="selectedItem && selectedItem.extendedFields && selectedItem.extendedFields.length > 0">
+            <button class="btn btn-sm btn-light text-muted" (click)="hideExtendedFields = !hideExtendedFields">
+                <fa-icon [icon]="hideExtendedFields ? 'chevron-right' : 'chevron-down'" size="sm"></fa-icon>
+                <span class="small">DETAILS</span>
+            </button>
+            <div [ngbCollapse]="hideExtendedFields" class="ml-3 border-left">
+                <app-extended-fields [issue]="selectedItem"></app-extended-fields>
             </div>
         </div>
     </div>

@@ -25,17 +25,13 @@
                             [routerLinkActive]="'active'">
                             <fa-icon [icon]="['far', 'lightbulb']" size="sm"></fa-icon> Purpose
                         </a>
-                        <a class="btn btn-link mr-1"
-                            *ngIf="selectedItem.extendedFields && selectedItem.extendedFields.length > 0"
-                            routerLink="attributes" [routerLinkActive]="'active'">
-                            <fa-icon [icon]="['far', 'list-alt']" size="sm"></fa-icon> Attributes
-                        </a>
+
                         <a class="btn btn-link mr-1" routerLink="items" *ngIf="selectedItem.issueType !== 'Epic'"
                             [routerLinkActive]="'active'">
                             <fa-icon icon="list-ol" size="sm"></fa-icon> Task breakup
                         </a>
 
-                        <div class="btn-group mr-1" *ngIf="selectedItem.issueType === 'Epic'">
+                        <div class="btn-group mr-1" *ngIf="canNavigateToStoryboard()">
                             <a class="btn btn-link pr-0" [routerLink]="['../../storyboard',selectedItem.key, 'details']"
                                 [routerLinkActive]="'active'">
                                 <fa-icon icon="map" size="sm"></fa-icon> Storyboard

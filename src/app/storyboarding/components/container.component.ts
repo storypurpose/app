@@ -45,6 +45,7 @@ export class StoryboardingContainerComponent implements OnInit, OnDestroy {
         public jiraService: JiraService,
         public store$: Store<AppState>
     ) {
+        console.log('storyboard container');
     }
     ngOnInit(): void {
         this.localNodeType = CustomNodeTypes;
@@ -53,6 +54,11 @@ export class StoryboardingContainerComponent implements OnInit, OnDestroy {
         this.issueQuery$ = this.store$.select(p => p.app.hierarchicalIssue).pipe(filter(issue => issue));
         this.paramsQuery$ = this.activatedRoute.params.pipe(filter(p => p && p["selected"] && p["selected"].length > 0), map(p => p["selected"]));
         this.projectsQuery$ = this.store$.select(p => p.app.projects).pipe(filter(p => p))
+
+        this.epicChildrenLoadedQuery$.subscribe(p => console.log('epicChildrenLoadedQuery$', p));
+        this.issueQuery$.subscribe(p => console.log('issueQuery$', p));
+        this.paramsQuery$.subscribe(p => console.log('paramsQuery$', p));
+        this.projectsQuery$.subscribe(p => console.log('projectsQuery$', p));
 
         this.combined$ = combineLatest(this.issueQuery$, this.paramsQuery$, this.projectsQuery$, this.epicChildrenLoadedQuery$)
             .subscribe(([hierarchicalIssue, rpSelected, projects, loaded]) => {
@@ -184,7 +190,6 @@ export class StoryboardingContainerComponent implements OnInit, OnDestroy {
         }
 
         this.storyboardItem.statistics = this.populateStatistics(this.storyboardItem);
-        console.log(this.storyboardItem.statistics);
         this.store$.dispatch(new SetStoryboardItemAction(this.storyboardItem));
     }
 

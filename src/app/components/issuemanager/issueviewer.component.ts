@@ -175,6 +175,9 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
                 if (epicNode) {
                     this.loadEpicChildren(epicNode, node.key, false);
                 }
+            } else {
+                // fix storyboard not loading for the first time
+                this.store$.dispatch(new EpicChildrenLoadedAction(true));
             }
             this.loadedIssue = node;
 
@@ -186,7 +189,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
             let hierarchyNode = this.createHierarchyNodes(node);
             let projectNode = this.createProjectNode(node);
             const organizationNode = this.createOrganizationNode();
-            
+
             projectNode = this.addToLeafNode(organizationNode, projectNode);
 
             hierarchyNode = this.addToLeafNode(projectNode, hierarchyNode);

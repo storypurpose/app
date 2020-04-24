@@ -47,6 +47,7 @@ export function appReducer(state: App, action: any): App {
             return {
                 ...state, connectionDetails: {
                     ...state.connectionDetails,
+                    serverUrl: action.payload.serverUrl,
                     username: action.payload.username,
                     password: action.payload.password,
                     verified: true

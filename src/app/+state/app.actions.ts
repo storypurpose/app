@@ -18,14 +18,17 @@ export const ActionTypes = {
 
     SetOrganization: type("[SetOrganization]"),
     SetExtendedHierarchyDetails: type("SetExtendedHierarchyDetails"),
+
     LoadProjects: type("[LoadProjects]"),
-    UpsertProject: type("[UpsertProject]")
+    UpsertProject: type("[UpsertProject]"),
+    DismissProjectSetup: type("[DismissProjectSetup]")
 }
 
 export const ModeTypes = {
     Offline: "offline",
     Online: "online"
 }
+
 export class ShowConnectionEditorAction implements Action {
     type = ActionTypes.ShowConnectionEditor;
     constructor(public payload: any) { }
@@ -83,9 +86,12 @@ export class LoadProjectsAction implements Action {
     type = ActionTypes.LoadProjects;
     constructor(public payload: any) { }
 }
-
 export class UpsertProjectAction implements Action {
     type = ActionTypes.UpsertProject;
+    constructor(public payload: any) { }
+}
+export class DismissProjectSetupAction implements Action{
+    type = ActionTypes.DismissProjectSetup;
     constructor(public payload: any) { }
 }
 
@@ -110,4 +116,5 @@ export type Actions =
 
     | UpsertProjectAction
     | LoadProjectsAction
+    | DismissProjectSetupAction
     ;

@@ -316,3 +316,12 @@ body .ui-toast .ui-toast-message.ui-toast-message-error {
 .editable-node:hover {
   text-decoration-line: underline;
 }
+
+.text-brand {
+  color: #f28000;
+}
+.btn-brand {
+  color: #fff;
+  background-color: #f80;
+  border-color: #f80;
+}

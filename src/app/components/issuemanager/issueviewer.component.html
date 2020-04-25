@@ -3,25 +3,24 @@
     <div class="body-container">
         <as-split direction="horizontal">
             <as-split-area size="20" class="border-right">
-                <div class="sticky-title pt-2 pr-2 pb-1">
+                <div class="sticky-title p-2">
                     <app-issue-entry [hideIssuelistNavigator]="false" [issueLookup]="issueLookup"
                         (showIssuelist)="showIssuelist = true"></app-issue-entry>
                 </div>
 
-                <div class="mt-1 mb-1 alert alert-warning p-2 small text-dark custom-shadow rounded-0">
-                    <button class="btn btn-sm btn-link float-right rounded-0">
+                <div class="mt-1 mb-1 alert alert-warning p-2 small text-dark rounded-0"
+                    *ngIf="currentProject && currentProject.isConfigured == false">
+                    <button class="btn btn-sm btn-link float-right rounded-0" (click)="dismissProjectSetup()">
                         <fa-icon icon="times" class="text-danger"></fa-icon>
                     </button>
-
                     Customize project configuration
 
-                    <button class="btn btn-sm btn-primary pt-0 pb-0 pl-1 pr-1 mt-2">
-                        <fa-icon icon="wrench" size="sm"></fa-icon> Configure now
+                    <button class="btn btn-sm btn-primary pt-0 pb-0 pl-1 pr-2 mt-1 mb-1">
+                        <fa-icon icon="wrench" size="sm"></fa-icon> Configure
                     </button>
                 </div>
 
-
-                <div *ngIf="treeNodes" class="pl-4 pb-5">
+                <div *ngIf="treeNodes" class="pb-5">
                     <p-contextMenu #cm [model]="menulist" appendTo="body"></p-contextMenu>
                     <p-tree [value]="treeNodes" selectionMode="single" (onNodeExpand)="loadNode($event)"
                         [(selection)]="selectedNode" (onNodeSelect)="nodeSelected($event)" [contextMenu]="cm"
@@ -47,8 +46,8 @@
                         </ng-template>
                         <ng-template let-node pTemplate="Editing">
                             <div class="input-group input-group-sm" style="width:200px">
-                                <input type="text" class="form-control" [appAutofocus]="node.type === 'Editing'" [(ngModel)]="node.title"
-                                    (keydown.enter)="updateNodeTitleOnEnter($event, node)"
+                                <input type="text" class="form-control" [appAutofocus]="node.type === 'Editing'"
+                                    [(ngModel)]="node.title" (keydown.enter)="updateNodeTitleOnEnter($event, node)"
                                     (keydown.escape)="cancelNodeEditingOnEscape($event, node)">
                                 <div class="input-group-append">
                                     <button class="btn btn-link border" [disabled]="!canUpdateTitle(node)"

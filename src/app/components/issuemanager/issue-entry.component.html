@@ -1,7 +1,7 @@
 <div class=" input-group">
 
   <div class="input-group-prepend" *ngIf="!hideIssuelistNavigator">
-    <button class="btn btn-link" (click)="onShowEpiclist()">
+    <button class="btn btn-brand rounded-0" (click)="onShowEpiclist()">
       <fa-icon icon="bars"></fa-icon>
     </button>
   </div>
@@ -12,7 +12,7 @@
     (click)="click$.next($any($event).target.value)" #instance="ngbTypeahead" (keydown.enter)="selectTo(issue)"
     (keydown.control.enter)="navigateTo(issue)" />
   <div class="input-group-append">
-    <button [disabled]="!canNavigate()" class="btn btn-light rounded-0 border border-left-0 " type="button"
+    <button [disabled]="!canNavigate()" class="btn btn-light text-brand rounded-0 border border-left-0 " type="button"
       (click)="navigateTo(issue)">
       <fa-icon icon="search" [size]="['fw', 'sm']"></fa-icon>
     </button>

@@ -6,6 +6,7 @@ import { GoogleAnalyticsService } from 'src/app/lib/google-analytics.service';
 import { AppState } from 'src/app/+state/app.state';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
+import { UpsertProjectAction } from 'src/app/+state/app.actions';
 
 @Component({
     selector: 'app-project-config',
@@ -46,7 +47,10 @@ export class ProjectConfigComponent implements OnInit {
 
     onSave() {
         this.gaService.eventEmitter("set_project_configuration", "configuration", "project_configuration", "key", this.project.key);
+        this.project.isConfigured = true;
+        this.store$.dispatch(new UpsertProjectAction(this.project));
         this.persistenceService.setProjectDetails(this.project);
+
         this.onClose(false);
     }
     onClose(reload) {

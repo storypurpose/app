@@ -1,16 +1,19 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { JiraService } from '../../lib/jira.service';
 import {
-    transformParentNode, populateFieldValues, buildIssueLinks,
-    CustomNodeTypes, isCustomNode, isHeaderNode, getExtendedFieldValue, getIcon, createEpicChildrenNode, isCustomMenuType, TreeTemplateTypes
+    transformParentNode, populateFieldValues, buildIssueLinks, searchTreeByIssueType, CustomNodeTypes, isCustomNode,
+    getExtendedFieldValue, getIcon, createEpicChildrenNode, isCustomMenuType, TreeTemplateTypes
 } from '../../lib/jira-tree-utils';
 import * as _ from 'lodash';
 import { ActivatedRoute, Router } from '@angular/router';
-import { filter, map, timeout } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { PersistenceService } from '../../lib/persistence.service';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../+state/app.state';
-import { SetCurrentIssueKeyAction, UpsertProjectAction, SetHierarchicalIssueAction, EpicChildrenLoadedAction, SetOrganizationAction } from '../../+state/app.actions';
+import {
+    SetCurrentIssueKeyAction, UpsertProjectAction, SetHierarchicalIssueAction, EpicChildrenLoadedAction,
+    SetOrganizationAction, DismissProjectSetupAction
+} from '../../+state/app.actions';
 import { Subscription } from 'rxjs';
 import { getExtendedFields } from '../../lib/project-config.utils';
 import { getRoutelet } from '../../lib/route-utils';
@@ -78,7 +81,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
         this.localNodeType = CustomNodeTypes;
         this.initializeMasterMenulist();
         this.organization$ = this.store$.select(p => p.app.organization)
-            .subscribe(p => this.organization = p);
+            .subscribe(org => this.setOrganizationDetails(org));
         this.extendedHierarchy$ = this.store$.select(p => p.app.extendedHierarchy)
             .subscribe(p => this.extendedHierarchy = p || []);
 
@@ -98,6 +101,9 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
             .pipe(filter(p => p))
             .subscribe(cp => {
                 this.currentProject = cp;
+                if (!this.currentProject.isConfigured) {
+                    this.currentProject.isConfigured = false;
+                }
                 this.persistenceService.setProjectDetails(cp);
             });
 
@@ -147,6 +153,22 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
         this.currentProject$ ? this.currentProject$.unsubscribe() : null;
         this.organization$ ? this.organization$.unsubscribe() : null;
         this.extendedHierarchy$ ? this.extendedHierarchy$.unsubscribe() : null;
+    }
+
+    private setOrganizationDetails(org: any): void {
+        if (this.treeNodes && this.treeNodes.length > 0 && org) {
+            const orgNode = searchTreeByIssueType(this.treeNodes[0], CustomNodeTypes.Organization);
+            if (orgNode) {
+                orgNode.title = org.name;
+                orgNode.label = org.name;
+                orgNode.description = org.purpose;
+                orgNode.key = org.name;
+                orgNode.type = TreeTemplateTypes.Heading;
+                orgNode.editable = false;
+                orgNode.selectable = false;
+            }
+        }
+        this.organization = org;
     }
 
     public populateExtendedFields(project) {
@@ -295,7 +317,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
             },
             {
                 label: 'Define purpose', icon: 'far fa-lightbulb', menuType: [CustomNodeTypes.Organization],
-                command: (args) => this.showOrganizationSetup = true
+                command: () => this.showOrganizationSetup = true
             },
             {
                 label: 'Define purpose', icon: 'far fa-lightbulb', menuType: [CustomNodeTypes.Hierarchy],
@@ -510,4 +532,12 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     getHeaderTitle = (node) => `[${node.issueType}] ${node.title}`;
 
     checkIfCustomNode = (node) => isCustomNode(node)
+
+    dismissProjectSetup() {
+        if (this.currentProject) {
+            this.currentProject.isConfigured = true;
+            this.persistenceService.setProjectDetails(this.currentProject);
+            this.store$.dispatch(new DismissProjectSetupAction(this.currentProject));
+        }
+    }
 }

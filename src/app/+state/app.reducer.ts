@@ -78,6 +78,13 @@ export function appReducer(state: App, action: any): App {
             }
             return { ...state, projects: list, currentProject };
         }
+
+        case ActionTypes.DismissProjectSetup: {
+            let currentProject = state.currentProject;
+            currentProject.isConfigured = true;
+            return { ...state, currentProject };
+        }
+
         default: return state;
     }
 

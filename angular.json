@@ -35,6 +35,13 @@
           },
           "configurations": {
             "production": {
+              "assets": [
+                {
+                  "ignore": [
+                    "src/staticfiles"
+                  ]
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",

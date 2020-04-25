@@ -5,7 +5,7 @@ import { filter, map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { CustomNodeTypes, searchTreeByKey, copyFieldValues, populateFieldValues, searchTreeByIssueType } from 'src/app/lib/jira-tree-utils';
 import { PersistenceService } from 'src/app/lib/persistence.service';
-import { SetPurposeAction, SetSelectedItemAction } from '../+state/purpose.actions';
+import { SetPurposeAction, SetSelectedItemAction, UpdateOrganizationPurposeAction } from '../+state/purpose.actions';
 import { ActivatedRoute } from '@angular/router';
 import { AppState } from 'src/app/+state/app.state';
 import { getExtendedFields } from 'src/app/lib/project-config.utils';
@@ -26,6 +26,8 @@ export class SelectedItemContainerComponent implements OnInit, OnDestroy {
     selectedItem$: Subscription;
     selectedItem: any;
 
+    organization$: Subscription;
+
     currentIssueKey$: Subscription;
     currentIssueKey = '';
 
@@ -41,6 +43,10 @@ export class SelectedItemContainerComponent implements OnInit, OnDestroy {
     }
     ngOnInit(): void {
         this.localNodeType = CustomNodeTypes;
+
+        this.organization$ = this.store$.select(p => p.app.organization)
+            .pipe(filter(p => p))
+            .subscribe(org => this.store$.dispatch(new UpdateOrganizationPurposeAction(org)));
 
         this.currentIssueKey$ = this.store$.select(p => p.app.currentIssueKey)
             .pipe(filter(p => p && p.length > 0))
@@ -86,6 +92,7 @@ export class SelectedItemContainerComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
+        this.organization$ ? this.organization$.unsubscribe() : null;
         this.combined$ ? this.combined$.unsubscribe() : null;
         this.selectedItem$ ? this.selectedItem$.unsubscribe() : null;
         this.currentIssueKey$ ? this.currentIssueKey$.unsubscribe() : null;
@@ -122,6 +129,9 @@ export class SelectedItemContainerComponent implements OnInit, OnDestroy {
         this.purpose = [];
         this.populatePurpose(node);
         _.reverse(this.purpose);
+        if (this.purpose.length > 0) {
+            this.purpose[this.purpose.length - 1].show = true;
+        }
         this.store$.dispatch(new SetPurposeAction(this.purpose));
     }
 
@@ -130,7 +140,7 @@ export class SelectedItemContainerComponent implements OnInit, OnDestroy {
             if (node.issueType !== CustomNodeTypes.EpicChildren && node.issueType !== CustomNodeTypes.RelatedLink) {
                 this.purpose.push({
                     key: node.key, issueType: node.issueType, title: node.title, purpose: node.description,
-                    editable: node.editable, hfKey: node.hfKey
+                    editable: node.editable, hfKey: node.hfKey, show: false
                 });
             }
             if (node.parent) {

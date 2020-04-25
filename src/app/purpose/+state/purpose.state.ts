@@ -1,7 +1,7 @@
 export interface Purpose {
   selectedItem: any;
 
-  item: any;
+  list: any;
   recentlyViewedItems: any;
   recentmostItem: any;
   // organizationEditorVisible: boolean;

@@ -28,18 +28,18 @@ export class PurposeDetailsComponent implements OnInit, OnDestroy {
 
     constructor(public persistenceService: PersistenceService,
         public store$: Store<PurposeState>
-    ) {
-    }
+    ) { }
 
     ngOnInit(): void {
         this.selectedItem$ = this.store$.select(p => p.purpose.selectedItem)
             .pipe(filter(p => p))
             .subscribe(p => this.selectedItem = p);
 
-        this.purpose$ = this.store$.select(p => p.purpose.item).pipe(filter(p => p))
+        this.purpose$ = this.store$.select(p => p.purpose.list)
+            .pipe(filter(p => p))
             .subscribe(data => {
                 this.purpose = data;
-                this.showHideAllPurposes(false);
+                // this.showHideAllPurposes(false);
             });
     }
 

@@ -5,6 +5,7 @@ export const ActionTypes = {
     SetSelectedItem: type("[SetSelectedItem]"),
 
     SetPurpose: type("[SetPurpose]"),
+    UpdateOrganizationPurpose: type("[UpdateOrganizationPurpose]"),
     SetRecentlyViewed: type("[SetRecentlyViewed]"),
     // ManageOrganizationEditorVisibility: type("[ManageOrganizationEditorVisibility]"),
     // ManageHierarchyEditorVisibility: type("[ManageHierarchyEditorVisibility]")
@@ -19,6 +20,11 @@ export class SetPurposeAction implements Action {
     type = ActionTypes.SetPurpose;
     constructor(public payload: any) { }
 }
+export class UpdateOrganizationPurposeAction implements Action {
+    type = ActionTypes.UpdateOrganizationPurpose;
+    constructor(public payload: any) { }
+}
+
 export class SetRecentlyViewedAction implements Action {
     type = ActionTypes.SetRecentlyViewed;
     constructor(public payload: any) { }
@@ -36,6 +42,8 @@ export type Actions =
     SetSelectedItemAction
 
     | SetPurposeAction
+    | UpdateOrganizationPurposeAction
+
     | SetRecentlyViewedAction
     // | ManageOrganizationEditorVisibilityAction
     // | ManageHierarchyEditorVisibilityAction

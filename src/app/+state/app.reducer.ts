@@ -37,7 +37,12 @@ export function appReducer(state: App, action: any): App {
         }
 
         case ActionTypes.SetOrganization: {
-            return { ...state, organization: action.payload };
+            const payload = action.payload || {};
+            return {
+                ...state, organization: {
+                    ...state.organization, name: payload.name, purpose: payload.purpose
+                }
+            };
         }
         case ActionTypes.SetExtendedHierarchyDetails: {
             return { ...state, extendedHierarchy: action.payload };

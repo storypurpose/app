@@ -3,7 +3,7 @@ import { Purpose } from './purpose.state';
 export const purposeInitialState: Purpose = {
     selectedItem: null,
     
-    item: null,
+    list: [],
     recentlyViewedItems: [],
     recentmostItem: null,
     // organizationEditorVisible: false,

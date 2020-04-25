@@ -1,5 +1,10 @@
 import * as _ from 'lodash';
 const MAX_LENGTH = 100;
+export const TreeTemplateTypes = {
+    Heading: 'Heading',
+    Editable: 'Editable',
+    Editing: 'Editing',
+};
 
 export const CustomNodeTypes = {
     Organization: "Organization",

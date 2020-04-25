@@ -312,3 +312,7 @@ body .ui-toast .ui-toast-message.ui-toast-message-error {
 .linked-issue {
   border-left: 5px solid #f80;
 }
+
+.editable-node:hover {
+  text-decoration-line: underline;
+}

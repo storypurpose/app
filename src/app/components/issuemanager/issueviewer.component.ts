@@ -2,15 +2,15 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { JiraService } from '../../lib/jira.service';
 import {
     transformParentNode, populateFieldValues, buildIssueLinks,
-    CustomNodeTypes, isCustomNode, isHeaderNode, getExtendedFieldValue, getIcon, createEpicChildrenNode, isCustomMenuType
+    CustomNodeTypes, isCustomNode, isHeaderNode, getExtendedFieldValue, getIcon, createEpicChildrenNode, isCustomMenuType, TreeTemplateTypes
 } from '../../lib/jira-tree-utils';
 import * as _ from 'lodash';
 import { ActivatedRoute, Router } from '@angular/router';
-import { filter, map } from 'rxjs/operators';
+import { filter, map, timeout } from 'rxjs/operators';
 import { PersistenceService } from '../../lib/persistence.service';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../+state/app.state';
-import { SetCurrentIssueKeyAction, UpsertProjectAction, SetHierarchicalIssueAction, EpicChildrenLoadedAction } from '../../+state/app.actions';
+import { SetCurrentIssueKeyAction, UpsertProjectAction, SetHierarchicalIssueAction, EpicChildrenLoadedAction, SetOrganizationAction } from '../../+state/app.actions';
 import { Subscription } from 'rxjs';
 import { getExtendedFields } from '../../lib/project-config.utils';
 import { getRoutelet } from '../../lib/route-utils';
@@ -20,6 +20,8 @@ import { getRoutelet } from '../../lib/route-utils';
     templateUrl: './issueviewer.component.html'
 })
 export class IssueviewerComponent implements OnInit, OnDestroy {
+    localNodeType: any;
+    ORG_PLACEHOLDER = "my_org";
     public selectedMenuItem: any;
 
     public showOrganizationSetup = false;
@@ -73,7 +75,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
         public store$: Store<AppState>) {
     }
     ngOnInit(): void {
-
+        this.localNodeType = CustomNodeTypes;
         this.initializeMasterMenulist();
         this.organization$ = this.store$.select(p => p.app.organization)
             .subscribe(p => this.organization = p);
@@ -225,8 +227,47 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     }
 
     public nodeSelected(event) {
-        let routelet = getRoutelet(this.router, 'details');
-        this.router.navigate(['purpose', event.node.key, routelet], { relativeTo: this.activatedRoute });
+        if (event.node.editable) {
+            event.node.memento = { type: event.node.type, selectable: event.node.selectable };
+            event.node.type = TreeTemplateTypes.Editing;
+            event.node.selectable = false;
+        }
+        else {
+            let routelet = getRoutelet(this.router, 'details');
+            this.router.navigate(['purpose', event.node.key, routelet], { relativeTo: this.activatedRoute });
+        }
+    }
+
+    cancelNodeEditingOnEscape = (eventArgs, node) => {
+        eventArgs.stopPropagation();
+        eventArgs.preventDefault();
+        this.cancelNodeEditing(node);
+    }
+
+    public cancelNodeEditing(node) {
+        if (node.memento) {
+            node.title = '';
+            node.type = node.memento.type;
+            setTimeout(() => node.selectable = node.memento.selectable, 200);
+        }
+    }
+
+    public canUpdateTitle = (node) => node && node.title && node.title.trim().length > 0;
+
+    updateNodeTitleOnEnter = (eventArgs, node) => {
+        eventArgs.stopPropagation();
+        eventArgs.preventDefault();
+        this.updateNodeTitle(node);
+    }
+    public updateNodeTitle(node) {
+        if (node.title && node.title.length > 0) {
+            node.type = TreeTemplateTypes.Heading;
+            node.selectable = false;
+            node.key = node.title;
+            const payload = { name: node.title };
+            this.store$.dispatch(new SetOrganizationAction(payload));
+            this.persistenceService.setOrganization(payload);
+        }
     }
 
     private initializeMasterMenulist() {
@@ -339,10 +380,19 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
 
                 if (extendedValue.length > 0) {
                     const extendedNode = {
-                        key: extendedValue, title: extendedValue, label: extendedValue, description: '',
+                        key: extendedValue,
+                        title: extendedValue,
+                        label: extendedValue,
+                        description: '',
                         icon: getIcon(CustomNodeTypes.Hierarchy),
-                        issueType: hf.name, hfKey: hf.id,
-                        children: [], expanded: true, editable: true, isHierarchyField: true, selectable: false, type: "Heading",
+                        issueType: hf.name,
+                        hfKey: hf.id,
+                        children: [],
+                        expanded: true,
+                        editable: false,
+                        isHierarchyField: true,
+                        selectable: false,
+                        type: TreeTemplateTypes.Heading,
                         menuType: CustomNodeTypes.Hierarchy
                     };
 
@@ -376,7 +426,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
                 key: node.project.key,
                 title: node.project.name,
                 label: node.project.name,
-                type: "Heading",
+                type: TreeTemplateTypes.Heading,
                 description: node.project.description,
                 issueType: CustomNodeTypes.Project,
                 menuType: CustomNodeTypes.Project,
@@ -412,16 +462,28 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
                 title: this.organization.name,
                 label: this.organization.name,
                 description: this.organization.purpose,
-                type: "Heading",
+                type: TreeTemplateTypes.Heading,
                 menuType: CustomNodeTypes.Organization,
                 issueType: CustomNodeTypes.Organization,
                 icon: getIcon(CustomNodeTypes.Organization),
                 expanded: true,
-                editable: true,
+                editable: false,
                 selectable: false
             }
+        } else {
+            return {
+                key: this.ORG_PLACEHOLDER,
+                title: '',
+                label: 'Organization',
+                description: '',
+                type: TreeTemplateTypes.Editable,
+                menuType: CustomNodeTypes.Organization,
+                issueType: CustomNodeTypes.Organization,
+                expanded: true,
+                editable: true,
+                selectable: true
+            }
         }
-        return null;
     }
 
     projectConfigSetupCompleted(reload) {

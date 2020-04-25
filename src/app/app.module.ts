@@ -61,6 +61,7 @@ import { ConfigurationsComponent } from './components/setup/configurations.compo
 import { ToolsComponent } from './components/setup/tools.component';
 import { ExportConfigurationComponent } from './components/setup/export-configuration.component';
 import { ImportConfigurationComponent } from './components/setup/import-configuration.component';
+import { AutofocusDirective } from './lib/autofocus.directive';
 
 export function initGapi(gapiSession: GapiSession) {
   return () => gapiSession.initClient();
@@ -74,12 +75,14 @@ export function initGapi(gapiSession: GapiSession) {
 
     IssueEntryComponent, RecentlyViewedComponent,
 
-    ConnectionDetailsComponent, ProjectConfigComponent, OrganizationComponent, HierarchyFieldEditorComponent, 
+    ConnectionDetailsComponent, ProjectConfigComponent, OrganizationComponent, HierarchyFieldEditorComponent,
     ConfigurationsComponent, ExportConfigurationComponent, ImportConfigurationComponent,
 
     FieldSelectorListComponent,
 
-    PrivacyComponent, TermsComponent, ToolsComponent
+    PrivacyComponent, TermsComponent, ToolsComponent,
+
+    AutofocusDirective
   ],
   imports: [
     BrowserModule,

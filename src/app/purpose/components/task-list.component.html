@@ -1,53 +1,62 @@
 <div *ngIf="issue">
     <div *ngIf="filteredItems && filteredItems.length > 0">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th width="1%" *ngIf="hasExtendedFields">
-                        <a (click)="showHideExtendedFields()" class="text-muted" title="Show/hide details">
-                            <fa-icon size="sm" [icon]="hideExtendedFields ? 'angle-double-right' : 'angle-double-down'">
-                            </fa-icon>
-                        </a>
-                    </th>
-                    <th colspan="2" class="text-muted">
-                        <span class="mr-1" *ngIf="filteredItems.length > 0"> {{filteredItems.length}} </span>
-                        record{{(filteredItems.length > 1 ? 's' : '')}}
-                    </th>
-                    <th width="10%">
-                        <select *ngIf="issueTypeStats && issueTypeStats.length > 1"
-                            class="form-control form-control-sm bg-light border-0" [(ngModel)]="issueTypeFilter"
+
+        <div class="list-group list-group-flush list-group-flush-compact">
+            <div class="list-group-item list-group-item-light">
+                <div class="clearfix">
+                    <button *ngIf="hasExtendedFields" (click)="showHideExtendedFields()"
+                        class="btn btn-sm btn-link text-muted pl-0" title="Show/hide details">
+                        <fa-icon size="sm" [fixedWidth]="true"
+                            [icon]="hideExtendedFields ? 'angle-double-right' : 'angle-double-down'">
+                        </fa-icon>
+                    </button>
+
+                    <b class="mt-1"><span class="mr-1" *ngIf="filteredItems.length > 0">
+                            {{filteredItems.length}} </span>
+                        record{{(filteredItems.length > 1 ? 's' : '')}}</b>
+
+                    <button (click)="tasklistFilterVisible = !tasklistFilterVisible"
+                        class="btn btn-link btn-sm float-right" title="Filters">
+                        <fa-icon size="sm" [icon]="tasklistFilterVisible ? 'chevron-up' : 'filter'"></fa-icon>
+                    </button>
+                </div>
+                <div class="row ml-3" [ngbCollapse]="!tasklistFilterVisible">
+                    <div class="col-md-6" *ngIf="issueTypeStats && issueTypeStats.length > 1">
+                        <select class="form-control form-control-sm" [(ngModel)]="issueTypeFilter"
                             (change)="onFilterChanged()">
-                            <option value="all">All</option>
+                            <option value="all">ISSUE TYPE: All</option>
                             <option *ngFor="let it of issueTypeStats" [value]="it.key">
                                 {{it.key + '  (' + it.count + ')'}}</option>
                         </select>
-                    </th>
-                    <th width="10%">
-                        <select *ngIf="statusStats && statusStats.length > 1"
-                            class="form-control form-control-sm bg-light border-0" [(ngModel)]="statusFilter"
+                    </div>
+                    <div class="col-md-6" *ngIf="statusStats && statusStats.length > 1">
+                        <select class="form-control form-control-sm" [(ngModel)]="statusFilter"
                             (change)="onFilterChanged()">
-                            <option value="all">All</option>
+                            <option value="all">STATUS: All</option>
                             <option *ngFor="let status of statusStats" [value]="status.key">
                                 {{status.key + '  (' + status.count + ')'}}</option>
                         </select>
-                    </th>
-                </tr>
-            </thead>
-            <tr *ngFor="let record of filteredItems">
-                <td *ngIf="hasExtendedFields">
-                    <a (click)="record.hideExtendedFields = !record.hideExtendedFields" class="text-muted"
-                        title="Show/hide details">
-                        <fa-icon size="sm" [icon]="record.hideExtendedFields ? 'angle-right' : 'angle-down'"></fa-icon>
-                    </a>
-                </td>
-                <td width="5%" style="white-space: nowrap;" class="text-muted font-weight-light">
-                    {{record.key}}
-                </td>
-                <td>
+                    </div>
+                </div>
+            </div>
+            <div class="list-group-item" *ngFor="let record of filteredItems">
+                <button *ngIf="hasExtendedFields" (click)="record.hideExtendedFields = !record.hideExtendedFields"
+                    class="btn btn-link btn-sm text-muted pl-0 pt-0" title="Show/hide details">
+                    <fa-icon size="sm" [fixedWidth]="true"
+                        [icon]="record.hideExtendedFields ? 'angle-right' : 'angle-down'">
+                    </fa-icon>
+                </button>
+                <small class="float-right badge badge-light font-weight-light">{{record.status}}</small>
+                <small class="text-muted">
+                    <span class="text-uppercase">{{record.issueType}}</span>
+                    :{{record.key}}
+                </small>
+
+                <div class="ml-4" style="margin-top: -4pt;">
                     <div>{{record.title}}</div>
                     <div style="overflow: auto;" class="alert mt-2 p-0 rounded-0 border-0"
                         *ngIf="!record.hideExtendedFields && record.extendedFields && record.extendedFields.length > 0">
-                        <table class="table table-small small p-0 m-0 border-0 bg-light extended-fields">
+                        <table class="table table-small m-0 border-0 bg-light extended-fields">
                             <tr *ngFor="let ef of record.extendedFields">
                                 <td class="p-1 text-nowrap text-muted" width="10%">{{ef.name}}:</td>
                                 <td class="p-1 text-dark" Markdown>
@@ -56,15 +65,9 @@
                             </tr>
                         </table>
                     </div>
-                </td>
-                <td style="white-space: nowrap;">
-                    <small class="text-muted">{{record.issueType}}</small>
-                </td>
-                <td style="white-space: nowrap;">
-                    <span class="pl-1 pr-1 border rounded bg-light small">{{record.status}}</span>
-                </td>
-            </tr>
-        </table>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="alert alert-warning" *ngIf="filteredItems && filteredItems.length === 0">

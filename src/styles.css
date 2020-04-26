@@ -147,10 +147,6 @@ body .ui-sidebar {
   padding: 0.25rem 1rem;
 }
 
-.main-container {
-  height: 100%;
-  overflow: hidden;
-}
 .body-container {
   position: absolute;
   width: 100%;
@@ -168,10 +164,12 @@ body .ui-sidebar {
   background-color: transparent !important;
   /* background-color: #f8f9fa; */
   flex-basis: 8px !important;
+  border-left: 2px solid #f8f8f8;
+  margin-left: 6px;
 }
-.as-split-gutter-icon {
+/* .as-split-gutter-icon {
   background-image: none !important;
-}
+} */
 
 .as-split-area {
   overflow: auto !important;
@@ -217,9 +215,8 @@ ngx-md h2,
 .extended-fields h2,
 ngx-md h3,
 .extended-fields h3 {
-  font-size: medium;
+  font-size: inherit;
   font-weight: normal;
-  margin-left: 10px;
 }
 
 ngx-md h1:before,
@@ -324,4 +321,9 @@ body .ui-toast .ui-toast-message.ui-toast-message-error {
   color: #fff;
   background-color: #f80;
   border-color: #f80;
+}
+
+.list-group-flush-compact .list-group-item {
+  padding: 0.25rem 0.75rem;
+  background-color: inherit;
 }

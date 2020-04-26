@@ -20,6 +20,7 @@ export const ActionTypes = {
     SetExtendedHierarchyDetails: type("SetExtendedHierarchyDetails"),
 
     LoadProjects: type("[LoadProjects]"),
+    UpsertProjectBegin: type("[UpsertProject] Begin"),
     UpsertProject: type("[UpsertProject]"),
     DismissProjectSetup: type("[DismissProjectSetup]")
 }
@@ -86,6 +87,10 @@ export class LoadProjectsAction implements Action {
     type = ActionTypes.LoadProjects;
     constructor(public payload: any) { }
 }
+export class UpsertProjectBeginAction implements Action {
+    type = ActionTypes.UpsertProjectBegin;
+    constructor(public payload: any) { }
+}
 export class UpsertProjectAction implements Action {
     type = ActionTypes.UpsertProject;
     constructor(public payload: any) { }
@@ -115,6 +120,7 @@ export type Actions =
     | SetExtendedHierarchyDetailsAction
 
     | UpsertProjectAction
+    | UpsertProjectBeginAction
     | LoadProjectsAction
     | DismissProjectSetupAction
     ;

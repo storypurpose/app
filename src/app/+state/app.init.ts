@@ -15,6 +15,8 @@ export const appInitialState: App = {
     connectionDetails: null,
     organization: null,
     extendedHierarchy: null, 
+    
     projects: null,
-    currentProject: null
+    currentProject: null,
+    currentProjectUpdated: false
 };

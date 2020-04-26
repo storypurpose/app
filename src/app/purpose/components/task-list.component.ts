@@ -2,7 +2,7 @@ import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { JiraService } from '../../lib/jira.service';
 import { flattenNodes, appendExtendedFields } from '../../lib/jira-tree-utils';
 import * as _ from 'lodash';
-import { filter, map } from 'rxjs/operators';
+import { filter, map, tap } from 'rxjs/operators';
 import { PersistenceService } from '../../lib/persistence.service';
 import { Subscription, combineLatest } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -13,7 +13,14 @@ import { AppState } from '../../+state/app.state';
     templateUrl: './task-list.component.html'
 })
 export class TasklistComponent implements OnInit, OnDestroy {
-    issue: any;
+    tasklistFilterVisible = false;
+    _issue: any;
+    @Input() set issue(value: any) {
+        this._issue = value;
+        this.loadDetails();
+    }
+    get issue() { return this._issue;}
+    
     childIssueType = '';
     childItems: any;
     filteredItems: any;
@@ -27,8 +34,8 @@ export class TasklistComponent implements OnInit, OnDestroy {
     issueTypeStats: any;
     issueTypeFilter = "all";
 
-    issueSubscription: Subscription;
-    projectsSubscription: Subscription;
+    combined$: Subscription;
+    currentProject$: Subscription;
 
     constructor(public jiraService: JiraService,
         public persistenceService: PersistenceService,
@@ -36,44 +43,52 @@ export class TasklistComponent implements OnInit, OnDestroy {
 
     }
     ngOnInit(): void {
-        const issue$ = this.store$.select(p => p.purpose.selectedItem).pipe(filter(p => p));
-        const projects$ = this.store$.select(p => p.app.projects);
-        this.issueSubscription = combineLatest(issue$, projects$)
-            .subscribe(([issue, projects]) => {
-                this.issue = issue;
-                this.issue.project = _.find(projects, { key: this.issue.project.key })
-                this.loadDetails(this.issue);
-            });
+        // const issueQuery = this.store$.select(p => p.purpose.selectedItem).pipe(filter(p => p));
+        // const projectsQuery = this.store$.select(p => p.app.projects);
+        // this.combined$ = combineLatest(issueQuery, projectsQuery)
+        //     .subscribe(([issue, projects]) => {
+        //         this.issue = issue;
+        //         this.issue.project = _.find(projects, { key: this.issue.project.key })
+        //         this.loadDetails();
+        //     });
+
+        this.currentProject$ = this.store$.select(p => p.app.currentProjectUpdated)
+            .subscribe(p => this.loadDetails());
     }
+
     ngOnDestroy(): void {
-        this.issueSubscription ? this.issueSubscription.unsubscribe() : null;
-        this.projectsSubscription ? this.projectsSubscription.unsubscribe() : null;
+        // this.combined$ ? this.combined$.unsubscribe() : null;
+        this.currentProject$ ? this.currentProject$.unsubscribe() : null;
     }
 
-    loadDetails(issue) {
-        if (issue.project && issue.project.subTaskIssueTypes && issue.project.subTaskIssueTypes.length > 0) {
+    loadDetails() {
+        if (this.issue && this.issue.project &&
+            this.issue.project.subTaskIssueTypes && this.issue.project.subTaskIssueTypes.length > 0) {
 
-            const subTaskIssueTypes = _.join(_.map(issue.project.subTaskIssueTypes, (ff) => `'${ff.name}'`), ',');
-            const extendedFields = _.spread(_.union)(_.map(issue.project.subTaskIssueTypes, 'list'));
+            const subTaskIssueTypes = _.join(_.map(this.issue.project.subTaskIssueTypes, (ff) => `'${ff.name}'`), ',');
+            const extendedFields = _.spread(_.union)(_.map(this.issue.project.subTaskIssueTypes, 'list'));
             this.hasExtendedFields = (extendedFields && extendedFields.length > 0);
 
             const codelist = _.map(extendedFields, 'id');
 
-            this.jiraService.executeJql(`issuetype in (${subTaskIssueTypes}) AND parent=${issue.key}`, 0, 100, codelist, 'test-cases.json')
+            this.jiraService.executeJql(`issuetype in (${subTaskIssueTypes}) AND parent=${this.issue.key}`, 0, 100, codelist, 'test-cases.json')
                 .pipe(filter((data: any) => data && data.issues))
                 .subscribe((data: any) => {
                     this.childItems = flattenNodes(data.issues);
-                    this.childItems.forEach(u => u.hideExtendedFields = true);
+                    this.childItems.forEach(u => u.hideExtendedFields = this.hideExtendedFields);
                     appendExtendedFields(this.childItems, extendedFields);
 
                     this.onFilterChanged();
-                    const statusResultSet = _.mapValues(_.groupBy(_.map(this.childItems, 'status')), (s) => s.length);
-                    this.statusStats = Object.keys(statusResultSet).map((key) => { return { key, count: statusResultSet[key] } });
-
-                    const issueTypeResultSet = _.mapValues(_.groupBy(_.map(this.childItems, 'issueType')), (s) => s.length);
-                    this.issueTypeStats = Object.keys(issueTypeResultSet).map((key) => { return { key, count: issueTypeResultSet[key] } });
+                    this.populateStatistics();
                 });
         }
+    }
+
+    private populateStatistics() {
+        const statusResultSet = _.mapValues(_.groupBy(_.map(this.childItems, 'status')), (s) => s.length);
+        this.statusStats = Object.keys(statusResultSet).map((key) => { return { key, count: statusResultSet[key] }; });
+        const issueTypeResultSet = _.mapValues(_.groupBy(_.map(this.childItems, 'issueType')), (s) => s.length);
+        this.issueTypeStats = Object.keys(issueTypeResultSet).map((key) => { return { key, count: issueTypeResultSet[key] }; });
     }
 
     public onFilterChanged() {

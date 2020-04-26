@@ -29,10 +29,13 @@
                     </ngx-md>
                 </div>
             </div>
-        </div>
 
-        <div class="clearfix">&nbsp;</div>
-        <div class="ml-4 mr-5"
+            <div class="clearfix">&nbsp;</div>
+            <a class="btn btn-light btn-sm text-primary" routerLink="../workbench">
+                Proceed to workbench
+                <fa-icon icon="chevron-right" size="sm"></fa-icon>
+            </a>
+            <!-- <div class="ml-4 mr-5"
             *ngIf="selectedItem && selectedItem.extendedFields && selectedItem.extendedFields.length > 0">
             <button class="btn btn-sm btn-light text-muted" (click)="hideExtendedFields = !hideExtendedFields">
                 <fa-icon [icon]="hideExtendedFields ? 'chevron-right' : 'chevron-down'" size="sm"></fa-icon>
@@ -41,6 +44,7 @@
             <div [ngbCollapse]="hideExtendedFields" class="ml-3 border-left">
                 <app-extended-fields [issue]="selectedItem"></app-extended-fields>
             </div>
+        </div> -->
         </div>
     </div>
     <div class="col-md-2">

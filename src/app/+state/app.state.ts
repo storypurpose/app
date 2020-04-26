@@ -15,8 +15,10 @@ export interface App {
 
   organization: any;
   extendedHierarchy: any;
+  
   projects: any;
   currentProject: any;
+  currentProjectUpdated: any;
 }
 
 export interface AppState {

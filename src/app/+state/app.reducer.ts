@@ -64,6 +64,10 @@ export function appReducer(state: App, action: any): App {
             return { ...state, projects: action.payload };
         }
 
+        case ActionTypes.UpsertProjectBegin: {
+            return { ...state, currentProjectUpdated: false };
+        }
+
         case ActionTypes.UpsertProject: {
             const list = state.projects || [];
             let currentProject = state.currentProject;
@@ -81,7 +85,7 @@ export function appReducer(state: App, action: any): App {
                 }
                 currentProject.current = true;
             }
-            return { ...state, projects: list, currentProject };
+            return { ...state, projects: list, currentProject, currentProjectUpdated: true };
         }
 
         case ActionTypes.DismissProjectSetup: {

@@ -1,0 +1,20 @@
+<div #content [style.height.px]="contentHeight">
+    <as-split direction="horizontal" *ngIf="issue">
+        <as-split-area size="60" class="pr-3">
+
+            <!-- <div class="small" *ngIf="selectedItem.labels && selectedItem.labels.length > 0">
+                <span class="mr-1 pl-1 pr-1 bg-light text-muted rounded"
+                    *ngFor="let lbl of selectedItem.labels">{{lbl}}</span>
+            </div>
+            <div class="small text-info" *ngIf="selectedItem.components && selectedItem.components.length > 0">
+                <span class="mr-1" *ngFor="let component of selectedItem.components">{{component}}</span>
+            </div> -->
+
+            <app-extended-fields [issue]="issue"></app-extended-fields>
+
+        </as-split-area>
+        <as-split-area size="40" class="small pl-3 pr-3">
+            <app-task-list [issue]="issue"></app-task-list>
+        </as-split-area>
+    </as-split>
+</div>

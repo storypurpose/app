@@ -90,7 +90,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
             .subscribe(issueNode => {
                 this.treeNodes = [issueNode];
                 this.selectedNode = issueNode;
-                this.selectedIssue = _.pick(issueNode, ['key', 'label', 'title', 'issueType', 'project', 'extendedFields']);
+                this.selectedIssue = _.pick(issueNode, ['key', 'label', 'title', 'issueType', 'project', 'extendedFields', 'description']);
             });
 
         this.connectionDetails$ = this.store$.select(p => p.app.connectionDetails)

@@ -14,10 +14,13 @@ import { TasklistComponent } from './components/task-list.component';
 import { ExtendedFieldsComponent } from './components/extended-fields.component';
 import { SelectedItemContainerComponent } from './components/container.component';
 import { NgbDropdownModule, NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
+import { WorkbenchComponent } from './components/workbench.component';
+import { AngularSplitModule } from 'angular-split';
 
 const routes: Route[] = [
   {
     path: ':selected', component: SelectedItemContainerComponent, children: [
+      { path: 'workbench', component: WorkbenchComponent },
       { path: 'items', component: TasklistComponent },
       { path: 'attributes', component: ExtendedFieldsComponent },
       { path: 'details', component: PurposeDetailsComponent },
@@ -28,7 +31,7 @@ const routes: Route[] = [
 
 @NgModule({
   declarations: [
-    SelectedItemContainerComponent,
+    SelectedItemContainerComponent, WorkbenchComponent,
     PurposeDetailsComponent, TasklistComponent, ExtendedFieldsComponent
   ],
   imports: [
@@ -41,6 +44,8 @@ const routes: Route[] = [
     SidebarModule,
     NgbDropdownModule,
     NgbCollapseModule,
+    
+    AngularSplitModule,
 
     CommonComponentsModule,
     StoreModule.forFeature("purpose", purposeReducer, { initialState: purposeInitialState }),

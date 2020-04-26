@@ -7,7 +7,7 @@ export function getRoutelet(router, routelet) {
     return tree.root.children[PRIMARY_OUTLET] &&
         tree.root.children[PRIMARY_OUTLET].segments &&
         tree.root.children[PRIMARY_OUTLET].segments.length === 5
-        ? _.last(tree.root.children[PRIMARY_OUTLET].segments).path
+        ? _.last<any>(tree.root.children[PRIMARY_OUTLET].segments).path
         : routelet;
 }
 

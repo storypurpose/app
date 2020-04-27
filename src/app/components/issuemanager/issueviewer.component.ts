@@ -549,6 +549,10 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
 
     checkIfCustomNode = (node) => isCustomNode(node)
 
+    configureProject() {
+        this.showProjectConfigSetup = true;
+        this.store$.dispatch(new ShowProjectConfigEditorAction(this.currentProject));
+    }
     dismissProjectSetup() {
         if (this.currentProject) {
             this.currentProject.isConfigured = true;

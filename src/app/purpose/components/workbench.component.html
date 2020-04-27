@@ -1,5 +1,5 @@
 <div #content [style.height.px]="contentHeight">
-    <as-split direction="horizontal" *ngIf="issue">
+    <as-split direction="horizontal" *ngIf="issue" class="pr-1">
         <as-split-area size="60" class="pr-3">
 
             <!-- <div class="small" *ngIf="selectedItem.labels && selectedItem.labels.length > 0">
@@ -14,7 +14,51 @@
 
         </as-split-area>
         <as-split-area size="40" class="small pl-3 pr-3">
-            <app-task-list [issue]="issue"></app-task-list>
+
+            <ul ngbNav #nav="ngbNav" class="nav-tabs" [(activeId)]="selectedTab" [destroyOnHide]="false">
+                <li [ngbNavItem]="1" *ngIf="issue.hasRelatedLinks">
+                    <a ngbNavLink>Related</a>
+                    <ng-template ngbNavContent>
+                        <div *ngIf="!relatedIssue">
+                            <div *ngFor="let child of issue.children">
+                                <ng-container *ngIf="child.issueType !== localNodeType.EpicChildren">
+                                    <div class="text-muted text-uppercase mt-1 mb-1">{{child.label}}</div>
+                                    <div class="ml-3 p-1 border-bottom" [title]="i.issueType"
+                                        *ngFor="let i of child.children">
+                                        <div
+                                            class="badge badge-light font-weight-normal text-uppercase float-right mt-1">
+                                            {{i.status}}
+                                        </div>
+                                        <i [class]="i.icon" class="mr-1"></i>
+                                        <a (click)="selectRelatedIssue(i)" class="text-primary mr-2">{{i.key}}</a>
+                                        {{i.title}}
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                        <div *ngIf="relatedIssue">
+                            <div class="alert bg-light pl-0" style="font-size:medium;">
+                                <button class="btn btn-sm btn-link mr-2" (click)="relatedIssue = null">
+                                    <fa-icon icon="chevron-left" size="lg"></fa-icon>
+                                </button>
+                                <span class="pt-2">
+                                    <span class="mr-1">{{relatedIssue.key}}:</span>
+                                    {{relatedIssue.title}}</span>
+                            </div>
+                            <app-task-list [issue]="relatedIssue"></app-task-list>
+                        </div>
+                    </ng-template>
+                </li>
+
+                <li [ngbNavItem]="2">
+                    <a ngbNavLink>Sub tasks</a>
+                    <ng-template ngbNavContent>
+                        <app-task-list [issue]="issue"></app-task-list>
+                    </ng-template>
+                </li>
+            </ul>
+            <div [ngbNavOutlet]="nav" class="mt-2"></div>
+
         </as-split-area>
     </as-split>
 </div>

@@ -12,7 +12,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../+state/app.state';
 import {
     SetCurrentIssueKeyAction, UpsertProjectAction, SetHierarchicalIssueAction, EpicChildrenLoadedAction,
-    SetOrganizationAction, DismissProjectSetupAction
+    SetOrganizationAction, DismissProjectSetupAction, ShowProjectConfigEditorAction
 } from '../../+state/app.actions';
 import { Subscription } from 'rxjs';
 import { getExtendedFields } from '../../lib/project-config.utils';
@@ -63,6 +63,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
 
     public projects: any;
     projects$: Subscription;
+    projectConfigSetupEditorVisible$: Subscription;
     showProjectConfigSetup = false;
     currentProject: any;
     currentProject$: Subscription;
@@ -80,6 +81,13 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.localNodeType = CustomNodeTypes;
         this.initializeMasterMenulist();
+
+        this.projectConfigSetupEditorVisible$ = this.store$.select(p => p.app.projectConfigEditorVisible)
+            .pipe(filter(p => p))
+            .subscribe(p => {
+                this.currentProject = p;
+                this.showProjectConfigSetup = true;
+            });
         this.organization$ = this.store$.select(p => p.app.organization)
             .subscribe(org => this.setOrganizationDetails(org));
         this.extendedHierarchy$ = this.store$.select(p => p.app.extendedHierarchy)
@@ -510,6 +518,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
 
     projectConfigSetupCompleted(reload) {
         this.showProjectConfigSetup = false;
+        this.store$.dispatch(new ShowProjectConfigEditorAction(null));
         if (reload) {
             window.location.reload();
         }

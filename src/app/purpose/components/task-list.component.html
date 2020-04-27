@@ -16,6 +16,7 @@
                         record{{(filteredItems.length > 1 ? 's' : '')}}</b>
 
                     <button (click)="tasklistFilterVisible = !tasklistFilterVisible"
+                        *ngIf="((issueTypeStats && issueTypeStats.length > 1) || statusStats && statusStats.length > 1)"
                         class="btn btn-link btn-sm float-right" title="Filters">
                         <fa-icon size="sm" [icon]="tasklistFilterVisible ? 'chevron-up' : 'filter'"></fa-icon>
                     </button>
@@ -46,7 +47,7 @@
                         [icon]="record.hideExtendedFields ? 'angle-right' : 'angle-down'">
                     </fa-icon>
                 </button>
-                <small class="float-right badge badge-light font-weight-light">{{record.status}}</small>
+                <small class="float-right badge badge-light font-weight-light text-uppercase">{{record.status}}</small>
                 <small class="text-muted">
                     <span class="text-uppercase">{{record.issueType}}</span>
                     :{{record.key}}

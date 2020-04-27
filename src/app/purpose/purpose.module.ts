@@ -13,7 +13,7 @@ import { SidebarModule } from 'primeng/sidebar';
 import { TasklistComponent } from './components/task-list.component';
 import { ExtendedFieldsComponent } from './components/extended-fields.component';
 import { SelectedItemContainerComponent } from './components/container.component';
-import { NgbDropdownModule, NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbCollapseModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { WorkbenchComponent } from './components/workbench.component';
 import { AngularSplitModule } from 'angular-split';
 
@@ -44,6 +44,7 @@ const routes: Route[] = [
     SidebarModule,
     NgbDropdownModule,
     NgbCollapseModule,
+    NgbNavModule,
     
     AngularSplitModule,
 

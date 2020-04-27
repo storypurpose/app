@@ -13,6 +13,9 @@ export function appReducer(state: App, action: any): App {
         case ActionTypes.ShowProjectConfigEditor: {
             return { ...state, projectConfigEditorVisible: action.payload };
         }
+        case ActionTypes.ShowQueryExecutorVisible: {
+            return { ...state, queryExecutorVisible: action.payload };
+        }
 
         case ActionTypes.SetMode: {
             return { ...state, mode: action.payload };

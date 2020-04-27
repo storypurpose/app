@@ -17,13 +17,19 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent" [ngbCollapse]="isCollapsed">
       <ul class="navbar-nav ml-sm-auto">
+
+        <li class="nav-item">
+          <a class="nav-link bg-light text-muted pl-3 pr-3" style="border-radius:20pt;" (click)="showQueryExecutor()">
+            Search <fa-icon icon="search" class="ml-5"></fa-icon>
+          </a>
+        </li>
+
         <li class="navbar-text text-muted ml-2"
           *ngIf="connectionDetails && connectionDetails.displayName && connectionDetails.displayName.length > 0">
-          <a style="border-radius: 40pt;" class="bg-light p-1" (click)="showDisplayName = !showDisplayName">
+          <a (click)="showDisplayName = !showDisplayName">
             <fa-icon icon="user" size="fw" class="mr-1"></fa-icon>
             <span *ngIf="showDisplayName || !isCollapsed">{{connectionDetails.displayName}}</span>
           </a>
-
         </li>
 
         <li class="nav-item">

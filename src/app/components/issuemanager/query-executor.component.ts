@@ -10,8 +10,8 @@ import { SetIssuelistAction } from '../../+state/app.actions';
 import { populateFieldValuesCompact, CustomNodeTypes } from '../../lib/jira-tree-utils';
 
 @Component({
-    selector: 'app-issue-list',
-    templateUrl: './issue-list.component.html'
+    selector: 'app-query-executor',
+    templateUrl: './query-executor.component.html'
 })
 export class IssuelistComponent implements OnInit, OnDestroy {
     @Output() close = new EventEmitter<any>();

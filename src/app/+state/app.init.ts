@@ -5,7 +5,8 @@ export const appInitialState: App = {
     connectionEditorVisible: false,
     // customFieldEditorVisible: null,
     projectConfigEditorVisible: null,
-
+    queryExecutorVisible: false,
+    
     issuelist: null,
 
     currentIssueKey: null,

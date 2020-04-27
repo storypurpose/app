@@ -10,7 +10,7 @@ import { AppState } from '../+state/app.state';
 import { Store } from '@ngrx/store';
 import {
   SetModeAction, ModeTypes, ShowConnectionEditorAction,
-  SetConnectionDetailsAction, LoadProjectsAction, SetOrganizationAction, SetExtendedHierarchyDetailsAction
+  SetConnectionDetailsAction, LoadProjectsAction, SetOrganizationAction, SetExtendedHierarchyDetailsAction, ShowQueryExecutorVisibleAction
 } from '../+state/app.actions';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { GapiSession } from '../googledrive/gapi.session';
@@ -51,7 +51,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public isCollapsed = true;
   public showDisplayName = false;
-  
+
   constructor(public router: Router,
     public persistenceService: PersistenceService,
     public sanitizer: DomSanitizer,
@@ -79,15 +79,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.connectionSubscription = this.store$.select(p => p.app.connectionEditorVisible)
       .subscribe(show => {
         this.showConnectionEditor = show;
-        //(show) ? this.connectionDetailPopover.open() : this.connectionDetailPopover.close();
       });
-
-    // this.customFieldSubscription = this.store$.select(p => p.app.customFieldEditorVisible)
-    //   .pipe(filter(issueType => issueType))
-    //   .subscribe(issueType => {
-    //     this.showCustomFieldSetup = true;
-    //     this.issueType = issueType;
-    //   });
 
     this.mode$ = this.store$.select(p => p.app.mode)
       .subscribe(p => this.isOnlineMode = p && p === ModeTypes.Online);
@@ -106,6 +98,10 @@ export class AppComponent implements OnInit, OnDestroy {
     this.mode$ ? this.mode$.unsubscribe() : null;
 
     this.connectionDetails$ ? this.connectionDetails$.unsubscribe() : null;
+  }
+
+  showQueryExecutor() {
+    this.store$.dispatch(new ShowQueryExecutorVisibleAction(true));
   }
 
   navigateTo(issue) {

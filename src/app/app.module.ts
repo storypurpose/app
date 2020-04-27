@@ -48,7 +48,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { environment } from '../environments/environment';
 import { ProjectConfigComponent } from './components/setup/project-config.component';
 import { FieldSelectorListComponent } from './components/setup/field-selector-list.component';
-import { IssuelistComponent } from './components/issuemanager/issue-list.component';
+import { IssuelistComponent } from './components/issuemanager/query-executor.component';
 import { HierarchyFieldEditorComponent } from './components/setup/hierarchy-field.component';
 import { OrganizationComponent } from './components/setup/organization.component';
 import { PrivacyComponent } from './components/help/privacy.component';

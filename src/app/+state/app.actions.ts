@@ -5,6 +5,7 @@ export const ActionTypes = {
     ShowConnectionEditor: type("[ShowConnectionDetails]"),
     ShowCustomFieldEditor: type("[ShowCustomFieldEditor]"),
     ShowProjectConfigEditor: type('[ShowProjectConfigEditor]'),
+    ShowQueryExecutorVisible: type('[ShowQueryExecutorVisible]'),
 
     SetCurrentIssueKey: type("[SetCurrentIssueKey]"),
     SetHierarchicalIssue: type("[SetHierarchicalIssue]"),
@@ -42,7 +43,10 @@ export class ShowProjectConfigEditorAction implements Action {
     type = ActionTypes.ShowProjectConfigEditor;
     constructor(public payload: any) { }
 }
-
+export class ShowQueryExecutorVisibleAction implements Action{
+    type = ActionTypes.ShowQueryExecutorVisible;
+    constructor(public payload: any) { }
+}
 export class SetCurrentIssueKeyAction implements Action {
     type = ActionTypes.SetCurrentIssueKey;
     constructor(public payload: any) { }
@@ -104,6 +108,7 @@ export type Actions =
     ShowConnectionEditorAction
     | ShowCustomFieldEditorAction
     | ShowProjectConfigEditorAction
+    | ShowQueryExecutorVisibleAction
 
     | SetCurrentIssueKeyAction
     | SetHierarchicalIssueAction

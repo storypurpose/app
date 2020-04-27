@@ -4,6 +4,7 @@ export interface App {
   mode: string;
   connectionEditorVisible: boolean;
   projectConfigEditorVisible: any;
+  queryExecutorVisible: boolean;
 
   issuelist: any;
 

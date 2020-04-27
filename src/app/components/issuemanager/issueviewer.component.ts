@@ -12,7 +12,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../+state/app.state';
 import {
     SetCurrentIssueKeyAction, UpsertProjectAction, SetHierarchicalIssueAction, EpicChildrenLoadedAction,
-    SetOrganizationAction, DismissProjectSetupAction, ShowProjectConfigEditorAction
+    SetOrganizationAction, DismissProjectSetupAction, ShowProjectConfigEditorAction, ShowQueryExecutorVisibleAction
 } from '../../+state/app.actions';
 import { Subscription } from 'rxjs';
 import { getExtendedFields } from '../../lib/project-config.utils';
@@ -65,12 +65,15 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     projects$: Subscription;
     projectConfigSetupEditorVisible$: Subscription;
     showProjectConfigSetup = false;
-    currentProject: any;
+
     currentProject$: Subscription;
+    currentProject: any;
+
+    queryExecutorVisible$: Subscription;
 
     public issueLookup: any;
 
-    showIssuelist = false;
+    isQueryExecutorVisible = false;
 
     constructor(public router: Router,
         public activatedRoute: ActivatedRoute,
@@ -81,6 +84,9 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.localNodeType = CustomNodeTypes;
         this.initializeMasterMenulist();
+
+        this.queryExecutorVisible$ = this.store$.select(p => p.app.queryExecutorVisible)
+            .subscribe(visibility => this.isQueryExecutorVisible = visibility);
 
         this.projectConfigSetupEditorVisible$ = this.store$.select(p => p.app.projectConfigEditorVisible)
             .pipe(filter(p => p))
@@ -155,6 +161,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
+        this.queryExecutorVisible$ ? this.queryExecutorVisible$.unsubscribe() : null;
         this.hierarchicalIssue$ ? this.hierarchicalIssue$.unsubscribe() : null;
         this.connectionDetails$ ? this.connectionDetails$.unsubscribe() : null;
         this.projects$ ? this.projects$.unsubscribe() : null;
@@ -307,7 +314,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
                 command: (args) => {
                     if (args.item && args.item.data) {
                         this.selectedMenuItem = args.item.data;
-                        this.showIssuelist = true;
+                        this.isQueryExecutorVisible = true;
                     }
                 }
             },
@@ -548,5 +555,12 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
             this.persistenceService.setProjectDetails(this.currentProject);
             this.store$.dispatch(new DismissProjectSetupAction(this.currentProject));
         }
+    }
+
+    openQueryExecutorEditor() {
+        this.store$.dispatch(new ShowQueryExecutorVisibleAction(true));
+    }
+    closeQueryExecutorEditor() {
+        this.store$.dispatch(new ShowQueryExecutorVisibleAction(false));
     }
 }

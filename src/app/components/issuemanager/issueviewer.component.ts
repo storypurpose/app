@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { environment } from '../../../environments/environment';
 import { JiraService } from '../../lib/jira.service';
 import {
     transformParentNode, populateFieldValues, buildIssueLinks, searchTreeByIssueType, CustomNodeTypes, isCustomNode,
@@ -17,6 +18,7 @@ import {
 import { Subscription } from 'rxjs';
 import { getExtendedFields } from '../../lib/project-config.utils';
 import { getRoutelet } from '../../lib/route-utils';
+import { Title } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-issueviewer',
@@ -77,6 +79,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
 
     constructor(public router: Router,
         public activatedRoute: ActivatedRoute,
+        public titleService: Title,
         public jiraService: JiraService,
         public persistenceService: PersistenceService,
         public store$: Store<AppState>) {
@@ -134,6 +137,8 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
 
         this.activatedRoute.params.pipe(filter(p => p && p["issue"] && p["issue"].length > 0), map(p => p["issue"]))
             .subscribe(issue => {
+                this.titleService.setTitle(`${environment.appTitle}: ${issue}`);
+
                 this.store$.dispatch(new SetCurrentIssueKeyAction(issue));
                 this.issueKey = issue;
                 const extentedHierarchyFields = this.mappedHierarchyFields || this.allHierarchyAndEpicLinkFields || [];

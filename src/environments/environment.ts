@@ -6,6 +6,7 @@ import { version } from '../../package.json';
 
 export const environment = {
   production: false,
+  appTitle: 'StoryPurpose',
   VERSION: version,
   gacode: '',
   proxyurl: 'https://ad-cors.herokuapp.com'

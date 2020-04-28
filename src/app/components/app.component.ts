@@ -3,7 +3,7 @@ import * as _ from 'lodash';
 import { Router, NavigationEnd } from '@angular/router';
 import { PersistenceService } from '../lib/persistence.service';
 import { Subscription } from 'rxjs';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, Title } from '@angular/platform-browser';
 
 import { environment } from '../../environments/environment';
 import { AppState } from '../+state/app.state';
@@ -53,6 +53,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public showDisplayName = false;
 
   constructor(public router: Router,
+    public titleService: Title,
     public persistenceService: PersistenceService,
     public sanitizer: DomSanitizer,
     public store$: Store<AppState>,
@@ -71,6 +72,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
+
+    this.titleService.setTitle(environment.appTitle);
+
     this.menulist = [
       { label: 'Setup connection', icon: 'pi pi-cog', command: () => this.showConnectionEditor = true },
       { label: 'Custom fields', icon: 'pi pi-sliders-h', command: () => this.showCustomFieldSetup = true },

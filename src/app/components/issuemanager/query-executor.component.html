@@ -12,6 +12,11 @@
                                 (click)="executeQuery()">
                                 <fa-icon icon="search" [fixedWidth]="true"></fa-icon>
                             </button>
+                            <button class="btn btn-brand" type="button"
+                                *ngIf="issuelist && issuelist.results && issuelist.results.length > 0"
+                                (click)="plotStoryboard()">
+                                <fa-icon icon="map" [fixedWidth]="true"></fa-icon>
+                            </button>
                         </div>
                     </div>
                 </div>

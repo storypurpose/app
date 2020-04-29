@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import * as _ from 'lodash';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/+state/app.state';
@@ -13,7 +13,7 @@ import { filter } from 'rxjs/operators';
 export class StoryboardComponent implements OnInit, OnDestroy {
 
     storyboardItem$: Subscription;
-    public storyboardItem: any;
+    @Input() storyboardItem: any;
 
     expandedAll = true;
 
@@ -44,8 +44,8 @@ export class StoryboardComponent implements OnInit, OnDestroy {
 
     expandCollapseAll() {
         this.expandedAll = !this.expandedAll;
-        if (this.storyboardItem && this.storyboardItem.fixVersions) {
-            this.storyboardItem.fixVersions.forEach(u => u.expanded = this.expandedAll);
+        if (this.storyboardItem && this.storyboardItem.metadata && this.storyboardItem.metadata.fixVersions) {
+            this.storyboardItem.metadata.fixVersions.forEach(u => u.expanded = this.expandedAll);
         }
     }
 }

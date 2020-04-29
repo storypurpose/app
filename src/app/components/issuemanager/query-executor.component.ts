@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs';
 import { filter, tap, map } from 'rxjs/operators';
 import { JiraService } from '../../lib/jira.service';
 import { SetIssuelistAction } from '../../+state/app.actions';
-import { populateFieldValuesCompact, CustomNodeTypes } from '../../lib/jira-tree-utils';
+import { populateFieldValuesCompact, CustomNodeTypes, populateFieldValues } from '../../lib/jira-tree-utils';
 
 @Component({
     selector: 'app-query-executor',
@@ -68,7 +68,7 @@ export class IssuelistComponent implements OnInit, OnDestroy {
     canExecuteQuery = () => this.query && this.query.trim().length > 0;
     executeQuery() {
         if (this.canExecuteQuery()) {
-            this.jiraService.executeJql(this.query, this.currentPageIndex - 1, 50, [], 'issuelist.json')
+            this.jiraService.executeJql(this.query, this.currentPageIndex - 1, 50, ['components', 'labels', 'fixVersions'], 'issuelist.json')
                 .pipe(map((p: any) => {
                     return {
                         total: p.total,
@@ -86,5 +86,9 @@ export class IssuelistComponent implements OnInit, OnDestroy {
     }
     onClose() {
         this.close.emit(null);
+    }
+
+    plotStoryboard() {
+        this.router.navigate(['/browse/storyboard/forfilter'], { queryParams: { query: this.query } });
     }
 }

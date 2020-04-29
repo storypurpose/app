@@ -9,9 +9,8 @@ import { ActivatedRoute } from '@angular/router';
 import { AppState } from 'src/app/+state/app.state';
 import { JiraService } from 'src/app/lib/jira.service';
 import { SetStoryboardItemAction } from '../+state/storyboarding.actions';
+import { initializeMetadata, mergeMetadata, extractMetadata, populateStatistics } from 'src/app/lib/storyboard-utils';
 
-const NO_COMPONENT = 'No component';
-const BACKLOG_SPRINT = 'Backlog';
 @Component({
     selector: 'app-storyboard-container',
     templateUrl: './container.component.html'
@@ -44,9 +43,7 @@ export class StoryboardingContainerComponent implements OnInit, OnDestroy {
         public persistenceService: PersistenceService,
         public jiraService: JiraService,
         public store$: Store<AppState>
-    ) {
-        console.log('storyboard container');
-    }
+    ) { }
     ngOnInit(): void {
         this.localNodeType = CustomNodeTypes;
 
@@ -55,21 +52,20 @@ export class StoryboardingContainerComponent implements OnInit, OnDestroy {
         this.paramsQuery$ = this.activatedRoute.params.pipe(filter(p => p && p["selected"] && p["selected"].length > 0), map(p => p["selected"]));
         this.projectsQuery$ = this.store$.select(p => p.app.projects).pipe(filter(p => p))
 
-        this.epicChildrenLoadedQuery$.subscribe(p => console.log('epicChildrenLoadedQuery$', p));
-        this.issueQuery$.subscribe(p => console.log('issueQuery$', p));
-        this.paramsQuery$.subscribe(p => console.log('paramsQuery$', p));
-        this.projectsQuery$.subscribe(p => console.log('projectsQuery$', p));
+        // this.epicChildrenLoadedQuery$.subscribe(p => console.log('epicChildrenLoadedQuery$', p));
+        // this.issueQuery$.subscribe(p => console.log('issueQuery$', p));
+        // this.paramsQuery$.subscribe(p => console.log('paramsQuery$', p));
+        // this.projectsQuery$.subscribe(p => console.log('projectsQuery$', p));
 
         this.combined$ = combineLatest(this.issueQuery$, this.paramsQuery$, this.projectsQuery$, this.epicChildrenLoadedQuery$)
             .subscribe(([hierarchicalIssue, rpSelected, projects, loaded]) => {
-                console.log(loaded);
                 this.projects = projects;
                 const selectedNode = searchTreeByKey(hierarchicalIssue, rpSelected);
                 if (selectedNode) {
 
                     this.storyboardItem = _.pick(selectedNode, this.fieldlist);
                     this.storyboardItem.children = []
-                    this.storyboardItem.metadata = this.initializeMetadata();
+                    this.storyboardItem.metadata = initializeMetadata();
 
                     const relatedLinks = _.filter(selectedNode.children, { issueType: CustomNodeTypes.RelatedLink });
                     if (relatedLinks && relatedLinks.length > 0) {
@@ -95,76 +91,6 @@ export class StoryboardingContainerComponent implements OnInit, OnDestroy {
             })
     }
 
-    mergeMetadata(left: any, right: any) {
-        left.count += right.count;
-        left.noComponentCount += right.noComponentCount;
-        left.backlogCount += right.backlogCount;
-
-        left.labels = _.union(left.labels, right.labels);
-        left.components = _.union(left.components, right.components);
-        left.fixVersions = _.union(left.fixVersions, right.fixVersions);
-    }
-
-    initializeMetadata() {
-        return {
-            count: 0,
-            noComponentCount: 0,
-            backlogCount: 0,
-
-            labels: [],
-            components: [],
-            fixVersions: []
-        }
-    }
-    private extractMetadata(records) {
-        const record: any = this.initializeMetadata();
-        if (records) {
-            record.count = records ? records.length : 0;
-            record.labels = _.union(_.flatten(_.map(records, p => p.labels)));
-            record.components = _.orderBy(_.map(_.union(_.flatten(_.map(records, p => p.components))), (c) => { return { title: c, count: 0 }; }), 'title');
-            record.components.unshift({ title: NO_COMPONENT, count: 0 });
-            record.fixVersions = _.map(_.union(_.flatten(_.map(records, p => p.fixVersions))), (fv) => {
-                const found = _.filter(records, p => _.includes(p.fixVersions, fv));
-                return {
-                    title: fv, expanded: true, count: found ? found.length : 0,
-                    componentWise: _.map(record.components, c => {
-                        const values = _.filter(found, f => (c.title === NO_COMPONENT)
-                            ? f.components.length === 0
-                            : _.includes(f.components, c.title));
-                        c.count += values.length;
-                        return {
-                            component: c.title,
-                            values: values
-                        };
-                    })
-                };
-            });
-            record.fixVersions = _.orderBy(record.fixVersions, ['title'])
-            const noComponent = _.find(record.components, { title: NO_COMPONENT });
-            if (!noComponent || noComponent.count === 0) {
-                _.remove(record.components, { title: NO_COMPONENT });
-            } else {
-                record.noComponentCount = noComponent.count;
-            }
-            const backlogFixVersion = _.find(record.fixVersions, { title: BACKLOG_SPRINT });
-            if (backlogFixVersion) {
-                record.backlogCount = backlogFixVersion.count;
-            }
-        }
-        return record;
-    }
-
-    private populateStatistics(record) {
-        const statusResultSet = _.mapValues(_.groupBy(_.map(record.children, 'status')), (s) => s.length);
-        const issueTypeResultSet = _.mapValues(_.groupBy(_.map(record.children, 'issueType')), (s) => s.length);
-
-        return {
-            components: _.map(record.metadata.components, c => { return { key: c.title, count: c.count } }),
-            status: Object.keys(statusResultSet).map((key) => { return { key, count: statusResultSet[key] }; }),
-            issueTypes: Object.keys(issueTypeResultSet).map((key) => { return { key, count: issueTypeResultSet[key] }; })
-        };
-    }
-
     ngOnDestroy(): void {
         this.combined$ ? this.combined$.unsubscribe() : null;
         this.selectedItem$ ? this.selectedItem$.unsubscribe() : null;
@@ -172,12 +98,14 @@ export class StoryboardingContainerComponent implements OnInit, OnDestroy {
 
     plotIssuesOnStoryboard() {
         this.storyboardItem.children = [];
-        this.storyboardItem.metadata = this.initializeMetadata();
+        this.storyboardItem.metadata = initializeMetadata();
 
-        if (this.includeEpicChildren && this.storyboardItem.epicChildren && this.storyboardItem.epicChildren.length > 0) {
-            this.epicChildrenIncluded = true;
-            this.storyboardItem.children = _.union(this.storyboardItem.children, this.storyboardItem.epicChildren)
-            this.mergeMetadata(this.storyboardItem.metadata, this.extractMetadata(this.storyboardItem.epicChildren))
+        if (this.includeEpicChildren) {
+            if (this.storyboardItem.epicChildren && this.storyboardItem.epicChildren.length > 0) {
+                this.epicChildrenIncluded = true;
+                this.storyboardItem.children = _.union(this.storyboardItem.children, this.storyboardItem.epicChildren)
+                mergeMetadata(this.storyboardItem.metadata, extractMetadata(this.storyboardItem.epicChildren));
+            }
         }
         if (this.includeRelatedIssues && this.storyboardItem.relatedLinks && this.storyboardItem.relatedLinks.length > 0) {
             if (!this.storyboardItem.relatedLinksLoaded) {
@@ -185,11 +113,11 @@ export class StoryboardingContainerComponent implements OnInit, OnDestroy {
             } else {
                 this.relatedIssuesIncluded = true;
                 this.storyboardItem.children = _.union(this.storyboardItem.children, this.storyboardItem.relatedLinks)
-                this.mergeMetadata(this.storyboardItem.metadata, this.extractMetadata(this.storyboardItem.relatedLinks))
+                mergeMetadata(this.storyboardItem.metadata, extractMetadata(this.storyboardItem.relatedLinks))
             }
         }
 
-        this.storyboardItem.statistics = this.populateStatistics(this.storyboardItem);
+        this.storyboardItem.statistics = populateStatistics(this.storyboardItem);
         this.store$.dispatch(new SetStoryboardItemAction(this.storyboardItem));
     }
 

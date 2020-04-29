@@ -26,12 +26,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
             .subscribe(mode => this.isOnlineMode = mode && mode === ModeTypes.Online);
 
         this.connectionDetailsSubscription = this.store$.select(p => p.app.connectionDetails)
-            .subscribe(p => {
-                this.connectionDetails = p;
-                // if (this.connectionDetails && !this.connectionDetails.verified) {
-                //     this.onShowSetup();
-                // }
-            });
+            .subscribe(p => this.connectionDetails = p);
     }
     ngOnDestroy(): void {
         this.connectionDetailsSubscription ? this.connectionDetailsSubscription.unsubscribe() : null;
@@ -40,50 +35,4 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     onShowSetup() {
         this.store$.dispatch(new ShowConnectionEditorAction(true));
     }
-
-    // onFileUpload(args, configUploader) {
-
-    //     const file = args.files && args.files.length === 1 ? args.files[0] : null; // FileList object
-    //     if (file) {
-    //         var reader = new FileReader();
-    //         reader.onload = (function (file, ms, ps, store$) {
-    //             return function (e) {
-    //                 if (e.target.result) {
-    //                     try {
-    //                         const config = JSON.parse(e.target.result);
-    //                         if (config) {
-    //                             if (config.connectionDetails) {
-    //                                 store$.dispatch(new SetConnectionDetailsAction(config.connectionDetails));
-    //                                 ps.setConnectionDetails(config.connectionDetails);
-    //                             }
-    //                             if (config.organization) {
-    //                                 store$.dispatch(new SetOrganizationDetailsAction(config.organization));
-    //                                 ps.setOrganizationDetails(config.organization);
-    //                             }
-    //                             if (config.projects) {
-    //                                 store$.dispatch(new LoadProjectsAction(config.projects));
-    //                                 ps.setProjects(config.projects);
-    //                             }
-
-    //                             ms.add({
-    //                                 severity: 'success', detail: 'Configurations loaded successfully. Setup user credentials',
-    //                                 life: 5000, closable: true
-    //                             });
-
-    //                         }
-    //                     } catch (ex) {
-    //                         ms.add({ severity: 'error', detail: 'Invalid file.' + ex.message, life: 5000, closable: true });
-    //                     }
-    //                 }
-
-    //                 if (configUploader) {
-    //                     configUploader.clear();
-    //                 }
-    //             };
-    //         })(file, this.messageService, this.persistenceService, this.store$);
-
-    //         reader.readAsText(file);
-    //     }
-    // }
-
 }

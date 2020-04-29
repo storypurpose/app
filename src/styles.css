@@ -209,6 +209,17 @@ body .ui-toast .ui-toast-message {
   box-shadow: 0 0 6px 0 #888;
   border-radius: 2pt;
 }
+body .ui-toast .ui-toast-message.ui-toast-message-error {
+  background-color: #fff;
+  border-left: 10px solid #900;
+  color: #000;
+}
+body .ui-toast .ui-toast-message.ui-toast-message-success {
+  background-color: #fff;
+  border-left: 10px solid #64bd63;
+  color: #000;
+}
+
 ngx-md h1,
 .extended-fields h1,
 ngx-md h2,
@@ -231,10 +242,6 @@ ngx-md h3,
   padding-right: 10px;
 }
 
-body .ui-toast .ui-toast-message.ui-toast-message-error {
-  background-color: #fff;
-  color: #900;
-}
 .navbar {
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.23);
 }

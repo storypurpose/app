@@ -19,8 +19,10 @@ import 'chartjs-plugin-labels';
 import { StoryListComponent } from './components/story-list.component';
 import { StatisticsComponent } from './components/statistics.component';
 import { DialogModule } from 'primeng/dialog';
+import { StoryboardForFilterComponent } from './components/for-filter.component';
 
 const routes: Route[] = [
+  { path: 'forfilter', component: StoryboardForFilterComponent },
   {
     path: ':selected', component: StoryboardingContainerComponent, children: [
       { path: 'list', component: StoryListComponent },
@@ -32,7 +34,8 @@ const routes: Route[] = [
 
 @NgModule({
   declarations: [
-    StoryboardingContainerComponent, StoryboardComponent, StoryListComponent, StatisticsComponent
+    StoryboardingContainerComponent, StoryboardComponent, StoryListComponent, StatisticsComponent,
+    StoryboardForFilterComponent
   ],
   imports: [
     CommonModule,

@@ -60,10 +60,15 @@ export function populateFieldValuesCompact(node) {
     if (node && node.fields) {
         return {
             key: node.key,
+            project: _.pick(node.fields.project, ['id', 'key', 'name']),
             issueType: node.fields.issuetype ? node.fields.issuetype.name : 'unknown',
             status: node.fields.status ? node.fields.status.name : 'unknown',
             title: node.fields.summary,
-            icon: getIcon(node.issueType)
+            icon: getIcon(node.issueType),
+            description: node.fields.description,
+            labels: node.fields.labels,
+            components: _.map(node.fields.components, 'name'),
+            fixVersions: _.map(node.fields.fixVersions, 'name')
         }
     }
     return null;

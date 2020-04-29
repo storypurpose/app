@@ -8,6 +8,7 @@ import { IssueviewerComponent } from './components/issuemanager/issueviewer.comp
 import { TermsComponent } from './components/help/terms.component';
 import { PrivacyComponent } from './components/help/privacy.component';
 import { ConfigurationsComponent } from './components/setup/configurations.component';
+import { AuthenticatedGuard } from './lib/auth.guard';
 
 const routes: Routes = [
   { path: 'about', component: AboutComponent },
@@ -16,8 +17,10 @@ const routes: Routes = [
   { path: 'configurations', component: ConfigurationsComponent },
   {
     path: 'browse', component: WorkspaceComponent, children: [
+      { path: 'storyboard', loadChildren: () => import('./storyboarding/storyboarding.module').then(m => m.StoryboardingModule) },
       {
-        path: ':issue', component: IssueviewerComponent, children: [
+        path: ':issue', component: IssueviewerComponent, canActivate: [AuthenticatedGuard],
+        children: [
           { path: 'purpose', loadChildren: () => import('./purpose/purpose.module').then(m => m.PurposeModule) },
           { path: 'storyboard', loadChildren: () => import('./storyboarding/storyboarding.module').then(m => m.StoryboardingModule) }]
       },

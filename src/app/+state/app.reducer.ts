@@ -4,26 +4,23 @@ import { ActionTypes } from './app.actions';
 
 export function appReducer(state: App, action: any): App {
     switch (action.type) {
-        case ActionTypes.ShowConnectionEditor: {
-            return { ...state, connectionEditorVisible: action.payload };
-        }
-        // case ActionTypes.ShowCustomFieldEditor: {
-        //     return { ...state, customFieldEditorVisible: action.payload };
-        // }
-        case ActionTypes.ShowProjectConfigEditor: {
-            return { ...state, projectConfigEditorVisible: action.payload };
-        }
-        case ActionTypes.ShowQueryExecutorVisible: {
-            return { ...state, queryExecutorVisible: action.payload };
-        }
-
         case ActionTypes.SetMode: {
             return { ...state, mode: action.payload };
         }
 
-        case ActionTypes.SetIssuelist: {
-            return { ...state, issuelist: action.payload };
+        case ActionTypes.ShowConnectionEditor: {
+            return { ...state, connectionEditorVisible: action.payload };
         }
+        case ActionTypes.ShowProjectConfigEditor: {
+            return { ...state, projectConfigEditorVisible: action.payload };
+        }
+        // case ActionTypes.ShowQueryExecutorVisible: {
+        //     return { ...state, queryExecutorVisible: action.payload };
+        // }
+
+        // case ActionTypes.SetIssuelist: {
+        //     return { ...state, issuelist: action.payload };
+        // }
 
         case ActionTypes.SetCurrentIssueKey: {
             return { ...state, currentIssueKey: action.payload };

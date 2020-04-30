@@ -1,12 +1,13 @@
 import { Purpose } from '../purpose/+state/purpose.state';
+import { Search } from '../search/+state/search.state';
 
 export interface App {
   mode: string;
   connectionEditorVisible: boolean;
   projectConfigEditorVisible: any;
-  queryExecutorVisible: boolean;
+  // queryExecutorVisible: boolean;
 
-  issuelist: any;
+  // issuelist: any;
 
   currentIssueKey: string;
   hierarchicalIssue: any;
@@ -24,5 +25,6 @@ export interface App {
 
 export interface AppState {
   readonly app: App;
-  readonly purpose: Purpose
+  readonly purpose: Purpose;
+  readonly search: Search;
 }

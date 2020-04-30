@@ -13,12 +13,13 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../+state/app.state';
 import {
     SetCurrentIssueKeyAction, UpsertProjectAction, SetHierarchicalIssueAction, EpicChildrenLoadedAction,
-    SetOrganizationAction, DismissProjectSetupAction, ShowProjectConfigEditorAction, ShowQueryExecutorVisibleAction
+    SetOrganizationAction, DismissProjectSetupAction, ShowProjectConfigEditorAction
 } from '../../+state/app.actions';
 import { Subscription } from 'rxjs';
 import { getExtendedFields } from '../../lib/project-config.utils';
 import { getRoutelet } from '../../lib/route-utils';
 import { Title } from '@angular/platform-browser';
+import { ShowQueryExecutorVisibleAction, SetQueryContextAction } from 'src/app/search/+state/search.actions';
 
 @Component({
     selector: 'app-issueviewer',
@@ -27,7 +28,6 @@ import { Title } from '@angular/platform-browser';
 export class IssueviewerComponent implements OnInit, OnDestroy {
     localNodeType: any;
     ORG_PLACEHOLDER = "my_org";
-    public selectedMenuItem: any;
 
     public showOrganizationSetup = false;
     public showHierarchyFieldSetup = false;
@@ -71,11 +71,10 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     currentProject$: Subscription;
     currentProject: any;
 
-    queryExecutorVisible$: Subscription;
-
     public issueLookup: any;
 
-    isQueryExecutorVisible = false;
+    // queryExecutorVisible$: Subscription;
+    // isQueryExecutorVisible = false;
 
     constructor(public router: Router,
         public activatedRoute: ActivatedRoute,
@@ -88,8 +87,8 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
         this.localNodeType = CustomNodeTypes;
         this.initializeMasterMenulist();
 
-        this.queryExecutorVisible$ = this.store$.select(p => p.app.queryExecutorVisible)
-            .subscribe(visibility => this.isQueryExecutorVisible = visibility);
+        // this.queryExecutorVisible$ = this.store$.select(p => p.search.queryExecutorVisible)
+        //     .subscribe(visibility => this.isQueryExecutorVisible = visibility);
 
         this.projectConfigSetupEditorVisible$ = this.store$.select(p => p.app.projectConfigEditorVisible)
             .pipe(filter(p => p))
@@ -166,7 +165,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.queryExecutorVisible$ ? this.queryExecutorVisible$.unsubscribe() : null;
+        // this.queryExecutorVisible$ ? this.queryExecutorVisible$.unsubscribe() : null;
         this.hierarchicalIssue$ ? this.hierarchicalIssue$.unsubscribe() : null;
         this.connectionDetails$ ? this.connectionDetails$.unsubscribe() : null;
         this.projects$ ? this.projects$.unsubscribe() : null;
@@ -318,8 +317,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
                 label: 'Find related', icon: 'fa fa-bars', menuType: [CustomNodeTypes.Hierarchy, CustomNodeTypes.Organization, CustomNodeTypes.Project],
                 command: (args) => {
                     if (args.item && args.item.data) {
-                        this.selectedMenuItem = args.item.data;
-                        this.isQueryExecutorVisible = true;
+                        this.store$.dispatch(new SetQueryContextAction(args.item.data));
                     }
                 }
             },
@@ -566,10 +564,10 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
         }
     }
 
-    openQueryExecutorEditor() {
-        this.store$.dispatch(new ShowQueryExecutorVisibleAction(true));
-    }
-    closeQueryExecutorEditor() {
-        this.store$.dispatch(new ShowQueryExecutorVisibleAction(false));
-    }
+    // openQueryExecutorEditor() {
+    //     this.store$.dispatch(new ShowQueryExecutorVisibleAction(true));
+    // }
+    // closeQueryExecutorEditor() {
+    //     this.store$.dispatch(new ShowQueryExecutorVisibleAction(false));
+    // }
 }

@@ -48,7 +48,6 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { environment } from '../environments/environment';
 import { ProjectConfigComponent } from './components/setup/project-config.component';
 import { FieldSelectorListComponent } from './components/setup/field-selector-list.component';
-import { IssuelistComponent } from './components/issuemanager/query-executor.component';
 import { HierarchyFieldEditorComponent } from './components/setup/hierarchy-field.component';
 import { OrganizationComponent } from './components/setup/organization.component';
 import { PrivacyComponent } from './components/help/privacy.component';
@@ -62,13 +61,14 @@ import { ToolsComponent } from './components/setup/tools.component';
 import { ExportConfigurationComponent } from './components/setup/export-configuration.component';
 import { ImportConfigurationComponent } from './components/setup/import-configuration.component';
 import { AutofocusDirective } from './lib/autofocus.directive';
+import { SearchModule } from './search/search.module';
 
 export function initGapi(gapiSession: GapiSession) {
   return () => gapiSession.initClient();
 }
 @NgModule({
   declarations: [
-    IssuelistComponent, AboutComponent, CopyrightComponent, WorkspaceComponent, FooterComponent,
+    AboutComponent, CopyrightComponent, WorkspaceComponent, FooterComponent,
 
     AppComponent, PageNotFoundComponent,
     IssueviewerComponent,
@@ -127,6 +127,7 @@ export function initGapi(gapiSession: GapiSession) {
     }),
 
     CommonComponentsModule,
+    SearchModule,
 
     AppRoutingModule
   ],

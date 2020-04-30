@@ -5,13 +5,10 @@ export const ActionTypes = {
     ShowConnectionEditor: type("[ShowConnectionDetails]"),
     ShowCustomFieldEditor: type("[ShowCustomFieldEditor]"),
     ShowProjectConfigEditor: type('[ShowProjectConfigEditor]'),
-    ShowQueryExecutorVisible: type('[ShowQueryExecutorVisible]'),
 
     SetCurrentIssueKey: type("[SetCurrentIssueKey]"),
     SetHierarchicalIssue: type("[SetHierarchicalIssue]"),
     EpicChildrenLoaded: type('[EpicChildrenLoaded]'),
-
-    SetIssuelist: type("[SetIssuelist]"),
 
     SetMode: type("[SetMode]"),
     SetConnectionDetails: type("[SetConnectionDetails]"),
@@ -43,10 +40,6 @@ export class ShowProjectConfigEditorAction implements Action {
     type = ActionTypes.ShowProjectConfigEditor;
     constructor(public payload: any) { }
 }
-export class ShowQueryExecutorVisibleAction implements Action{
-    type = ActionTypes.ShowQueryExecutorVisible;
-    constructor(public payload: any) { }
-}
 export class SetCurrentIssueKeyAction implements Action {
     type = ActionTypes.SetCurrentIssueKey;
     constructor(public payload: any) { }
@@ -57,11 +50,6 @@ export class SetHierarchicalIssueAction implements Action {
 }
 export class EpicChildrenLoadedAction implements Action {
     type = ActionTypes.EpicChildrenLoaded;
-    constructor(public payload: any) { }
-}
-
-export class SetIssuelistAction implements Action {
-    type = ActionTypes.SetIssuelist;
     constructor(public payload: any) { }
 }
 
@@ -108,13 +96,10 @@ export type Actions =
     ShowConnectionEditorAction
     | ShowCustomFieldEditorAction
     | ShowProjectConfigEditorAction
-    | ShowQueryExecutorVisibleAction
 
     | SetCurrentIssueKeyAction
     | SetHierarchicalIssueAction
     | EpicChildrenLoadedAction
-
-    | SetIssuelistAction
 
     | SetModeAction
 

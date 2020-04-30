@@ -64,7 +64,7 @@
                         <div class="col-md-9">
                             <ngb-pagination class="float-right" [maxSize]="3" [(page)]="currentPageIndex"
                                 [boundaryLinks]="true" [pageSize]="issuelist.pageSize" size="sm"
-                                (pageChange)="onPageChange($event)" [collectionSize]="issuelist.total">
+                                (pageChange)="onPageChange()" [collectionSize]="issuelist.total">
                             </ngb-pagination>
                         </div>
                     </table>

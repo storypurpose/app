@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import * as _ from 'lodash';
 import { Router, NavigationEnd } from '@angular/router';
 import { PersistenceService } from '../lib/persistence.service';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable, combineLatest } from 'rxjs';
 import { DomSanitizer, Title } from '@angular/platform-browser';
 
 import { environment } from '../../environments/environment';
@@ -10,10 +10,11 @@ import { AppState } from '../+state/app.state';
 import { Store } from '@ngrx/store';
 import {
   SetModeAction, ModeTypes, ShowConnectionEditorAction,
-  SetConnectionDetailsAction, LoadProjectsAction, SetOrganizationAction, SetExtendedHierarchyDetailsAction, ShowQueryExecutorVisibleAction
+  SetConnectionDetailsAction, LoadProjectsAction, SetOrganizationAction, SetExtendedHierarchyDetailsAction
 } from '../+state/app.actions';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { GapiSession } from '../googledrive/gapi.session';
+import { ShowQueryExecutorVisibleAction } from '../search/+state/search.actions';
 
 declare let gtag: Function;
 
@@ -52,6 +53,12 @@ export class AppComponent implements OnInit, OnDestroy {
   public isCollapsed = true;
   public showDisplayName = false;
 
+  queryContext: any;
+  queryExecutorCombined$: Subscription;
+  queryContextQuery$: Observable<any>;
+  queryExecutorVisibleQuery$: Observable<any>;
+  isQueryExecutorVisible = false;
+
   constructor(public router: Router,
     public titleService: Title,
     public persistenceService: PersistenceService,
@@ -80,6 +87,14 @@ export class AppComponent implements OnInit, OnDestroy {
       { label: 'Custom fields', icon: 'pi pi-sliders-h', command: () => this.showCustomFieldSetup = true },
     ];
 
+    this.queryExecutorVisibleQuery$ = this.store$.select(p => p.search.queryExecutorVisible);
+    this.queryContextQuery$ = this.store$.select(p => p.search.queryContext)
+    this.queryExecutorCombined$ = combineLatest(this.queryExecutorVisibleQuery$, this.queryContextQuery$)
+      .subscribe(([visibility, context]) => {
+        this.queryContext = context;
+        this.isQueryExecutorVisible = visibility;
+      });
+
     this.connectionSubscription = this.store$.select(p => p.app.connectionEditorVisible)
       .subscribe(show => {
         this.showConnectionEditor = show;
@@ -97,15 +112,13 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.queryExecutorCombined$ ? this.queryExecutorCombined$.unsubscribe() : null;
+
     this.connectionSubscription ? this.connectionSubscription.unsubscribe() : null;
     this.customFieldSubscription ? this.customFieldSubscription.unsubscribe() : null;
     this.mode$ ? this.mode$.unsubscribe() : null;
 
     this.connectionDetails$ ? this.connectionDetails$.unsubscribe() : null;
-  }
-
-  showQueryExecutor() {
-    this.store$.dispatch(new ShowQueryExecutorVisibleAction(true));
   }
 
   navigateTo(issue) {
@@ -154,6 +167,13 @@ export class AppComponent implements OnInit, OnDestroy {
           window.location.reload();
         }
       });
+  }
 
+  showQueryExecutorEditor() {
+    this.store$.dispatch(new ShowQueryExecutorVisibleAction(true));
+  }
+
+  closeQueryExecutorEditor() {
+    this.store$.dispatch(new ShowQueryExecutorVisibleAction(false));
   }
 }

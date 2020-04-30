@@ -3,8 +3,7 @@
     <as-split direction="horizontal">
         <as-split-area size="20">
             <div class="sticky-title p-2">
-                <app-issue-entry [hideIssuelistNavigator]="false" [issueLookup]="issueLookup"
-                    (showIssuelist)="openQueryExecutorEditor()"></app-issue-entry>
+                <app-issue-entry [hideIssuelistNavigator]="true" [issueLookup]="issueLookup"></app-issue-entry>
             </div>
 
             <div class="m-2 alert alert-warning p-2 small text-dark rounded-0"
@@ -68,12 +67,6 @@
         </as-split-area>
     </as-split>
 </div>
-
-<p-sidebar [(visible)]="isQueryExecutorVisible" [fullScreen]="true" [showCloseIcon]="false"
-    (onHide)="closeQueryExecutorEditor()">
-    <app-query-executor [selectedItem]="selectedMenuItem" (close)="closeQueryExecutorEditor()">
-    </app-query-executor>
-</p-sidebar>
 
 <p-sidebar [(visible)]="showProjectConfigSetup" styleClass="ui-sidebar-md" position="right">
     <app-project-config [project]="currentProject" (close)="projectConfigSetupCompleted($event)">

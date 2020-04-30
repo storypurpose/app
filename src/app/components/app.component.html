@@ -19,7 +19,7 @@
       <ul class="navbar-nav ml-sm-auto">
 
         <li class="nav-item">
-          <a class="nav-link bg-light text-muted pl-3 pr-3" style="border-radius:20pt;" (click)="showQueryExecutor()">
+          <a class="nav-link bg-light text-muted pl-3 pr-3" style="border-radius:20pt;" (click)="showQueryExecutorEditor()">
             Search <fa-icon icon="search" class="ml-5"></fa-icon>
           </a>
         </li>
@@ -54,3 +54,9 @@
 <p-toast position="bottom-right"></p-toast>
 
 <router-outlet> </router-outlet>
+
+<p-sidebar [(visible)]="isQueryExecutorVisible" [fullScreen]="true" [showCloseIcon]="false"
+  (onHide)="closeQueryExecutorEditor()">
+  <app-query-executor [queryContext]="queryContext" (close)="closeQueryExecutorEditor()">
+  </app-query-executor>
+</p-sidebar>

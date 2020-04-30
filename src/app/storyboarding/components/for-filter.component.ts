@@ -30,7 +30,7 @@ export class StoryboardForFilterComponent implements OnInit, OnDestroy {
         this.activatedRoute.queryParams.pipe(filter(qp => qp && qp["query"] && qp["query"].length > 0), map(p => p["query"]))
             .subscribe(query => this.storyboardItem.query = query);
 
-        this.issuelist$ = this.store$.select(p => p.app.issuelist)
+        this.issuelist$ = this.store$.select(p => p.search.issuelist)
             .pipe(filter(p => p), map(p => p.results))
             .subscribe(list => {
                 this.storyboardItem.children = list;

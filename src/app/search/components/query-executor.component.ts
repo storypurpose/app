@@ -1,24 +1,24 @@
 import { Component, OnInit, OnDestroy, Output, EventEmitter, Input } from '@angular/core';
 import * as _ from 'lodash';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AppState } from '../../+state/app.state';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { filter, tap, map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { JiraService } from '../../lib/jira.service';
-import { SetIssuelistAction } from '../../+state/app.actions';
-import { populateFieldValuesCompact, CustomNodeTypes, populateFieldValues } from '../../lib/jira-tree-utils';
+import { SetIssuelistAction } from '../+state/search.actions';
+import { populateFieldValuesCompact, CustomNodeTypes } from '../../lib/jira-tree-utils';
+import { SearchState } from '../+state/search.state';
 
 @Component({
     selector: 'app-query-executor',
     templateUrl: './query-executor.component.html'
 })
-export class IssuelistComponent implements OnInit, OnDestroy {
+export class QueryExecutorComponent implements OnInit, OnDestroy {
     @Output() close = new EventEmitter<any>();
 
-    @Input() set selectedItem(value: any) {
+    @Input() set queryContext(value: any) {
         let parsedList = [];
-        this.parseSelectedItem(value, parsedList);
+        this.parseQueryContext(value, parsedList);
         parsedList = _.reverse(parsedList);
         this.query = (parsedList.length > 0)
             ? _.join(_.map(parsedList, pl => `'${pl.key}' = '${pl.value}'`), ' AND ') + ' ORDER BY ' +
@@ -37,10 +37,10 @@ export class IssuelistComponent implements OnInit, OnDestroy {
     constructor(public router: Router,
         public activatedRoute: ActivatedRoute,
         public jiraService: JiraService,
-        public store$: Store<AppState>) {
+        public store$: Store<SearchState>) {
     }
     ngOnInit(): void {
-        this.issuelist$ = this.store$.select(p => p.app.issuelist).pipe(filter(p => p))
+        this.issuelist$ = this.store$.select(p => p.search.issuelist).pipe(filter(p => p))
             .subscribe(key => this.issuelist = key);
 
         this.executeQuery();
@@ -49,13 +49,13 @@ export class IssuelistComponent implements OnInit, OnDestroy {
         this.issuelist$ ? this.issuelist$.unsubscribe : null;
     }
 
-    parseSelectedItem(value: any, parsedList) {
+    parseQueryContext(value: any, parsedList) {
         if (!value) return;
 
         if (value.issueType !== CustomNodeTypes.Organization) {
             parsedList.push({ key: value.issueType, value: value.key });
         }
-        return value.parent ? this.parseSelectedItem(value.parent, parsedList) : null;
+        return value.parent ? this.parseQueryContext(value.parent, parsedList) : null;
     }
 
     canNavigate = () => this.issuelist && this.issuelist.trim().length > 0;
@@ -78,10 +78,10 @@ export class IssuelistComponent implements OnInit, OnDestroy {
                         results: _.map(p.issues, p => populateFieldValuesCompact(p))
                     }
                 }))
-                .subscribe(p => this.store$.dispatch(new SetIssuelistAction(p)));
+                .subscribe(result => this.store$.dispatch(new SetIssuelistAction({ query: this.query, result: result })));
         }
     }
-    onPageChange(index) {
+    onPageChange() {
         this.executeQuery();
     }
     onClose() {

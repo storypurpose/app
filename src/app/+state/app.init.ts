@@ -3,11 +3,10 @@ import { App } from './app.state';
 export const appInitialState: App = {
     mode: 'offline',
     connectionEditorVisible: false,
-    // customFieldEditorVisible: null,
     projectConfigEditorVisible: null,
-    queryExecutorVisible: false,
+    // queryExecutorVisible: false,
     
-    issuelist: null,
+    // issuelist: null,
 
     currentIssueKey: null,
     hierarchicalIssue: null,

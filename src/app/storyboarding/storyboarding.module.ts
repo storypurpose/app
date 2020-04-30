@@ -6,7 +6,7 @@ import { storyboardingReducer } from './+state/storyboarding.reducer';
 import { NgxMdModule } from 'ngx-md';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RouterModule, Route } from '@angular/router';
-import { CommonComponentsModule } from '../common-components/common-components.module';
+import { CommonComponentsModule } from '../common/common-components.module';
 import { FormsModule } from '@angular/forms';
 import { SidebarModule } from 'primeng/sidebar';
 import { StoryboardComponent } from './components/details.component';
@@ -20,6 +20,7 @@ import { StoryListComponent } from './components/story-list.component';
 import { StatisticsComponent } from './components/statistics.component';
 import { DialogModule } from 'primeng/dialog';
 import { StoryboardForFilterComponent } from './components/for-filter.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 const routes: Route[] = [
   { path: 'forfilter', component: StoryboardForFilterComponent },
@@ -48,7 +49,8 @@ const routes: Route[] = [
     TreeTableModule,
     DialogModule,
     ChartsModule,
-
+    NgbModule,
+    
     CommonComponentsModule,
 
     StoreModule.forFeature("storyboarding", storyboardingReducer, { initialState: storyboardingInitialState }),

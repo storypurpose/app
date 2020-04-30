@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import * as _ from 'lodash';
 import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/+state/app.state';
 import { StoryboardingState } from '../+state/storyboarding.state';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -26,26 +25,5 @@ export class StoryboardComponent implements OnInit, OnDestroy {
     }
     ngOnDestroy(): void {
         this.storyboardItem$ ? this.storyboardItem$.unsubscribe() : null;
-    }
-
-    getItems(fixVersion, component) {
-        if (!this.storyboardItem || !this.storyboardItem.children)
-            return [];
-
-        let records = [];
-        if (fixVersion.componentWise) {
-            const found = _.find(fixVersion.componentWise, { component: component.title });
-            if (found) {
-                records = found.values;
-            }
-        }
-        return records;
-    }
-
-    expandCollapseAll() {
-        this.expandedAll = !this.expandedAll;
-        if (this.storyboardItem && this.storyboardItem.metadata && this.storyboardItem.metadata.fixVersions) {
-            this.storyboardItem.metadata.fixVersions.forEach(u => u.expanded = this.expandedAll);
-        }
     }
 }

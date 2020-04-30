@@ -147,14 +147,22 @@ body .ui-sidebar {
   padding: 0.25rem 1rem;
 }
 
-.body-container {
+.main-container {
   position: absolute;
   width: 100%;
   top: 48pt;
   height: calc(100% - 50pt);
   overflow: hidden;
 }
-
+.body-container {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  overflow: auto;
+  width: 100%;
+  height: calc(100% - 32pt);
+}
 .app-copyright {
   bottom: 8pt;
   left: 0;

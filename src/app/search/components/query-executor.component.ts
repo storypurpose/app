@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { JiraService } from '../../lib/jira.service';
-import { SetIssuelistAction } from '../+state/search.actions';
+import { SetIssuelistAction, ShowQueryExecutorVisibleAction } from '../+state/search.actions';
 import { populateFieldValuesCompact, CustomNodeTypes } from '../../lib/jira-tree-utils';
 import { SearchState } from '../+state/search.state';
 
@@ -89,6 +89,7 @@ export class QueryExecutorComponent implements OnInit, OnDestroy {
     }
 
     plotStoryboard() {
+        this.store$.dispatch(new ShowQueryExecutorVisibleAction(false));
         this.router.navigate(['/browse/storyboard/forfilter'], { queryParams: { query: this.query } });
     }
 }

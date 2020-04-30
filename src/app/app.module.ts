@@ -42,7 +42,7 @@ import { RecentlyViewedComponent } from './components/issuemanager/recently-view
 import { appInitialState } from './+state/app.init';
 import { appReducer } from './+state/app.reducer';
 import { UiSwitchModule } from 'ngx-ui-switch';
-import { CommonComponentsModule } from './common-components/common-components.module';
+import { CommonComponentsModule } from './common/common-components.module';
 import { CopyrightComponent } from './components/help/copyright.component';
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { environment } from '../environments/environment';

@@ -1,0 +1,51 @@
+<div *ngIf="storyboardItem && storyboardItem.metadata && storyboardItem.children && storyboardItem.children.length > 0">
+    <table class="table table-bordered mr-3">
+        <thead>
+            <tr class="bg-light">
+                <td style="width: 100px;">
+                    <button class="btn btn-link text-dark p-0" style="white-space: nowrap;"
+                        (click)="expandCollapseAll()">
+                        <fa-icon [icon]="expandedAll ? 'angle-double-down' : 'angle-double-right'" class="text-muted">
+                        </fa-icon>
+                        <!-- Total: <span class="badge badge-white"
+                            *ngIf="storyboardItem.count > 0">{{storyboardItem.count}}</span> -->
+                    </button>
+                </td>
+                <td *ngFor="let c of storyboardItem.metadata.components"
+                    [ngClass]="{'bg-light-warning': c.title === 'No component'}">
+                    {{c.title}}
+                    <span class="badge badge-white" *ngIf="c.count > 0">{{c.count}}</span>
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let fv of storyboardItem.metadata.fixVersions">
+                <td class="bg-light">
+                    <button class="btn btn-link text-dark p-0" style="white-space: nowrap;"
+                        (click)="fv.expanded = !fv.expanded">
+                        <fa-icon [icon]="fv.expanded ? 'angle-down' : 'angle-right'" class="text-muted"></fa-icon>
+                        {{fv.title}}
+                        <span class="badge badge-white" *ngIf="fv.count > 0">{{fv.count}}</span>
+                    </button>
+                </td>
+                <td *ngFor="let c of storyboardItem.metadata.components" style="min-width: 250px; max-width:550px"
+                    [ngClass]="{'bg-light-warning': c.title === 'No component'}">
+                    <div *ngIf="fv.expanded">
+                        <div class="custom-shadow small p-2 mb-3 mr-2 bg-white float-left"
+                            [ngClass]="{'linked-issue': item.linkType && item.linkType.length> 0}" style="width:250px"
+                            *ngFor="let item of getItems(fv, c)">
+                            <div class="small text-muted text-uppercase mb-2">
+                                <div class="float-right">{{item.status}}</div>
+                                <span>{{item.issueType}}: {{item.key}}</span>
+                            </div>
+                            {{item.title}}
+                            <div>
+                                <sub class="text-uppercase text-muted">{{item.linkType}}</sub>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

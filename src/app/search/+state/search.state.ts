@@ -2,7 +2,7 @@ export interface Search {
   queryExecutorVisible: boolean;
   queryContext: any;
   issuelist: any;
-  query: string;
+  // query: string;
 }
 
 export interface SearchState {

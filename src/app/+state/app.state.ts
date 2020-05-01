@@ -2,6 +2,8 @@ import { Purpose } from '../purpose/+state/purpose.state';
 import { Search } from '../search/+state/search.state';
 
 export interface App {
+  query: string;
+
   mode: string;
   connectionEditorVisible: boolean;
   projectConfigEditorVisible: any;

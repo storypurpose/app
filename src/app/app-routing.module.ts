@@ -15,6 +15,7 @@ const routes: Routes = [
   { path: 'terms', component: TermsComponent },
   { path: 'privacy', component: PrivacyComponent },
   { path: 'configurations', component: ConfigurationsComponent },
+  { path: 'search', loadChildren: () => import('./search/search.module').then(m => m.SearchModule) },
   {
     path: 'browse', component: WorkspaceComponent, children: [
       { path: 'storyboard', loadChildren: () => import('./storyboarding/storyboarding.module').then(m => m.StoryboardingModule) },

@@ -2,6 +2,7 @@ import { Action } from '@ngrx/store';
 import { type } from 'src/app/lib/utils';
 
 export const ActionTypes = {
+    SetSearchQuery: type("[SetSearchQuery]"),
     ShowConnectionEditor: type("[ShowConnectionDetails]"),
     ShowCustomFieldEditor: type("[ShowCustomFieldEditor]"),
     ShowProjectConfigEditor: type('[ShowProjectConfigEditor]'),
@@ -26,6 +27,11 @@ export const ActionTypes = {
 export const ModeTypes = {
     Offline: "offline",
     Online: "online"
+}
+
+export class SetSearchQueryAction implements Action {
+    type = ActionTypes.SetSearchQuery;
+    constructor(public payload: any) { }
 }
 
 export class ShowConnectionEditorAction implements Action {
@@ -87,13 +93,14 @@ export class UpsertProjectAction implements Action {
     type = ActionTypes.UpsertProject;
     constructor(public payload: any) { }
 }
-export class DismissProjectSetupAction implements Action{
+export class DismissProjectSetupAction implements Action {
     type = ActionTypes.DismissProjectSetup;
     constructor(public payload: any) { }
 }
 
 export type Actions =
-    ShowConnectionEditorAction
+    SetSearchQueryAction
+    | ShowConnectionEditorAction
     | ShowCustomFieldEditorAction
     | ShowProjectConfigEditorAction
 

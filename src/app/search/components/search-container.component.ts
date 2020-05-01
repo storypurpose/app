@@ -8,45 +8,50 @@ import { JiraService } from '../../lib/jira.service';
 import { SetIssuelistAction, ShowQueryExecutorVisibleAction } from '../+state/search.actions';
 import { populateFieldValuesCompact, CustomNodeTypes } from '../../lib/jira-tree-utils';
 import { SearchState } from '../+state/search.state';
+import { SetSearchQueryAction } from 'src/app/+state/app.actions';
+import { AppState } from 'src/app/+state/app.state';
 
 @Component({
-    selector: 'app-query-executor',
-    templateUrl: './query-executor.component.html'
+    selector: 'app-search-container',
+    templateUrl: './search-container.component.html'
 })
-export class QueryExecutorComponent implements OnInit, OnDestroy {
-    @Output() close = new EventEmitter<any>();
+export class SearchContainerComponent implements OnInit, OnDestroy {
 
-    @Input() set queryContext(value: any) {
-        let parsedList = [];
-        this.parseQueryContext(value, parsedList);
-        parsedList = _.reverse(parsedList);
-        this.query = (parsedList.length > 0)
-            ? _.join(_.map(parsedList, pl => `'${pl.key}' = '${pl.value}'`), ' AND ') + ' ORDER BY ' +
-            _.join(_.map(parsedList, pl => `'${pl.key}'`), ',') + ', issuetype'
-            : "issuetype = epic ";
-        this.executeQuery();
-    }
-
-
-    query: string = "labels = payment_schedule_refactoring"; // "issuetype = epic";
+    query: string;
     issuelist: any;
     issuelist$: Subscription;
+    query$: Subscription;
+    queryParams$: Subscription;
 
     public currentPageIndex = 1;
 
     constructor(public router: Router,
         public activatedRoute: ActivatedRoute,
         public jiraService: JiraService,
-        public store$: Store<SearchState>) {
+        public store$: Store<AppState>) {
     }
+
     ngOnInit(): void {
+
+        this.store$.dispatch(new SetSearchQueryAction(""));
+
+        this.query$ = this.store$.select(p => p.app.query)
+            .pipe(filter(p => p && p.length > 0))
+            .subscribe(query => {
+                this.query = query;
+                this.executeQuery();
+            });
+        this.queryParams$ = this.activatedRoute.queryParams
+            .pipe(filter(p => p && p["query"] && p["query"].length > 0), map(p => p["query"]))
+            .subscribe(query => this.store$.dispatch(new SetSearchQueryAction(query)));
+
         this.issuelist$ = this.store$.select(p => p.search.issuelist).pipe(filter(p => p))
             .subscribe(key => this.issuelist = key);
-
-        this.executeQuery();
     }
     ngOnDestroy(): void {
         this.issuelist$ ? this.issuelist$.unsubscribe : null;
+        this.query$ ? this.query$.unsubscribe : null;
+        this.queryParams$ ? this.queryParams$.unsubscribe : null;
     }
 
     parseQueryContext(value: any, parsedList) {
@@ -84,12 +89,10 @@ export class QueryExecutorComponent implements OnInit, OnDestroy {
     onPageChange() {
         this.executeQuery();
     }
-    onClose() {
-        this.close.emit(null);
-    }
 
     plotStoryboard() {
         this.store$.dispatch(new ShowQueryExecutorVisibleAction(false));
         this.router.navigate(['/browse/storyboard/forfilter'], { queryParams: { query: this.query } });
     }
+
 }

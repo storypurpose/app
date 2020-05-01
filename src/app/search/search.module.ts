@@ -16,9 +16,15 @@ import { searchInitialState } from './+state/search.init';
 import { searchReducer } from './+state/search.reducer';
 import { QueryExecutorComponent } from './components/query-executor.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { SearchContainerComponent } from './components/search-container.component';
+import { SearchResultsComponent } from './components/search-results.component';
 
 const routes: Route[] = [
-  // { path: 'search', component: StoryboardForFilterComponent },
+  {
+    path: 'search', component: SearchContainerComponent, children: [
+      { path: 'results', component: SearchResultsComponent }
+    ]
+  },
   // {
   //   path: ':selected', component: StoryboardingContainerComponent, children: [
   //     { path: 'list', component: StoryListComponent },
@@ -30,7 +36,8 @@ const routes: Route[] = [
 
 @NgModule({
   declarations: [
-    QueryExecutorComponent
+    QueryExecutorComponent,
+    SearchContainerComponent, SearchResultsComponent
     // StoryboardingContainerComponent, StoryboardComponent, StoryListComponent, StatisticsComponent,
     // StoryboardForFilterComponent
   ],

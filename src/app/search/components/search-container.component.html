@@ -1,0 +1,39 @@
+<div class="main-container">
+    <div class="body-container">
+        <div class="container-fluid">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+    <div class="pane-footer bg-light">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-md-2">
+
+                </div>
+                <div class="col-md-8">
+                    <table class="row" *ngIf="issuelist">
+                        <div class="col-md-3 pt-3 small">
+                            {{issuelist.startAt + 1}} - {{issuelist.endAt}} / <b>{{issuelist.total}}</b>
+                        </div>
+                        <div class="col-md-9">
+                            <ngb-pagination class="float-right mt-2" [maxSize]="3" [(page)]="currentPageIndex"
+                                [boundaryLinks]="true" [pageSize]="issuelist.pageSize" size="sm"
+                                (pageChange)="onPageChange()" [collectionSize]="issuelist.total">
+                            </ngb-pagination>
+                        </div>
+                    </table>
+                </div>
+                <div class="col-md-2 text-right pt-2"
+                    *ngIf="issuelist && issuelist.results && issuelist.results.length > 0">
+                    <div class="rounded-0">
+                        <button class="btn btn-brand btn-sm" type="button" (click)="plotStoryboard()">
+                            <fa-icon icon="map" [fixedWidth]="true"></fa-icon>
+                            Storyboard view
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

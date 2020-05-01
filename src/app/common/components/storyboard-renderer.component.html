@@ -36,7 +36,9 @@
                             *ngFor="let item of getItems(fv, c)">
                             <div class="small text-muted text-uppercase mb-2">
                                 <div class="float-right">{{item.status}}</div>
-                                <span>{{item.issueType}}: {{item.key}}</span>
+                                <a [routerLink]="['/browse', item.key, 'purpose', item.key]">
+                                    {{item.issueType}}: {{item.key}}
+                                </a>
                             </div>
                             {{item.title}}
                             <div>

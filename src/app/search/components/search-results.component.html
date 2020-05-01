@@ -1,0 +1,19 @@
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div *ngIf="issuelist" class="p-3 bg-white">
+
+            <div *ngFor="let issue of issuelist.results" class="issue-list-item">
+                <a class="btn btn-link btn-sm text-dark text-left w-100 pt-0"
+                    [routerLink]="['/browse', issue.key, 'purpose', issue.key]">
+                    <sub class="text-primary text-uppercase">{{issue.issueType}}: {{issue.key}}</sub>
+
+                    <fa-icon icon="angle-right" class="text-muted float-right mt-2"></fa-icon>
+                    <div>
+                        {{issue.title}}
+                        <span class="badge badge-light font-weight-normal">{{issue.status}}</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

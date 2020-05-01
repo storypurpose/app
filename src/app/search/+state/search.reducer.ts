@@ -11,7 +11,7 @@ export function searchReducer(state: Search, action: any): Search {
             return { ...state, queryContext: action.payload, queryExecutorVisible: true };
         }
         case ActionTypes.SetIssuelist: {
-            return { ...state, query: action.payload.query, issuelist: action.payload.result };
+            return { ...state, issuelist: action.payload };
         }
 
 

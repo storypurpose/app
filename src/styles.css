@@ -192,7 +192,7 @@ body .ui-sidebar {
 
 .center-text {
   position: fixed;
-  box-shadow: 0 0 6px #bbb;
+  /* box-shadow: 0 0 6px #bbb; */
   width: 400px;
   text-align: center;
   top: 30%;

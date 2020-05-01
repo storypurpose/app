@@ -15,6 +15,7 @@ import {
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { GapiSession } from '../googledrive/gapi.session';
 import { ShowQueryExecutorVisibleAction } from '../search/+state/search.actions';
+import { filter } from 'rxjs/operators';
 
 declare let gtag: Function;
 
@@ -23,6 +24,7 @@ declare let gtag: Function;
   templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit, OnDestroy {
+  searchVisible = false;
   isNavbarCollapsed = true;
   showConnectionEditor = false;
   showCustomFieldSetup = false;
@@ -33,7 +35,9 @@ export class AppComponent implements OnInit, OnDestroy {
   allowOfflineMode = false;
   isOnlineMode = false;
   connectionDetails: any;
-  // fieldMapping: any;
+
+  searchQuery$: Subscription;
+  query = "";
 
   connectionSubscription: Subscription;
   customFieldSubscription: Subscription;
@@ -41,7 +45,6 @@ export class AppComponent implements OnInit, OnDestroy {
   mode$: Subscription;
 
   connectionDetails$: Subscription;
-  // fieldMappingSubscription: Subscription;
   projectsSubscription: Subscription;
 
   issueType: string;
@@ -87,23 +90,28 @@ export class AppComponent implements OnInit, OnDestroy {
       { label: 'Custom fields', icon: 'pi pi-sliders-h', command: () => this.showCustomFieldSetup = true },
     ];
 
-    this.queryExecutorVisibleQuery$ = this.store$.select(p => p.search.queryExecutorVisible);
-    this.queryContextQuery$ = this.store$.select(p => p.search.queryContext)
-    this.queryExecutorCombined$ = combineLatest(this.queryExecutorVisibleQuery$, this.queryContextQuery$)
-      .subscribe(([visibility, context]) => {
-        this.queryContext = context;
-        this.isQueryExecutorVisible = visibility;
+    // this.queryExecutorVisibleQuery$ = this.store$.select(p => p.search.queryExecutorVisible);
+    // this.queryContextQuery$ = this.store$.select(p => p.search.queryContext)
+    // this.queryExecutorCombined$ = combineLatest(this.queryExecutorVisibleQuery$, this.queryContextQuery$)
+    //   .subscribe(([visibility, context]) => {
+    //     this.queryContext = context;
+    //     this.isQueryExecutorVisible = visibility;
+    //   });
+
+    this.searchQuery$ = this.store$.select(p => p.app.query)
+      .pipe(filter(p => p && p.length > 0))
+      .subscribe(query => {
+        this.query = query;
+        this.searchVisible = true;
       });
 
     this.connectionSubscription = this.store$.select(p => p.app.connectionEditorVisible)
-      .subscribe(show => {
-        this.showConnectionEditor = show;
-      });
-
+      .subscribe(show => this.showConnectionEditor = show);
     this.mode$ = this.store$.select(p => p.app.mode)
       .subscribe(p => this.isOnlineMode = p && p === ModeTypes.Online);
     this.connectionDetails$ = this.store$.select(p => p.app.connectionDetails)
       .subscribe(p => this.connectionDetails = p);
+
     this.initiatizeConnectionDetailsState(this.persistenceService.getConnectionDetails());
     this.initiatizeModeState(this.persistenceService.getMode());
     this.initiatizeProjectState(this.persistenceService.getProjects());
@@ -176,4 +184,12 @@ export class AppComponent implements OnInit, OnDestroy {
   closeQueryExecutorEditor() {
     this.store$.dispatch(new ShowQueryExecutorVisibleAction(false));
   }
+
+  canExecuteQuery = () => this.query && this.query.trim().length > 0;
+  executeQuery() {
+    if (this.canExecuteQuery()) {
+      this.router.navigate(["/search/results"], { queryParams: { query: this.query } });
+    }
+  }
+
 }

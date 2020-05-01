@@ -7,7 +7,7 @@ export function appReducer(state: App, action: any): App {
         case ActionTypes.SetSearchQuery: {
             return { ...state, query: action.payload, queryEditorVisible: true };
         }
-        case ActionTypes.ShowQueryEditor: {
+        case ActionTypes.ToggleQueryEditorVisibility: {
             return { ...state, queryEditorVisible: action.payload };
         }
         case ActionTypes.SetMode: {

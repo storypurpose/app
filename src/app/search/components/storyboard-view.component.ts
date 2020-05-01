@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { initializeMetadata, mergeMetadata, extractMetadata, populateStatistics } from 'src/app/lib/storyboard-utils';
+import { SwitchSearchresultViewmodeAction, SearchresultViewMode } from '../+state/search.actions';
 
 @Component({
     selector: 'app-storyboard-view',
@@ -22,6 +23,8 @@ export class SearchStoryboardViewComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        this.store$.dispatch(new SwitchSearchresultViewmodeAction(SearchresultViewMode.STORYBOARD));
+
         this.storyboardItem = { query: null, children: [] };
 
         this.issuelist$ = this.store$.select(p => p.search.issuelist)

@@ -14,7 +14,6 @@ import 'chartjs-plugin-labels';
 import { DialogModule } from 'primeng/dialog';
 import { searchInitialState } from './+state/search.init';
 import { searchReducer } from './+state/search.reducer';
-import { QueryExecutorComponent } from './components/query-executor.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SearchResultContainerComponent } from './components/result-container.component';
 import { SearchListViewComponent } from './components/list-view.component';
@@ -22,26 +21,16 @@ import { SearchStoryboardViewComponent } from './components/storyboard-view.comp
 
 const routes: Route[] = [
   {
-    path: 'search', component: SearchResultContainerComponent, children: [
+    path: '', component: SearchResultContainerComponent, children: [
       { path: 'list', component: SearchListViewComponent },
       { path: 'storyboard', component: SearchStoryboardViewComponent }
     ]
   },
-  // {
-  //   path: ':selected', component: StoryboardingContainerComponent, children: [
-  //     { path: 'list', component: StoryListComponent },
-  //     { path: 'details', component: StoryboardComponent },
-  //     { path: '', redirectTo: "details", pathMatch: "full" }
-  //   ]
-  // }
 ];
 
 @NgModule({
   declarations: [
-    QueryExecutorComponent,
     SearchResultContainerComponent, SearchListViewComponent, SearchStoryboardViewComponent
-    // StoryboardingContainerComponent, StoryboardComponent, StoryListComponent, StatisticsComponent,
-    // StoryboardForFilterComponent
   ],
   imports: [
     CommonModule,
@@ -61,9 +50,6 @@ const routes: Route[] = [
     StoreModule.forFeature("search", searchReducer, { initialState: searchInitialState }),
 
     RouterModule.forChild(routes)
-  ],
-  exports: [
-    QueryExecutorComponent
   ]
 })
 export class SearchModule { }

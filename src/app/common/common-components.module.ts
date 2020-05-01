@@ -8,10 +8,12 @@ import { FormsModule } from '@angular/forms';
 import { StatisticsComponent } from './components/statistics.component';
 import { ChartsModule } from 'ng2-charts';
 import 'chartjs-plugin-labels';
+import { SearchboxComponent } from './components/searchbox.component';
 
+const components = [ButtonPanelComponent, StoryboardRendererComponent, StatisticsComponent, SearchboxComponent];
 @NgModule({
-  exports: [ButtonPanelComponent, StoryboardRendererComponent, StatisticsComponent],
-  declarations: [ButtonPanelComponent, StoryboardRendererComponent, StatisticsComponent],
+  exports: components,
+  declarations: components,
   imports: [
     CommonModule,
     FormsModule,

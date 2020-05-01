@@ -5,9 +5,9 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { JiraService } from '../../lib/jira.service';
-import { SetIssuelistAction } from '../+state/search.actions';
+import { SetIssuelistAction, SearchresultViewMode } from '../+state/search.actions';
 import { populateFieldValuesCompact, CustomNodeTypes } from '../../lib/jira-tree-utils';
-import { SetSearchQueryAction, ShowQueryEditorAction } from 'src/app/+state/app.actions';
+import { SetSearchQueryAction, ToggleQueryEditorVisibilityAction } from 'src/app/+state/app.actions';
 import { AppState } from 'src/app/+state/app.state';
 
 @Component({
@@ -21,6 +21,9 @@ export class SearchResultContainerComponent implements OnInit, OnDestroy {
     issuelist$: Subscription;
     query$: Subscription;
     queryParams$: Subscription;
+    searchViewmode$: Subscription;
+    searchViewmode: string;
+    localViewmode: any;
 
     public currentPageIndex = 1;
 
@@ -31,8 +34,12 @@ export class SearchResultContainerComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        this.localViewmode = SearchresultViewMode;
 
-        this.store$.dispatch(new ShowQueryEditorAction(true));
+        this.searchViewmode$ = this.store$.select(p => p.search.viewmode)
+            .subscribe(viewmode => this.searchViewmode = viewmode);
+
+        this.store$.dispatch(new ToggleQueryEditorVisibilityAction(true));
 
         this.query$ = this.store$.select(p => p.app.query)
             .pipe(filter(p => p && p.length > 0))
@@ -88,10 +95,4 @@ export class SearchResultContainerComponent implements OnInit, OnDestroy {
     onPageChange() {
         this.executeQuery();
     }
-
-    plotStoryboard() {
-        //this.store$.dispatch(new ShowQueryExecutorVisibleAction(false));
-        this.router.navigate(['/browse/storyboard/forfilter'], { queryParams: { query: this.query } });
-    }
-
 }

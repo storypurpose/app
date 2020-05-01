@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import * as _ from 'lodash';
 import { Router, NavigationEnd } from '@angular/router';
 import { PersistenceService } from '../lib/persistence.service';
-import { Subscription, Observable } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { DomSanitizer, Title } from '@angular/platform-browser';
 
 import { environment } from '../../environments/environment';
@@ -10,11 +10,10 @@ import { AppState } from '../+state/app.state';
 import { Store } from '@ngrx/store';
 import {
   SetModeAction, ModeTypes, ShowConnectionEditorAction,
-  SetConnectionDetailsAction, LoadProjectsAction, SetOrganizationAction, SetExtendedHierarchyDetailsAction, ShowQueryEditorAction as ToggleQueryEditorVisibilityAction
+  SetConnectionDetailsAction, LoadProjectsAction, SetOrganizationAction, SetExtendedHierarchyDetailsAction, ToggleQueryEditorVisibilityAction
 } from '../+state/app.actions';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { GapiSession } from '../googledrive/gapi.session';
-import { filter } from 'rxjs/operators';
 
 declare let gtag: Function;
 
@@ -23,7 +22,6 @@ declare let gtag: Function;
   templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit, OnDestroy {
-  searchVisible = false;
   isNavbarCollapsed = true;
   showConnectionEditor = false;
   showCustomFieldSetup = false;
@@ -36,8 +34,7 @@ export class AppComponent implements OnInit, OnDestroy {
   connectionDetails: any;
 
   queryEditorVisible$: Subscription;
-  query$: Subscription;
-  query = "";
+  searchVisible = false;
 
   connectionEditorVisible$: Subscription;
   projectConfigSubscription: Subscription;
@@ -54,11 +51,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public isCollapsed = true;
   public showDisplayName = false;
-
-  queryContext: any;
-  queryContextQuery$: Observable<any>;
-  queryExecutorVisibleQuery$: Observable<any>;
-  isQueryExecutorVisible = false;
 
   constructor(public router: Router,
     public titleService: Title,
@@ -88,9 +80,6 @@ export class AppComponent implements OnInit, OnDestroy {
       { label: 'Custom fields', icon: 'pi pi-sliders-h', command: () => this.showCustomFieldSetup = true },
     ];
 
-    this.query$ = this.store$.select(p => p.app.query).pipe(filter(p => p && p.length > 0))
-      .subscribe(query => this.query = query);
-
     this.queryEditorVisible$ = this.store$.select(p => p.app.queryEditorVisible)
       .subscribe(show => this.searchVisible = show);
 
@@ -110,7 +99,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.queryEditorVisible$ ? this.queryEditorVisible$.unsubscribe() : null;
-    this.query$ ? this.query$.unsubscribe() : null;
     this.connectionEditorVisible$ ? this.connectionEditorVisible$.unsubscribe() : null;
     this.mode$ ? this.mode$.unsubscribe() : null;
 
@@ -168,11 +156,4 @@ export class AppComponent implements OnInit, OnDestroy {
   toggleSearchEditorVisibility() {
     this.store$.dispatch(new ToggleQueryEditorVisibilityAction(!this.searchVisible));
   }
-  canExecuteQuery = () => this.query && this.query.trim().length > 0;
-  executeQuery() {
-    if (this.canExecuteQuery()) {
-      this.router.navigate(["/search/list"], { queryParams: { query: this.query } });
-    }
-  }
-
 }

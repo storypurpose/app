@@ -4,6 +4,9 @@ import { ActionTypes } from './search.actions';
 
 export function searchReducer(state: Search, action: any): Search {
     switch (action.type) {
+        case ActionTypes.SwitchViewmode: {
+            return { ...state, viewmode: action.payload };
+        }
         case ActionTypes.SetQueryContext: {
             return { ...state, queryContext: action.payload };
         }

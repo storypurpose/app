@@ -15,11 +15,9 @@ import { TreeTableModule } from 'primeng/treetable';
 
 import { StoryListComponent } from './components/story-list.component';
 import { DialogModule } from 'primeng/dialog';
-import { StoryboardForFilterComponent } from './components/for-filter.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 const routes: Route[] = [
-  { path: 'forfilter', component: StoryboardForFilterComponent },
   {
     path: ':selected', component: StoryboardingContainerComponent, children: [
       { path: 'list', component: StoryListComponent },
@@ -31,8 +29,7 @@ const routes: Route[] = [
 
 @NgModule({
   declarations: [
-    StoryboardingContainerComponent, StoryboardComponent, StoryListComponent,
-    StoryboardForFilterComponent
+    StoryboardingContainerComponent, StoryboardComponent, StoryListComponent
   ],
   imports: [
     CommonModule,
@@ -45,7 +42,7 @@ const routes: Route[] = [
     TreeTableModule,
     DialogModule,
     NgbModule,
-    
+
     CommonComponentsModule,
 
     StoreModule.forFeature("storyboarding", storyboardingReducer, { initialState: storyboardingInitialState }),

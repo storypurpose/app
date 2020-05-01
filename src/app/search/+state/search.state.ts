@@ -1,6 +1,7 @@
 export interface Search {
   queryContext: any;
   issuelist: any;
+  viewmode: string;
   // query: string;
 }
 

@@ -127,7 +127,7 @@ export function initGapi(gapiSession: GapiSession) {
     }),
 
     CommonComponentsModule,
-    SearchModule,
+    //SearchModule,
 
     AppRoutingModule
   ],

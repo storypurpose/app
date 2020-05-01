@@ -3,7 +3,7 @@ import { type } from 'src/app/lib/utils';
 
 export const ActionTypes = {
     SetSearchQuery: type("[SetSearchQuery]"),
-    ShowQueryEditor: type("[ShowQueryEditor]"),
+    ToggleQueryEditorVisibility: type("[ToggleQueryEditorVisibility]"),
 
     ShowConnectionEditor: type("[ShowConnectionDetails]"),
     ShowProjectConfigEditor: type('[ShowProjectConfigEditor]'),
@@ -34,8 +34,8 @@ export class SetSearchQueryAction implements Action {
     type = ActionTypes.SetSearchQuery;
     constructor(public payload: any) { }
 }
-export class ShowQueryEditorAction implements Action {
-    type = ActionTypes.ShowQueryEditor;
+export class ToggleQueryEditorVisibilityAction implements Action {
+    type = ActionTypes.ToggleQueryEditorVisibility;
     constructor(public payload: any) { }
 }
 
@@ -101,7 +101,7 @@ export class DismissProjectSetupAction implements Action {
 
 export type Actions =
     SetSearchQueryAction
-    | ShowQueryEditorAction
+    | ToggleQueryEditorVisibilityAction
     
     | ShowConnectionEditorAction
     | ShowProjectConfigEditorAction

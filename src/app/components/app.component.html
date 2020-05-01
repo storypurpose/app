@@ -16,34 +16,24 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent" [ngbCollapse]="isCollapsed">
-
       <form class="mx-2 my-auto d-inline w-100" *ngIf="searchVisible">
-        <div class=" input-group searchbox">
-          <input type="text" [appAutofocus]="searchVisible" class="form-control border-light bg-light text-dark "
-            name="query" [(ngModel)]="query" placeholder="query" id="query" type="text"
-            (keydown.enter)="executeQuery()" />
-          <div class="input-group-append">
-            <button [disabled]="!canExecuteQuery()" class="btn btn-light" type="button" (click)="executeQuery()">
-              <fa-icon icon="search" [fixedWidth]="true"></fa-icon>
-            </button>
-          </div>
-        </div>
+        <app-searchbox [searchVisible]="searchVisible"></app-searchbox>
       </form>
 
       <ul class="navbar-nav ml-sm-auto">
         <li class="nav-item">
           <button class="btn btn-link" (click)="toggleSearchEditorVisibility()">
-            <fa-icon [icon]="searchVisible ? 'times' : 'search'" class="ml-2"></fa-icon>
-            <span *ngIf="!isCollapsed">Search</span>
+            <fa-icon [icon]="searchVisible ? 'times' : 'search'" class="mr-1"></fa-icon>
+            <span class="d-inline d-md-none ml-2"> {{searchVisible ? 'Close' : 'Search'}}</span>
           </button>
         </li>
 
         <li class="navbar-text text-muted ml-2"
           *ngIf="connectionDetails && connectionDetails.displayName && connectionDetails.displayName.length > 0">
-          <a (click)="showDisplayName = !showDisplayName">
+          <span style="white-space: nowrap;">
             <fa-icon icon="user" size="fw" class="mr-1"></fa-icon>
-            <span *ngIf="showDisplayName || !isCollapsed">{{connectionDetails.displayName}}</span>
-          </a>
+            <span class="d-inline d-md-none ml-2">{{connectionDetails.displayName}}</span>
+          </span>
         </li>
 
         <li class="nav-item">

@@ -1,0 +1,9 @@
+<div class=" input-group searchbox">
+    <input type="text" [appAutofocus]="searchVisible" class="form-control border-light bg-light text-dark " name="query"
+        [(ngModel)]="query" placeholder="query" id="query" type="text" (keydown.enter)="executeQuery()" />
+    <div class="input-group-append">
+        <button [disabled]="!canExecuteQuery()" class="btn btn-light" type="button" (click)="executeQuery()">
+            <fa-icon icon="search" [fixedWidth]="true"></fa-icon>
+        </button>
+    </div>
+</div>

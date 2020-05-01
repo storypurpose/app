@@ -3,13 +3,11 @@ import { Search } from '../search/+state/search.state';
 
 export interface App {
   query: string;
-
+  queryEditorVisible: boolean;
+  
   mode: string;
   connectionEditorVisible: boolean;
   projectConfigEditorVisible: any;
-  // queryExecutorVisible: boolean;
-
-  // issuelist: any;
 
   currentIssueKey: string;
   hierarchicalIssue: any;

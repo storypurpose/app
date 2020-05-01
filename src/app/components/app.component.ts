@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import * as _ from 'lodash';
 import { Router, NavigationEnd } from '@angular/router';
 import { PersistenceService } from '../lib/persistence.service';
-import { Subscription, Observable, combineLatest } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { DomSanitizer, Title } from '@angular/platform-browser';
 
 import { environment } from '../../environments/environment';
@@ -10,11 +10,10 @@ import { AppState } from '../+state/app.state';
 import { Store } from '@ngrx/store';
 import {
   SetModeAction, ModeTypes, ShowConnectionEditorAction,
-  SetConnectionDetailsAction, LoadProjectsAction, SetOrganizationAction, SetExtendedHierarchyDetailsAction
+  SetConnectionDetailsAction, LoadProjectsAction, SetOrganizationAction, SetExtendedHierarchyDetailsAction, ShowQueryEditorAction as ToggleQueryEditorVisibilityAction
 } from '../+state/app.actions';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { GapiSession } from '../googledrive/gapi.session';
-import { ShowQueryExecutorVisibleAction } from '../search/+state/search.actions';
 import { filter } from 'rxjs/operators';
 
 declare let gtag: Function;
@@ -36,11 +35,11 @@ export class AppComponent implements OnInit, OnDestroy {
   isOnlineMode = false;
   connectionDetails: any;
 
-  searchQuery$: Subscription;
+  queryEditorVisible$: Subscription;
+  query$: Subscription;
   query = "";
 
-  connectionSubscription: Subscription;
-  customFieldSubscription: Subscription;
+  connectionEditorVisible$: Subscription;
   projectConfigSubscription: Subscription;
   mode$: Subscription;
 
@@ -57,7 +56,6 @@ export class AppComponent implements OnInit, OnDestroy {
   public showDisplayName = false;
 
   queryContext: any;
-  queryExecutorCombined$: Subscription;
   queryContextQuery$: Observable<any>;
   queryExecutorVisibleQuery$: Observable<any>;
   isQueryExecutorVisible = false;
@@ -90,22 +88,13 @@ export class AppComponent implements OnInit, OnDestroy {
       { label: 'Custom fields', icon: 'pi pi-sliders-h', command: () => this.showCustomFieldSetup = true },
     ];
 
-    // this.queryExecutorVisibleQuery$ = this.store$.select(p => p.search.queryExecutorVisible);
-    // this.queryContextQuery$ = this.store$.select(p => p.search.queryContext)
-    // this.queryExecutorCombined$ = combineLatest(this.queryExecutorVisibleQuery$, this.queryContextQuery$)
-    //   .subscribe(([visibility, context]) => {
-    //     this.queryContext = context;
-    //     this.isQueryExecutorVisible = visibility;
-    //   });
+    this.query$ = this.store$.select(p => p.app.query).pipe(filter(p => p && p.length > 0))
+      .subscribe(query => this.query = query);
 
-    this.searchQuery$ = this.store$.select(p => p.app.query)
-      .pipe(filter(p => p && p.length > 0))
-      .subscribe(query => {
-        this.query = query;
-        this.searchVisible = true;
-      });
+    this.queryEditorVisible$ = this.store$.select(p => p.app.queryEditorVisible)
+      .subscribe(show => this.searchVisible = show);
 
-    this.connectionSubscription = this.store$.select(p => p.app.connectionEditorVisible)
+    this.connectionEditorVisible$ = this.store$.select(p => p.app.connectionEditorVisible)
       .subscribe(show => this.showConnectionEditor = show);
     this.mode$ = this.store$.select(p => p.app.mode)
       .subscribe(p => this.isOnlineMode = p && p === ModeTypes.Online);
@@ -120,10 +109,9 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.queryExecutorCombined$ ? this.queryExecutorCombined$.unsubscribe() : null;
-
-    this.connectionSubscription ? this.connectionSubscription.unsubscribe() : null;
-    this.customFieldSubscription ? this.customFieldSubscription.unsubscribe() : null;
+    this.queryEditorVisible$ ? this.queryEditorVisible$.unsubscribe() : null;
+    this.query$ ? this.query$.unsubscribe() : null;
+    this.connectionEditorVisible$ ? this.connectionEditorVisible$.unsubscribe() : null;
     this.mode$ ? this.mode$.unsubscribe() : null;
 
     this.connectionDetails$ ? this.connectionDetails$.unsubscribe() : null;
@@ -177,18 +165,13 @@ export class AppComponent implements OnInit, OnDestroy {
       });
   }
 
-  showQueryExecutorEditor() {
-    this.store$.dispatch(new ShowQueryExecutorVisibleAction(true));
+  toggleSearchEditorVisibility() {
+    this.store$.dispatch(new ToggleQueryEditorVisibilityAction(!this.searchVisible));
   }
-
-  closeQueryExecutorEditor() {
-    this.store$.dispatch(new ShowQueryExecutorVisibleAction(false));
-  }
-
   canExecuteQuery = () => this.query && this.query.trim().length > 0;
   executeQuery() {
     if (this.canExecuteQuery()) {
-      this.router.navigate(["/search/results"], { queryParams: { query: this.query } });
+      this.router.navigate(["/search/list"], { queryParams: { query: this.query } });
     }
   }
 

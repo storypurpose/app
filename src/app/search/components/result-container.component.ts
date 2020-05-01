@@ -1,21 +1,20 @@
-import { Component, OnInit, OnDestroy, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as _ from 'lodash';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { JiraService } from '../../lib/jira.service';
-import { SetIssuelistAction, ShowQueryExecutorVisibleAction } from '../+state/search.actions';
+import { SetIssuelistAction } from '../+state/search.actions';
 import { populateFieldValuesCompact, CustomNodeTypes } from '../../lib/jira-tree-utils';
-import { SearchState } from '../+state/search.state';
-import { SetSearchQueryAction } from 'src/app/+state/app.actions';
+import { SetSearchQueryAction, ShowQueryEditorAction } from 'src/app/+state/app.actions';
 import { AppState } from 'src/app/+state/app.state';
 
 @Component({
-    selector: 'app-search-container',
-    templateUrl: './search-container.component.html'
+    selector: 'app-result-container',
+    templateUrl: './result-container.component.html'
 })
-export class SearchContainerComponent implements OnInit, OnDestroy {
+export class SearchResultContainerComponent implements OnInit, OnDestroy {
 
     query: string;
     issuelist: any;
@@ -33,7 +32,7 @@ export class SearchContainerComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
 
-        this.store$.dispatch(new SetSearchQueryAction(""));
+        this.store$.dispatch(new ShowQueryEditorAction(true));
 
         this.query$ = this.store$.select(p => p.app.query)
             .pipe(filter(p => p && p.length > 0))
@@ -91,7 +90,7 @@ export class SearchContainerComponent implements OnInit, OnDestroy {
     }
 
     plotStoryboard() {
-        this.store$.dispatch(new ShowQueryExecutorVisibleAction(false));
+        //this.store$.dispatch(new ShowQueryExecutorVisibleAction(false));
         this.router.navigate(['/browse/storyboard/forfilter'], { queryParams: { query: this.query } });
     }
 

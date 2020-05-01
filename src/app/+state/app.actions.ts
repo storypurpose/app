@@ -3,8 +3,9 @@ import { type } from 'src/app/lib/utils';
 
 export const ActionTypes = {
     SetSearchQuery: type("[SetSearchQuery]"),
+    ShowQueryEditor: type("[ShowQueryEditor]"),
+
     ShowConnectionEditor: type("[ShowConnectionDetails]"),
-    ShowCustomFieldEditor: type("[ShowCustomFieldEditor]"),
     ShowProjectConfigEditor: type('[ShowProjectConfigEditor]'),
 
     SetCurrentIssueKey: type("[SetCurrentIssueKey]"),
@@ -33,13 +34,13 @@ export class SetSearchQueryAction implements Action {
     type = ActionTypes.SetSearchQuery;
     constructor(public payload: any) { }
 }
+export class ShowQueryEditorAction implements Action {
+    type = ActionTypes.ShowQueryEditor;
+    constructor(public payload: any) { }
+}
 
 export class ShowConnectionEditorAction implements Action {
     type = ActionTypes.ShowConnectionEditor;
-    constructor(public payload: any) { }
-}
-export class ShowCustomFieldEditorAction implements Action {
-    type = ActionTypes.ShowCustomFieldEditor;
     constructor(public payload: any) { }
 }
 export class ShowProjectConfigEditorAction implements Action {
@@ -100,8 +101,9 @@ export class DismissProjectSetupAction implements Action {
 
 export type Actions =
     SetSearchQueryAction
+    | ShowQueryEditorAction
+    
     | ShowConnectionEditorAction
-    | ShowCustomFieldEditorAction
     | ShowProjectConfigEditorAction
 
     | SetCurrentIssueKeyAction

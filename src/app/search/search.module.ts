@@ -16,13 +16,15 @@ import { searchInitialState } from './+state/search.init';
 import { searchReducer } from './+state/search.reducer';
 import { QueryExecutorComponent } from './components/query-executor.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { SearchContainerComponent } from './components/search-container.component';
-import { SearchResultsComponent } from './components/search-results.component';
+import { SearchResultContainerComponent } from './components/result-container.component';
+import { SearchListViewComponent } from './components/list-view.component';
+import { SearchStoryboardViewComponent } from './components/storyboard-view.component';
 
 const routes: Route[] = [
   {
-    path: 'search', component: SearchContainerComponent, children: [
-      { path: 'results', component: SearchResultsComponent }
+    path: 'search', component: SearchResultContainerComponent, children: [
+      { path: 'list', component: SearchListViewComponent },
+      { path: 'storyboard', component: SearchStoryboardViewComponent }
     ]
   },
   // {
@@ -37,7 +39,7 @@ const routes: Route[] = [
 @NgModule({
   declarations: [
     QueryExecutorComponent,
-    SearchContainerComponent, SearchResultsComponent
+    SearchResultContainerComponent, SearchListViewComponent, SearchStoryboardViewComponent
     // StoryboardingContainerComponent, StoryboardComponent, StoryListComponent, StatisticsComponent,
     // StoryboardForFilterComponent
   ],
@@ -54,6 +56,7 @@ const routes: Route[] = [
     ChartsModule,
 
     NgbModule,
+    CommonComponentsModule,
 
     StoreModule.forFeature("search", searchReducer, { initialState: searchInitialState }),
 

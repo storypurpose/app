@@ -19,7 +19,7 @@ import { Subscription } from 'rxjs';
 import { getExtendedFields } from '../../lib/project-config.utils';
 import { getRoutelet } from '../../lib/route-utils';
 import { Title } from '@angular/platform-browser';
-import { ShowQueryExecutorVisibleAction, SetQueryContextAction } from 'src/app/search/+state/search.actions';
+import { SetQueryContextAction } from 'src/app/search/+state/search.actions';
 
 @Component({
     selector: 'app-issueviewer',
@@ -73,9 +73,6 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
 
     public issueLookup: any;
 
-    // queryExecutorVisible$: Subscription;
-    // isQueryExecutorVisible = false;
-
     constructor(public router: Router,
         public activatedRoute: ActivatedRoute,
         public titleService: Title,
@@ -86,9 +83,6 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.localNodeType = CustomNodeTypes;
         this.initializeMasterMenulist();
-
-        // this.queryExecutorVisible$ = this.store$.select(p => p.search.queryExecutorVisible)
-        //     .subscribe(visibility => this.isQueryExecutorVisible = visibility);
 
         this.projectConfigSetupEditorVisible$ = this.store$.select(p => p.app.projectConfigEditorVisible)
             .pipe(filter(p => p))
@@ -165,7 +159,6 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        // this.queryExecutorVisible$ ? this.queryExecutorVisible$.unsubscribe() : null;
         this.hierarchicalIssue$ ? this.hierarchicalIssue$.unsubscribe() : null;
         this.connectionDetails$ ? this.connectionDetails$.unsubscribe() : null;
         this.projects$ ? this.projects$.unsubscribe() : null;
@@ -564,10 +557,4 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
         }
     }
 
-    // openQueryExecutorEditor() {
-    //     this.store$.dispatch(new ShowQueryExecutorVisibleAction(true));
-    // }
-    // closeQueryExecutorEditor() {
-    //     this.store$.dispatch(new ShowQueryExecutorVisibleAction(false));
-    // }
 }

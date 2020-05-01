@@ -190,6 +190,12 @@ body .ui-sidebar {
   /* overflow: auto !important; */
 }
 
+.searchbox .border-light,
+.searchbox .btn-light {
+  background-color: #eee !important;
+  border-color: #eee !important;
+}
+
 .center-text {
   position: fixed;
   /* box-shadow: 0 0 6px #bbb; */

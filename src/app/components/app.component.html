@@ -18,9 +18,10 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent" [ngbCollapse]="isCollapsed">
 
       <form class="mx-2 my-auto d-inline w-100" *ngIf="searchVisible">
-        <div class=" input-group">
-          <input type="text" class="form-control border-light bg-light text-dark " name="query" [(ngModel)]="query"
-            placeholder="query" id="query" type="text" (keydown.enter)="executeQuery()" />
+        <div class=" input-group searchbox">
+          <input type="text" [appAutofocus]="searchVisible" class="form-control border-light bg-light text-dark "
+            name="query" [(ngModel)]="query" placeholder="query" id="query" type="text"
+            (keydown.enter)="executeQuery()" />
           <div class="input-group-append">
             <button [disabled]="!canExecuteQuery()" class="btn btn-light" type="button" (click)="executeQuery()">
               <fa-icon icon="search" [fixedWidth]="true"></fa-icon>
@@ -31,7 +32,7 @@
 
       <ul class="navbar-nav ml-sm-auto">
         <li class="nav-item">
-          <button class="btn btn-link" (click)="searchVisible = !searchVisible">
+          <button class="btn btn-link" (click)="toggleSearchEditorVisibility()">
             <fa-icon [icon]="searchVisible ? 'times' : 'search'" class="ml-2"></fa-icon>
             <span *ngIf="!isCollapsed">Search</span>
           </button>
@@ -67,9 +68,3 @@
 <p-toast position="bottom-right"></p-toast>
 
 <router-outlet> </router-outlet>
-
-<!-- <p-sidebar [(visible)]="isQueryExecutorVisible" [fullScreen]="true" [showCloseIcon]="false"
-  (onHide)="closeQueryExecutorEditor()">
-  <app-query-executor [queryContext]="queryContext" (close)="closeQueryExecutorEditor()">
-  </app-query-executor>
-</p-sidebar> -->

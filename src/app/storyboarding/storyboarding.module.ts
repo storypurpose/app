@@ -12,12 +12,8 @@ import { SidebarModule } from 'primeng/sidebar';
 import { StoryboardComponent } from './components/details.component';
 import { StoryboardingContainerComponent } from './components/container.component';
 import { TreeTableModule } from 'primeng/treetable';
-import { TreeNode } from 'primeng/api';
 
-import { ChartsModule } from 'ng2-charts';
-import 'chartjs-plugin-labels';
 import { StoryListComponent } from './components/story-list.component';
-import { StatisticsComponent } from './components/statistics.component';
 import { DialogModule } from 'primeng/dialog';
 import { StoryboardForFilterComponent } from './components/for-filter.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -35,7 +31,7 @@ const routes: Route[] = [
 
 @NgModule({
   declarations: [
-    StoryboardingContainerComponent, StoryboardComponent, StoryListComponent, StatisticsComponent,
+    StoryboardingContainerComponent, StoryboardComponent, StoryListComponent,
     StoryboardForFilterComponent
   ],
   imports: [
@@ -48,7 +44,6 @@ const routes: Route[] = [
     SidebarModule,
     TreeTableModule,
     DialogModule,
-    ChartsModule,
     NgbModule,
     
     CommonComponentsModule,

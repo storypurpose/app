@@ -8,7 +8,10 @@ export const SearchresultViewMode = {
 export const ActionTypes = {
     SwitchViewmode: type('[SwitchViewmode]'),
     SetQueryContext: type('[SetQueryContext]'),
-    SetIssuelist: type("[SetIssuelist]")
+    SetIssuelist: type("[SetIssuelist]"),
+
+    SetSavedSearchlist: type("[SetSavedSearchlist]")
+
 }
 
 export class SwitchSearchresultViewmodeAction implements Action {
@@ -24,8 +27,14 @@ export class SetIssuelistAction implements Action {
     constructor(public payload: any) { }
 }
 
+export class SetSavedSearchlistAction implements Action {
+    type = ActionTypes.SetSavedSearchlist;
+    constructor(public payload: any) { }
+}
+
 export type Actions =
     SwitchSearchresultViewmodeAction
     | SetQueryContextAction
     | SetIssuelistAction
+    | SetSavedSearchlistAction
     ;

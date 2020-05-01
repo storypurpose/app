@@ -15,6 +15,7 @@ import { AppState } from 'src/app/+state/app.state';
     templateUrl: './result-container.component.html'
 })
 export class SearchResultContainerComponent implements OnInit, OnDestroy {
+    selectedTab = 1;
 
     query: string;
     issuelist: any;

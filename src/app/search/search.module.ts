@@ -18,6 +18,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SearchResultContainerComponent } from './components/result-container.component';
 import { SearchListViewComponent } from './components/list-view.component';
 import { SearchStoryboardViewComponent } from './components/storyboard-view.component';
+import { AngularSplitModule } from 'angular-split';
+import { SavedSearchesComponent } from './components/saved-searches.component';
+import { FavouriteSearchesComponent } from './components/favourite-searches.component';
 
 const routes: Route[] = [
   {
@@ -30,7 +33,8 @@ const routes: Route[] = [
 
 @NgModule({
   declarations: [
-    SearchResultContainerComponent, SearchListViewComponent, SearchStoryboardViewComponent
+    SearchResultContainerComponent, SearchListViewComponent, SearchStoryboardViewComponent, 
+    SavedSearchesComponent, FavouriteSearchesComponent
   ],
   imports: [
     CommonModule,
@@ -43,6 +47,8 @@ const routes: Route[] = [
     TreeTableModule,
     DialogModule,
     ChartsModule,
+
+    AngularSplitModule,
 
     NgbModule,
     CommonComponentsModule,

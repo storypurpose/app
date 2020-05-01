@@ -1,45 +1,63 @@
 <div class="main-container">
-    <div class="body-container">
-        <div class="container-fluid">
-            <router-outlet></router-outlet>
-            <div class="center-text custom-shadow alert-warning p-4" *ngIf="issuelist && issuelist.total === 0">
-                No Records found.
-            </div>
-        </div>
-    </div>
-    <div class="pane-footer bg-light" *ngIf="issuelist && issuelist.total > 0">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-2">
+    <as-split direction="horizontal">
+        <as-split-area size="15" class="small pt-2 pl-3">
+            <!-- <ul ngbNav #nav="ngbNav" class="nav-tabs" [(activeId)]="selectedTab" [destroyOnHide]="false">
+                <li [ngbNavItem]="1">
+                    <a ngbNavLink>Favourite</a>
+                    <ng-template ngbNavContent> -->
+                        <app-favourite-searches></app-favourite-searches>
+                    <!-- </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                    <a ngbNavLink>All</a>
+                    <ng-template ngbNavContent>
+                        <app-saved-searches></app-saved-searches>
+                    </ng-template>
+                </li>
+            </ul> -->
+        </as-split-area>
 
-                </div>
-                <div class="col-md-8">
-                    <table class="row">
-                        <div class="col-md-3 pt-3 small">
-                            {{issuelist.startAt + 1}} - {{issuelist.endAt}} / <b>{{issuelist.total}}</b>
-                        </div>
-                        <div class="col-md-9">
-                            <ngb-pagination class="float-right mt-2" [maxSize]="3" [(page)]="currentPageIndex"
-                                [boundaryLinks]="true" [pageSize]="issuelist.pageSize" size="sm"
-                                (pageChange)="onPageChange()" [collectionSize]="issuelist.total">
-                            </ngb-pagination>
-                        </div>
-                    </table>
-                </div>
-                <div class="col-md-2 text-right pt-2"
-                    *ngIf="issuelist && issuelist.results && issuelist.results.length > 1">
-                    <a class="btn btn-brand btn-sm" routerLink="storyboard" queryParamsHandling="merge"
-                        *ngIf="searchViewmode === localViewmode.LIST">
-                        <fa-icon icon="map" [fixedWidth]="true"></fa-icon>
-                        Storyboard view
-                    </a>
-                    <a class="btn btn-secondary btn-sm" routerLink="list" queryParamsHandling="merge"
-                        *ngIf="searchViewmode === localViewmode.STORYBOARD">
-                        <fa-icon icon="chevron-left" [fixedWidth]="true"></fa-icon>
-                        Back to list view
-                    </a>
+        <as-split-area size="85">
+            <div class="body-container">
+                <div class="container-fluid">
+                    <router-outlet></router-outlet>
+                    <div class="center-text custom-shadow alert-warning p-4" *ngIf="issuelist && issuelist.total === 0">
+                        No Records found.
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
+            <div class="pane-footer bg-light" *ngIf="issuelist && issuelist.total > 0">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <table class="row">
+                                <div class="col-md-3 pt-3 small">
+                                    {{issuelist.startAt + 1}} - {{issuelist.endAt}} / <b>{{issuelist.total}}</b>
+                                </div>
+                                <div class="col-md-9" *ngIf="issuelist.total > issuelist.pageSize">
+                                    <ngb-pagination class="float-right mt-2" [maxSize]="3" [(page)]="currentPageIndex"
+                                        [boundaryLinks]="true" [pageSize]="issuelist.pageSize" size="sm"
+                                        (pageChange)="onPageChange()" [collectionSize]="issuelist.total">
+                                    </ngb-pagination>
+                                </div>
+                            </table>
+                        </div>
+                        <div class="col-md-2 text-right pt-2"
+                            *ngIf="issuelist && issuelist.results && issuelist.results.length > 1">
+                            <a class="btn btn-brand btn-sm" routerLink="storyboard" queryParamsHandling="merge"
+                                *ngIf="searchViewmode === localViewmode.LIST">
+                                <fa-icon icon="map" [fixedWidth]="true"></fa-icon>
+                                Storyboard view
+                            </a>
+                            <a class="btn btn-secondary btn-sm" routerLink="list" queryParamsHandling="merge"
+                                *ngIf="searchViewmode === localViewmode.STORYBOARD">
+                                <fa-icon icon="chevron-left" [fixedWidth]="true"></fa-icon>
+                                Back to list view
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </as-split-area>
+    </as-split>
 </div>

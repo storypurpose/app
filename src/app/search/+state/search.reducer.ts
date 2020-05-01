@@ -14,6 +14,9 @@ export function searchReducer(state: Search, action: any): Search {
             return { ...state, issuelist: action.payload };
         }
 
+        case ActionTypes.SetSavedSearchlist: {
+            return { ...state, savedSearchlist: action.payload };
+        }
 
         default: return state;
     }

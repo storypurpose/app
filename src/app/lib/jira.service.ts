@@ -83,4 +83,13 @@ export class JiraService {
         const url = `search?jql=${jql}&fields=${fieldCodes}&startAt=${startAt}&maxResult=${pageSize}`;
         return this.http.get(`${this.proxyurl}/${this.baseUrl}/${url}`, this.httpOptions);
     }
+
+    favouriteSearches(srcJson = null) {
+        if (this.isOnlineMode === false && srcJson && srcJson.length > 0) {
+            return this.http.get(`${this.staticFileLocation}/${srcJson}`, this.httpOptions)
+        }
+        const url = `filter/favourite`;
+        return this.http.get(`${this.proxyurl}/${this.baseUrl}/${url}`, this.httpOptions);
+    }
+
 }

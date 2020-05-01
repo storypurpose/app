@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { FormsModule } from "@angular/forms";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './components/app.component';
@@ -60,8 +60,6 @@ import { ConfigurationsComponent } from './components/setup/configurations.compo
 import { ToolsComponent } from './components/setup/tools.component';
 import { ExportConfigurationComponent } from './components/setup/export-configuration.component';
 import { ImportConfigurationComponent } from './components/setup/import-configuration.component';
-import { AutofocusDirective } from './lib/autofocus.directive';
-import { SearchModule } from './search/search.module';
 
 export function initGapi(gapiSession: GapiSession) {
   return () => gapiSession.initClient();
@@ -80,9 +78,7 @@ export function initGapi(gapiSession: GapiSession) {
 
     FieldSelectorListComponent,
 
-    PrivacyComponent, TermsComponent, ToolsComponent,
-
-    AutofocusDirective
+    PrivacyComponent, TermsComponent, ToolsComponent
   ],
   imports: [
     BrowserModule,

@@ -9,8 +9,9 @@ import { StatisticsComponent } from './components/statistics.component';
 import { ChartsModule } from 'ng2-charts';
 import 'chartjs-plugin-labels';
 import { SearchboxComponent } from './components/searchbox.component';
+import { AutofocusDirective } from './lib/autofocus.directive';
 
-const components = [ButtonPanelComponent, StoryboardRendererComponent, StatisticsComponent, SearchboxComponent];
+const components = [ButtonPanelComponent, StoryboardRendererComponent, StatisticsComponent, SearchboxComponent, AutofocusDirective];
 @NgModule({
   exports: components,
   declarations: components,
@@ -21,6 +22,6 @@ const components = [ButtonPanelComponent, StoryboardRendererComponent, Statistic
     ChartsModule,
 
     FontAwesomeModule
-  ]
+  ],
 })
 export class CommonComponentsModule { }

@@ -57,7 +57,8 @@ export class AppComponent implements OnInit, OnDestroy {
     public persistenceService: PersistenceService,
     public sanitizer: DomSanitizer,
     public store$: Store<AppState>,
-    public gapiSession: GapiSession, ) {
+    public gapiSession: GapiSession
+    ) {
 
     if (environment.production) {
       this.router.events.subscribe(event => {

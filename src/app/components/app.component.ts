@@ -29,16 +29,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
   issue: string;
 
-  allowOfflineMode = false;
-  isOnlineMode = false;
   connectionDetails: any;
-
-  queryEditorVisible$: Subscription;
-  searchVisible = false;
 
   connectionEditorVisible$: Subscription;
   projectConfigSubscription: Subscription;
-  mode$: Subscription;
 
   connectionDetails$: Subscription;
   projectsSubscription: Subscription;
@@ -46,19 +40,20 @@ export class AppComponent implements OnInit, OnDestroy {
   issueType: string;
 
   menulist: any;
+  mode$: Subscription;
+  isOnlineMode = false;
 
   @ViewChild('connectionDetailPopover', { static: true }) connectionDetailPopover: NgbPopover;
 
-  public isCollapsed = true;
   public showDisplayName = false;
 
   constructor(public router: Router,
     public titleService: Title,
-    public persistenceService: PersistenceService,
     public sanitizer: DomSanitizer,
+    public persistenceService: PersistenceService,
     public store$: Store<AppState>,
     public gapiSession: GapiSession
-    ) {
+  ) {
 
     if (environment.production) {
       this.router.events.subscribe(event => {
@@ -66,8 +61,6 @@ export class AppComponent implements OnInit, OnDestroy {
           gtag('config', environment.gacode, { 'page_path': event.urlAfterRedirects });
         }
       })
-    } else {
-      this.allowOfflineMode = true;
     }
   }
 
@@ -80,9 +73,6 @@ export class AppComponent implements OnInit, OnDestroy {
       { label: 'Setup connection', icon: 'pi pi-cog', command: () => this.showConnectionEditor = true },
       { label: 'Custom fields', icon: 'pi pi-sliders-h', command: () => this.showCustomFieldSetup = true },
     ];
-
-    this.queryEditorVisible$ = this.store$.select(p => p.app.queryEditorVisible)
-      .subscribe(show => this.searchVisible = show);
 
     this.connectionEditorVisible$ = this.store$.select(p => p.app.connectionEditorVisible)
       .subscribe(show => this.showConnectionEditor = show);
@@ -99,7 +89,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.queryEditorVisible$ ? this.queryEditorVisible$.unsubscribe() : null;
     this.connectionEditorVisible$ ? this.connectionEditorVisible$.unsubscribe() : null;
     this.mode$ ? this.mode$.unsubscribe() : null;
 
@@ -114,7 +103,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.store$.dispatch(new ShowConnectionEditorAction(false));
   }
 
-  onModeChange(isOnlineMode) {
+  onModeChanged(isOnlineMode) {
     this.initiatizeModeState(isOnlineMode ? ModeTypes.Online : ModeTypes.Offline);
     window.location.reload();
   }
@@ -152,9 +141,5 @@ export class AppComponent implements OnInit, OnDestroy {
           window.location.reload();
         }
       });
-  }
-
-  toggleSearchEditorVisibility() {
-    this.store$.dispatch(new ToggleQueryEditorVisibilityAction(!this.searchVisible));
   }
 }

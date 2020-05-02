@@ -163,6 +163,13 @@ body .ui-sidebar {
   width: 100%;
   height: calc(100% - 32pt);
 }
+.footer-container {
+  bottom: 0;
+  position: sticky;
+  width: 100%;
+  max-height: 32pt;
+  padding: 0.25rem 1rem;
+}
 .app-copyright {
   bottom: 8pt;
   left: 0;
@@ -173,7 +180,7 @@ body .ui-sidebar {
   /* background-color: #f8f9fa; */
   flex-basis: 8px !important;
   border-left: 2px solid #f8f8f8;
-  margin-left: 6px;
+  margin-left: 4px;
 }
 /* .as-split-gutter-icon {
   background-image: none !important;
@@ -347,4 +354,7 @@ ngx-md h3,
 .list-group-flush-compact .list-group-item {
   padding: 0.25rem 0.75rem;
   background-color: inherit;
+}
+.pagination {
+  margin: 0 !important;
 }

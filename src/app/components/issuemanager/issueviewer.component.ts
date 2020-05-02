@@ -13,7 +13,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../+state/app.state';
 import {
     SetCurrentIssueKeyAction, UpsertProjectAction, SetHierarchicalIssueAction, EpicChildrenLoadedAction,
-    SetOrganizationAction, DismissProjectSetupAction, ShowProjectConfigEditorAction
+    SetOrganizationAction, DismissProjectSetupAction, ShowProjectConfigEditorAction, ToggleQueryEditorVisibilityAction
 } from '../../+state/app.actions';
 import { Subscription } from 'rxjs';
 import { getExtendedFields } from '../../lib/project-config.utils';
@@ -81,6 +81,8 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
         public store$: Store<AppState>) {
     }
     ngOnInit(): void {
+        this.store$.dispatch(new ToggleQueryEditorVisibilityAction(false));
+
         this.localNodeType = CustomNodeTypes;
         this.initializeMasterMenulist();
 
@@ -557,4 +559,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
         }
     }
 
+    onShowIssuelist() {
+        this.router.navigate(['/search/list']);
+    }
 }

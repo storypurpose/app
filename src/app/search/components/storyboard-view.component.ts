@@ -31,7 +31,6 @@ export class SearchStoryboardViewComponent implements OnInit, OnDestroy {
             .pipe(filter(p => p))
             .subscribe(list => {
                 this.storyboardItem.metadata = initializeMetadata();
-                console.log(list);
                 this.storyboardItem.children = list.results;
                 mergeMetadata(this.storyboardItem.metadata, extractMetadata(this.storyboardItem.children));
                 this.storyboardItem.statistics = populateStatistics(this.storyboardItem);

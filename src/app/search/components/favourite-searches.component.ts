@@ -25,7 +25,7 @@ export class FavouriteSearchesComponent implements OnInit, OnDestroy {
         this.searchlist$ = this.store$.select(p => p.search.savedSearchlist).pipe(filter(p => p))
             .subscribe(list => this.searchlist = list);
 
-        this.jiraService.favouriteSearches()
+        this.jiraService.favouriteSearches('favourite-search.json')
             .pipe(
                 filter((list: any) => list && list.length > 0),
                 map(list => _.map(list, item => _.pick(item, ['id', 'name', 'jql'])))

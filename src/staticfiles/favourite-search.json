@@ -1,0 +1,1411 @@
+[
+    {
+        "self": "https://jira.mediaocean.com/rest/api/latest/filter/74313",
+        "id": "74313",
+        "name": "2019-anupam-bapat",
+        "owner": {
+            "self": "https://jira.mediaocean.com/rest/api/2/user?username=adhamankar",
+            "key": "adhamankar",
+            "name": "adhamankar",
+            "avatarUrls": {
+                "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=adhamankar&avatarId=27432",
+                "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=adhamankar&avatarId=27432",
+                "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=adhamankar&avatarId=27432",
+                "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=adhamankar&avatarId=27432"
+            },
+            "displayName": "Abhijeet Dhamankar",
+            "active": true
+        },
+        "jql": "project = Ignitia AND created >= 2019-01-01 AND created <= 2019-12-31 AND status changed by abapat to \"dev complete\" ",
+        "viewUrl": "https://jira.mediaocean.com/issues/?filter=74313",
+        "searchUrl": "https://jira.mediaocean.com/rest/api/latest/search?jql=project+%3D+Ignitia+AND+created+%3E%3D+2019-01-01+AND+created+%3C%3D+2019-12-31+AND+status+changed+by+abapat+to+%22dev+complete%22+",
+        "favourite": true,
+        "sharePermissions": [],
+        "editable": true,
+        "sharedUsers": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        },
+        "subscriptions": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        }
+    },
+    {
+        "self": "https://jira.mediaocean.com/rest/api/latest/filter/74273",
+        "id": "74273",
+        "name": "2019-automation",
+        "owner": {
+            "self": "https://jira.mediaocean.com/rest/api/2/user?username=adhamankar",
+            "key": "adhamankar",
+            "name": "adhamankar",
+            "avatarUrls": {
+                "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=adhamankar&avatarId=27432",
+                "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=adhamankar&avatarId=27432",
+                "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=adhamankar&avatarId=27432",
+                "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=adhamankar&avatarId=27432"
+            },
+            "displayName": "Abhijeet Dhamankar",
+            "active": true
+        },
+        "jql": "project = Ignitia AND created > 2019-01-01 AND created < 2019-12-31 AND component in (Automation) ORDER BY status",
+        "viewUrl": "https://jira.mediaocean.com/issues/?filter=74273",
+        "searchUrl": "https://jira.mediaocean.com/rest/api/latest/search?jql=project+%3D+Ignitia+AND+created+%3E+2019-01-01+AND+created+%3C+2019-12-31+AND+component+in+(Automation)+ORDER+BY+status",
+        "favourite": true,
+        "sharePermissions": [],
+        "editable": true,
+        "sharedUsers": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        },
+        "subscriptions": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        }
+    },
+    {
+        "self": "https://jira.mediaocean.com/rest/api/latest/filter/74274",
+        "id": "74274",
+        "name": "2019-automation-individual",
+        "owner": {
+            "self": "https://jira.mediaocean.com/rest/api/2/user?username=adhamankar",
+            "key": "adhamankar",
+            "name": "adhamankar",
+            "avatarUrls": {
+                "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=adhamankar&avatarId=27432",
+                "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=adhamankar&avatarId=27432",
+                "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=adhamankar&avatarId=27432",
+                "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=adhamankar&avatarId=27432"
+            },
+            "displayName": "Abhijeet Dhamankar",
+            "active": true
+        },
+        "jql": "project = Ignitia AND created > 2019-01-01 AND created < 2019-12-31 AND component in (Automation) AND reporter = npatil",
+        "viewUrl": "https://jira.mediaocean.com/issues/?filter=74274",
+        "searchUrl": "https://jira.mediaocean.com/rest/api/latest/search?jql=project+%3D+Ignitia+AND+created+%3E+2019-01-01+AND+created+%3C+2019-12-31+AND+component+in+(Automation)+AND+reporter+%3D+npatil",
+        "favourite": true,
+        "sharePermissions": [],
+        "editable": true,
+        "sharedUsers": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        },
+        "subscriptions": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        }
+    },
+    {
+        "self": "https://jira.mediaocean.com/rest/api/latest/filter/74311",
+        "id": "74311",
+        "name": "2019-bugs-all",
+        "owner": {
+            "self": "https://jira.mediaocean.com/rest/api/2/user?username=adhamankar",
+            "key": "adhamankar",
+            "name": "adhamankar",
+            "avatarUrls": {
+                "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=adhamankar&avatarId=27432",
+                "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=adhamankar&avatarId=27432",
+                "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=adhamankar&avatarId=27432",
+                "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=adhamankar&avatarId=27432"
+            },
+            "displayName": "Abhijeet Dhamankar",
+            "active": true
+        },
+        "jql": "project = Ignitia AND created > 2019-01-01 AND created < 2019-12-31 AND issuetype in (Bug, Defect) ORDER BY status",
+        "viewUrl": "https://jira.mediaocean.com/issues/?filter=74311",
+        "searchUrl": "https://jira.mediaocean.com/rest/api/latest/search?jql=project+%3D+Ignitia+AND+created+%3E+2019-01-01+AND+created+%3C+2019-12-31+AND+issuetype+in+(Bug,+Defect)+ORDER+BY+status",
+        "favourite": true,
+        "sharePermissions": [],
+        "editable": true,
+        "sharedUsers": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        },
+        "subscriptions": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        }
+    },
+    {
+        "self": "https://jira.mediaocean.com/rest/api/latest/filter/74275",
+        "id": "74275",
+        "name": "2019-carryforwards",
+        "owner": {
+            "self": "https://jira.mediaocean.com/rest/api/2/user?username=adhamankar",
+            "key": "adhamankar",
+            "name": "adhamankar",
+            "avatarUrls": {
+                "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=adhamankar&avatarId=27432",
+                "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=adhamankar&avatarId=27432",
+                "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=adhamankar&avatarId=27432",
+                "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=adhamankar&avatarId=27432"
+            },
+            "displayName": "Abhijeet Dhamankar",
+            "active": true
+        },
+        "jql": "project = GBP AND Team in (\"GBP Delta\", \"GBP Omega\", \"GBP Lambda\") AND (Sprint in (12665, 12680, 12682) AND sprint in (12679, 12681, 12684) OR Sprint in (12679, 12681, 12684) AND sprint in (12801, 12807, 12830) OR Sprint in (12801, 12807, 12830) AND sprint in (12802, 12808, 12865) OR Sprint in (12802, 12808, 12865) AND sprint in (12905, 12928, 12916) OR Sprint in (12905, 12928, 12916) AND sprint in (12927, 12929, 12917) OR Sprint in (12927, 12929, 12917) AND sprint in (13043, 13040, 13038) OR Sprint in (13043, 13040, 13038) AND sprint in (13063, 13041, 13062) OR sprint in (13063, 13041, 13062) AND Sprint in (13165, 13171, 13106) OR Sprint in (13165, 13171, 13106) AND sprint in (13338, 13369, 13254) OR Sprint in (13166, 13172, 13181) AND sprint in (13338, 13369, 13254) OR Sprint in (13339, 13374, 13345) AND sprint in (13338, 13369, 13254) OR Sprint in (13459, 13535, 13556) AND sprint in (13567, 13558, 13557) OR Sprint in (13459, 13535, 13556) AND sprint in (13567, 13558, 13557) OR Sprint in (13567, 13558, 13557) AND Sprint in (13722, 13675, 13713)) ORDER BY Sprint, Team",
+        "viewUrl": "https://jira.mediaocean.com/issues/?filter=74275",
+        "searchUrl": "https://jira.mediaocean.com/rest/api/latest/search?jql=project+%3D+GBP+AND+Team+in+(%22GBP+Delta%22,+%22GBP+Omega%22,+%22GBP+Lambda%22)+AND+(Sprint+in+(12665,+12680,+12682)+AND+sprint+in+(12679,+12681,+12684)+OR+Sprint+in+(12679,+12681,+12684)+AND+sprint+in+(12801,+12807,+12830)+OR+Sprint+in+(12801,+12807,+12830)+AND+sprint+in+(12802,+12808,+12865)+OR+Sprint+in+(12802,+12808,+12865)+AND+sprint+in+(12905,+12928,+12916)+OR+Sprint+in+(12905,+12928,+12916)+AND+sprint+in+(12927,+12929,+12917)+OR+Sprint+in+(12927,+12929,+12917)+AND+sprint+in+(13043,+13040,+13038)+OR+Sprint+in+(13043,+13040,+13038)+AND+sprint+in+(13063,+13041,+13062)+OR+sprint+in+(13063,+13041,+13062)+AND+Sprint+in+(13165,+13171,+13106)+OR+Sprint+in+(13165,+13171,+13106)+AND+sprint+in+(13338,+13369,+13254)+OR+Sprint+in+(13166,+13172,+13181)+AND+sprint+in+(13338,+13369,+13254)+OR+Sprint+in+(13339,+13374,+13345)+AND+sprint+in+(13338,+13369,+13254)+OR+Sprint+in+(13459,+13535,+13556)+AND+sprint+in+(13567,+13558,+13557)+OR+Sprint+in+(13459,+13535,+13556)+AND+sprint+in+(13567,+13558,+13557)+OR+Sprint+in+(13567,+13558,+13557)+AND+Sprint+in+(13722,+13675,+13713))+ORDER+BY+Sprint,+Team",
+        "favourite": true,
+        "sharePermissions": [],
+        "editable": true,
+        "sharedUsers": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        },
+        "subscriptions": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        }
+    },
+    {
+        "self": "https://jira.mediaocean.com/rest/api/latest/filter/74276",
+        "id": "74276",
+        "name": "2019-carryforwards-individual",
+        "owner": {
+            "self": "https://jira.mediaocean.com/rest/api/2/user?username=adhamankar",
+            "key": "adhamankar",
+            "name": "adhamankar",
+            "avatarUrls": {
+                "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=adhamankar&avatarId=27432",
+                "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=adhamankar&avatarId=27432",
+                "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=adhamankar&avatarId=27432",
+                "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=adhamankar&avatarId=27432"
+            },
+            "displayName": "Abhijeet Dhamankar",
+            "active": true
+        },
+        "jql": "project = GBP AND Team in (\"GBP Delta\", \"GBP Omega\", \"GBP Lambda\") AND status changed by npatil AND (Sprint in (12665, 12680, 12682) AND sprint in (12679, 12681, 12684) OR Sprint in (12679, 12681, 12684) AND sprint in (12801, 12807, 12830) OR Sprint in (12801, 12807, 12830) AND sprint in (12802, 12808, 12865) OR Sprint in (12802, 12808, 12865) AND sprint in (12905, 12928, 12916) OR Sprint in (12905, 12928, 12916) AND sprint in (12927, 12929, 12917) OR Sprint in (12927, 12929, 12917) AND sprint in (13043, 13040, 13038) OR Sprint in (13043, 13040, 13038) AND sprint in (13063, 13041, 13062) OR sprint in (13063, 13041, 13062) AND Sprint in (13165, 13171, 13106) OR Sprint in (13165, 13171, 13106) AND sprint in (13338, 13369, 13254) OR Sprint in (13166, 13172, 13181) AND sprint in (13338, 13369, 13254) OR Sprint in (13339, 13374, 13345) AND sprint in (13338, 13369, 13254) OR Sprint in (13459, 13535, 13556) AND sprint in (13567, 13558, 13557) OR Sprint in (13459, 13535, 13556) AND sprint in (13567, 13558, 13557) OR Sprint in (13567, 13558, 13557) AND Sprint in (13722, 13675, 13713)) ORDER BY Sprint, Team",
+        "viewUrl": "https://jira.mediaocean.com/issues/?filter=74276",
+        "searchUrl": "https://jira.mediaocean.com/rest/api/latest/search?jql=project+%3D+GBP+AND+Team+in+(%22GBP+Delta%22,+%22GBP+Omega%22,+%22GBP+Lambda%22)+AND+status+changed+by+npatil+AND+(Sprint+in+(12665,+12680,+12682)+AND+sprint+in+(12679,+12681,+12684)+OR+Sprint+in+(12679,+12681,+12684)+AND+sprint+in+(12801,+12807,+12830)+OR+Sprint+in+(12801,+12807,+12830)+AND+sprint+in+(12802,+12808,+12865)+OR+Sprint+in+(12802,+12808,+12865)+AND+sprint+in+(12905,+12928,+12916)+OR+Sprint+in+(12905,+12928,+12916)+AND+sprint+in+(12927,+12929,+12917)+OR+Sprint+in+(12927,+12929,+12917)+AND+sprint+in+(13043,+13040,+13038)+OR+Sprint+in+(13043,+13040,+13038)+AND+sprint+in+(13063,+13041,+13062)+OR+sprint+in+(13063,+13041,+13062)+AND+Sprint+in+(13165,+13171,+13106)+OR+Sprint+in+(13165,+13171,+13106)+AND+sprint+in+(13338,+13369,+13254)+OR+Sprint+in+(13166,+13172,+13181)+AND+sprint+in+(13338,+13369,+13254)+OR+Sprint+in+(13339,+13374,+13345)+AND+sprint+in+(13338,+13369,+13254)+OR+Sprint+in+(13459,+13535,+13556)+AND+sprint+in+(13567,+13558,+13557)+OR+Sprint+in+(13459,+13535,+13556)+AND+sprint+in+(13567,+13558,+13557)+OR+Sprint+in+(13567,+13558,+13557)+AND+Sprint+in+(13722,+13675,+13713))+ORDER+BY+Sprint,+Team",
+        "favourite": true,
+        "sharePermissions": [],
+        "editable": true,
+        "sharedUsers": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        },
+        "subscriptions": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        }
+    },
+    {
+        "self": "https://jira.mediaocean.com/rest/api/latest/filter/74281",
+        "id": "74281",
+        "name": "2019-carryforwards-team",
+        "owner": {
+            "self": "https://jira.mediaocean.com/rest/api/2/user?username=adhamankar",
+            "key": "adhamankar",
+            "name": "adhamankar",
+            "avatarUrls": {
+                "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=adhamankar&avatarId=27432",
+                "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=adhamankar&avatarId=27432",
+                "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=adhamankar&avatarId=27432",
+                "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=adhamankar&avatarId=27432"
+            },
+            "displayName": "Abhijeet Dhamankar",
+            "active": true
+        },
+        "jql": "project = GBP AND Team in (\"GBP Lambda\") AND (Sprint in (12665, 12680, 12682) AND sprint in (12679, 12681, 12684) OR Sprint in (12679, 12681, 12684) AND sprint in (12801, 12807, 12830) OR Sprint in (12801, 12807, 12830) AND sprint in (12802, 12808, 12865) OR Sprint in (12802, 12808, 12865) AND sprint in (12905, 12928, 12916) OR Sprint in (12905, 12928, 12916) AND sprint in (12927, 12929, 12917) OR Sprint in (12927, 12929, 12917) AND sprint in (13043, 13040, 13038) OR Sprint in (13043, 13040, 13038) AND sprint in (13063, 13041, 13062) OR sprint in (13063, 13041, 13062) AND Sprint in (13165, 13171, 13106) OR Sprint in (13165, 13171, 13106) AND sprint in (13338, 13369, 13254) OR Sprint in (13166, 13172, 13181) AND sprint in (13338, 13369, 13254) OR Sprint in (13339, 13374, 13345) AND sprint in (13338, 13369, 13254) OR Sprint in (13459, 13535, 13556) AND sprint in (13567, 13558, 13557) OR Sprint in (13459, 13535, 13556) AND sprint in (13567, 13558, 13557) OR Sprint in (13567, 13558, 13557) AND Sprint in (13722, 13675, 13713)) ORDER BY Sprint, Team",
+        "viewUrl": "https://jira.mediaocean.com/issues/?filter=74281",
+        "searchUrl": "https://jira.mediaocean.com/rest/api/latest/search?jql=project+%3D+GBP+AND+Team+in+(%22GBP+Lambda%22)+AND+(Sprint+in+(12665,+12680,+12682)+AND+sprint+in+(12679,+12681,+12684)+OR+Sprint+in+(12679,+12681,+12684)+AND+sprint+in+(12801,+12807,+12830)+OR+Sprint+in+(12801,+12807,+12830)+AND+sprint+in+(12802,+12808,+12865)+OR+Sprint+in+(12802,+12808,+12865)+AND+sprint+in+(12905,+12928,+12916)+OR+Sprint+in+(12905,+12928,+12916)+AND+sprint+in+(12927,+12929,+12917)+OR+Sprint+in+(12927,+12929,+12917)+AND+sprint+in+(13043,+13040,+13038)+OR+Sprint+in+(13043,+13040,+13038)+AND+sprint+in+(13063,+13041,+13062)+OR+sprint+in+(13063,+13041,+13062)+AND+Sprint+in+(13165,+13171,+13106)+OR+Sprint+in+(13165,+13171,+13106)+AND+sprint+in+(13338,+13369,+13254)+OR+Sprint+in+(13166,+13172,+13181)+AND+sprint+in+(13338,+13369,+13254)+OR+Sprint+in+(13339,+13374,+13345)+AND+sprint+in+(13338,+13369,+13254)+OR+Sprint+in+(13459,+13535,+13556)+AND+sprint+in+(13567,+13558,+13557)+OR+Sprint+in+(13459,+13535,+13556)+AND+sprint+in+(13567,+13558,+13557)+OR+Sprint+in+(13567,+13558,+13557)+AND+Sprint+in+(13722,+13675,+13713))+ORDER+BY+Sprint,+Team",
+        "favourite": true,
+        "sharePermissions": [],
+        "editable": true,
+        "sharedUsers": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        },
+        "subscriptions": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        }
+    },
+    {
+        "self": "https://jira.mediaocean.com/rest/api/latest/filter/74317",
+        "id": "74317",
+        "name": "2019-dev",
+        "owner": {
+            "self": "https://jira.mediaocean.com/rest/api/2/user?username=adhamankar",
+            "key": "adhamankar",
+            "name": "adhamankar",
+            "avatarUrls": {
+                "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=adhamankar&avatarId=27432",
+                "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=adhamankar&avatarId=27432",
+                "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=adhamankar&avatarId=27432",
+                "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=adhamankar&avatarId=27432"
+            },
+            "displayName": "Abhijeet Dhamankar",
+            "active": true
+        },
+        "jql": "project = Ignitia AND created >= 2019-01-01 AND created <= 2019-12-31 AND status changed by asatav to \"dev complete\" ",
+        "viewUrl": "https://jira.mediaocean.com/issues/?filter=74317",
+        "searchUrl": "https://jira.mediaocean.com/rest/api/latest/search?jql=project+%3D+Ignitia+AND+created+%3E%3D+2019-01-01+AND+created+%3C%3D+2019-12-31+AND+status+changed+by+asatav+to+%22dev+complete%22+",
+        "favourite": true,
+        "sharePermissions": [],
+        "editable": true,
+        "sharedUsers": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        },
+        "subscriptions": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        }
+    },
+    {
+        "self": "https://jira.mediaocean.com/rest/api/latest/filter/74285",
+        "id": "74285",
+        "name": "2019-jiras-created-all",
+        "owner": {
+            "self": "https://jira.mediaocean.com/rest/api/2/user?username=adhamankar",
+            "key": "adhamankar",
+            "name": "adhamankar",
+            "avatarUrls": {
+                "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=adhamankar&avatarId=27432",
+                "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=adhamankar&avatarId=27432",
+                "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=adhamankar&avatarId=27432",
+                "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=adhamankar&avatarId=27432"
+            },
+            "displayName": "Abhijeet Dhamankar",
+            "active": true
+        },
+        "jql": "project = Ignitia AND team in (\"GBP Lambda\", \"GBP Omega\", \"GBP Delta\") AND created > 2019-01-01 AND created < 2019-12-31 AND issuetype in (\"ST-Test Case\")",
+        "viewUrl": "https://jira.mediaocean.com/issues/?filter=74285",
+        "searchUrl": "https://jira.mediaocean.com/rest/api/latest/search?jql=project+%3D+Ignitia+AND+team+in+(%22GBP+Lambda%22,+%22GBP+Omega%22,+%22GBP+Delta%22)+AND+created+%3E+2019-01-01+AND+created+%3C+2019-12-31+AND+issuetype+in+(%22ST-Test+Case%22)",
+        "favourite": true,
+        "sharePermissions": [],
+        "editable": true,
+        "sharedUsers": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        },
+        "subscriptions": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        }
+    },
+    {
+        "self": "https://jira.mediaocean.com/rest/api/latest/filter/74282",
+        "id": "74282",
+        "name": "2019-jiras-created-individual",
+        "owner": {
+            "self": "https://jira.mediaocean.com/rest/api/2/user?username=adhamankar",
+            "key": "adhamankar",
+            "name": "adhamankar",
+            "avatarUrls": {
+                "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=adhamankar&avatarId=27432",
+                "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=adhamankar&avatarId=27432",
+                "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=adhamankar&avatarId=27432",
+                "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=adhamankar&avatarId=27432"
+            },
+            "displayName": "Abhijeet Dhamankar",
+            "active": true
+        },
+        "jql": "project = Ignitia AND reporter = npatil AND created > 2019-01-01 AND created < 2019-12-31",
+        "viewUrl": "https://jira.mediaocean.com/issues/?filter=74282",
+        "searchUrl": "https://jira.mediaocean.com/rest/api/latest/search?jql=project+%3D+Ignitia+AND+reporter+%3D+npatil+AND+created+%3E+2019-01-01+AND+created+%3C+2019-12-31",
+        "favourite": true,
+        "sharePermissions": [],
+        "editable": true,
+        "sharedUsers": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        },
+        "subscriptions": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        }
+    },
+    {
+        "self": "https://jira.mediaocean.com/rest/api/latest/filter/74283",
+        "id": "74283",
+        "name": "2019-jiras-created-team",
+        "owner": {
+            "self": "https://jira.mediaocean.com/rest/api/2/user?username=adhamankar",
+            "key": "adhamankar",
+            "name": "adhamankar",
+            "avatarUrls": {
+                "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=adhamankar&avatarId=27432",
+                "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=adhamankar&avatarId=27432",
+                "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=adhamankar&avatarId=27432",
+                "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=adhamankar&avatarId=27432"
+            },
+            "displayName": "Abhijeet Dhamankar",
+            "active": true
+        },
+        "jql": "project = Ignitia AND team = \"GBP Lambda\" AND created > 2019-01-01 AND created < 2019-12-31",
+        "viewUrl": "https://jira.mediaocean.com/issues/?filter=74283",
+        "searchUrl": "https://jira.mediaocean.com/rest/api/latest/search?jql=project+%3D+Ignitia+AND+team+%3D+%22GBP+Lambda%22+AND+created+%3E+2019-01-01+AND+created+%3C+2019-12-31",
+        "favourite": true,
+        "sharePermissions": [],
+        "editable": true,
+        "sharedUsers": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        },
+        "subscriptions": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        }
+    },
+    {
+        "self": "https://jira.mediaocean.com/rest/api/latest/filter/74314",
+        "id": "74314",
+        "name": "2019-neha-bhosale",
+        "owner": {
+            "self": "https://jira.mediaocean.com/rest/api/2/user?username=adhamankar",
+            "key": "adhamankar",
+            "name": "adhamankar",
+            "avatarUrls": {
+                "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=adhamankar&avatarId=27432",
+                "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=adhamankar&avatarId=27432",
+                "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=adhamankar&avatarId=27432",
+                "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=adhamankar&avatarId=27432"
+            },
+            "displayName": "Abhijeet Dhamankar",
+            "active": true
+        },
+        "jql": "project = Ignitia AND created >= 2019-01-01 AND created <= 2019-12-31 AND status changed by nbhosale to \"dev complete\" ",
+        "viewUrl": "https://jira.mediaocean.com/issues/?filter=74314",
+        "searchUrl": "https://jira.mediaocean.com/rest/api/latest/search?jql=project+%3D+Ignitia+AND+created+%3E%3D+2019-01-01+AND+created+%3C%3D+2019-12-31+AND+status+changed+by+nbhosale+to+%22dev+complete%22+",
+        "favourite": true,
+        "sharePermissions": [],
+        "editable": true,
+        "sharedUsers": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        },
+        "subscriptions": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        }
+    },
+    {
+        "self": "https://jira.mediaocean.com/rest/api/latest/filter/74318",
+        "id": "74318",
+        "name": "2019-qa",
+        "owner": {
+            "self": "https://jira.mediaocean.com/rest/api/2/user?username=adhamankar",
+            "key": "adhamankar",
+            "name": "adhamankar",
+            "avatarUrls": {
+                "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=adhamankar&avatarId=27432",
+                "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=adhamankar&avatarId=27432",
+                "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=adhamankar&avatarId=27432",
+                "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=adhamankar&avatarId=27432"
+            },
+            "displayName": "Abhijeet Dhamankar",
+            "active": true
+        },
+        "jql": "project = Ignitia AND created >= 2019-01-01 AND created <= 2019-12-31 AND status changed by pVallakathi to \"dev complete\" ",
+        "viewUrl": "https://jira.mediaocean.com/issues/?filter=74318",
+        "searchUrl": "https://jira.mediaocean.com/rest/api/latest/search?jql=project+%3D+Ignitia+AND+created+%3E%3D+2019-01-01+AND+created+%3C%3D+2019-12-31+AND+status+changed+by+pVallakathi+to+%22dev+complete%22+",
+        "favourite": true,
+        "sharePermissions": [],
+        "editable": true,
+        "sharedUsers": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        },
+        "subscriptions": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        }
+    },
+    {
+        "self": "https://jira.mediaocean.com/rest/api/latest/filter/74279",
+        "id": "74279",
+        "name": "2019-qa-dev-assigned",
+        "owner": {
+            "self": "https://jira.mediaocean.com/rest/api/2/user?username=adhamankar",
+            "key": "adhamankar",
+            "name": "adhamankar",
+            "avatarUrls": {
+                "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=adhamankar&avatarId=27432",
+                "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=adhamankar&avatarId=27432",
+                "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=adhamankar&avatarId=27432",
+                "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=adhamankar&avatarId=27432"
+            },
+            "displayName": "Abhijeet Dhamankar",
+            "active": true
+        },
+        "jql": "project = GBP AND created >= 2019-01-01 AND created <= 2019-12-31 AND \"Dev Assignee\" is not EMPTY AND \"QA Assignee\" is not EMPTY AND Team in (\"GBP Delta\", \"GBP Omega\", \"GBP Lambda\") AND issuetype in (story, Bug) ORDER BY priority DESC, updated DESC",
+        "viewUrl": "https://jira.mediaocean.com/issues/?filter=74279",
+        "searchUrl": "https://jira.mediaocean.com/rest/api/latest/search?jql=project+%3D+GBP+AND+created+%3E%3D+2019-01-01+AND+created+%3C%3D+2019-12-31+AND+%22Dev+Assignee%22+is+not+EMPTY+AND+%22QA+Assignee%22+is+not+EMPTY+AND+Team+in+(%22GBP+Delta%22,+%22GBP+Omega%22,+%22GBP+Lambda%22)+AND+issuetype+in+(story,+Bug)+ORDER+BY+priority+DESC,+updated+DESC",
+        "favourite": true,
+        "sharePermissions": [],
+        "editable": true,
+        "sharedUsers": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        },
+        "subscriptions": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        }
+    },
+    {
+        "self": "https://jira.mediaocean.com/rest/api/latest/filter/74278",
+        "id": "74278",
+        "name": "2019-qa-dev-missing",
+        "owner": {
+            "self": "https://jira.mediaocean.com/rest/api/2/user?username=adhamankar",
+            "key": "adhamankar",
+            "name": "adhamankar",
+            "avatarUrls": {
+                "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=adhamankar&avatarId=27432",
+                "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=adhamankar&avatarId=27432",
+                "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=adhamankar&avatarId=27432",
+                "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=adhamankar&avatarId=27432"
+            },
+            "displayName": "Abhijeet Dhamankar",
+            "active": true
+        },
+        "jql": "project = GBP AND created >= 2019-01-01 AND created <= 2019-12-31 AND (\"Dev Assignee\" is EMPTY OR \"QA Assignee\" is EMPTY) AND Team in (\"GBP Delta\", \"GBP Omega\", \"GBP Lambda\") AND issuetype in (story, Bug) ORDER BY priority DESC, updated DESC",
+        "viewUrl": "https://jira.mediaocean.com/issues/?filter=74278",
+        "searchUrl": "https://jira.mediaocean.com/rest/api/latest/search?jql=project+%3D+GBP+AND+created+%3E%3D+2019-01-01+AND+created+%3C%3D+2019-12-31+AND+(%22Dev+Assignee%22+is+EMPTY+OR+%22QA+Assignee%22+is+EMPTY)+AND+Team+in+(%22GBP+Delta%22,+%22GBP+Omega%22,+%22GBP+Lambda%22)+AND+issuetype+in+(story,+Bug)+ORDER+BY+priority+DESC,+updated+DESC",
+        "favourite": true,
+        "sharePermissions": [],
+        "editable": true,
+        "sharedUsers": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        },
+        "subscriptions": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        }
+    },
+    {
+        "self": "https://jira.mediaocean.com/rest/api/latest/filter/74322",
+        "id": "74322",
+        "name": "2019-reopened",
+        "owner": {
+            "self": "https://jira.mediaocean.com/rest/api/2/user?username=adhamankar",
+            "key": "adhamankar",
+            "name": "adhamankar",
+            "avatarUrls": {
+                "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=adhamankar&avatarId=27432",
+                "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=adhamankar&avatarId=27432",
+                "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=adhamankar&avatarId=27432",
+                "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=adhamankar&avatarId=27432"
+            },
+            "displayName": "Abhijeet Dhamankar",
+            "active": true
+        },
+        "jql": "project = Ignitia AND created >= 2019-01-01 AND created <= 2019-12-31 AND status changed to reopened AND issuetype in (bug, ST-Bug, Story, \"Support Ticket\")",
+        "viewUrl": "https://jira.mediaocean.com/issues/?filter=74322",
+        "searchUrl": "https://jira.mediaocean.com/rest/api/latest/search?jql=project+%3D+Ignitia+AND+created+%3E%3D+2019-01-01+AND+created+%3C%3D+2019-12-31+AND+status+changed+to+reopened+AND+issuetype+in+(bug,+ST-Bug,+Story,+%22Support+Ticket%22)",
+        "favourite": true,
+        "sharePermissions": [],
+        "editable": true,
+        "sharedUsers": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        },
+        "subscriptions": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        }
+    },
+    {
+        "self": "https://jira.mediaocean.com/rest/api/latest/filter/73992",
+        "id": "73992",
+        "name": "2019-stats",
+        "owner": {
+            "self": "https://jira.mediaocean.com/rest/api/2/user?username=adhamankar",
+            "key": "adhamankar",
+            "name": "adhamankar",
+            "avatarUrls": {
+                "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=adhamankar&avatarId=27432",
+                "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=adhamankar&avatarId=27432",
+                "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=adhamankar&avatarId=27432",
+                "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=adhamankar&avatarId=27432"
+            },
+            "displayName": "Abhijeet Dhamankar",
+            "active": true
+        },
+        "jql": "project = GBP AND Team in (\"GBP Delta\", \"GBP Omega\") AND issuetype in (Story, Bug, Epic, ST-Bug, Task) AND fixVersion in (versionMatch(\"^[0-9.]+\")) AND fixVersion in (2018.1, 2018.2, 2018.3, 2018.4, 2018.5, 2018.6, 2018.7) ORDER BY priority DESC, updated DESC",
+        "viewUrl": "https://jira.mediaocean.com/issues/?filter=73992",
+        "searchUrl": "https://jira.mediaocean.com/rest/api/latest/search?jql=project+%3D+GBP+AND+Team+in+(%22GBP+Delta%22,+%22GBP+Omega%22)+AND+issuetype+in+(Story,+Bug,+Epic,+ST-Bug,+Task)+AND+fixVersion+in+(versionMatch(%22%5E%5B0-9.%5D%2B%22))+AND+fixVersion+in+(2018.1,+2018.2,+2018.3,+2018.4,+2018.5,+2018.6,+2018.7)+ORDER+BY+priority+DESC,+updated+DESC",
+        "favourite": true,
+        "sharePermissions": [],
+        "editable": true,
+        "sharedUsers": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        },
+        "subscriptions": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        }
+    },
+    {
+        "self": "https://jira.mediaocean.com/rest/api/latest/filter/73993",
+        "id": "73993",
+        "name": "2019-stats-hotfixes",
+        "owner": {
+            "self": "https://jira.mediaocean.com/rest/api/2/user?username=adhamankar",
+            "key": "adhamankar",
+            "name": "adhamankar",
+            "avatarUrls": {
+                "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=adhamankar&avatarId=27432",
+                "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=adhamankar&avatarId=27432",
+                "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=adhamankar&avatarId=27432",
+                "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=adhamankar&avatarId=27432"
+            },
+            "displayName": "Abhijeet Dhamankar",
+            "active": true
+        },
+        "jql": "project = GBP AND Team in (\"GBP Delta\", \"GBP Omega\", \"GBP Lambda\", \"GBP Alpha\") AND fixVersion in (versionMatch(\"^2019.[0-9]+.[0-9a-zA-Z.]+\")) ORDER BY priority DESC, updated DESC",
+        "viewUrl": "https://jira.mediaocean.com/issues/?filter=73993",
+        "searchUrl": "https://jira.mediaocean.com/rest/api/latest/search?jql=project+%3D+GBP+AND+Team+in+(%22GBP+Delta%22,+%22GBP+Omega%22,+%22GBP+Lambda%22,+%22GBP+Alpha%22)+AND+fixVersion+in+(versionMatch(%22%5E2019.%5B0-9%5D%2B.%5B0-9a-zA-Z.%5D%2B%22))+ORDER+BY+priority+DESC,+updated+DESC",
+        "favourite": true,
+        "sharePermissions": [],
+        "editable": true,
+        "sharedUsers": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        },
+        "subscriptions": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        }
+    },
+    {
+        "self": "https://jira.mediaocean.com/rest/api/latest/filter/73994",
+        "id": "73994",
+        "name": "2019-stats-support tickets",
+        "owner": {
+            "self": "https://jira.mediaocean.com/rest/api/2/user?username=adhamankar",
+            "key": "adhamankar",
+            "name": "adhamankar",
+            "avatarUrls": {
+                "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=adhamankar&avatarId=27432",
+                "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=adhamankar&avatarId=27432",
+                "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=adhamankar&avatarId=27432",
+                "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=adhamankar&avatarId=27432"
+            },
+            "displayName": "Abhijeet Dhamankar",
+            "active": true
+        },
+        "jql": "project = GBP AND Team in (\"GBP Delta\", \"GBP Omega\", \"GBP Lambda\", \"GBP Alpha\") AND issuetype = \"Support Ticket\" AND created > 2019-01-01 AND created < 2019-12-31 ORDER BY created ASC",
+        "viewUrl": "https://jira.mediaocean.com/issues/?filter=73994",
+        "searchUrl": "https://jira.mediaocean.com/rest/api/latest/search?jql=project+%3D+GBP+AND+Team+in+(%22GBP+Delta%22,+%22GBP+Omega%22,+%22GBP+Lambda%22,+%22GBP+Alpha%22)+AND+issuetype+%3D+%22Support+Ticket%22+AND+created+%3E+2019-01-01+AND+created+%3C+2019-12-31+ORDER+BY+created+ASC",
+        "favourite": true,
+        "sharePermissions": [],
+        "editable": true,
+        "sharedUsers": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        },
+        "subscriptions": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        }
+    },
+    {
+        "self": "https://jira.mediaocean.com/rest/api/latest/filter/74312",
+        "id": "74312",
+        "name": "2019-story-bugs-all",
+        "owner": {
+            "self": "https://jira.mediaocean.com/rest/api/2/user?username=adhamankar",
+            "key": "adhamankar",
+            "name": "adhamankar",
+            "avatarUrls": {
+                "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=adhamankar&avatarId=27432",
+                "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=adhamankar&avatarId=27432",
+                "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=adhamankar&avatarId=27432",
+                "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=adhamankar&avatarId=27432"
+            },
+            "displayName": "Abhijeet Dhamankar",
+            "active": true
+        },
+        "jql": "project = Ignitia AND created > 2019-01-01 AND created < 2019-12-31 AND issuetype in (ST-Bug) ORDER BY status",
+        "viewUrl": "https://jira.mediaocean.com/issues/?filter=74312",
+        "searchUrl": "https://jira.mediaocean.com/rest/api/latest/search?jql=project+%3D+Ignitia+AND+created+%3E+2019-01-01+AND+created+%3C+2019-12-31+AND+issuetype+in+(ST-Bug)+ORDER+BY+status",
+        "favourite": true,
+        "sharePermissions": [],
+        "editable": true,
+        "sharedUsers": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        },
+        "subscriptions": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        }
+    },
+    {
+        "self": "https://jira.mediaocean.com/rest/api/latest/filter/74021",
+        "id": "74021",
+        "name": "2020.1 ownershipwise",
+        "owner": {
+            "self": "https://jira.mediaocean.com/rest/api/2/user?username=adhamankar",
+            "key": "adhamankar",
+            "name": "adhamankar",
+            "avatarUrls": {
+                "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=adhamankar&avatarId=27432",
+                "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=adhamankar&avatarId=27432",
+                "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=adhamankar&avatarId=27432",
+                "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=adhamankar&avatarId=27432"
+            },
+            "displayName": "Abhijeet Dhamankar",
+            "active": true
+        },
+        "jql": "project = GBP AND issuetype in (Story, Epic, Bug, Task) AND fixVersion = 2020.1 AND component is not EMPTY AND Team in (\"GBP Delta\", \"GBP Lambda\", \"GBP Omega\")",
+        "viewUrl": "https://jira.mediaocean.com/issues/?filter=74021",
+        "searchUrl": "https://jira.mediaocean.com/rest/api/latest/search?jql=project+%3D+GBP+AND+issuetype+in+(Story,+Epic,+Bug,+Task)+AND+fixVersion+%3D+2020.1+AND+component+is+not+EMPTY+AND+Team+in+(%22GBP+Delta%22,+%22GBP+Lambda%22,+%22GBP+Omega%22)",
+        "favourite": true,
+        "sharePermissions": [],
+        "editable": true,
+        "sharedUsers": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        },
+        "subscriptions": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        }
+    },
+    {
+        "self": "https://jira.mediaocean.com/rest/api/latest/filter/71394",
+        "id": "71394",
+        "name": "billing-service-epiclink",
+        "owner": {
+            "self": "https://jira.mediaocean.com/rest/api/2/user?username=adhamankar",
+            "key": "adhamankar",
+            "name": "adhamankar",
+            "avatarUrls": {
+                "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=adhamankar&avatarId=27432",
+                "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=adhamankar&avatarId=27432",
+                "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=adhamankar&avatarId=27432",
+                "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=adhamankar&avatarId=27432"
+            },
+            "displayName": "Abhijeet Dhamankar",
+            "active": true
+        },
+        "jql": "project = GBP AND issuetype in (Story, Bug, Task) AND issueFunction in issuesInEpics(\"project = GBP and 'epic name' ~ 'billing service'\") ORDER BY created ASC",
+        "viewUrl": "https://jira.mediaocean.com/issues/?filter=71394",
+        "searchUrl": "https://jira.mediaocean.com/rest/api/latest/search?jql=project+%3D+GBP+AND+issuetype+in+(Story,+Bug,+Task)+AND+issueFunction+in+issuesInEpics(%22project+%3D+GBP+and+'epic+name'+~+'billing+service'%22)+ORDER+BY+created+ASC",
+        "favourite": true,
+        "sharePermissions": [],
+        "editable": true,
+        "sharedUsers": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        },
+        "subscriptions": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        }
+    },
+    {
+        "self": "https://jira.mediaocean.com/rest/api/latest/filter/68895",
+        "id": "68895",
+        "name": "Delta sprint 93 - All",
+        "owner": {
+            "self": "https://jira.mediaocean.com/rest/api/2/user?username=adhamankar",
+            "key": "adhamankar",
+            "name": "adhamankar",
+            "avatarUrls": {
+                "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=adhamankar&avatarId=27432",
+                "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=adhamankar&avatarId=27432",
+                "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=adhamankar&avatarId=27432",
+                "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=adhamankar&avatarId=27432"
+            },
+            "displayName": "Abhijeet Dhamankar",
+            "active": true
+        },
+        "jql": "project = GBP AND issuetype in (Story, Task, Bug) AND Sprint = 12665 AND Team = \"GBP Delta\" ORDER BY issuetype DESC",
+        "viewUrl": "https://jira.mediaocean.com/issues/?filter=68895",
+        "searchUrl": "https://jira.mediaocean.com/rest/api/latest/search?jql=project+%3D+GBP+AND+issuetype+in+(Story,+Task,+Bug)+AND+Sprint+%3D+12665+AND+Team+%3D+%22GBP+Delta%22+ORDER+BY+issuetype+DESC",
+        "favourite": true,
+        "sharePermissions": [],
+        "editable": true,
+        "sharedUsers": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        },
+        "subscriptions": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        }
+    },
+    {
+        "self": "https://jira.mediaocean.com/rest/api/latest/filter/77977",
+        "id": "77977",
+        "name": "Filter for GBP Kappa",
+        "description": "",
+        "owner": {
+            "self": "https://jira.mediaocean.com/rest/api/2/user?username=adhamankar",
+            "key": "adhamankar",
+            "name": "adhamankar",
+            "avatarUrls": {
+                "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=adhamankar&avatarId=27432",
+                "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=adhamankar&avatarId=27432",
+                "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=adhamankar&avatarId=27432",
+                "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=adhamankar&avatarId=27432"
+            },
+            "displayName": "Abhijeet Dhamankar",
+            "active": true
+        },
+        "jql": "project = Ignitia AND Team = \"GBP Kappa\" ORDER BY Rank ASC",
+        "viewUrl": "https://jira.mediaocean.com/issues/?filter=77977",
+        "searchUrl": "https://jira.mediaocean.com/rest/api/latest/search?jql=project+%3D+Ignitia+AND+Team+%3D+%22GBP+Kappa%22+ORDER+BY+Rank+ASC",
+        "favourite": true,
+        "sharePermissions": [
+            {
+                "id": 70729,
+                "type": "user",
+                "user": {
+                    "self": "https://jira.mediaocean.com/rest/api/2/user?username=gshenolikar",
+                    "key": "gshenolikar",
+                    "name": "gshenolikar",
+                    "avatarUrls": {
+                        "48x48": "https://jira.mediaocean.com/secure/useravatar?avatarId=16870",
+                        "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&avatarId=16870",
+                        "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&avatarId=16870",
+                        "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&avatarId=16870"
+                    },
+                    "displayName": "Gaurav Shenolikar",
+                    "active": true
+                },
+                "view": true,
+                "edit": true
+            },
+            {
+                "id": 70728,
+                "type": "group",
+                "group": {
+                    "name": "All JIRA Users",
+                    "self": "https://jira.mediaocean.com/rest/api/2/group?groupname=All+JIRA+Users"
+                },
+                "view": true,
+                "edit": false
+            }
+        ],
+        "editable": true,
+        "sharedUsers": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        },
+        "subscriptions": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        }
+    },
+    {
+        "self": "https://jira.mediaocean.com/rest/api/latest/filter/73991",
+        "id": "73991",
+        "name": "Ignitia 2019 carryforwards",
+        "description": "Lambda, omega, delta",
+        "owner": {
+            "self": "https://jira.mediaocean.com/rest/api/2/user?username=adhamankar",
+            "key": "adhamankar",
+            "name": "adhamankar",
+            "avatarUrls": {
+                "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=adhamankar&avatarId=27432",
+                "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=adhamankar&avatarId=27432",
+                "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=adhamankar&avatarId=27432",
+                "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=adhamankar&avatarId=27432"
+            },
+            "displayName": "Abhijeet Dhamankar",
+            "active": true
+        },
+        "jql": "project = GBP AND Team in (\"GBP Delta\", \"GBP Omega\", \"GBP Lambda\") AND (Sprint in (12665, 12680, 12682) AND sprint in (12679, 12681, 12684) OR Sprint in (12679, 12681, 12684) AND sprint in (12801, 12807, 12830) OR Sprint in (12801, 12807, 12830) AND sprint in (12802, 12808, 12865) OR Sprint in (12802, 12808, 12865) AND sprint in (12905, 12928, 12916) OR Sprint in (12905, 12928, 12916) AND sprint in (12927, 12929, 12917) OR Sprint in (12927, 12929, 12917) AND sprint in (13043, 13040, 13038) OR Sprint in (13043, 13040, 13038) AND sprint in (13063, 13041, 13062) OR sprint in (13063, 13041, 13062) AND Sprint in (13165, 13171, 13106) OR Sprint in (13165, 13171, 13106) AND sprint in (13338, 13369, 13254) OR Sprint in (13166, 13172, 13181) AND sprint in (13338, 13369, 13254) OR Sprint in (13339, 13374, 13345) AND sprint in (13338, 13369, 13254) OR Sprint in (13459, 13535, 13556) AND sprint in (13567, 13558, 13557) OR Sprint in (13459, 13535, 13556) AND sprint in (13567, 13558, 13557) OR Sprint in (13567, 13558, 13557) AND Sprint in (13722, 13675, 13713)) ORDER BY Sprint, Team",
+        "viewUrl": "https://jira.mediaocean.com/issues/?filter=73991",
+        "searchUrl": "https://jira.mediaocean.com/rest/api/latest/search?jql=project+%3D+GBP+AND+Team+in+(%22GBP+Delta%22,+%22GBP+Omega%22,+%22GBP+Lambda%22)+AND+(Sprint+in+(12665,+12680,+12682)+AND+sprint+in+(12679,+12681,+12684)+OR+Sprint+in+(12679,+12681,+12684)+AND+sprint+in+(12801,+12807,+12830)+OR+Sprint+in+(12801,+12807,+12830)+AND+sprint+in+(12802,+12808,+12865)+OR+Sprint+in+(12802,+12808,+12865)+AND+sprint+in+(12905,+12928,+12916)+OR+Sprint+in+(12905,+12928,+12916)+AND+sprint+in+(12927,+12929,+12917)+OR+Sprint+in+(12927,+12929,+12917)+AND+sprint+in+(13043,+13040,+13038)+OR+Sprint+in+(13043,+13040,+13038)+AND+sprint+in+(13063,+13041,+13062)+OR+sprint+in+(13063,+13041,+13062)+AND+Sprint+in+(13165,+13171,+13106)+OR+Sprint+in+(13165,+13171,+13106)+AND+sprint+in+(13338,+13369,+13254)+OR+Sprint+in+(13166,+13172,+13181)+AND+sprint+in+(13338,+13369,+13254)+OR+Sprint+in+(13339,+13374,+13345)+AND+sprint+in+(13338,+13369,+13254)+OR+Sprint+in+(13459,+13535,+13556)+AND+sprint+in+(13567,+13558,+13557)+OR+Sprint+in+(13459,+13535,+13556)+AND+sprint+in+(13567,+13558,+13557)+OR+Sprint+in+(13567,+13558,+13557)+AND+Sprint+in+(13722,+13675,+13713))+ORDER+BY+Sprint,+Team",
+        "favourite": true,
+        "sharePermissions": [
+            {
+                "id": 66222,
+                "type": "loggedin",
+                "view": true,
+                "edit": false
+            }
+        ],
+        "editable": true,
+        "sharedUsers": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        },
+        "subscriptions": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        }
+    },
+    {
+        "self": "https://jira.mediaocean.com/rest/api/latest/filter/75470",
+        "id": "75470",
+        "name": "Ignitia-manual regression Part-1",
+        "description": "",
+        "owner": {
+            "self": "https://jira.mediaocean.com/rest/api/2/user?username=adhamankar",
+            "key": "adhamankar",
+            "name": "adhamankar",
+            "avatarUrls": {
+                "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=adhamankar&avatarId=27432",
+                "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=adhamankar&avatarId=27432",
+                "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=adhamankar&avatarId=27432",
+                "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=adhamankar&avatarId=27432"
+            },
+            "displayName": "Abhijeet Dhamankar",
+            "active": true
+        },
+        "jql": "issueFunction in issuesInEpics(\"key = gbp-35381\") OR issueFunction in linkedIssuesOf(\"key = gbp-35381\")",
+        "viewUrl": "https://jira.mediaocean.com/issues/?filter=75470",
+        "searchUrl": "https://jira.mediaocean.com/rest/api/latest/search?jql=issueFunction+in+issuesInEpics(%22key+%3D+gbp-35381%22)+OR+issueFunction+in+linkedIssuesOf(%22key+%3D+gbp-35381%22)",
+        "favourite": true,
+        "sharePermissions": [
+            {
+                "id": 70034,
+                "type": "project",
+                "project": {
+                    "self": "https://jira.mediaocean.com/rest/api/latest/project/16293",
+                    "id": "16293",
+                    "key": "GBP",
+                    "assigneeType": "PROJECT_LEAD",
+                    "name": "Ignitia",
+                    "roles": {},
+                    "avatarUrls": {
+                        "48x48": "https://jira.mediaocean.com/secure/projectavatar?pid=16293&avatarId=27822",
+                        "24x24": "https://jira.mediaocean.com/secure/projectavatar?size=small&pid=16293&avatarId=27822",
+                        "16x16": "https://jira.mediaocean.com/secure/projectavatar?size=xsmall&pid=16293&avatarId=27822",
+                        "32x32": "https://jira.mediaocean.com/secure/projectavatar?size=medium&pid=16293&avatarId=27822"
+                    },
+                    "projectCategory": {
+                        "self": "https://jira.mediaocean.com/rest/api/latest/projectCategory/10215",
+                        "id": "10215",
+                        "name": "Prisma"
+                    },
+                    "projectTypeKey": "software"
+                },
+                "view": true,
+                "edit": true
+            },
+            {
+                "id": 70035,
+                "type": "group",
+                "group": {
+                    "name": "All JIRA Users",
+                    "self": "https://jira.mediaocean.com/rest/api/2/group?groupname=All+JIRA+Users"
+                },
+                "view": true,
+                "edit": false
+            }
+        ],
+        "editable": true,
+        "sharedUsers": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        },
+        "subscriptions": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        }
+    },
+    {
+        "self": "https://jira.mediaocean.com/rest/api/latest/filter/75471",
+        "id": "75471",
+        "name": "Ignitia-manual regression part-2 ",
+        "description": "",
+        "owner": {
+            "self": "https://jira.mediaocean.com/rest/api/2/user?username=adhamankar",
+            "key": "adhamankar",
+            "name": "adhamankar",
+            "avatarUrls": {
+                "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=adhamankar&avatarId=27432",
+                "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=adhamankar&avatarId=27432",
+                "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=adhamankar&avatarId=27432",
+                "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=adhamankar&avatarId=27432"
+            },
+            "displayName": "Abhijeet Dhamankar",
+            "active": true
+        },
+        "jql": "issueFunction in linkedIssuesOf(\"filter=75470\")",
+        "viewUrl": "https://jira.mediaocean.com/issues/?filter=75471",
+        "searchUrl": "https://jira.mediaocean.com/rest/api/latest/search?jql=issueFunction+in+linkedIssuesOf(%22filter%3D75470%22)",
+        "favourite": true,
+        "sharePermissions": [
+            {
+                "id": 68225,
+                "type": "group",
+                "group": {
+                    "name": "All JIRA Users",
+                    "self": "https://jira.mediaocean.com/rest/api/2/group?groupname=All+JIRA+Users"
+                },
+                "view": true,
+                "edit": false
+            }
+        ],
+        "editable": true,
+        "sharedUsers": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        },
+        "subscriptions": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        }
+    },
+    {
+        "self": "https://jira.mediaocean.com/rest/api/latest/filter/77270",
+        "id": "77270",
+        "name": "Ignitia-manual regression part-2.1",
+        "description": "",
+        "owner": {
+            "self": "https://jira.mediaocean.com/rest/api/2/user?username=adhamankar",
+            "key": "adhamankar",
+            "name": "adhamankar",
+            "avatarUrls": {
+                "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=adhamankar&avatarId=27432",
+                "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=adhamankar&avatarId=27432",
+                "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=adhamankar&avatarId=27432",
+                "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=adhamankar&avatarId=27432"
+            },
+            "displayName": "Abhijeet Dhamankar",
+            "active": true
+        },
+        "jql": "issueFunction in linkedIssuesOf(\"filter=75470\")",
+        "viewUrl": "https://jira.mediaocean.com/issues/?filter=77270",
+        "searchUrl": "https://jira.mediaocean.com/rest/api/latest/search?jql=issueFunction+in+linkedIssuesOf(%22filter%3D75470%22)",
+        "favourite": true,
+        "sharePermissions": [
+            {
+                "id": 70023,
+                "type": "project",
+                "project": {
+                    "self": "https://jira.mediaocean.com/rest/api/latest/project/16293",
+                    "id": "16293",
+                    "key": "GBP",
+                    "assigneeType": "PROJECT_LEAD",
+                    "name": "Ignitia",
+                    "roles": {},
+                    "avatarUrls": {
+                        "48x48": "https://jira.mediaocean.com/secure/projectavatar?pid=16293&avatarId=27822",
+                        "24x24": "https://jira.mediaocean.com/secure/projectavatar?size=small&pid=16293&avatarId=27822",
+                        "16x16": "https://jira.mediaocean.com/secure/projectavatar?size=xsmall&pid=16293&avatarId=27822",
+                        "32x32": "https://jira.mediaocean.com/secure/projectavatar?size=medium&pid=16293&avatarId=27822"
+                    },
+                    "projectCategory": {
+                        "self": "https://jira.mediaocean.com/rest/api/latest/projectCategory/10215",
+                        "id": "10215",
+                        "name": "Prisma"
+                    },
+                    "projectTypeKey": "software"
+                },
+                "view": true,
+                "edit": true
+            },
+            {
+                "id": 70022,
+                "type": "loggedin",
+                "view": true,
+                "edit": false
+            }
+        ],
+        "editable": true,
+        "sharedUsers": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        },
+        "subscriptions": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        }
+    },
+    {
+        "self": "https://jira.mediaocean.com/rest/api/latest/filter/75474",
+        "id": "75474",
+        "name": "Ignitia-manual regression part-3",
+        "description": "",
+        "owner": {
+            "self": "https://jira.mediaocean.com/rest/api/2/user?username=adhamankar",
+            "key": "adhamankar",
+            "name": "adhamankar",
+            "avatarUrls": {
+                "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=adhamankar&avatarId=27432",
+                "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=adhamankar&avatarId=27432",
+                "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=adhamankar&avatarId=27432",
+                "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=adhamankar&avatarId=27432"
+            },
+            "displayName": "Abhijeet Dhamankar",
+            "active": true
+        },
+        "jql": "(issueFunction in subtasksOf(\"filter=75471\") OR issueFunction in subtasksOf(\"filter=75470\") OR issueFunction in subtasksOf(\"filter=77270\")) AND issuetype = \"ST-Test Case\" ORDER BY TestScript",
+        "viewUrl": "https://jira.mediaocean.com/issues/?filter=75474",
+        "searchUrl": "https://jira.mediaocean.com/rest/api/latest/search?jql=(issueFunction+in+subtasksOf(%22filter%3D75471%22)+OR+issueFunction+in+subtasksOf(%22filter%3D75470%22)+OR+issueFunction+in+subtasksOf(%22filter%3D77270%22))+AND+issuetype+%3D+%22ST-Test+Case%22+ORDER+BY+TestScript",
+        "favourite": true,
+        "sharePermissions": [
+            {
+                "id": 70028,
+                "type": "project",
+                "project": {
+                    "self": "https://jira.mediaocean.com/rest/api/latest/project/16293",
+                    "id": "16293",
+                    "key": "GBP",
+                    "assigneeType": "PROJECT_LEAD",
+                    "name": "Ignitia",
+                    "roles": {},
+                    "avatarUrls": {
+                        "48x48": "https://jira.mediaocean.com/secure/projectavatar?pid=16293&avatarId=27822",
+                        "24x24": "https://jira.mediaocean.com/secure/projectavatar?size=small&pid=16293&avatarId=27822",
+                        "16x16": "https://jira.mediaocean.com/secure/projectavatar?size=xsmall&pid=16293&avatarId=27822",
+                        "32x32": "https://jira.mediaocean.com/secure/projectavatar?size=medium&pid=16293&avatarId=27822"
+                    },
+                    "projectCategory": {
+                        "self": "https://jira.mediaocean.com/rest/api/latest/projectCategory/10215",
+                        "id": "10215",
+                        "name": "Prisma"
+                    },
+                    "projectTypeKey": "software"
+                },
+                "view": true,
+                "edit": true
+            },
+            {
+                "id": 70029,
+                "type": "group",
+                "group": {
+                    "name": "All JIRA Users",
+                    "self": "https://jira.mediaocean.com/rest/api/2/group?groupname=All+JIRA+Users"
+                },
+                "view": true,
+                "edit": false
+            }
+        ],
+        "editable": true,
+        "sharedUsers": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        },
+        "subscriptions": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        }
+    },
+    {
+        "self": "https://jira.mediaocean.com/rest/api/latest/filter/71385",
+        "id": "71385",
+        "name": "lambda-since-2018-10-01",
+        "owner": {
+            "self": "https://jira.mediaocean.com/rest/api/2/user?username=adhamankar",
+            "key": "adhamankar",
+            "name": "adhamankar",
+            "avatarUrls": {
+                "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=adhamankar&avatarId=27432",
+                "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=adhamankar&avatarId=27432",
+                "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=adhamankar&avatarId=27432",
+                "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=adhamankar&avatarId=27432"
+            },
+            "displayName": "Abhijeet Dhamankar",
+            "active": true
+        },
+        "jql": "project = GBP AND Team = \"GBP Lambda\" AND created >= 2018-10-01 AND status = Resolved ORDER BY Sprint DESC",
+        "viewUrl": "https://jira.mediaocean.com/issues/?filter=71385",
+        "searchUrl": "https://jira.mediaocean.com/rest/api/latest/search?jql=project+%3D+GBP+AND+Team+%3D+%22GBP+Lambda%22+AND+created+%3E%3D+2018-10-01+AND+status+%3D+Resolved+ORDER+BY+Sprint+DESC",
+        "favourite": true,
+        "sharePermissions": [],
+        "editable": true,
+        "sharedUsers": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        },
+        "subscriptions": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        }
+    },
+    {
+        "self": "https://jira.mediaocean.com/rest/api/latest/filter/74370",
+        "id": "74370",
+        "name": "Omega china golive bugs",
+        "description": "",
+        "owner": {
+            "self": "https://jira.mediaocean.com/rest/api/2/user?username=adhamankar",
+            "key": "adhamankar",
+            "name": "adhamankar",
+            "avatarUrls": {
+                "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=adhamankar&avatarId=27432",
+                "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=adhamankar&avatarId=27432",
+                "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=adhamankar&avatarId=27432",
+                "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=adhamankar&avatarId=27432"
+            },
+            "displayName": "Abhijeet Dhamankar",
+            "active": true
+        },
+        "jql": "project = GBP AND labels = China AND issuetype = Bug AND Team = \"GBP Omega\" ORDER BY priority DESC, updated DESC",
+        "viewUrl": "https://jira.mediaocean.com/issues/?filter=74370",
+        "searchUrl": "https://jira.mediaocean.com/rest/api/latest/search?jql=project+%3D+GBP+AND+labels+%3D+China+AND+issuetype+%3D+Bug+AND+Team+%3D+%22GBP+Omega%22+ORDER+BY+priority+DESC,+updated+DESC",
+        "favourite": true,
+        "sharePermissions": [],
+        "editable": true,
+        "sharedUsers": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        },
+        "subscriptions": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        }
+    },
+    {
+        "self": "https://jira.mediaocean.com/rest/api/latest/filter/74371",
+        "id": "74371",
+        "name": "payment_schedule_refactoring",
+        "description": "",
+        "owner": {
+            "self": "https://jira.mediaocean.com/rest/api/2/user?username=adhamankar",
+            "key": "adhamankar",
+            "name": "adhamankar",
+            "avatarUrls": {
+                "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=adhamankar&avatarId=27432",
+                "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=adhamankar&avatarId=27432",
+                "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=adhamankar&avatarId=27432",
+                "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=adhamankar&avatarId=27432"
+            },
+            "displayName": "Abhijeet Dhamankar",
+            "active": true
+        },
+        "jql": "project = GBP AND labels = payment_schedule_refactoring ORDER BY Rank, priority DESC, updated DESC",
+        "viewUrl": "https://jira.mediaocean.com/issues/?filter=74371",
+        "searchUrl": "https://jira.mediaocean.com/rest/api/latest/search?jql=project+%3D+GBP+AND+labels+%3D+payment_schedule_refactoring+ORDER+BY+Rank,+priority+DESC,+updated+DESC",
+        "favourite": true,
+        "sharePermissions": [
+            {
+                "id": 70620,
+                "type": "user",
+                "user": {
+                    "self": "https://jira.mediaocean.com/rest/api/2/user?username=smittal",
+                    "key": "smittal",
+                    "name": "smittal",
+                    "avatarUrls": {
+                        "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=smittal&avatarId=28021",
+                        "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=smittal&avatarId=28021",
+                        "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=smittal&avatarId=28021",
+                        "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=smittal&avatarId=28021"
+                    },
+                    "displayName": "Shailesh Mittal",
+                    "active": true
+                },
+                "view": true,
+                "edit": true
+            },
+            {
+                "id": 70621,
+                "type": "group",
+                "group": {
+                    "name": "All JIRA Users",
+                    "self": "https://jira.mediaocean.com/rest/api/2/group?groupname=All+JIRA+Users"
+                },
+                "view": true,
+                "edit": false
+            }
+        ],
+        "editable": true,
+        "sharedUsers": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        },
+        "subscriptions": {
+            "size": 0,
+            "items": [],
+            "max-results": 1000,
+            "start-index": 0,
+            "end-index": 0
+        }
+    }
+]

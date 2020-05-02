@@ -1,0 +1,48 @@
+<nav class="navbar navbar-expand-md bg-white" style="z-index: 1000;">
+    <div class="container-fluid p-0">
+        <a class="text-dark h4" routerLink="/browse">
+            <img src="./assets/logo.png" height="26pt" />
+            <span class="font-weight-light ml-2">Story</span>
+            <span class="text-brand">Purpose</span>
+        </a>
+        <ui-switch [title]="isOnlineMode ? 'Online mode': 'Offline mode'" class="nav-link" [(ngModel)]="isOnlineMode"
+            (change)="onModeChange($event)" size="small" *ngIf="allowOfflineMode">
+        </ui-switch>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
+            (click)="isCollapsed = !isCollapsed">
+            <fa-icon icon="bars" size="lg" class="text-muted"></fa-icon>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent" [ngbCollapse]="isCollapsed">
+            <form class="mx-2 my-auto d-inline w-100" *ngIf="searchVisible">
+                <app-searchbox [searchVisible]="searchVisible"></app-searchbox>
+            </form>
+
+            <ul class="navbar-nav ml-sm-auto">
+                <li class="nav-item">
+                    <button class="btn btn-link" (click)="toggleSearchEditorVisibility()">
+                        <fa-icon [icon]="searchVisible ? 'times' : 'search'" class="mr-1"></fa-icon>
+                        <span class="d-inline d-md-none ml-2"> {{searchVisible ? 'Close' : 'Search'}}</span>
+                    </button>
+                </li>
+
+                <li class="navbar-text text-muted ml-2"
+                    *ngIf="connectionDetails && connectionDetails.displayName && connectionDetails.displayName.length > 0">
+                    <span style="white-space: nowrap;">
+                        <fa-icon icon="user" size="fw" class="mr-1"></fa-icon>
+                        <span class="d-inline d-md-none ml-2">{{connectionDetails.displayName}}</span>
+                    </span>
+                </li>
+
+                <li class="nav-item">
+                    <app-tools></app-tools>
+                </li>
+                <li class="nav-item">
+                    <app-copyright></app-copyright>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

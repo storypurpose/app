@@ -5,8 +5,8 @@
                 <li [ngbNavItem]="1">
                     <a ngbNavLink>Favourite</a>
                     <ng-template ngbNavContent> -->
-                        <app-favourite-searches></app-favourite-searches>
-                    <!-- </ng-template>
+            <app-favourite-searches></app-favourite-searches>
+            <!-- </ng-template>
                 </li>
                 <li [ngbNavItem]="2">
                     <a ngbNavLink>All</a>
@@ -26,36 +26,30 @@
                     </div>
                 </div>
             </div>
-            <div class="pane-footer bg-light" *ngIf="issuelist && issuelist.total > 0">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-md-10">
-                            <table class="row">
-                                <div class="col-md-3 pt-3 small">
-                                    {{issuelist.startAt + 1}} - {{issuelist.endAt}} / <b>{{issuelist.total}}</b>
-                                </div>
-                                <div class="col-md-9" *ngIf="issuelist.total > issuelist.pageSize">
-                                    <ngb-pagination class="float-right mt-2" [maxSize]="3" [(page)]="currentPageIndex"
-                                        [boundaryLinks]="true" [pageSize]="issuelist.pageSize" size="sm"
-                                        (pageChange)="onPageChange()" [collectionSize]="issuelist.total">
-                                    </ngb-pagination>
-                                </div>
-                            </table>
-                        </div>
-                        <div class="col-md-2 text-right pt-2"
-                            *ngIf="issuelist && issuelist.results && issuelist.results.length > 1">
-                            <a class="btn btn-brand btn-sm" routerLink="storyboard" queryParamsHandling="merge"
-                                *ngIf="searchViewmode === localViewmode.LIST">
-                                <fa-icon icon="map" [fixedWidth]="true"></fa-icon>
-                                Storyboard view
-                            </a>
-                            <a class="btn btn-secondary btn-sm" routerLink="list" queryParamsHandling="merge"
-                                *ngIf="searchViewmode === localViewmode.STORYBOARD">
-                                <fa-icon icon="chevron-left" [fixedWidth]="true"></fa-icon>
-                                Back to list view
-                            </a>
-                        </div>
-                    </div>
+            <div class="footer-container bg-light" *ngIf="issuelist && issuelist.total > 0">
+                <div class="float-right pt-1 ml-2"
+                    *ngIf="issuelist && issuelist.results && issuelist.results.length > 1">
+                    <a class="btn btn-brand btn-sm" routerLink="storyboard" queryParamsHandling="merge"
+                        *ngIf="searchViewmode === localViewmode.LIST">
+                        <fa-icon icon="map" [fixedWidth]="true"></fa-icon>
+                        Storyboard view
+                    </a>
+                    <a class="btn btn-secondary btn-sm" routerLink="list" queryParamsHandling="merge"
+                        *ngIf="searchViewmode === localViewmode.STORYBOARD">
+                        <fa-icon icon="chevron-left" [fixedWidth]="true"></fa-icon>
+                        Back to list view
+                    </a>
+                </div>
+
+                <div class="float-right mt-1 mb-0" *ngIf="issuelist.total > issuelist.pageSize">
+                    <ngb-pagination [maxSize]="3" [(page)]="currentPageIndex" [boundaryLinks]="true"
+                        [pageSize]="issuelist.pageSize" size="sm" (pageChange)="onPageChange()"
+                        [collectionSize]="issuelist.total">
+                    </ngb-pagination>
+                </div>
+
+                <div class="pt-2 small clearfix">
+                    {{issuelist.startAt + 1}} - {{issuelist.endAt}} / <b>{{issuelist.total}}</b>
                 </div>
             </div>
         </as-split-area>

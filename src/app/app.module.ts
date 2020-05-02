@@ -60,13 +60,14 @@ import { ConfigurationsComponent } from './components/setup/configurations.compo
 import { ToolsComponent } from './components/setup/tools.component';
 import { ExportConfigurationComponent } from './components/setup/export-configuration.component';
 import { ImportConfigurationComponent } from './components/setup/import-configuration.component';
+import { HeaderComponent } from './components/header.component';
 
 export function initGapi(gapiSession: GapiSession) {
   return () => gapiSession.initClient();
 }
 @NgModule({
   declarations: [
-    AboutComponent, CopyrightComponent, WorkspaceComponent, FooterComponent,
+    AboutComponent, CopyrightComponent, WorkspaceComponent, HeaderComponent, FooterComponent,
 
     AppComponent, PageNotFoundComponent,
     IssueviewerComponent,

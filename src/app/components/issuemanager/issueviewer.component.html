@@ -4,8 +4,7 @@
         <as-split-area size="20">
             <div class="sticky-title p-2">
                 <app-issue-entry [hideIssuelistNavigator]="false" [issueLookup]="issueLookup"
-                (showIssuelist)="onShowIssuelist()"
-                ></app-issue-entry>
+                    (showIssuelist)="onShowIssuelist()"></app-issue-entry>
             </div>
 
             <div class="m-2 alert alert-warning p-2 small text-dark rounded-0"
@@ -70,16 +69,13 @@
     </as-split>
 </div>
 
-<p-sidebar [(visible)]="showProjectConfigSetup" styleClass="ui-sidebar-md" position="right">
-    <app-project-config [project]="currentProject" (close)="projectConfigSetupCompleted($event)">
-    </app-project-config>
-</p-sidebar>
-
-<p-sidebar [(visible)]="showOrganizationSetup" styleClass="ui-sidebar-md" position="right">
+<p-sidebar [(visible)]="showOrganizationSetup" styleClass="ui-sidebar-md" position="right"
+    (onHide)="setupCompleted(false)">
     <app-organization (close)="setupCompleted($event)"></app-organization>
 </p-sidebar>
 
-<p-sidebar [(visible)]="showHierarchyFieldSetup" styleClass="ui-sidebar-md" position="right">
+<p-sidebar [(visible)]="showHierarchyFieldSetup" styleClass="ui-sidebar-md" position="right"
+    (onHide)="setupCompleted(false)">
     <app-hierarchy-field [hierarchyField]="hierarchyFieldPurpose" (close)="setupCompleted($event)">
     </app-hierarchy-field>
 </p-sidebar>

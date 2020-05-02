@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md bg-white" style="z-index: 1000;">
+<nav class="navbar navbar-expand-md bg-white">
     <div class="container-fluid p-0">
         <a class="text-dark h4" routerLink="/browse">
             <img src="./assets/logo.png" height="26pt" />
@@ -11,11 +11,16 @@
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
-            (click)="isCollapsed = !isCollapsed">
+            (click)="isCollapsed = !isCollapsed" style="z-index: 1001;">
             <fa-icon icon="bars" size="lg" class="text-muted"></fa-icon>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent" [ngbCollapse]="isCollapsed">
+            <ul class="navbar-nav mr-sm-auto">
+                <li class="nav-item">
+                    <app-current-project></app-current-project>
+                </li>
+            </ul>
             <form class="mx-2 my-auto d-inline w-100" *ngIf="searchVisible">
                 <app-searchbox [searchVisible]="searchVisible"></app-searchbox>
             </form>
@@ -46,3 +51,10 @@
         </div>
     </div>
 </nav>
+
+
+<p-sidebar [(visible)]="showProjectConfigEditor" styleClass="ui-sidebar-md" position="right"
+    (onHide)="projectConfigSetupCompleted(false)">
+    <app-project-config [project]="projectToConfigure" (close)="projectConfigSetupCompleted($event)">
+    </app-project-config>
+</p-sidebar>

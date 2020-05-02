@@ -1,0 +1,13 @@
+<div class="btn-group btn-group-sm" *ngIf="projects && projects.length > 0">
+    <div ngbDropdown display="dynamic">
+        <a class="btn btn-light" id="dropdownBasic1" ngbDropdownToggle title="Configure project">
+            <fa-icon [icon]="['far', 'bookmark']" size="sm"></fa-icon>
+            <span class="ml-2"> {{currentProject ? currentProject.name : 'Projects'}}</span>
+        </a>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-menu-right">
+            <button ngbDropdownItem (click)="showProjectSetup(project)" *ngFor="let project of projects">
+                {{project.name}}
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,5 +1,6 @@
-<app-header [connectionDetails]="connectionDetails" [isOnlineMode]="isOnlineMode" (modeChanged)="onModeChanged($event)">
-</app-header>
+<app-navbar [connectionDetails]="connectionDetails" [isOnlineMode]="isOnlineMode" (modeChanged)="onModeChanged($event)">
+</app-navbar>
+
 <p-dialog header="Connection details" position="topright" class="bg-light" [(visible)]="showConnectionEditor"
   (onHide)="connectionDetailsSetupCompleted()">
   <app-connection-details [connectionDetails]="connectionDetails" (close)="connectionDetailsSetupCompleted()">

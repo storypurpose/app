@@ -6,7 +6,6 @@ export const ActionTypes = {
     ToggleQueryEditorVisibility: type("[ToggleQueryEditorVisibility]"),
 
     ShowConnectionEditor: type("[ShowConnectionDetails]"),
-    ShowProjectConfigEditor: type('[ShowProjectConfigEditor]'),
 
     SetCurrentIssueKey: type("[SetCurrentIssueKey]"),
     SetHierarchicalIssue: type("[SetHierarchicalIssue]"),
@@ -19,7 +18,9 @@ export const ActionTypes = {
     SetOrganization: type("[SetOrganization]"),
     SetExtendedHierarchyDetails: type("SetExtendedHierarchyDetails"),
 
+    ConfigureProject: type('[ConfigureProject]'),
     LoadProjects: type("[LoadProjects]"),
+    SetCurrentProject: type("[SetCurrentProject]"),
     UpsertProjectBegin: type("[UpsertProject] Begin"),
     UpsertProject: type("[UpsertProject]"),
     DismissProjectSetup: type("[DismissProjectSetup]")
@@ -43,8 +44,8 @@ export class ShowConnectionEditorAction implements Action {
     type = ActionTypes.ShowConnectionEditor;
     constructor(public payload: any) { }
 }
-export class ShowProjectConfigEditorAction implements Action {
-    type = ActionTypes.ShowProjectConfigEditor;
+export class ConfigureProjectAction implements Action {
+    type = ActionTypes.ConfigureProject;
     constructor(public payload: any) { }
 }
 export class SetCurrentIssueKeyAction implements Action {
@@ -86,6 +87,10 @@ export class LoadProjectsAction implements Action {
     type = ActionTypes.LoadProjects;
     constructor(public payload: any) { }
 }
+export class SetCurrentProjectAction implements Action {
+    type = ActionTypes.SetCurrentProject;
+    constructor(public payload: any) { }
+}
 export class UpsertProjectBeginAction implements Action {
     type = ActionTypes.UpsertProjectBegin;
     constructor(public payload: any) { }
@@ -102,9 +107,9 @@ export class DismissProjectSetupAction implements Action {
 export type Actions =
     SetSearchQueryAction
     | ToggleQueryEditorVisibilityAction
-    
+
     | ShowConnectionEditorAction
-    | ShowProjectConfigEditorAction
+    | ConfigureProjectAction
 
     | SetCurrentIssueKeyAction
     | SetHierarchicalIssueAction
@@ -118,6 +123,7 @@ export type Actions =
     | SetOrganizationAction
     | SetExtendedHierarchyDetailsAction
 
+    | SetCurrentProjectAction
     | UpsertProjectAction
     | UpsertProjectBeginAction
     | LoadProjectsAction

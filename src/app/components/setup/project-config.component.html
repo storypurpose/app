@@ -33,7 +33,7 @@
 
                 Standard Issue types
             </h6>
-            <div class="bg-light pt-2 pb-2 mb-4" *ngIf="project.showStandardIssueTypes">
+            <div class="bg-light p-2 mb-4" *ngIf="project.showStandardIssueTypes">
                 <div class="row" *ngFor="let issuetype of project.standardIssueTypes;let i = index">
                     <div class="col-md-8">
                         <button class="btn btn-sm btn-link text-muted" (click)="issuetype.show = !issuetype.show">
@@ -62,9 +62,8 @@
                 </button>
                 Sub-Task Issue types
             </h6>
-            <div class="bg-light pt-2 pb-2 mb-4" *ngIf="project.showSubTaskIssueTypes">
+            <div class="bg-light p-2 mb-4" *ngIf="project.showSubTaskIssueTypes">
                 <div class="row" *ngFor="let issuetype of project.subTaskIssueTypes;let i = index">
-
                     <div class="col-md-8">
                         <button class="btn btn-sm btn-link text-muted" (click)="issuetype.show = !issuetype.show">
                             <fa-icon [icon]="issuetype.show ? 'angle-down' : 'angle-right'"></fa-icon>

@@ -8,10 +8,9 @@ import { FormsModule } from '@angular/forms';
 import { StatisticsComponent } from './components/statistics.component';
 import { ChartsModule } from 'ng2-charts';
 import 'chartjs-plugin-labels';
-import { SearchboxComponent } from './components/searchbox.component';
 import { AutofocusDirective } from './lib/autofocus.directive';
 
-const components = [ButtonPanelComponent, StoryboardRendererComponent, StatisticsComponent, SearchboxComponent, AutofocusDirective];
+const components = [ButtonPanelComponent, StoryboardRendererComponent, StatisticsComponent, AutofocusDirective];
 @NgModule({
   exports: components,
   declarations: components,

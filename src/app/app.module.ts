@@ -43,7 +43,6 @@ import { appInitialState } from './+state/app.init';
 import { appReducer } from './+state/app.reducer';
 import { UiSwitchModule } from 'ngx-ui-switch';
 import { CommonComponentsModule } from './common/common-components.module';
-import { CopyrightComponent } from './components/help/copyright.component';
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { environment } from '../environments/environment';
 import { ProjectConfigComponent } from './components/setup/project-config.component';
@@ -57,17 +56,24 @@ import { AppRepository } from './googledrive/app.repository';
 import { FileRepository } from './googledrive/file.repository';
 import { UserRepository } from './googledrive/user.repository';
 import { ConfigurationsComponent } from './components/setup/configurations.component';
-import { ToolsComponent } from './components/setup/tools.component';
 import { ExportConfigurationComponent } from './components/setup/export-configuration.component';
 import { ImportConfigurationComponent } from './components/setup/import-configuration.component';
-import { HeaderComponent } from './components/header.component';
+
+import { CopyrightComponent } from './components/header/copyright.component';
+import { ToolsComponent } from './components/header/tools.component';
+import { NavbarComponent } from './components/header/navbar.component';
+import { SearchboxComponent } from './components/header/searchbox.component';
+import { CurrentProjectComponent } from './components/header/current-project.component';
 
 export function initGapi(gapiSession: GapiSession) {
   return () => gapiSession.initClient();
 }
 @NgModule({
   declarations: [
-    AboutComponent, CopyrightComponent, WorkspaceComponent, HeaderComponent, FooterComponent,
+    AboutComponent, WorkspaceComponent,
+    NavbarComponent, CopyrightComponent, ToolsComponent, SearchboxComponent, CurrentProjectComponent,
+
+    FooterComponent,
 
     AppComponent, PageNotFoundComponent,
     IssueviewerComponent,
@@ -79,7 +85,7 @@ export function initGapi(gapiSession: GapiSession) {
 
     FieldSelectorListComponent,
 
-    PrivacyComponent, TermsComponent, ToolsComponent
+    PrivacyComponent, TermsComponent
   ],
   imports: [
     BrowserModule,

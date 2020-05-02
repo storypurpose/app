@@ -126,8 +126,8 @@ body .ui-sidebar {
 .pane .pane-header {
   background-color: #007bff;
   color: #fff;
-  padding: 0.4rem 1rem;
-  box-shadow: 0 2px 4px #666;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 2px 4px #aaa;
 }
 .pane .pane-body {
   top: 40pt;

@@ -17,8 +17,8 @@ export function appReducer(state: App, action: any): App {
         case ActionTypes.ShowConnectionEditor: {
             return { ...state, connectionEditorVisible: action.payload };
         }
-        case ActionTypes.ShowProjectConfigEditor: {
-            return { ...state, projectConfigEditorVisible: action.payload };
+        case ActionTypes.ConfigureProject: {
+            return { ...state, projectConfigEditorVisible: action.payload ? true : false, projectToConfigure: action.payload };
         }
 
         case ActionTypes.SetCurrentIssueKey: {
@@ -63,6 +63,9 @@ export function appReducer(state: App, action: any): App {
             return { ...state, projects: action.payload };
         }
 
+        case ActionTypes.SetCurrentProject: {
+            return { ...state, currentProject: action.payload };
+        }
         case ActionTypes.UpsertProjectBegin: {
             return { ...state, currentProjectUpdated: false };
         }

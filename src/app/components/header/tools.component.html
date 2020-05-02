@@ -12,13 +12,14 @@
                 Connection details
             </a>
 
-            <div *ngIf="projects && projects.length > 0">
+            <!-- <div *ngIf="projects && projects.length > 0">
                 <div class="text-muted small mt-3 ml-2">PROJECTS CONFIGURATION</div>
                 <button ngbDropdownItem (click)="showProjectSetup(project)" *ngFor="let project of projects">
                     <fa-icon icon="bookmark" size="fw" class="text-muted"></fa-icon>
                     {{project.name}}
                 </button>
-            </div>
+            </div> -->
+
             <div class="text-muted small mt-3 ml-2">CONFIGURATIONS</div>
 
             <a ngbDropdownItem routerLink="configurations" [queryParams]="{ mode: 'import' }"

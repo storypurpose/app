@@ -7,7 +7,8 @@ export interface App {
   
   mode: string;
   connectionEditorVisible: boolean;
-  projectConfigEditorVisible: any;
+  projectConfigEditorVisible: boolean;
+  projectToConfigure: any;
 
   currentIssueKey: string;
   hierarchicalIssue: any;

@@ -6,8 +6,9 @@ export const appInitialState: App = {
     
     mode: 'offline',
     connectionEditorVisible: false,
-    projectConfigEditorVisible: null,
-
+    projectConfigEditorVisible: false,
+    projectToConfigure: null,
+    
     currentIssueKey: null,
     hierarchicalIssue: null,
     epicChildrenLoaded: false,

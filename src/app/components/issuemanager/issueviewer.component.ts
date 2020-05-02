@@ -13,7 +13,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../+state/app.state';
 import {
     SetCurrentIssueKeyAction, UpsertProjectAction, SetHierarchicalIssueAction, EpicChildrenLoadedAction,
-    SetOrganizationAction, DismissProjectSetupAction, ShowProjectConfigEditorAction, ToggleQueryEditorVisibilityAction
+    SetOrganizationAction, DismissProjectSetupAction, ConfigureProjectAction, ToggleQueryEditorVisibilityAction
 } from '../../+state/app.actions';
 import { Subscription } from 'rxjs';
 import { getExtendedFields } from '../../lib/project-config.utils';
@@ -65,8 +65,8 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
 
     public projects: any;
     projects$: Subscription;
-    projectConfigSetupEditorVisible$: Subscription;
-    showProjectConfigSetup = false;
+    //projectConfigSetupEditorVisible$: Subscription;
+    // showProjectConfigSetup = false;
 
     currentProject$: Subscription;
     currentProject: any;
@@ -86,12 +86,12 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
         this.localNodeType = CustomNodeTypes;
         this.initializeMasterMenulist();
 
-        this.projectConfigSetupEditorVisible$ = this.store$.select(p => p.app.projectConfigEditorVisible)
-            .pipe(filter(p => p))
-            .subscribe(p => {
-                this.currentProject = p;
-                this.showProjectConfigSetup = true;
-            });
+        // this.projectConfigSetupEditorVisible$ = this.store$.select(p => p.app.projectConfigEditorVisible)
+        //     .pipe(filter(p => p))
+        //     .subscribe(p => {
+        //         this.currentProject = p;
+        //         this.showProjectConfigSetup = true;
+        //     });
         this.organization$ = this.store$.select(p => p.app.organization)
             .subscribe(org => this.setOrganizationDetails(org));
         this.extendedHierarchy$ = this.store$.select(p => p.app.extendedHierarchy)
@@ -341,15 +341,15 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
                         this.showHierarchyFieldSetup = true;
                     }
                 }
-            },
-            {
-                label: 'Configure', icon: 'far fa-sun', menuType: [CustomNodeTypes.Project],
-                command: (args) => {
-                    if (args.item && args.item.data) {
-                        this.currentProject = _.find(this.projects, { key: args.item.data.key });
-                        this.showProjectConfigSetup = true;
-                    }
-                }
+            // },
+            // {
+            //     label: 'Configure', icon: 'far fa-sun', menuType: [CustomNodeTypes.Project],
+            //     command: (args) => {
+            //         if (args.item && args.item.data) {
+            //             this.currentProject = _.find(this.projects, { key: args.item.data.key });
+            //             this.showProjectConfigSetup = true;
+            //         }
+            //     }
             }
         ];
     }
@@ -521,21 +521,11 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
         }
     }
 
-    projectConfigSetupCompleted(reload) {
-        this.showProjectConfigSetup = false;
-        this.store$.dispatch(new ShowProjectConfigEditorAction(null));
-        if (reload) {
-            window.location.reload();
-        }
-    }
     setupCompleted(shouldReload) {
         this.showOrganizationSetup = false;
         this.showHierarchyFieldSetup = false;
         if (shouldReload) {
             window.location.reload();
-            // } else {
-            //     this.store$.dispatch(new ManageOrganizationEditorVisibilityAction(false));
-            //     this.store$.dispatch(new ManageHierarchyEditorVisibilityAction(false));
         }
     }
 
@@ -548,8 +538,8 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     checkIfCustomNode = (node) => isCustomNode(node)
 
     configureProject() {
-        this.showProjectConfigSetup = true;
-        this.store$.dispatch(new ShowProjectConfigEditorAction(this.currentProject));
+        // this.showProjectConfigSetup = true;
+        this.store$.dispatch(new ConfigureProjectAction(this.currentProject));
     }
     dismissProjectSetup() {
         if (this.currentProject) {

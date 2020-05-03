@@ -13,6 +13,7 @@ import { CustomNodeTypes, fieldList } from 'src/app/lib/jira-tree-utils';
 export class WorkbenchComponent implements AfterViewInit, OnInit, OnDestroy {
     public issue: any;
 
+    allRelatedIssuesVisible = false;
     allEpicChildrenVisible = false;
     groupedEpicChildren: any;
     epicChildrenLoadedQuery$: Subscription;
@@ -52,6 +53,15 @@ export class WorkbenchComponent implements AfterViewInit, OnInit, OnDestroy {
                 }
             });
     }
+
+    toggleAllRelatedIssues() {
+        this.allRelatedIssuesVisible = !this.allRelatedIssuesVisible;
+        if (this.groupedEpicChildren && this.issue && this.issue.hasRelatedLinks) {
+            _.filter(this.issue.children, { issueType: CustomNodeTypes.RelatedLink })
+                .forEach(u => u.visible = this.allRelatedIssuesVisible);
+        }
+    }
+
     ngOnDestroy(): void {
         this.epicChildrenLoadedQuery$ ? this.epicChildrenLoadedQuery$.unsubscribe() : null;
         this.combined$ ? this.combined$.unsubscribe() : null;

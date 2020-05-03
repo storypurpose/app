@@ -16,13 +16,15 @@ import { SelectedItemContainerComponent } from './components/container.component
 import { NgbDropdownModule, NgbCollapseModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { WorkbenchComponent } from './components/workbench.component';
 import { AngularSplitModule } from 'angular-split';
+import { StoryboardComponent } from './components/storyboard.component';
 
 const routes: Route[] = [
   {
     path: ':selected', component: SelectedItemContainerComponent, children: [
       { path: 'workbench', component: WorkbenchComponent },
-      { path: 'items', component: TasklistComponent },
-      { path: 'attributes', component: ExtendedFieldsComponent },
+      { path: 'storyboard', component: StoryboardComponent },
+      // { path: 'items', component: TasklistComponent },
+      // { path: 'attributes', component: ExtendedFieldsComponent },
       { path: 'details', component: PurposeDetailsComponent },
       { path: '', redirectTo: "details", pathMatch: "full" }
     ]
@@ -32,7 +34,7 @@ const routes: Route[] = [
 @NgModule({
   declarations: [
     SelectedItemContainerComponent, WorkbenchComponent,
-    PurposeDetailsComponent, TasklistComponent, ExtendedFieldsComponent
+    PurposeDetailsComponent, TasklistComponent, ExtendedFieldsComponent, StoryboardComponent
   ],
   imports: [
     CommonModule,
@@ -45,7 +47,7 @@ const routes: Route[] = [
     NgbDropdownModule,
     NgbCollapseModule,
     NgbNavModule,
-    
+
     AngularSplitModule,
 
     CommonComponentsModule,

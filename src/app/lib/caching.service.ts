@@ -14,7 +14,7 @@ const DataTypes = {
 }
 
 @Injectable({ providedIn: "root" })
-export class PersistenceService {
+export class CachingService {
 
     secretKey = "storepurpose";
     encrypt(value: string): string {

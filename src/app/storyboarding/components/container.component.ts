@@ -4,7 +4,7 @@ import { Subscription, Observable, combineLatest } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { CustomNodeTypes, searchTreeByKey, populateFieldValues } from 'src/app/lib/jira-tree-utils';
-import { PersistenceService } from 'src/app/lib/persistence.service';
+import { CachingService } from 'src/app/lib/caching.service';
 import { ActivatedRoute } from '@angular/router';
 import { AppState } from 'src/app/+state/app.state';
 import { JiraService } from 'src/app/lib/jira.service';
@@ -40,7 +40,7 @@ export class StoryboardingContainerComponent implements OnInit, OnDestroy {
     fieldlist = ['key', 'project', 'title', 'status', 'components', 'fixVersions', 'labels', 'issueType', 'linkType'];
 
     constructor(public activatedRoute: ActivatedRoute,
-        public persistenceService: PersistenceService,
+        public cachingService: CachingService,
         public jiraService: JiraService,
         public store$: Store<AppState>
     ) { }

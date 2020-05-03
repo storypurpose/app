@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as _ from 'lodash';
-import { PersistenceService } from '../lib/persistence.service';
+import { CachingService } from '../lib/caching.service';
 import { MessageService } from 'primeng/api';
 import { AppState } from '../+state/app.state';
 import { Store } from '@ngrx/store';
@@ -16,7 +16,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     isOnlineMode = false;
     connectionDetailsSubscription: Subscription;
 
-    constructor(public persistenceService: PersistenceService,
+    constructor(public cachingService: CachingService,
         public messageService: MessageService,
         public store$: Store<AppState>) {
     }

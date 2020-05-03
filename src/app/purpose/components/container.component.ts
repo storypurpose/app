@@ -4,7 +4,7 @@ import { Subscription, Observable, combineLatest } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { CustomNodeTypes, searchTreeByKey, copyFieldValues, populateFieldValues, searchTreeByIssueType } from 'src/app/lib/jira-tree-utils';
-import { PersistenceService } from 'src/app/lib/persistence.service';
+import { CachingService } from 'src/app/lib/caching.service';
 import { SetPurposeAction, SetSelectedItemAction, UpdateOrganizationPurposeAction } from '../+state/purpose.actions';
 import { ActivatedRoute } from '@angular/router';
 import { AppState } from 'src/app/+state/app.state';
@@ -36,7 +36,7 @@ export class SelectedItemContainerComponent implements OnInit, OnDestroy {
 
     localNodeType: any;
     constructor(public activatedRoute: ActivatedRoute,
-        public persistenceService: PersistenceService,
+        public cachingService: CachingService,
         public jiraService: JiraService,
         public store$: Store<AppState>
     ) {

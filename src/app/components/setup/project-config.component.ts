@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import * as _ from 'lodash';
-import { PersistenceService } from 'src/app/lib/persistence.service';
+import { CachingService } from 'src/app/lib/caching.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { GoogleAnalyticsService } from 'src/app/lib/google-analytics.service';
 import { AppState } from 'src/app/+state/app.state';
@@ -19,8 +19,7 @@ export class ProjectConfigComponent implements OnInit {
 
     downloadJsonHref: any;
 
-    constructor(
-        public persistenceService: PersistenceService,
+    constructor(public cachingService: CachingService,
         public sanitizer: DomSanitizer,
         public gaService: GoogleAnalyticsService,
         public store$: Store<AppState>) {
@@ -50,7 +49,7 @@ export class ProjectConfigComponent implements OnInit {
         this.gaService.eventEmitter("set_project_configuration", "configuration", "project_configuration", "key", this.project.key);
         this.project.isConfigured = true;
         this.store$.dispatch(new UpsertProjectAction(this.project));
-        this.persistenceService.setProjectDetails(this.project);
+        this.cachingService.setProjectDetails(this.project);
 
         this.onClose(false);
     }

@@ -3,7 +3,7 @@ import { JiraService } from '../../lib/jira.service';
 import { flattenNodes, appendExtendedFields } from '../../lib/jira-tree-utils';
 import * as _ from 'lodash';
 import { filter, map, tap } from 'rxjs/operators';
-import { PersistenceService } from '../../lib/persistence.service';
+import { CachingService } from '../../lib/caching.service';
 import { Subscription, combineLatest } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../+state/app.state';
@@ -38,7 +38,7 @@ export class TasklistComponent implements OnInit, OnDestroy {
     currentProject$: Subscription;
 
     constructor(public jiraService: JiraService,
-        public persistenceService: PersistenceService,
+        public cachingService: CachingService,
         public store$: Store<AppState>) {
 
     }

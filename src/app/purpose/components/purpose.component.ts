@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { PurposeState } from '../+state/purpose.state';
 import { Store } from '@ngrx/store';
-import { PersistenceService } from 'src/app/lib/persistence.service';
+import { CachingService } from 'src/app/lib/caching.service';
 
 @Component({
     selector: 'app-purpose',
@@ -26,7 +26,7 @@ export class PurposeDetailsComponent implements OnInit, OnDestroy {
 
     public fontSizeSmall = false;
 
-    constructor(public persistenceService: PersistenceService,
+    constructor(public cachingService: CachingService,
         public store$: Store<PurposeState>
     ) { }
 

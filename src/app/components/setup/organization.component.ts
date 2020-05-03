@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { JiraService } from '../../lib/jira.service';
 import * as _ from 'lodash';
-import { PersistenceService } from 'src/app/lib/persistence.service';
+import { CachingService } from 'src/app/lib/caching.service';
 import { AppState } from 'src/app/+state/app.state';
 import { Store } from '@ngrx/store';
 import { SetOrganizationAction } from 'src/app/+state/app.actions';
@@ -16,7 +16,8 @@ export class OrganizationComponent implements OnInit, OnDestroy {
     organization: any;
     organization$: Subscription;
 
-    constructor(public jiraService: JiraService, public persistenceService: PersistenceService,
+    constructor(public jiraService: JiraService, 
+        public cachingService: CachingService,
         public store$: Store<AppState>) {
     }
 
@@ -30,14 +31,14 @@ export class OrganizationComponent implements OnInit, OnDestroy {
     canSave = () => this.organization && this.organization.name && this.organization.name.trim().length > 0;
     onSave() {
         this.store$.dispatch(new SetOrganizationAction(this.organization));
-        this.persistenceService.setOrganization(this.organization);
+        this.cachingService.setOrganization(this.organization);
         this.onClose(false);
     }
     onClose(shouldReload) {
         this.close.emit(shouldReload);
     }
     onReset() {
-        this.persistenceService.resetOrganization();
+        this.cachingService.resetOrganization();
         this.onClose(true);
     }
 }

@@ -6,6 +6,10 @@ export const TreeTemplateTypes = {
     Editing: 'Editing',
 };
 
+export const fieldList = ['project', 'reporter', 'assignee', 'status', 'summary', 'key', 'issuelinks', 'issuetype', 'duedate'];
+export const populatedFieldList = ['project', 'issueParent', 'issueType', 'assignee', 'status', 'summary', 'label', 'title', 'key', 'icon', 'duedate', 'description', 'components', 'labels', 'fixVersions'];
+export const detailFields = ['description', 'components', 'labels', 'fixVersions'];
+
 export const CustomNodeTypes = {
     Organization: "Organization",
     Hierarchy: "Hierarchy",
@@ -65,6 +69,9 @@ export function populateFieldValuesCompact(node) {
             status: node.fields.status ? node.fields.status.name : 'unknown',
             title: node.fields.summary,
             icon: getIcon(node.issueType),
+            duedate: node.fields.duedate,
+            assignee: _.pick(node.fields.assignee, ['key', 'name', 'displayName']),
+
             description: node.fields.description,
             labels: node.fields.labels,
             components: _.map(node.fields.components, 'name'),
@@ -82,6 +89,8 @@ export function populateFieldValues(node) {
         node.label = _.truncate(node.fields.summary, { length: MAX_LENGTH });
         node.title = node.fields.summary;
         node.icon = getIcon(node.issueType);
+        node.duedate = node.fields.duedate;
+        node.assignee = _.pick(node.fields.assignee, ['key', 'name', 'displayName']);
 
         node.description = node.fields.description;
         node.labels = node.fields.labels;
@@ -105,6 +114,8 @@ export function copyFieldValues(src, dest) {
     dest.title = src.title;
     dest.description = src.description;
     dest.icon = src.icon;
+    dest.duedate = src.duedate;
+    dest.assignee = src.assignee;
 
     dest.description = src.description;
     dest.components = src.components;

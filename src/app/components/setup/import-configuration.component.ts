@@ -4,7 +4,7 @@ import * as _ from 'lodash';
 import { MessageService } from 'primeng/api';
 import { Store } from '@ngrx/store';
 import { SetConnectionDetailsAction, SetOrganizationAction, LoadProjectsAction, SetExtendedHierarchyDetailsAction } from "../../+state/app.actions";
-import { PersistenceService } from '../../lib/persistence.service';
+import { CachingService } from '../../lib/caching.service';
 import { AppState } from '../../+state/app.state';
 import { Router } from '@angular/router';
 
@@ -22,7 +22,7 @@ export class ImportConfigurationComponent {
     selectOrganization = false;
     selectExtendedHierarchy = false;
 
-    constructor(public persistenceService: PersistenceService,
+    constructor(public cachingService: CachingService,
         public messageService: MessageService,
         public router: Router,
         public store$: Store<AppState>) {
@@ -50,19 +50,19 @@ export class ImportConfigurationComponent {
         if (this.configurations) {
             if (this.selectConnectionDetails) {
                 this.store$.dispatch(new SetConnectionDetailsAction(this.configurations.connectionDetails));
-                this.persistenceService.setConnectionDetails(this.configurations.connectionDetails);
+                this.cachingService.setConnectionDetails(this.configurations.connectionDetails);
             }
             if (this.selectOrganization) {
                 this.store$.dispatch(new SetOrganizationAction(this.configurations.organization));
-                this.persistenceService.setOrganization(this.configurations.organization);
+                this.cachingService.setOrganization(this.configurations.organization);
             }
             if (this.selectExtendedHierarchy) {
                 this.store$.dispatch(new SetExtendedHierarchyDetailsAction(this.configurations.extendedHierarchy));
-                this.persistenceService.setExtendedHierarchy(this.configurations.extendedHierarchy);
+                this.cachingService.setExtendedHierarchy(this.configurations.extendedHierarchy);
             }
             if (this.selectProjects) {
                 this.store$.dispatch(new LoadProjectsAction(this.configurations.projects));
-                this.persistenceService.setProjects(this.configurations.projects);
+                this.cachingService.setProjects(this.configurations.projects);
             }
 
             this.messageService.add({

@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Route, Router, RouterStateSnapshot } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { PersistenceService } from './persistence.service';
+import { CachingService } from './caching.service';
 import { JiraService } from './jira.service';
 import { filter, map, catchError } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticatedGuard implements CanActivate {
-    constructor(private persistenceService: PersistenceService,
+    constructor(private cachingService: CachingService,
         private jiraService: JiraService,
         private router: Router) { }
 
@@ -20,7 +20,7 @@ export class AuthenticatedGuard implements CanActivate {
     }
 
     connectionValidated() {
-        const conn = this.persistenceService.getConnectionDetails();
+        const conn = this.cachingService.getConnectionDetails();
         if (!conn || conn.verified) {
             return true;
         }
@@ -28,7 +28,7 @@ export class AuthenticatedGuard implements CanActivate {
             .pipe(catchError(err => {
                 conn.verified = false;
                 conn.password = null;
-                this.persistenceService.setConnectionDetails(conn);
+                this.cachingService.setConnectionDetails(conn);
                 return of(null)
             }))
             .pipe(map(p => p !== null && p !== undefined));

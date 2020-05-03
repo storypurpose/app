@@ -3,12 +3,14 @@ import { environment } from '../../../environments/environment';
 import { JiraService } from '../../lib/jira.service';
 import {
     transformParentNode, populateFieldValues, buildIssueLinks, searchTreeByIssueType, CustomNodeTypes, isCustomNode,
-    getExtendedFieldValue, getIcon, createEpicChildrenNode, isCustomMenuType, TreeTemplateTypes
+    getExtendedFieldValue, getIcon, createEpicChildrenNode, isCustomMenuType, TreeTemplateTypes,
+    fieldList, detailFields, populatedFieldList
 } from '../../lib/jira-tree-utils';
+
 import * as _ from 'lodash';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
-import { PersistenceService } from '../../lib/persistence.service';
+import { CachingService } from '../../lib/caching.service';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../+state/app.state';
 import {
@@ -77,7 +79,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
         public activatedRoute: ActivatedRoute,
         public titleService: Title,
         public jiraService: JiraService,
-        public persistenceService: PersistenceService,
+        public cachingService: CachingService,
         public store$: Store<AppState>) {
     }
     ngOnInit(): void {
@@ -116,7 +118,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
                 if (!this.currentProject.isConfigured) {
                     this.currentProject.isConfigured = false;
                 }
-                this.persistenceService.setProjectDetails(cp);
+                this.cachingService.setProjectDetails(cp);
             });
 
         this.projects$ = this.store$.select(p => p.app.projects).pipe(filter(p => p))
@@ -127,7 +129,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
                 this.allHierarchyAndEpicLinkFields = _.union(this.allHierarchyAndEpicLinkFields,
                     _.filter(_.flatten(_.map(this.projects, 'customFields')), { name: "Epic Link" }));
 
-                this.persistenceService.setProjects(projects);
+                this.cachingService.setProjects(projects);
             });
 
         this.activatedRoute.params.pipe(filter(p => p && p["issue"] && p["issue"].length > 0), map(p => p["issue"]))
@@ -250,10 +252,11 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
 
         this.store$.dispatch(new EpicChildrenLoadedAction(false));
 
-        this.jiraService.executeJql(`'epic Link'=${epicKey}`, 0, 100, ['description', 'components', 'labels', 'fixVersions'], 'epic-children.json')
+        this.jiraService.executeJql(`'epic Link'=${epicKey}`, 0, 100, detailFields, 'epic-children.json')
             .subscribe((data: any) => {
                 if (data && data.issues) {
-                    node.children = _.map(data.issues, (item) => transformParentNode(item, null));;
+                    const list = _.map(data.issues, issue => _.pick(populateFieldValues(issue), populatedFieldList));
+                    node.children = _.map(list, (item) => transformParentNode(item, null));;
                     this.issueLookup = _.union(this.issueLookup, _.map(node.children, 'key'))
                     node.expanded = shouldExpand;
 
@@ -302,7 +305,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
             node.key = node.title;
             const payload = { name: node.title };
             this.store$.dispatch(new SetOrganizationAction(payload));
-            this.persistenceService.setOrganization(payload);
+            this.cachingService.setOrganization(payload);
         }
     }
 
@@ -341,15 +344,15 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
                         this.showHierarchyFieldSetup = true;
                     }
                 }
-            // },
-            // {
-            //     label: 'Configure', icon: 'far fa-sun', menuType: [CustomNodeTypes.Project],
-            //     command: (args) => {
-            //         if (args.item && args.item.data) {
-            //             this.currentProject = _.find(this.projects, { key: args.item.data.key });
-            //             this.showProjectConfigSetup = true;
-            //         }
-            //     }
+                // },
+                // {
+                //     label: 'Configure', icon: 'far fa-sun', menuType: [CustomNodeTypes.Project],
+                //     command: (args) => {
+                //         if (args.item && args.item.data) {
+                //             this.currentProject = _.find(this.projects, { key: args.item.data.key });
+                //             this.showProjectConfigSetup = true;
+                //         }
+                //     }
             }
         ];
     }
@@ -470,7 +473,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
                 selectable: false
             };
 
-            const projectDetails: any = this.persistenceService.getProjectDetails(node.key);
+            const projectDetails: any = this.cachingService.getProjectDetails(node.key);
             if (projectDetails) {
                 node.description = projectDetails.description;
                 this.store$.dispatch(new UpsertProjectAction(projectDetails));
@@ -544,7 +547,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     dismissProjectSetup() {
         if (this.currentProject) {
             this.currentProject.isConfigured = true;
-            this.persistenceService.setProjectDetails(this.currentProject);
+            this.cachingService.setProjectDetails(this.currentProject);
             this.store$.dispatch(new DismissProjectSetupAction(this.currentProject));
         }
     }

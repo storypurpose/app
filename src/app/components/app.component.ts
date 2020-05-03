@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import * as _ from 'lodash';
 import { Router, NavigationEnd } from '@angular/router';
-import { PersistenceService } from '../lib/persistence.service';
+import { CachingService } from '../lib/caching.service';
 import { Subscription } from 'rxjs';
 import { DomSanitizer, Title } from '@angular/platform-browser';
 
@@ -50,7 +50,7 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(public router: Router,
     public titleService: Title,
     public sanitizer: DomSanitizer,
-    public persistenceService: PersistenceService,
+    public cachingService: CachingService,
     public store$: Store<AppState>,
     public gapiSession: GapiSession
   ) {
@@ -81,11 +81,11 @@ export class AppComponent implements OnInit, OnDestroy {
     this.connectionDetails$ = this.store$.select(p => p.app.connectionDetails)
       .subscribe(p => this.connectionDetails = p);
 
-    this.initiatizeConnectionDetailsState(this.persistenceService.getConnectionDetails());
-    this.initiatizeModeState(this.persistenceService.getMode());
-    this.initiatizeProjectState(this.persistenceService.getProjects());
-    this.initiatizeOrganizationState(this.persistenceService.getOrganization());
-    this.initiatizeExtendedHierarchyState(this.persistenceService.getExtendedHierarchy());
+    this.initiatizeConnectionDetailsState(this.cachingService.getConnectionDetails());
+    this.initiatizeModeState(this.cachingService.getMode());
+    this.initiatizeProjectState(this.cachingService.getProjects());
+    this.initiatizeOrganizationState(this.cachingService.getOrganization());
+    this.initiatizeExtendedHierarchyState(this.cachingService.getExtendedHierarchy());
   }
 
   ngOnDestroy() {
@@ -109,13 +109,13 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   initiatizeModeState(mode) {
-    this.persistenceService.setMode(mode);
+    this.cachingService.setMode(mode);
     this.store$.dispatch(new SetModeAction(mode));
   }
   initiatizeConnectionDetailsState(details) {
     if (details) {
       this.store$.dispatch(new SetConnectionDetailsAction(details));
-      this.persistenceService.setConnectionDetails(_.clone(details));
+      this.cachingService.setConnectionDetails(_.clone(details));
     }
   }
 

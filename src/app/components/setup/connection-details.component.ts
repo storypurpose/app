@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { JiraService, AuthenticationModeTypes } from '../../lib/jira.service';
 import * as _ from 'lodash';
-import { PersistenceService } from 'src/app/lib/persistence.service';
+import { CachingService } from 'src/app/lib/caching.service';
 import { MessageService } from 'primeng/api';
 import { AppState } from 'src/app/+state/app.state';
 import { Store } from '@ngrx/store';
@@ -22,7 +22,7 @@ export class ConnectionDetailsComponent implements OnInit {
     authMode = AuthenticationModeTypes;
 
     constructor(public jiraService: JiraService,
-        public persistenceService: PersistenceService,
+        public cachingService: CachingService,
         public messageService: MessageService,
         public store$: Store<AppState>) {
     }
@@ -49,7 +49,7 @@ export class ConnectionDetailsComponent implements OnInit {
             .pipe(catchError(err => {
                 this.connectionDetails.verified = false;
                 this.connectionDetails.password = null;
-                this.persistenceService.setConnectionDetails(this.connectionDetails);
+                this.cachingService.setConnectionDetails(this.connectionDetails);
                 return of(null)
             }))
             .subscribe((result: any) => {
@@ -57,7 +57,7 @@ export class ConnectionDetailsComponent implements OnInit {
                     this.connectionDetails.displayName = result.displayName;
                     this.connectionDetails.verified = true;
                     this.store$.dispatch(new ConnectionDetailsVerifiedAction(this.connectionDetails));
-                    this.persistenceService.setConnectionDetails(this.connectionDetails);
+                    this.cachingService.setConnectionDetails(this.connectionDetails);
 
                     this.messageService.add({ severity: "success", summary: "Success", detail: "Connection tested successfully", life: 5000, closable: true });
                     this.testSuccessful = true;
@@ -69,7 +69,7 @@ export class ConnectionDetailsComponent implements OnInit {
     }
 
     onReset() {
-        this.persistenceService.resetConnectionDetails();
+        this.cachingService.resetConnectionDetails();
         this.onClose(true);
     }
 }

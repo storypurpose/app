@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { PersistenceService } from './persistence.service';
+import { CachingService } from './caching.service';
 import * as _ from "lodash";
 import { Store } from '@ngrx/store';
 import { AppState } from '../+state/app.state';
@@ -22,12 +22,14 @@ export class JiraService {
     proxyurl = environment.proxyurl;
     baseUrl = "";
     restVersionEndpoint = "/rest/api/latest";
-    fieldList = ['project', 'reporter', 'assignee', 'status', 'summary', 'key', 'issuelinks', 'issuetype', 'parent'];
+    fieldList = ['project', 'reporter', 'assignee', 'status', 'summary', 'key', 'issuelinks', 'issuetype', 'parent', 'duedate'];
     detailFields = ['description', 'components', 'labels', 'fixVersions'];
     httpOptions: any;
 
     staticFileLocation = './staticfiles';
-    constructor(private http: HttpClient, public persistenceService: PersistenceService, public store$: Store<AppState>) {
+    constructor(private http: HttpClient, 
+        public cachingService: CachingService, 
+        public store$: Store<AppState>) {
 
         store$.select(p => p.app.mode)
             .subscribe(mode => this.isOnlineMode = mode && mode === ModeTypes.Online);
@@ -40,7 +42,7 @@ export class JiraService {
                 this.httpOptions = {
                     headers: new HttpHeaders({
                         'Content-Type': 'application/json',
-                        'Authorization': `Basic ${this.persistenceService.encodeCredentials(this.connectionDetails.username, this.connectionDetails.password)}`
+                        'Authorization': `Basic ${this.cachingService.encodeCredentials(this.connectionDetails.username, this.connectionDetails.password)}`
                     })
                 };
             })
@@ -51,7 +53,7 @@ export class JiraService {
             {
                 headers: new HttpHeaders({
                     'Content-Type': 'application/json',
-                    'Authorization': `Basic ${this.persistenceService.encodeCredentials(connectionDetails.username, connectionDetails.password)}`
+                    'Authorization': `Basic ${this.cachingService.encodeCredentials(connectionDetails.username, connectionDetails.password)}`
                 })
             });
     }

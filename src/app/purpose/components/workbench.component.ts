@@ -62,16 +62,32 @@ export class WorkbenchComponent implements AfterViewInit, OnInit, OnDestroy {
         this.cdRef.detectChanges();
     }
 
+    leftPaneSize = 60;
+    public columns: any = [{ visible: true, size: 60 }, { visible: true, size: 40 }];
+    dragEnd(e: { gutterNum: number; sizes: Array<number> }) {
+        this.adjustPaneSize(e.sizes[0]);
+    }
+    public adjustPaneSize(sizeOfLeftPane) {
+        this.leftPaneSize = sizeOfLeftPane;
+        this.columns[0].size = sizeOfLeftPane;
+        this.columns[1].size = 100 - sizeOfLeftPane;
+    }
+    toggleFullscreen() {
+        this.adjustPaneSize(this.leftPaneSize === 0 ? 60 : 0);
+    }
+
+    resetSelectedRelatedIssue = () => this.selectedRelatedIssue = null;
     selectRelatedIssue(ri) {
         this.selectedRelatedIssue = ri;
         this.selectedRelatedIssue.project = this.issue.project;
     }
 
+    resetSelectedEpicIssue = () => this.selectedEpicIssue = null;
     selectEpicIssue(ri) {
         this.selectedEpicIssue = ri;
         this.selectedEpicIssue.project = this.issue.project;
     }
-    
+
     groupEpicChildren(groupByField): void {
         this.selectedTab = 1;
         if (this.issue && !this.groupedEpicChildren) {

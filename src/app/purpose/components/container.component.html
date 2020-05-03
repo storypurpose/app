@@ -1,8 +1,9 @@
 <div class="pt-0 pr-3 pb-2 pl-3">
-    <div class="sticky-title pb-3" *ngIf="selectedItem">
+    <div class="pb-3" *ngIf="selectedItem">
         <div class="border-bottom ">
             <div>
-                <div class="float-right small" *ngIf="selectedItem.fixVersions && selectedItem.fixVersions.length > 0">
+                <div class="float-right small mt-1"
+                    *ngIf="selectedItem.fixVersions && selectedItem.fixVersions.length > 0">
                     <span class="small text-muted">FIX VERSION: </span>
                     <span class="badge badge-light ml-1" *ngFor="let fv of selectedItem.fixVersions">{{fv}}</span>
                 </div>
@@ -14,7 +15,7 @@
             <h2 class="font-weight-light mb-0">
                 {{selectedItem.title}}
             </h2>
-            <div class="pb-2">
+            <div class="pb-0">
                 <div class="row">
                     <div class="col-md-8">
                         <a class="btn btn-link mr-1 pl-0" [routerLink]="['details']" title="View purpose"

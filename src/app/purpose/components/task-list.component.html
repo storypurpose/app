@@ -1,4 +1,13 @@
 <div *ngIf="issue">
+    <div class="alert bg-light pl-0 mb-0" style="font-size:medium;" *ngIf="showIssue">
+        <button class="btn btn-sm btn-link mr-2" (click)="onClose()">
+            <fa-icon icon="chevron-left" size="lg"></fa-icon>
+        </button>
+        <span class="pt-2">
+            <span class="mr-1">{{issue.key}}:</span>
+            {{issue.title}}</span>
+    </div>
+
     <div *ngIf="filteredItems && filteredItems.length > 0">
 
         <div class="list-group list-group-flush list-group-flush-compact">

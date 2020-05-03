@@ -342,8 +342,9 @@ ngx-md h3,
   text-decoration-line: underline;
 }
 
-.text-brand {
-  color: #f28000;
+.text-brand,
+.text-brand:hover {
+  color: #f28000 !important;
 }
 .btn-brand {
   color: #fff;

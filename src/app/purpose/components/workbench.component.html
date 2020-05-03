@@ -1,69 +1,61 @@
 <div #content [style.height.px]="contentHeight">
-    <as-split direction="horizontal" *ngIf="issue" class="pr-1">
-        <as-split-area size="60" class="pr-3">
-            <app-extended-fields [issue]="issue"></app-extended-fields>
-
+    <as-split direction="horizontal" *ngIf="issue" (gutterDblClick)="toggleFullscreen()" (dragEnd)="dragEnd($event)">
+        <as-split-area [size]="columns[0].size" class="pr-3">
+            <app-extended-fields [issue]="issue" *ngIf="leftPaneSize > 0"></app-extended-fields>
         </as-split-area>
-        <as-split-area size="40" class="small pl-3 pr-3 pb-3">
-
+        <as-split-area [size]="columns[1].size" class="small">
+            <button class="btn btn-sm btn-link text-muted float-right" title="expand/collapse pane"
+                (click)="toggleFullscreen()" [ngClass]="{'mr-3': columns[0].size === 0}">
+                <fa-icon [icon]="columns[0].size === 0 ? 'compress-arrows-alt' : 'expand-arrows-alt'"
+                    [fixedWidth]="true"></fa-icon>
+            </button>
             <ul ngbNav #nav="ngbNav" class="nav-tabs" [(activeId)]="selectedTab" [destroyOnHide]="false">
-
                 <li [ngbNavItem]="1" *ngIf="issue.issueType === localNodeType.Epic">
-                    <a ngbNavLink>Issues in this epic</a>
+                    <a ngbNavLink (click)="toggleAllEpicChildren()">
+                        <fa-icon [icon]="allEpicChildrenVisible ? 'angle-double-down' : 'angle-double-right'" size="sm"
+                            [fixedWidth]="true">
+                        </fa-icon>
+                        Issues in this epic
+                    </a>
                     <ng-template ngbNavContent>
-                        <div class="alert alert-warning"
-                            *ngIf="groupedEpicChildren && groupedEpicChildren.length === 0">
-                            There are no issues in this epic
-                        </div>
+                        <div class="pl-2 pr-3 pb-2">
+                            <div class="alert alert-warning"
+                                *ngIf="groupedEpicChildren && groupedEpicChildren.length === 0">
+                                There are no issues in this epic
+                            </div>
 
-                        <div *ngIf="groupedEpicChildren && groupedEpicChildren.length > 0">
-                            <div *ngIf="!selectedEpicIssue">
-                                <h6 class="font-weight-normal">
-                                    <button class="btn btn-sm btn-link text-muted pr-1"
-                                        (click)="toggleAllEpicChildren()">
-                                        <fa-icon
-                                            [icon]="allEpicChildrenVisible ? 'angle-double-down' : 'angle-double-right'"
-                                            size="sm" [fixedWidth]="true">
-                                        </fa-icon>
-                                    </button>
-                                    Issues in this epic
-                                </h6>
-                                <div *ngFor="let child of groupedEpicChildren">
-                                    <div class="text-muted text-uppercase mt-1 mb-1">
-                                        <button class="btn btn-sm btn-link text-left text-dark"
-                                            [ngClass]="{'w-100 btn-light ': child.visible}"
-                                            (click)="child.visible = !child.visible">
-                                            <fa-icon [icon]="child.visible ? 'angle-down' : 'angle-right'" size="sm"
-                                                [fixedWidth]="true"></fa-icon>
-                                            <span class="ml-2">{{child.label}} / {{child.total}}</span>
-                                        </button>
-                                    </div>
-                                    <div *ngIf="child.visible" class="mb-4">
-                                        <div class="ml-3 p-1 border-bottom" *ngFor="let i of child.children">
-                                            <div
-                                                class="badge badge-light font-weight-normal text-uppercase float-right mt-1">
-                                                {{i.duedate}}
+                            <div *ngIf="groupedEpicChildren && groupedEpicChildren.length > 0">
+                                <div *ngIf="!selectedEpicIssue">
+                                    <div *ngFor="let child of groupedEpicChildren">
+                                        <div class="text-muted text-uppercase mt-1 mb-1">
+                                            <button class="btn btn-sm btn-link text-left text-dark"
+                                                [ngClass]="{'w-100 btn-light ': child.visible}"
+                                                (click)="child.visible = !child.visible">
+                                                <fa-icon [icon]="child.visible ? 'angle-down' : 'angle-right'" size="sm"
+                                                    [fixedWidth]="true"></fa-icon>
+                                                <span class="ml-2">{{child.label}} / {{child.total}}</span>
+                                            </button>
+                                        </div>
+                                        <div *ngIf="child.visible" class="mb-4">
+                                            <div class="ml-3 p-1 border-bottom" *ngFor="let i of child.children">
+                                                <div
+                                                    class="badge badge-light font-weight-normal text-uppercase float-right mt-1">
+                                                    {{i.duedate}}
+                                                </div>
+                                                <i [class]="i.icon" class="mr-1"></i>
+                                                <a (click)="selectEpicIssue(i)" class="text-primary mr-2">{{i.key}}</a>
+                                                {{i.title}}
                                             </div>
-                                            <i [class]="i.icon" class="mr-1"></i>
-                                            <a (click)="selectEpicIssue(i)" class="text-primary mr-2">{{i.key}}</a>
-                                            {{i.title}}
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div *ngIf="selectedEpicIssue">
-                                <div class="alert bg-light pl-0" style="font-size:medium;">
-                                    <button class="btn btn-sm btn-link mr-2" (click)="selectedEpicIssue = null">
-                                        <fa-icon icon="chevron-left" size="lg"></fa-icon>
-                                    </button>
-                                    <span class="pt-2">
-                                        <span class="mr-1">{{selectedEpicIssue.key}}:</span>
-                                        {{selectedEpicIssue.title}}</span>
+                                <div *ngIf="selectedEpicIssue">
+                                    <app-task-list [issue]="selectedEpicIssue" [showIssue]="true"
+                                        (close)="resetSelectedEpicIssue()"></app-task-list>
                                 </div>
-                                <app-task-list [issue]="selectedEpicIssue"></app-task-list>
-                            </div>
 
+                            </div>
                         </div>
                     </ng-template>
                 </li>
@@ -71,33 +63,28 @@
                 <li [ngbNavItem]="2" *ngIf="issue.hasRelatedLinks">
                     <a ngbNavLink>Related</a>
                     <ng-template ngbNavContent>
-                        <div *ngIf="!selectedRelatedIssue">
-                            <div *ngFor="let child of issue.children">
-                                <ng-container *ngIf="child.issueType !== localNodeType.EpicChildren">
-                                    <div class="text-muted text-uppercase mt-1 mb-1">{{child.label}}</div>
-                                    <div class="ml-3 p-1 border-bottom" [title]="i.issueType"
-                                        *ngFor="let i of child.children">
-                                        <div
-                                            class="badge badge-light font-weight-normal text-uppercase float-right mt-1">
-                                            {{i.status}}
+                        <div class="pl-3 pr-3 pb-3">
+                            <div *ngIf="!selectedRelatedIssue">
+                                <div *ngFor="let child of issue.children">
+                                    <ng-container *ngIf="child.issueType !== localNodeType.EpicChildren">
+                                        <div class="text-muted text-uppercase mt-1 mb-1">{{child.label}}</div>
+                                        <div class="ml-3 p-1 border-bottom" [title]="i.issueType"
+                                            *ngFor="let i of child.children">
+                                            <div
+                                                class="badge badge-light font-weight-normal text-uppercase float-right mt-1">
+                                                {{i.status}}
+                                            </div>
+                                            <i [class]="i.icon" class="mr-1"></i>
+                                            <a (click)="selectRelatedIssue(i)" class="text-primary mr-2">{{i.key}}</a>
+                                            {{i.title}}
                                         </div>
-                                        <i [class]="i.icon" class="mr-1"></i>
-                                        <a (click)="selectRelatedIssue(i)" class="text-primary mr-2">{{i.key}}</a>
-                                        {{i.title}}
-                                    </div>
-                                </ng-container>
+                                    </ng-container>
+                                </div>
                             </div>
-                        </div>
-                        <div *ngIf="selectedRelatedIssue">
-                            <div class="alert bg-light pl-0" style="font-size:medium;">
-                                <button class="btn btn-sm btn-link mr-2" (click)="selectedRelatedIssue = null">
-                                    <fa-icon icon="chevron-left" size="lg"></fa-icon>
-                                </button>
-                                <span class="pt-2">
-                                    <span class="mr-1">{{selectedRelatedIssue.key}}:</span>
-                                    {{selectedRelatedIssue.title}}</span>
+                            <div *ngIf="selectedRelatedIssue">
+                                <app-task-list [issue]="selectedRelatedIssue" (close)="resetSelectedRelatedIssue()"
+                                    [showIssue]="true"></app-task-list>
                             </div>
-                            <app-task-list [issue]="selectedRelatedIssue"></app-task-list>
                         </div>
                     </ng-template>
                 </li>
@@ -105,7 +92,9 @@
                 <li [ngbNavItem]="3">
                     <a ngbNavLink>Sub tasks</a>
                     <ng-template ngbNavContent>
-                        <app-task-list [issue]="issue"></app-task-list>
+                        <div class="pl-3 pr-3 pb-3">
+                            <app-task-list [issue]="issue" [showIssue]="false"></app-task-list>
+                        </div>
                     </ng-template>
                 </li>
             </ul>

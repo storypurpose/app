@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { JiraService } from '../../lib/jira.service';
 import { flattenNodes, appendExtendedFields } from '../../lib/jira-tree-utils';
 import * as _ from 'lodash';
@@ -13,14 +13,17 @@ import { AppState } from '../../+state/app.state';
     templateUrl: './task-list.component.html'
 })
 export class TasklistComponent implements OnInit, OnDestroy {
-    tasklistFilterVisible = false;
     _issue: any;
     @Input() set issue(value: any) {
         this._issue = value;
         this.loadDetails();
     }
-    get issue() { return this._issue;}
-    
+    get issue() { return this._issue; }
+
+    @Input() showIssue: boolean;
+    @Output() close = new EventEmitter<any>();
+
+    tasklistFilterVisible = false;
     childIssueType = '';
     childItems: any;
     filteredItems: any;
@@ -43,15 +46,6 @@ export class TasklistComponent implements OnInit, OnDestroy {
 
     }
     ngOnInit(): void {
-        // const issueQuery = this.store$.select(p => p.purpose.selectedItem).pipe(filter(p => p));
-        // const projectsQuery = this.store$.select(p => p.app.projects);
-        // this.combined$ = combineLatest(issueQuery, projectsQuery)
-        //     .subscribe(([issue, projects]) => {
-        //         this.issue = issue;
-        //         this.issue.project = _.find(projects, { key: this.issue.project.key })
-        //         this.loadDetails();
-        //     });
-
         this.currentProject$ = this.store$.select(p => p.app.currentProjectUpdated)
             .subscribe(p => this.loadDetails());
     }
@@ -104,5 +98,9 @@ export class TasklistComponent implements OnInit, OnDestroy {
         if (this.childItems) {
             this.childItems.forEach((u) => u.hideExtendedFields = this.hideExtendedFields);
         }
+    }
+
+    onClose() {
+        this.close.emit(true);
     }
 }

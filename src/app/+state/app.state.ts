@@ -24,5 +24,5 @@ export interface App {
 
 export interface AppState {
   readonly app: App;
-  readonly purpose: Issue;
+  readonly issue: Issue;
 }

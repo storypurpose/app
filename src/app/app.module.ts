@@ -36,7 +36,6 @@ import { WorkspaceComponent } from './components/workspace.component';
 import { GoogleAnalyticsService } from './lib/google-analytics.service';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { RecentlyViewedComponent } from './components/issuemanager/recently-viewed.component';
 
 import { appInitialState } from './+state/app.init';
 import { appReducer } from './+state/app.reducer';
@@ -75,7 +74,7 @@ export function initGapi(gapiSession: GapiSession) {
     AppComponent, PageNotFoundComponent,
     IssueviewerComponent,
 
-    IssueEntryComponent, RecentlyViewedComponent,
+    IssueEntryComponent, 
 
     ConnectionDetailsComponent, ProjectConfigComponent, OrganizationComponent, HierarchyFieldEditorComponent,
     ConfigurationsComponent, ExportConfigurationComponent, ImportConfigurationComponent,

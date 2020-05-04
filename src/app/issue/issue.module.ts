@@ -18,6 +18,7 @@ import { WorkbenchComponent } from './components/workbench.component';
 import { AngularSplitModule } from 'angular-split';
 import { StoryboardComponent } from './components/storyboard.component';
 import { DialogModule } from 'primeng/dialog';
+import { RecentlyViewedComponent } from './components/recently-viewed.component';
 
 const routes: Route[] = [
   {
@@ -34,7 +35,7 @@ const routes: Route[] = [
 
 @NgModule({
   declarations: [
-    SelectedItemContainerComponent, WorkbenchComponent,
+    SelectedItemContainerComponent, WorkbenchComponent, RecentlyViewedComponent,
     PurposeDetailsComponent, TasklistComponent, ExtendedFieldsComponent, StoryboardComponent
   ],
   imports: [

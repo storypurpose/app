@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as _ from "lodash";
 import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { IssueState } from '../../issue/+state/issue.state';
+import { IssueState } from '../+state/issue.state';
 import { Store } from '@ngrx/store';
 
 @Component({

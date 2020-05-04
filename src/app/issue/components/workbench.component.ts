@@ -35,7 +35,7 @@ export class WorkbenchComponent implements AfterViewInit, OnInit, OnDestroy {
     ngOnInit(): void {
 
 
-        const issueQuery = this.store$.select(p => p.purpose.selectedItem).pipe(filter(p => p));
+        const issueQuery = this.store$.select(p => p.issue.selectedItem).pipe(filter(p => p));
         const epicChildrenLoadedQuery = this.store$.select(p => p.app.epicChildrenLoaded).pipe(filter(issue => issue === true));
 
         this.combined$ = combineLatest(issueQuery, epicChildrenLoadedQuery)

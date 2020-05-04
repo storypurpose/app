@@ -56,7 +56,7 @@ export class SelectedItemContainerComponent implements OnInit, OnDestroy {
             .pipe(filter(p => p && p.length > 0))
             .subscribe(key => this.currentIssueKey = key);
 
-        this.selectedItem$ = this.store$.select(p => p.purpose.selectedItem)
+        this.selectedItem$ = this.store$.select(p => p.issue.selectedItem)
             .pipe(filter(p => p))
             .subscribe(p => this.selectedItem = p);
 

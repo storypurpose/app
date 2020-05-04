@@ -34,10 +34,14 @@
                         <div class="custom-shadow small p-2 mb-3 mr-2 bg-white float-left"
                             [ngClass]="{'linked-issue': item.linkType && item.linkType.length> 0}" style="width:250px"
                             *ngFor="let item of getItems(fv, c)">
-                            <div class="small text-muted text-uppercase mb-2">
+                            <div class="text-muted text-uppercase mb-1">
                                 <div class="float-right">{{item.status}}</div>
-                                <a [routerLink]="['/browse', item.key, 'purpose', item.key]">
+                                <a title="View purpose" [routerLink]="['/browse', item.key, 'purpose', item.key]">
                                     {{item.issueType}}: {{item.key}}
+                                </a>
+                                <a target="_blank" title="View in jira" class=" ml-1"
+                                    href="{{prepareExternalUrl(item.key)}}">
+                                    <fa-icon [icon]="['fab', 'jira']" size="sm" class="text-primary"></fa-icon>
                                 </a>
                             </div>
                             {{item.title}}

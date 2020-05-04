@@ -8,16 +8,16 @@
                     <span class="badge badge-light ml-1" *ngFor="let fv of selectedItem.fixVersions">{{fv}}</span>
                 </div>
                 <sub class="text-uppercase mr-2">
-                    <a class="text-muted" target="_blank" title="View in jira"
-                        href="https://jira.mediaocean.com/browse/{{selectedItem.key}}">
-                        {{selectedItem.issueType}}: {{selectedItem.key}}
-                        <fa-icon [icon]="['fab', 'jira']" class="text-primary ml-1"></fa-icon>
+                    {{selectedItem.issueType}}: {{selectedItem.key}}
+                    <a target="_blank" title="View in jira" class=" ml-1"
+                        href="{{prepareExternalUrl(selectedItem.key)}}">
+                        <fa-icon [icon]="['fab', 'jira']" class="text-primary"></fa-icon>
                     </a>
                 </sub>
             </div>
             <h2 class="font-weight-light mb-0">
                 {{selectedItem.title}}
-                <sup class="badge badge-light text-muted text-uppercase font-weight-normal" style="font-size: small;">
+                <sup class="badge badge-light text-uppercase text-muted" style="font-size: small;">
                     {{selectedItem.status}}
                 </sup>
             </h2>

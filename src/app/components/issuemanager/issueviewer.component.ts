@@ -62,9 +62,6 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
     public masterMenulist: any;
     public hasExtendedFields = false;
 
-    public connectionDetails: any;
-    connectionDetails$: Subscription;
-
     public projects: any;
     projects$: Subscription;
     //projectConfigSetupEditorVisible$: Subscription;
@@ -106,10 +103,6 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
                 this.selectedNode = issueNode;
                 this.selectedIssue = _.pick(issueNode, ['key', 'label', 'title', 'issueType', 'project', 'extendedFields', 'description']);
             });
-
-        this.connectionDetails$ = this.store$.select(p => p.app.connectionDetails)
-            .pipe(filter(p => p.verified))
-            .subscribe(cd => this.connectionDetails = cd);
 
         this.currentProject$ = this.store$.select(p => p.app.currentProject)
             .pipe(filter(p => p))
@@ -164,7 +157,6 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.hierarchicalIssue$ ? this.hierarchicalIssue$.unsubscribe() : null;
-        this.connectionDetails$ ? this.connectionDetails$.unsubscribe() : null;
         this.projects$ ? this.projects$.unsubscribe() : null;
         this.currentProject$ ? this.currentProject$.unsubscribe() : null;
         this.organization$ ? this.organization$.unsubscribe() : null;

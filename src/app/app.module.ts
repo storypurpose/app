@@ -33,7 +33,6 @@ import { NgxMdModule } from 'ngx-md';
 import { ErrorHandlingInterceptor } from './lib/error-handling.interceptor';
 import { AboutComponent } from './components/help/about.component';
 import { WorkspaceComponent } from './components/workspace.component';
-import { FooterComponent } from './components/footer.component';
 import { GoogleAnalyticsService } from './lib/google-analytics.service';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -72,8 +71,6 @@ export function initGapi(gapiSession: GapiSession) {
   declarations: [
     AboutComponent, WorkspaceComponent,
     NavbarComponent, CopyrightComponent, ToolsComponent, SearchboxComponent, CurrentProjectComponent,
-
-    FooterComponent,
 
     AppComponent, PageNotFoundComponent,
     IssueviewerComponent,

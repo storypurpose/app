@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import * as _ from 'lodash';
+import { CachingService } from 'src/app/lib/caching.service';
 
 @Component({
     selector: 'app-storyboard-renderer',
@@ -9,6 +10,9 @@ export class StoryboardRendererComponent {
 
     @Input() storyboardItem: any;
     expandedAll = true;
+
+    constructor(public cachingService: CachingService) {
+    }
 
     getItems(fixVersion, component) {
         if (!this.storyboardItem || !this.storyboardItem.children)
@@ -29,5 +33,13 @@ export class StoryboardRendererComponent {
         if (this.storyboardItem && this.storyboardItem.metadata && this.storyboardItem.metadata.fixVersions) {
             this.storyboardItem.metadata.fixVersions.forEach(u => u.expanded = this.expandedAll);
         }
+    }
+
+    prepareExternalUrl(issueKey) {
+        const connectionDetails = this.cachingService.getConnectionDetails();
+
+        return (connectionDetails && connectionDetails.serverUrl && connectionDetails.serverUrl.length > 0)
+            ? `${connectionDetails.serverUrl}/browse/${issueKey}`
+            : '';
     }
 }

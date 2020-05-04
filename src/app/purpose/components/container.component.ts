@@ -157,4 +157,12 @@ export class SelectedItemContainerComponent implements OnInit, OnDestroy {
         return this.selectedItem &&
             (this.selectedItem.issueType === 'Epic' || this.currentIssueKey.toLowerCase() === this.selectedItem.key.toLowerCase());
     }
+
+    prepareExternalUrl(issueKey) {
+        const connectionDetails = this.cachingService.getConnectionDetails();
+
+        return (connectionDetails && connectionDetails.serverUrl && connectionDetails.serverUrl.length > 0)
+            ? `${connectionDetails.serverUrl}/browse/${issueKey}`
+            : '';
+    }
 }

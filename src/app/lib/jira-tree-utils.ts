@@ -7,7 +7,8 @@ export const TreeTemplateTypes = {
 };
 
 export const fieldList = ['project', 'reporter', 'assignee', 'status', 'summary', 'key', 'issuelinks', 'issuetype', 'duedate'];
-export const populatedFieldList = ['project', 'issueParent', 'issueType', 'assignee', 'status', 'summary', 'label', 'title', 'key', 'icon', 'duedate', 'description', 'components', 'labels', 'fixVersions'];
+export const populatedFieldList = ['project', 'issueParent', 'issueType', 'assignee', 'status', 'summary', 'label', 'title', 'key',
+    'icon', 'duedate', 'description', 'components', 'labels', 'fixVersions'];
 export const detailFields = ['description', 'components', 'labels', 'fixVersions'];
 
 export const CustomNodeTypes = {

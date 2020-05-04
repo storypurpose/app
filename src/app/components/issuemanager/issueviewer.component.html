@@ -22,7 +22,7 @@
 
                 <div *ngIf="treeNodes" class="pb-5">
                     <p-contextMenu #cm [model]="menulist" appendTo="body"></p-contextMenu>
-                    <p-tree [value]="treeNodes" selectionMode="single" (onNodeExpand)="loadNode($event)"
+                    <p-tree [value]="treeNodes" selectionMode="single"
                         [(selection)]="selectedNode" (onNodeSelect)="nodeSelected($event)" [contextMenu]="cm"
                         (onNodeContextMenuSelect)="nodeContextMenuSelect($event.node)">
                         <ng-template let-node pTemplate="default">

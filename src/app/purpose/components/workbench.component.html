@@ -18,7 +18,7 @@
                         Issues in this epic
                     </a>
                     <ng-template ngbNavContent>
-                        <div class="pl-2 pr-3 pb-2">
+                        <div class="pl-2 pr-2 pb-2">
                             <div class="alert alert-warning"
                                 *ngIf="groupedEpicChildren && groupedEpicChildren.length === 0">
                                 There are no issues in this epic
@@ -68,7 +68,7 @@
                         Related
                     </a>
                     <ng-template ngbNavContent>
-                        <div class="pl-3 pr-3 pb-3">
+                        <div class="pl-2 pr-2 pb-2">
                             <div *ngIf="!selectedRelatedIssue">
                                 <div *ngFor="let child of issue.children">
                                     <ng-container *ngIf="child.issueType !== localNodeType.EpicChildren">
@@ -108,9 +108,9 @@
                 </li>
 
                 <li [ngbNavItem]="3">
-                    <a ngbNavLink>Sub tasks</a>
+                    <a ngbNavLink>Task breakup</a>
                     <ng-template ngbNavContent>
-                        <div class="pl-3 pr-3 pb-3">
+                        <div class="pl-2 pr-2 pb-2">
                             <app-task-list [issue]="issue" [showIssue]="false"></app-task-list>
                         </div>
                     </ng-template>

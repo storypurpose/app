@@ -17,15 +17,16 @@ import { NgbDropdownModule, NgbCollapseModule, NgbNavModule } from '@ng-bootstra
 import { WorkbenchComponent } from './components/workbench.component';
 import { AngularSplitModule } from 'angular-split';
 import { StoryboardComponent } from './components/storyboard.component';
+import { DialogModule } from 'primeng/dialog';
 
 const routes: Route[] = [
   {
     path: ':selected', component: SelectedItemContainerComponent, children: [
+      { path: 'details', component: PurposeDetailsComponent },
       { path: 'workbench', component: WorkbenchComponent },
       { path: 'storyboard', component: StoryboardComponent },
       // { path: 'items', component: TasklistComponent },
       // { path: 'attributes', component: ExtendedFieldsComponent },
-      { path: 'details', component: PurposeDetailsComponent },
       { path: '', redirectTo: "details", pathMatch: "full" }
     ]
   }
@@ -43,6 +44,7 @@ const routes: Route[] = [
     NgxMdModule,
     FontAwesomeModule,
 
+    DialogModule,
     SidebarModule,
     NgbDropdownModule,
     NgbCollapseModule,

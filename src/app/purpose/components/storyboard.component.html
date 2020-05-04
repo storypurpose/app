@@ -1,1 +1,37 @@
-storyboard.component
+<div class="pl-3 pr-3" *ngIf="storyboardItem">
+    <div class="row small">
+        <div class="col-md-3 mb-3"
+            *ngIf="(storyboardItem.epicChildren && storyboardItem.epicChildren.length > 0) || (storyboardItem.relatedLinks && storyboardItem.relatedLinks.length > 0)">
+            <div *ngIf="storyboardItem.epicChildren && storyboardItem.epicChildren.length > 0">
+                <input type="checkbox" [(ngModel)]="includeEpicChildren" (change)="plotIssuesOnStoryboard()">
+                <b class="badge badge-success ml-1">{{storyboardItem.epicChildren.length}}</b> issues in this epic
+            </div>
+            <div *ngIf="storyboardItem.relatedLinks && storyboardItem.relatedLinks.length > 0">
+                <input type="checkbox" [(ngModel)]="includeRelatedIssues" (change)="plotIssuesOnStoryboard()">
+                <b class="badge badge-success ml-1">{{storyboardItem.relatedLinks.length}}</b> related issues
+            </div>
+        </div>
+        <div class="col-md-4 mb-3"
+            *ngIf="storyboardItem.metadata && (storyboardItem.metadata.backlogCount > 0 || storyboardItem.metadata.noComponentCount > 0)">
+            <div *ngIf="storyboardItem.metadata.backlogCount > 0" class="mr-4">
+                <span class="badge badge-warning">{{storyboardItem.metadata.backlogCount}}</span>
+                unplanned issues.
+            </div>
+            <div *ngIf="storyboardItem.metadata.noComponentCount > 0">
+                <span class="badge badge-warning">{{storyboardItem.metadata.noComponentCount}}</span>
+                issues in unknown functional areas.
+            </div>
+        </div>
+    </div>
+
+    <app-storyboard-renderer [storyboardItem]="storyboardItem"></app-storyboard-renderer>
+
+    <p-dialog header="Statistics" *ngIf="storyboardItem && storyboardItem.statistics" position="topright"
+        class="bg-light" [(visible)]="showStatistics">
+        <app-epic-statistics [statusStats]="storyboardItem.statistics.status"
+            [issueTypeStats]="storyboardItem.statistics.issueTypes"
+            [componentStats]="storyboardItem.statistics.components">
+        </app-epic-statistics>
+    </p-dialog>
+
+</div>

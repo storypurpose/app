@@ -34,19 +34,16 @@ export class WorkbenchComponent implements AfterViewInit, OnInit, OnDestroy {
 
     ngOnInit(): void {
 
-        this.epicChildrenLoadedQuery$ = this.store$.select(p => p.app.epicChildrenLoaded)
-            .pipe(filter(issue => issue === true))
-            .subscribe(p => this.groupEpicChildren('status'))
 
         const issueQuery = this.store$.select(p => p.purpose.selectedItem).pipe(filter(p => p));
-        const projectsQuery = this.store$.select(p => p.app.projects);
-        this.combined$ = combineLatest(issueQuery, projectsQuery)
-            .subscribe(([issue, projects]) => {
+        const epicChildrenLoadedQuery = this.store$.select(p => p.app.epicChildrenLoaded).pipe(filter(issue => issue === true));
+
+        this.combined$ = combineLatest(issueQuery, epicChildrenLoadedQuery)
+            .subscribe(([issue, epicChildrenLoaded]) => {
                 this.issue = issue;
                 const relatedLinks = _.filter(this.issue.children, { issueType: CustomNodeTypes.RelatedLink });
                 this.issue.hasRelatedLinks = relatedLinks && relatedLinks.length > 0;
                 this.selectedTab = this.issue.hasRelatedLinks ? 2 : 3;
-                this.issue.project = _.find(projects, { key: this.issue.project.key })
 
                 if (this.issue.issueType === CustomNodeTypes.Epic) {
                     this.groupEpicChildren('status');
@@ -56,7 +53,7 @@ export class WorkbenchComponent implements AfterViewInit, OnInit, OnDestroy {
 
     toggleAllRelatedIssues() {
         this.allRelatedIssuesVisible = !this.allRelatedIssuesVisible;
-        if (this.groupedEpicChildren && this.issue && this.issue.hasRelatedLinks) {
+        if (this.issue && this.issue.hasRelatedLinks) {
             _.filter(this.issue.children, { issueType: CustomNodeTypes.RelatedLink })
                 .forEach(u => u.visible = this.allRelatedIssuesVisible);
         }

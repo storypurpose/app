@@ -9,6 +9,7 @@ import { SetPurposeAction, SetSelectedItemAction, UpdateOrganizationPurposeActio
 import { ActivatedRoute } from '@angular/router';
 import { AppState } from 'src/app/+state/app.state';
 import { getExtendedFields } from 'src/app/lib/project-config.utils';
+import { populatedFieldList } from 'src/app/lib/jira-tree-utils';
 import { JiraService } from 'src/app/lib/jira.service';
 
 @Component({
@@ -17,11 +18,13 @@ import { JiraService } from 'src/app/lib/jira.service';
 })
 export class SelectedItemContainerComponent implements OnInit, OnDestroy {
 
-    issueQuery$: Observable<any>;
+    epicChildrenLoadedQuery$: Observable<any>;
+    hierarchicalIssueQuery$: Observable<any>;
     paramsQuery$: Observable<any>;
     projectsQuery$: Observable<any>;
 
     combined$: Subscription;
+    epicChildrenLoaded$: Subscription;
 
     selectedItem$: Subscription;
     selectedItem: any;
@@ -56,42 +59,43 @@ export class SelectedItemContainerComponent implements OnInit, OnDestroy {
             .pipe(filter(p => p))
             .subscribe(p => this.selectedItem = p);
 
-        this.issueQuery$ = this.store$.select(p => p.app.hierarchicalIssue).pipe(filter(issue => issue));
+        this.epicChildrenLoadedQuery$ = this.store$.select(p => p.app.epicChildrenLoaded).pipe(filter(issue => issue === true));
+        this.hierarchicalIssueQuery$ = this.store$.select(p => p.app.hierarchicalIssue).pipe(filter(issue => issue));
         this.paramsQuery$ = this.activatedRoute.params.pipe(filter(p => p && p["selected"] && p["selected"].length > 0), map(p => p["selected"]));
         this.projectsQuery$ = this.store$.select(p => p.app.projects).pipe(filter(p => p))
 
-        this.combined$ = combineLatest(this.issueQuery$, this.paramsQuery$, this.projectsQuery$)
-            .subscribe(([hierarchicalIssue, rpSelected, projects]) => {
-                this.projects = projects;
-                const currentProject = searchTreeByIssueType(hierarchicalIssue, CustomNodeTypes.Project);
-                const selectedNode = searchTreeByKey(hierarchicalIssue, rpSelected);
-                if (currentProject && selectedNode) {
-                    selectedNode.extendedFields = getExtendedFields(this.projects, currentProject.key, selectedNode.issueType);
-                    const fieldList = _.map(selectedNode.extendedFields, 'id');
-                    this.jiraService.getIssueDetails(rpSelected, fieldList)
-                        .pipe(filter((p: any) => p !== null && p !== undefined && p.fields))
-                        .subscribe((issuedetails: any) => {
-
-                            copyFieldValues(populateFieldValues(issuedetails), selectedNode);
-
-                            selectedNode.extendedFields = _.map(selectedNode.extendedFields, (ef) => {
-                                ef.value = issuedetails.fields[ef.id];
-                                return ef;
-                            });
-
-                            const temp = _.pick(selectedNode,
-                                ['key', 'label', 'title', 'issueType', 'project', 'status', 'description',
-                                    'components', 'labels', 'fixVersions', 'extendedFields', 'children']);
-
-                            this.store$.dispatch(new SetSelectedItemAction(temp));
-                        });
-
-                }
-                setTimeout(() => this.markIssueSelected(selectedNode), 500);
+        this.combined$ = combineLatest(this.hierarchicalIssueQuery$, this.paramsQuery$, this.projectsQuery$, this.epicChildrenLoadedQuery$)
+            .subscribe(([hierarchicalIssue, rpSelected, projects, epicChildrenLoaded]) => {
+                this.selectItem(projects, hierarchicalIssue, rpSelected, epicChildrenLoaded);
             })
     }
 
+    private selectItem(projects: any, hierarchicalIssue: any, rpSelected: any, epicChildrenLoaded: boolean) {
+        this.projects = projects;
+        const currentProject = searchTreeByIssueType(hierarchicalIssue, CustomNodeTypes.Project);
+        const selectedNode = searchTreeByKey(hierarchicalIssue, rpSelected);
+        if (currentProject && selectedNode) {
+            selectedNode.extendedFields = getExtendedFields(this.projects, currentProject.key, selectedNode.issueType);
+            const fieldList = _.map(selectedNode.extendedFields, 'id');
+            this.jiraService.getIssueDetails(rpSelected, fieldList)
+                .pipe(filter((p: any) => p !== null && p !== undefined && p.fields))
+                .subscribe((issuedetails: any) => {
+                    copyFieldValues(populateFieldValues(issuedetails), selectedNode);
+                    selectedNode.extendedFields = _.map(selectedNode.extendedFields, (ef) => {
+                        ef.value = issuedetails.fields[ef.id];
+                        return ef;
+                    });
+                    const localFieldList = _.concat(populatedFieldList, ['extendedFields', 'children'])
+                    const selectedItem = _.pick(selectedNode, localFieldList);
+                    selectedItem.project = _.find(projects, { key: selectedItem.project.key });
+                    this.store$.dispatch(new SetSelectedItemAction(selectedItem));
+                });
+        }
+        setTimeout(() => this.markIssueSelected(selectedNode), 500);
+    }
+
     ngOnDestroy(): void {
+        this.epicChildrenLoaded$ ? this.epicChildrenLoaded$.unsubscribe() : null;
         this.organization$ ? this.organization$.unsubscribe() : null;
         this.combined$ ? this.combined$.unsubscribe() : null;
         this.selectedItem$ ? this.selectedItem$.unsubscribe() : null;

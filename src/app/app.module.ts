@@ -111,7 +111,7 @@ export function initGapi(gapiSession: GapiSession) {
 
     AngularSplitModule.forRoot(),
     NgxMdModule.forRoot(),
-    DisqusModule.forRoot('disqus_storypurpose'),
+    // DisqusModule.forRoot('disqus_storypurpose'),
     StoreModule.forRoot(
       { app: appReducer },
       {

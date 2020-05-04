@@ -242,11 +242,11 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
         }
     }
 
-    public loadNode(event) {
-        if (event.node.issueType === CustomNodeTypes.EpicChildren && (!event.node.children || event.node.children.length === 0)) {
-            this.loadEpicChildren(event.node, event.node.parentId, true);
-        }
-    }
+    // public loadNode(event) {
+    //     if (event.node.issueType === CustomNodeTypes.EpicChildren && (!event.node.children || event.node.children.length === 0)) {
+    //         this.loadEpicChildren(event.node, event.node.parentId, true);
+    //     }
+    // }
 
     private loadEpicChildren(node: any, epicKey, shouldExpand) {
 
@@ -255,8 +255,8 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
         this.jiraService.executeJql(`'epic Link'=${epicKey}`, 0, 100, detailFields, 'epic-children.json')
             .subscribe((data: any) => {
                 if (data && data.issues) {
-                    const list = _.map(data.issues, issue => _.pick(populateFieldValues(issue), populatedFieldList));
-                    node.children = _.map(list, (item) => transformParentNode(item, null));;
+                    const epicChildren = _.map(data.issues, issue => _.pick(populateFieldValues(issue), populatedFieldList));
+                    node.children = _.map(epicChildren, (item) => transformParentNode(item, null));;
                     this.issueLookup = _.union(this.issueLookup, _.map(node.children, 'key'))
                     node.expanded = shouldExpand;
 

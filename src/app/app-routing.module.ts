@@ -21,8 +21,9 @@ const routes: Routes = [
       {
         path: ':issue', component: IssueviewerComponent, canActivate: [AuthenticatedGuard],
         children: [
-          { path: 'purpose', loadChildren: () => import('./purpose/purpose.module').then(m => m.PurposeModule) },
-          { path: 'storyboard', loadChildren: () => import('./storyboarding/storyboarding.module').then(m => m.StoryboardingModule) }]
+          { path: 'purpose', loadChildren: () => import('./purpose/purpose.module').then(m => m.PurposeModule) }
+          // { path: 'storyboard', loadChildren: () => import('./storyboarding/storyboarding.module').then(m => m.StoryboardingModule) }
+        ]
       },
       { path: '', component: PageNotFoundComponent }]
   },

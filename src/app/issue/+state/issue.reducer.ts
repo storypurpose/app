@@ -1,9 +1,9 @@
 import * as _ from 'lodash';
-import { Purpose } from './purpose.state';
-import { ActionTypes } from './purpose.actions';
+import { Issue } from './issue.state';
+import { ActionTypes } from './issue.actions';
 import { CustomNodeTypes } from 'src/app/lib/jira-tree-utils';
 
-export function purposeReducer(state: Purpose, action: any): Purpose {
+export function issueReducer(state: Issue, action: any): Issue {
     switch (action.type) {
         case ActionTypes.SetSelectedItem: {
             return { ...state, selectedItem: action.payload };

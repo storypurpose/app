@@ -1,6 +1,6 @@
-import { Purpose } from './purpose.state';
+import { Issue } from './issue.state';
 
-export const purposeInitialState: Purpose = {
+export const issueInitialState: Issue = {
     selectedItem: null,
     
     list: [],

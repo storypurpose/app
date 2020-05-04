@@ -1,10 +1,10 @@
-import { Component, Input, AfterViewInit, ViewChild, ElementRef, ChangeDetectorRef, OnInit, OnDestroy } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, ElementRef, ChangeDetectorRef, OnInit, OnDestroy } from '@angular/core';
 import * as _ from 'lodash';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/+state/app.state';
 import { filter } from 'rxjs/operators';
 import { Subscription, combineLatest } from 'rxjs';
-import { CustomNodeTypes, fieldList } from 'src/app/lib/jira-tree-utils';
+import { CustomNodeTypes } from 'src/app/lib/jira-tree-utils';
 
 @Component({
     selector: 'app-workbench',
@@ -39,7 +39,7 @@ export class WorkbenchComponent implements AfterViewInit, OnInit, OnDestroy {
         const epicChildrenLoadedQuery = this.store$.select(p => p.app.epicChildrenLoaded).pipe(filter(issue => issue === true));
 
         this.combined$ = combineLatest(issueQuery, epicChildrenLoadedQuery)
-            .subscribe(([issue, epicChildrenLoaded]) => {
+            .subscribe(([issue]) => {
                 this.issue = issue;
                 const relatedLinks = _.filter(this.issue.children, { issueType: CustomNodeTypes.RelatedLink });
                 this.issue.hasRelatedLinks = relatedLinks && relatedLinks.length > 0;

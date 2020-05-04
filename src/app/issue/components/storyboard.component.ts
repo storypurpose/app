@@ -1,14 +1,14 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as _ from 'lodash';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { CachingService } from 'src/app/lib/caching.service';
 import { JiraService } from 'src/app/lib/jira.service';
 import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/+state/app.state';
 import { CustomNodeTypes, populateFieldValues } from 'src/app/lib/jira-tree-utils';
-import { filter, tap } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 import { initializeMetadata, mergeMetadata, extractMetadata, populateStatistics } from 'src/app/lib/storyboard-utils';
+import { IssueState } from '../+state/issue.state';
 
 @Component({
     selector: 'app-storyboard',
@@ -34,12 +34,12 @@ export class StoryboardComponent implements OnInit, OnDestroy {
     constructor(public activatedRoute: ActivatedRoute,
         public cachingService: CachingService,
         public jiraService: JiraService,
-        public store$: Store<AppState>
+        public store$: Store<IssueState>
     ) { }
     ngOnInit(): void {
         this.localNodeType = CustomNodeTypes;
 
-        this.selectedItem$ = this.store$.select(p => p.purpose.selectedItem)
+        this.selectedItem$ = this.store$.select(p => p.issue.selectedItem)
             .pipe(filter(p => p))
             .subscribe(selectedItem => {
                 const selectedNode = selectedItem;
@@ -99,7 +99,6 @@ export class StoryboardComponent implements OnInit, OnDestroy {
         }
 
         this.storyboardItem.statistics = populateStatistics(this.storyboardItem);
-        // this.store$.dispatch(new SetStoryboardItemAction(this.storyboardItem));
     }
 
     private populateRelatedLinks() {

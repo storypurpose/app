@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as _ from "lodash";
 import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { PurposeState } from '../../purpose/+state/purpose.state';
+import { IssueState } from '../../issue/+state/issue.state';
 import { Store } from '@ngrx/store';
 
 @Component({
@@ -15,11 +15,11 @@ export class RecentlyViewedComponent implements OnInit, OnDestroy {
 
     subscription: Subscription;
 
-    constructor(public store$: Store<PurposeState>) {
+    constructor(public store$: Store<IssueState>) {
 
     }
     ngOnInit(): void {
-        this.subscription = this.store$.select(p => p.purpose)
+        this.subscription = this.store$.select(p => p.issue)
             .pipe(filter(p => p && p.recentmostItem), map(p => p.recentmostItem))
             .subscribe(data => this.setIssue(data));
     }

@@ -2,7 +2,7 @@ import { Component, Output, EventEmitter, OnInit, OnDestroy } from '@angular/cor
 import * as _ from "lodash";
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { PurposeState } from '../+state/purpose.state';
+import { IssueState } from '../+state/issue.state';
 import { Store } from '@ngrx/store';
 import { CachingService } from 'src/app/lib/caching.service';
 
@@ -27,15 +27,15 @@ export class PurposeDetailsComponent implements OnInit, OnDestroy {
     public fontSizeSmall = false;
 
     constructor(public cachingService: CachingService,
-        public store$: Store<PurposeState>
+        public store$: Store<IssueState>
     ) { }
 
     ngOnInit(): void {
-        this.selectedItem$ = this.store$.select(p => p.purpose.selectedItem)
+        this.selectedItem$ = this.store$.select(p => p.issue.selectedItem)
             .pipe(filter(p => p))
             .subscribe(p => this.selectedItem = p);
 
-        this.purpose$ = this.store$.select(p => p.purpose.list)
+        this.purpose$ = this.store$.select(p => p.issue.list)
             .pipe(filter(p => p))
             .subscribe(data => {
                 this.purpose = data;

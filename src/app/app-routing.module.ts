@@ -21,7 +21,7 @@ const routes: Routes = [
       {
         path: ':issue', component: IssueviewerComponent, canActivate: [AuthenticatedGuard],
         children: [
-          { path: 'purpose', loadChildren: () => import('./purpose/purpose.module').then(m => m.PurposeModule) }
+          { path: 'purpose', loadChildren: () => import('./issue/issue.module').then(m => m.IssueModule) }
           // { path: 'storyboard', loadChildren: () => import('./storyboarding/storyboarding.module').then(m => m.StoryboardingModule) }
         ]
       },

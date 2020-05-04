@@ -5,12 +5,13 @@ import { filter, map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { CustomNodeTypes, searchTreeByKey, copyFieldValues, populateFieldValues, searchTreeByIssueType } from 'src/app/lib/jira-tree-utils';
 import { CachingService } from 'src/app/lib/caching.service';
-import { SetPurposeAction, SetSelectedItemAction, UpdateOrganizationPurposeAction } from '../+state/purpose.actions';
+import { SetPurposeAction, SetSelectedItemAction, UpdateOrganizationPurposeAction } from '../+state/issue.actions';
 import { ActivatedRoute } from '@angular/router';
 import { AppState } from 'src/app/+state/app.state';
 import { getExtendedFields } from 'src/app/lib/project-config.utils';
 import { populatedFieldList } from 'src/app/lib/jira-tree-utils';
 import { JiraService } from 'src/app/lib/jira.service';
+import { IssueState } from '../+state/issue.state';
 
 @Component({
     selector: 'app-container',

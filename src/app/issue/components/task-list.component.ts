@@ -2,9 +2,9 @@ import { Component, Input, OnInit, OnDestroy, Output, EventEmitter } from '@angu
 import { JiraService } from '../../lib/jira.service';
 import { flattenNodes, appendExtendedFields } from '../../lib/jira-tree-utils';
 import * as _ from 'lodash';
-import { filter, map, tap } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 import { CachingService } from '../../lib/caching.service';
-import { Subscription, combineLatest } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../+state/app.state';
 
@@ -47,7 +47,7 @@ export class TasklistComponent implements OnInit, OnDestroy {
     }
     ngOnInit(): void {
         this.currentProject$ = this.store$.select(p => p.app.currentProjectUpdated)
-            .subscribe(p => this.loadDetails());
+            .subscribe(() => this.loadDetails());
     }
 
     ngOnDestroy(): void {

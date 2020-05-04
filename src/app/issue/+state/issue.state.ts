@@ -1,4 +1,4 @@
-export interface Purpose {
+export interface Issue {
   selectedItem: any;
 
   list: any;
@@ -8,6 +8,6 @@ export interface Purpose {
   // hierarchyEditorVisible: boolean;
 }
 
-export interface PurposeState {
-  readonly purpose: Purpose;
+export interface IssueState {
+  readonly issue: Issue;
 }

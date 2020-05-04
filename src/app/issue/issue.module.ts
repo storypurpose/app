@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
-import { purposeInitialState } from './+state/purpose.init';
-import { purposeReducer } from './+state/purpose.reducer';
+import { issueInitialState } from './+state/issue.init';
+import { issueReducer } from './+state/issue.reducer';
 import { PurposeDetailsComponent } from './components/purpose.component';
 import { NgxMdModule } from 'ngx-md';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -53,9 +53,9 @@ const routes: Route[] = [
     AngularSplitModule,
 
     CommonComponentsModule,
-    StoreModule.forFeature("purpose", purposeReducer, { initialState: purposeInitialState }),
+    StoreModule.forFeature("issue", issueReducer, { initialState: issueInitialState }),
 
     RouterModule.forChild(routes)
   ]
 })
-export class PurposeModule { }
+export class IssueModule { }

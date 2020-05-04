@@ -9,6 +9,7 @@ import { SetIssuelistAction, SearchresultViewMode } from '../+state/search.actio
 import { populateFieldValuesCompact, CustomNodeTypes } from '../../lib/jira-tree-utils';
 import { ToggleQueryEditorVisibilityAction } from 'src/app/+state/app.actions';
 import { AppState } from 'src/app/+state/app.state';
+import { SearchState } from '../+state/search.state';
 
 @Component({
     selector: 'app-result-container',
@@ -31,7 +32,7 @@ export class SearchResultContainerComponent implements OnInit, OnDestroy {
     constructor(public router: Router,
         public activatedRoute: ActivatedRoute,
         public jiraService: JiraService,
-        public store$: Store<AppState>) {
+        public store$: Store<SearchState>) {
     }
 
     ngOnInit(): void {

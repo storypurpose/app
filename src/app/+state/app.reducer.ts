@@ -4,9 +4,6 @@ import { ActionTypes } from './app.actions';
 
 export function appReducer(state: App, action: any): App {
     switch (action.type) {
-        case ActionTypes.SetSearchQuery: {
-            return { ...state, query: action.payload, queryEditorVisible: true };
-        }
         case ActionTypes.ToggleQueryEditorVisibility: {
             return { ...state, queryEditorVisible: action.payload };
         }

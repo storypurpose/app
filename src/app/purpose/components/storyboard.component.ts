@@ -40,7 +40,7 @@ export class StoryboardComponent implements OnInit, OnDestroy {
         this.localNodeType = CustomNodeTypes;
 
         this.selectedItem$ = this.store$.select(p => p.purpose.selectedItem)
-            .pipe(tap(p => console.log(p)), filter(p => p))
+            .pipe(filter(p => p))
             .subscribe(selectedItem => {
                 const selectedNode = selectedItem;
                 if (selectedNode) {

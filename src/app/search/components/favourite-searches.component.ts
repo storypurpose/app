@@ -7,6 +7,7 @@ import { filter, map } from 'rxjs/operators';
 import { JiraService } from '../../lib/jira.service';
 import { AppState } from 'src/app/+state/app.state';
 import { SetSavedSearchlistAction } from '../+state/search.actions';
+import { SearchState } from '../+state/search.state';
 
 @Component({
     selector: 'app-favourite-searches',
@@ -19,7 +20,7 @@ export class FavouriteSearchesComponent implements OnInit, OnDestroy {
     constructor(public router: Router,
         public activatedRoute: ActivatedRoute,
         public jiraService: JiraService,
-        public store$: Store<AppState>) {
+        public store$: Store<SearchState>) {
     }
     ngOnInit(): void {
         this.searchlist$ = this.store$.select(p => p.search.savedSearchlist).pipe(filter(p => p))

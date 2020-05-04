@@ -2,7 +2,6 @@ import { Action } from '@ngrx/store';
 import { type } from 'src/app/lib/utils';
 
 export const ActionTypes = {
-    SetSearchQuery: type("[SetSearchQuery]"),
     ToggleQueryEditorVisibility: type("[ToggleQueryEditorVisibility]"),
 
     ShowConnectionEditor: type("[ShowConnectionDetails]"),
@@ -31,10 +30,6 @@ export const ModeTypes = {
     Online: "online"
 }
 
-export class SetSearchQueryAction implements Action {
-    type = ActionTypes.SetSearchQuery;
-    constructor(public payload: any) { }
-}
 export class ToggleQueryEditorVisibilityAction implements Action {
     type = ActionTypes.ToggleQueryEditorVisibility;
     constructor(public payload: any) { }
@@ -105,8 +100,7 @@ export class DismissProjectSetupAction implements Action {
 }
 
 export type Actions =
-    SetSearchQueryAction
-    | ToggleQueryEditorVisibilityAction
+    ToggleQueryEditorVisibilityAction
 
     | ShowConnectionEditorAction
     | ConfigureProjectAction

@@ -2,7 +2,6 @@ import { Purpose } from '../purpose/+state/purpose.state';
 import { Search } from '../search/+state/search.state';
 
 export interface App {
-  query: string;
   queryEditorVisible: boolean;
   
   mode: string;

@@ -6,9 +6,9 @@
 
     <p-dialog header="Statistics" *ngIf="storyboardItem.statistics" position="topright" class="bg-light"
         [(visible)]="showStatistics">
-        <app-epic-statistics [statusStats]="storyboardItem.statistics.status"
+        <app-statistics [statusStats]="storyboardItem.statistics.status"
             [issueTypeStats]="storyboardItem.statistics.issueTypes"
             [componentStats]="storyboardItem.statistics.components">
-        </app-epic-statistics>
+        </app-statistics>
     </p-dialog>
 </div>

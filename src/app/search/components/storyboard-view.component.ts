@@ -7,6 +7,7 @@ import { filter, map, tap } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { initializeMetadata, mergeMetadata, extractMetadata, populateStatistics } from 'src/app/lib/storyboard-utils';
 import { SwitchSearchresultViewmodeAction, SearchresultViewMode } from '../+state/search.actions';
+import { SearchState } from '../+state/search.state';
 
 @Component({
     selector: 'app-storyboard-view',
@@ -18,8 +19,8 @@ export class SearchStoryboardViewComponent implements OnInit, OnDestroy {
     issuelist$: Subscription;
     public storyboardItem: any;
 
-    public constructor(public store$: Store<AppState>,
-        public activatedRoute: ActivatedRoute) {
+    public constructor(public activatedRoute: ActivatedRoute,
+        public store$: Store<SearchState>) {
     }
 
     ngOnInit(): void {

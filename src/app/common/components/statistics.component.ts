@@ -3,7 +3,7 @@ import * as _ from 'lodash';
 import { ChartOptions } from 'chart.js';
 
 @Component({
-    selector: 'app-epic-statistics',
+    selector: 'app-statistics',
     templateUrl: './statistics.component.html'
 })
 export class StatisticsComponent {

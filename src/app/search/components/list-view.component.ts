@@ -7,6 +7,7 @@ import { filter } from 'rxjs/operators';
 import { JiraService } from '../../lib/jira.service';
 import { AppState } from 'src/app/+state/app.state';
 import { SwitchSearchresultViewmodeAction, SearchresultViewMode } from '../+state/search.actions';
+import { SearchState } from '../+state/search.state';
 
 @Component({
     selector: 'app-search-listview',
@@ -25,7 +26,7 @@ export class SearchListViewComponent implements OnInit, OnDestroy {
     constructor(public router: Router,
         public activatedRoute: ActivatedRoute,
         public jiraService: JiraService,
-        public store$: Store<AppState>) {
+        public store$: Store<SearchState>) {
     }
     ngOnInit(): void {
         this.store$.dispatch(new SwitchSearchresultViewmodeAction(SearchresultViewMode.LIST));

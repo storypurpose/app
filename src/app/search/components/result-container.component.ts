@@ -7,7 +7,7 @@ import { filter, map } from 'rxjs/operators';
 import { JiraService } from '../../lib/jira.service';
 import { SetIssuelistAction, SearchresultViewMode } from '../+state/search.actions';
 import { populateFieldValuesCompact, CustomNodeTypes } from '../../lib/jira-tree-utils';
-import { SetSearchQueryAction, ToggleQueryEditorVisibilityAction } from 'src/app/+state/app.actions';
+import { ToggleQueryEditorVisibilityAction } from 'src/app/+state/app.actions';
 import { AppState } from 'src/app/+state/app.state';
 
 @Component({
@@ -42,15 +42,12 @@ export class SearchResultContainerComponent implements OnInit, OnDestroy {
 
         this.store$.dispatch(new ToggleQueryEditorVisibilityAction(true));
 
-        this.query$ = this.store$.select(p => p.app.query)
-            .pipe(filter(p => p && p.length > 0))
+        this.queryParams$ = this.activatedRoute.queryParams
+            .pipe(filter(p => p && p["query"] && p["query"].length > 0), map(p => p["query"]))
             .subscribe(query => {
                 this.query = query;
                 this.executeQuery();
             });
-        this.queryParams$ = this.activatedRoute.queryParams
-            .pipe(filter(p => p && p["query"] && p["query"].length > 0), map(p => p["query"]))
-            .subscribe(query => this.store$.dispatch(new SetSearchQueryAction(query)));
 
         this.issuelist$ = this.store$.select(p => p.search.issuelist).pipe(filter(p => p))
             .subscribe(key => this.issuelist = key);

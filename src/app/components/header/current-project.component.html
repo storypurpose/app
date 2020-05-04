@@ -6,6 +6,7 @@
         </a>
         <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-menu-right">
             <button ngbDropdownItem (click)="showProjectSetup(project)" *ngFor="let project of projects">
+                <fa-icon [icon]="['far','sun']" class="float-right" size="sm"></fa-icon>
                 {{project.name}}
             </button>
         </div>

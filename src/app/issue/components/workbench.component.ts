@@ -2,11 +2,11 @@ import { Component, AfterViewInit, ViewChild, ElementRef, ChangeDetectorRef, OnI
 import * as _ from 'lodash';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/+state/app.state';
-import { filter } from 'rxjs/operators';
-import { Subscription, combineLatest } from 'rxjs';
+import { filter, tap } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import { CustomNodeTypes } from 'src/app/lib/jira-tree-utils';
 
-const LEFT_PANE_WIDTH = 50;
+const LEFT_PANE_WIDTH = 55;
 
 @Component({
     selector: 'app-workbench',
@@ -37,7 +37,7 @@ export class WorkbenchComponent implements AfterViewInit, OnInit, OnDestroy {
     ngOnInit(): void {
 
         this.epicChildrenLoaded$ = this.store$.select(p => p.app.epicChildrenLoaded).pipe(filter(issue => issue === true))
-            .subscribe(loaded => this.groupEpicChildren('status'));
+            .subscribe(() => this.groupEpicChildren('status'));
 
         this.issue$ = this.store$.select(p => p.issue.selectedItem).pipe(filter(p => p))
             .subscribe(issue => {

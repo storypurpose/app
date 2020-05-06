@@ -1,11 +1,15 @@
 <div #content [style.height.px]="contentHeight">
     <as-split direction="horizontal" *ngIf="issue" (gutterDblClick)="toggleFullscreen()" (dragEnd)="dragEnd($event)">
-        <as-split-area [size]="columns[0].size" class="pr-3">
-            <app-extended-fields [issue]="issue" *ngIf="leftPaneSize > 0"></app-extended-fields>
+        <as-split-area [size]="columns[0].size">
+            <div class="mr-5 alert bg-light" style="overflow: auto;">
+                <ngx-md [data]="issue.description"></ngx-md>
+
+                <app-extended-fields [issue]="issue" *ngIf="leftPaneSize > 0"></app-extended-fields>
+            </div>
         </as-split-area>
         <as-split-area [size]="columns[1].size" class="small">
             <button class="btn btn-sm btn-link text-muted float-right" title="expand/collapse pane"
-                (click)="toggleFullscreen()" [ngClass]="{'mr-3': columns[0].size === 0}">
+                (click)="toggleFullscreen()">
                 <fa-icon [icon]="columns[0].size === 0 ? 'compress-arrows-alt' : 'expand-arrows-alt'"
                     [fixedWidth]="true"></fa-icon>
             </button>
@@ -39,6 +43,8 @@
                                         </div>
                                         <div *ngIf="child.visible" class="mb-4">
                                             <div class="ml-3 p-1 border-bottom" *ngFor="let i of child.children">
+                                                <app-issue-navigation class="float-right" [issueKey]="i.key">
+                                                </app-issue-navigation>
                                                 <div
                                                     class="badge badge-light font-weight-normal text-uppercase float-right mt-1">
                                                     {{i.duedate}}
@@ -49,6 +55,12 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <a class="btn btn-light btn-sm text-primary mt-4" routerLink="../storyboard">
+                                        Storyboard view
+                                        <fa-icon icon="chevron-right" size="sm"></fa-icon>
+                                    </a>
+
                                 </div>
 
                                 <div *ngIf="selectedEpicIssue">
@@ -88,6 +100,8 @@
                                         <div *ngIf="child.visible" class="mb-4">
                                             <div class="ml-3 p-1 border-bottom" [title]="i.issueType"
                                                 *ngFor="let i of child.children">
+                                                <app-issue-navigation class="float-right" [issueKey]="i.key">
+                                                </app-issue-navigation>
                                                 <div
                                                     class="badge badge-light font-weight-normal text-uppercase float-right mt-1">
                                                     {{i.status}}

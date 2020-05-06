@@ -1,18 +1,15 @@
 <div *ngIf="issue">
-    <ngx-md> {{issue.description}} </ngx-md>
-
-    <div *ngIf="!issue.extendedFields || issue.extendedFields.length === 0">
-        <fa-icon class="text-info" icon="exclamation-triangle"></fa-icon> There are no extended fields/attributes for
+    <div class="alert alert-warning" *ngIf="!issue.extendedFields || issue.extendedFields.length === 0">
+        <fa-icon class="text-warning" icon="exclamation-triangle"></fa-icon> There are no extended fields/attributes for
         this record.
     </div>
 
-    <div class="alert bg-light small">
-        <div class="list-group list-group-flush list-group-flush-compact bg-light"
-            *ngIf="issue.extendedFields && issue.extendedFields.length > 0">
+    <div class="alert small" *ngIf="issue.extendedFields && issue.extendedFields.length > 0">
+        <div class="list-group list-group-flush list-group-flush-compact">
             <div class="list-group-item" *ngFor="let ef of issue.extendedFields">
                 <div class="small text-uppercase mb-2">{{ef.name}}</div>
                 <div class="ml-4" [ngClass]="{'small': fontSizeSmall}">
-                    <ngx-md> {{ef.value}} </ngx-md>
+                    <ngx-md [data]="ef.value"></ngx-md>
                 </div>
             </div>
         </div>

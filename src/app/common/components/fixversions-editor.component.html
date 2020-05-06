@@ -1,23 +1,20 @@
-<div *ngIf="issue" class="mt-2 border">
-    <div class="p-2 bg-light">
-        Current:
-        <div class="pt-0 pb-1 text-muted" *ngFor="let fv of issue.fixVersions">
-            {{fv}}
-        </div>
-        New:
+<div *ngIf="issue" class="mt-3 border bg-light rounded">
+    <div class="p-2 border-bottom">
+        <button class="btn btn-link btn-sm text-dark float-right pt-0 pr-0" (click)="cancel()">
+            <fa-icon icon="times" [fixedWidth]="true" class="text-dark"></fa-icon>
+        </button>
+        <b>Release version</b>
+    </div>
+    <div class="p-2">
         <div *ngIf="issue.project && issue.project.metadata && issue.project.metadata.versions">
             <app-field-selector-list [customFields]="issue.project.metadata.versions"
                 [(list)]="issue.updated.fixVersions">
             </app-field-selector-list>
         </div>
-    </div>
-    <div class="border-top text-right">
-        <div class="btn btn-group btn-group-sm">
-            <button class="btn btn-primary">
-                <fa-icon icon="check"></fa-icon>
-            </button>
-            <button class="btn btn-secondary">
-                <fa-icon icon="times"></fa-icon>
+        <div class="text-right pt-2">
+            <button class="btn btn-default btn-sm" (click)="save()">
+                <fa-icon icon="check" [fixedWidth]="true" size="sm" class="text-primary"></fa-icon>
+                Done
             </button>
         </div>
     </div>

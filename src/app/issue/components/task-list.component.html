@@ -1,5 +1,8 @@
 <div *ngIf="issue">
     <div class="alert bg-light pl-0 mb-0" style="font-size:medium;" *ngIf="showIssue">
+
+        <app-issue-navigation class="float-right" [issueKey]="issue.key"></app-issue-navigation>
+
         <button class="btn btn-sm btn-link mr-2" (click)="onClose()">
             <fa-icon icon="chevron-left" size="lg"></fa-icon>
         </button>
@@ -62,7 +65,7 @@
                     :{{record.key}}
                 </small>
 
-                <div class="ml-4" style="margin-top: -4pt;">
+                <div [ngClass]="{'ml-4': hasExtendedFields}">
                     <div>{{record.title}}</div>
                     <div style="overflow: auto;" class="alert mt-2 p-0 rounded-0 border-0"
                         *ngIf="!record.hideExtendedFields && record.extendedFields && record.extendedFields.length > 0">
@@ -80,7 +83,7 @@
         </div>
     </div>
 
-    <div class="alert alert-warning" *ngIf="filteredItems && filteredItems.length === 0">
+    <div class="alert alert-warning mt-2" *ngIf="filteredItems && filteredItems.length === 0">
         No detail records found.
     </div>
 </div>

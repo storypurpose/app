@@ -12,10 +12,11 @@ import { AutofocusDirective } from './lib/autofocus.directive';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { FixVersionsEditorComponent } from './components/fixversions-editor.component';
 import { FieldSelectorListComponent } from './components/field-selector-list.component';
+import { IssueNavigationComponent } from './components/issue-navigation.component';
 
 const components = [
   ButtonPanelComponent, StoryboardRendererComponent, StatisticsComponent, AutofocusDirective, FixVersionsEditorComponent,
-  FieldSelectorListComponent
+  FieldSelectorListComponent, IssueNavigationComponent
 ];
 @NgModule({
   exports: components,

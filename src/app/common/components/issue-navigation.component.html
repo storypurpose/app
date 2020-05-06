@@ -1,0 +1,23 @@
+<div class="btn-group btn-group-sm">
+    <div ngbDropdown display="dynamic" placement="bottom-right">
+        <a class="text-primary pl-2 hide-caret" id="dropdownBasic1" ngbDropdownToggle title="Issue tools">
+            <fa-icon icon="ellipsis-v"></fa-icon>
+        </a>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-menu-right">
+            <div class="small p-1 bg-light text-muted">NAVIGATE</div>
+            <a title="View purpose" ngbDropdownItem [routerLink]="['/browse', issueKey, 'purpose', issueKey]">
+                <fa-icon [icon]="['far', 'lightbulb']" size="fw" class="text-muted">
+                </fa-icon>
+                View purpose
+            </a>
+            <a target="_blank" ngbDropdownItem title="View in jira" href="{{prepareExternalUrl(issueKey)}}">
+                <fa-icon [icon]="['fab', 'jira']" size="fw" class="text-muted">
+                </fa-icon>
+                View in Jira
+            </a>
+
+            <ng-content></ng-content>
+
+        </div>
+    </div>
+</div>

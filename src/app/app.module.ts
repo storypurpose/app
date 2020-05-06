@@ -35,6 +35,7 @@ import { WorkspaceComponent } from './components/workspace.component';
 import { GoogleAnalyticsService } from './lib/google-analytics.service';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { EffectsModule } from '@ngrx/effects';
 
 import { appInitialState } from './+state/app.init';
 import { appReducer } from './+state/app.reducer';
@@ -60,6 +61,7 @@ import { ToolsComponent } from './components/header/tools.component';
 import { NavbarComponent } from './components/header/navbar.component';
 import { SearchboxComponent } from './components/header/searchbox.component';
 import { CurrentProjectComponent } from './components/header/current-project.component';
+import { AppEffects } from './+state/app.effects';
 
 export function initGapi(gapiSession: GapiSession) {
   return () => gapiSession.initClient();
@@ -103,7 +105,7 @@ export function initGapi(gapiSession: GapiSession) {
 
     AngularSplitModule.forRoot(),
     NgxMdModule.forRoot(),
-    // DisqusModule.forRoot('disqus_storypurpose'),
+
     StoreModule.forRoot(
       { app: appReducer },
       {
@@ -120,6 +122,7 @@ export function initGapi(gapiSession: GapiSession) {
       maxAge: 25, // Retains last 25 states
       logOnly: environment.production, // Restrict extension to log-only mode
     }),
+    EffectsModule.forRoot([AppEffects]),
 
     CommonComponentsModule,
     //SearchModule,

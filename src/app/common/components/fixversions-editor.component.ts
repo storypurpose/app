@@ -9,4 +9,12 @@ import { ChartOptions } from 'chart.js';
 export class FixVersionsEditorComponent {
     @Input() issue: any;
     @Output() changed = new EventEmitter<any>();
+
+    save() {
+        this.changed.emit(this.issue.updated.fixVersions);
+    }
+
+    cancel() {
+        this.changed.emit(null);
+    }
 }

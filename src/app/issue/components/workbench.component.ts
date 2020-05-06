@@ -6,19 +6,21 @@ import { filter } from 'rxjs/operators';
 import { Subscription, combineLatest } from 'rxjs';
 import { CustomNodeTypes } from 'src/app/lib/jira-tree-utils';
 
+const LEFT_PANE_WIDTH = 50;
+
 @Component({
     selector: 'app-workbench',
     templateUrl: './workbench.component.html'
 })
 export class WorkbenchComponent implements AfterViewInit, OnInit, OnDestroy {
+    issue$: Subscription;
     public issue: any;
 
-    allRelatedIssuesVisible = false;
-    allEpicChildrenVisible = false;
+    allRelatedIssuesVisible = true;
+    allEpicChildrenVisible = true;
     groupedEpicChildren: any;
-    epicChildrenLoadedQuery$: Subscription;
 
-    combined$: Subscription;
+    epicChildrenLoaded$: Subscription;
 
     contentHeight = 0;
     @ViewChild('content') elementView: ElementRef;
@@ -34,34 +36,25 @@ export class WorkbenchComponent implements AfterViewInit, OnInit, OnDestroy {
 
     ngOnInit(): void {
 
+        this.epicChildrenLoaded$ = this.store$.select(p => p.app.epicChildrenLoaded).pipe(filter(issue => issue === true))
+            .subscribe(loaded => this.groupEpicChildren('status'));
 
-        const issueQuery = this.store$.select(p => p.issue.selectedItem).pipe(filter(p => p));
-        const epicChildrenLoadedQuery = this.store$.select(p => p.app.epicChildrenLoaded).pipe(filter(issue => issue === true));
-
-        this.combined$ = combineLatest(issueQuery, epicChildrenLoadedQuery)
-            .subscribe(([issue]) => {
+        this.issue$ = this.store$.select(p => p.issue.selectedItem).pipe(filter(p => p))
+            .subscribe(issue => {
                 this.issue = issue;
                 const relatedLinks = _.filter(this.issue.children, { issueType: CustomNodeTypes.RelatedLink });
-                this.issue.hasRelatedLinks = relatedLinks && relatedLinks.length > 0;
-                this.selectedTab = this.issue.hasRelatedLinks ? 2 : 3;
-
+                this.issue.relatedLinksCount = relatedLinks.length;
+                this.selectedTab = (this.issue.relatedLinksCount > 0) ? 2 : 3;
+                this.toggleAllRelatedIssues();
                 if (this.issue.issueType === CustomNodeTypes.Epic) {
                     this.groupEpicChildren('status');
                 }
             });
     }
 
-    toggleAllRelatedIssues() {
-        this.allRelatedIssuesVisible = !this.allRelatedIssuesVisible;
-        if (this.issue && this.issue.hasRelatedLinks) {
-            _.filter(this.issue.children, { issueType: CustomNodeTypes.RelatedLink })
-                .forEach(u => u.visible = this.allRelatedIssuesVisible);
-        }
-    }
-
     ngOnDestroy(): void {
-        this.epicChildrenLoadedQuery$ ? this.epicChildrenLoadedQuery$.unsubscribe() : null;
-        this.combined$ ? this.combined$.unsubscribe() : null;
+        this.epicChildrenLoaded$ ? this.epicChildrenLoaded$.unsubscribe() : null;
+        this.issue$ ? this.issue$.unsubscribe() : null;
     }
 
     ngAfterViewInit(): void {
@@ -69,8 +62,8 @@ export class WorkbenchComponent implements AfterViewInit, OnInit, OnDestroy {
         this.cdRef.detectChanges();
     }
 
-    leftPaneSize = 60;
-    public columns: any = [{ visible: true, size: 60 }, { visible: true, size: 40 }];
+    leftPaneSize = LEFT_PANE_WIDTH;
+    public columns: any = [{ visible: true, size: LEFT_PANE_WIDTH }, { visible: true, size: 40 }];
     dragEnd(e: { gutterNum: number; sizes: Array<number> }) {
         this.adjustPaneSize(e.sizes[0]);
     }
@@ -80,7 +73,7 @@ export class WorkbenchComponent implements AfterViewInit, OnInit, OnDestroy {
         this.columns[1].size = 100 - sizeOfLeftPane;
     }
     toggleFullscreen() {
-        this.adjustPaneSize(this.leftPaneSize === 0 ? 60 : 0);
+        this.adjustPaneSize(this.leftPaneSize === 0 ? LEFT_PANE_WIDTH : 0);
     }
 
     resetSelectedRelatedIssue = () => this.selectedRelatedIssue = null;
@@ -102,6 +95,7 @@ export class WorkbenchComponent implements AfterViewInit, OnInit, OnDestroy {
             if (epicChildren && epicChildren.children && epicChildren.children.length > 0) {
                 this.groupedEpicChildren = this.groupChildren(epicChildren.children, groupByField);
             }
+            this.toggleAllEpicChildren()
         }
     }
 
@@ -115,7 +109,16 @@ export class WorkbenchComponent implements AfterViewInit, OnInit, OnDestroy {
     toggleAllEpicChildren() {
         this.allEpicChildrenVisible = !this.allEpicChildrenVisible;
         if (this.groupedEpicChildren) {
-            this.groupedEpicChildren.forEach(u => u.visible = this.allEpicChildrenVisible);
+            this.groupedEpicChildren
+                .forEach(u => u.visible = this.groupedEpicChildren.length === 1 ? true : this.allEpicChildrenVisible);
+        }
+    }
+
+    toggleAllRelatedIssues() {
+        this.allRelatedIssuesVisible = !this.allRelatedIssuesVisible;
+        if (this.issue && this.issue.relatedLinksCount > 0) {
+            _.filter(this.issue.children, { issueType: CustomNodeTypes.RelatedLink })
+                .forEach(u => u.visible = this.issue.relatedLinksCount === 1 ? true : this.allRelatedIssuesVisible);
         }
     }
 }

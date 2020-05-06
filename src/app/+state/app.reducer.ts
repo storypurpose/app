@@ -87,7 +87,7 @@ export function appReducer(state: App, action: any): App {
                     }
                     if (action.payload.versions) {
                         currentProject.metadata.versions =
-                            _.sortBy(_.map(_.filter(action.payload.versions, { archived: false }), (ff) => _.pick(ff, ['id', 'name', 'releaseDate'])), ['name']);
+                            _.sortBy(_.map(action.payload.versions, (ff) => _.pick(ff, ['archived', 'id', 'name', 'releaseDate'])), ['name']);
                     }
 
                     list.push(currentProject);

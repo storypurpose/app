@@ -12,7 +12,8 @@
             <ul ngbNav #nav="ngbNav" class="nav-tabs" [(activeId)]="selectedTab" [destroyOnHide]="false">
                 <li [ngbNavItem]="1" *ngIf="issue.issueType === localNodeType.Epic">
                     <a ngbNavLink (click)="toggleAllEpicChildren()">
-                        <fa-icon [icon]="allEpicChildrenVisible ? 'angle-double-down' : 'angle-double-right'" size="sm"
+                        <fa-icon *ngIf="groupedEpicChildren && groupedEpicChildren.length > 1"
+                            [icon]="allEpicChildrenVisible ? 'angle-double-down' : 'angle-double-right'" size="sm"
                             [fixedWidth]="true">
                         </fa-icon>
                         Issues in this epic
@@ -60,9 +61,10 @@
                     </ng-template>
                 </li>
 
-                <li [ngbNavItem]="2" *ngIf="issue.hasRelatedLinks">
+                <li [ngbNavItem]="2" *ngIf="issue.relatedLinksCount > 0">
                     <a ngbNavLink (click)="toggleAllRelatedIssues()">
-                        <fa-icon [icon]="allRelatedIssuesVisible ? 'angle-double-down' : 'angle-double-right'" size="sm"
+                        <fa-icon *ngIf="issue.relatedLinksCount > 1"
+                            [icon]="allRelatedIssuesVisible ? 'angle-double-down' : 'angle-double-right'" size="sm"
                             [fixedWidth]="true">
                         </fa-icon>
                         Related

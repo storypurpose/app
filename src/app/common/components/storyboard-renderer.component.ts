@@ -64,15 +64,30 @@ export class StoryboardRendererComponent implements OnInit, OnDestroy {
         if (!issue.project.metadata || !issue.project.metadata.versions) {
             const refProject = _.find(this.projects, { key: issue.project.key });
             if (refProject && refProject.metadata) {
+
+                issue.updated.fixVersions = [];
+                if (issue.fixVersions) {
+                    issue.fixVersions.forEach(fv => {
+                        const found = _.find(refProject.metadata.versions, { name: fv });
+                        if (found) {
+                            issue.updated.fixVersions.push({ id: found.name, name: `${found.name} (${found.releaseDate})` });
+                        }
+                    })
+                }
+
                 issue.project.metadata = issue.project.metadata || {};
-                issue.project.metadata.versions = refProject.metadata.versions;
+                issue.project.metadata.versions = _.map(_.filter(refProject.metadata.versions, { archived: false }), (found) => {
+                    return { id: found.name, name: `${found.name}` + (found.releaseDate ? `(${found.releaseDate})` : '') };
+                });
             }
         }
         issue.isEditingFixversions = true;
     }
 
-    onfixVersionChanged(eventArgs) {
-        eventArgs.issue.isEditingFixversions = false;
-        console.log('onfixVersionChanged', eventArgs);
+    onfixVersionChanged(eventArgs, issue) {
+        issue.isEditingFixversions = false;
+        if (eventArgs) {
+
+        }
     }
 }

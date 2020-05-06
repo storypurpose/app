@@ -35,51 +35,30 @@
                             [ngClass]="{'linked-issue': item.linkType && item.linkType.length> 0}" style="width:250px"
                             *ngFor="let item of getItems(fv, c)">
                             <div class="mb-1">
-                                <div class="btn-group btn-group-sm float-right">
-                                    <div ngbDropdown display="dynamic" placement="bottom-right">
-                                        <a class="text-primary pl-2 hide-caret" id="dropdownBasic1" ngbDropdownToggle
-                                            title="Issue tools">
-                                            <fa-icon icon="ellipsis-v"></fa-icon>
-                                        </a>
-                                        <div ngbDropdownMenu aria-labelledby="dropdownBasic1"
-                                            class="dropdown-menu-right">
-                                            <a title="View purpose" ngbDropdownItem
-                                                [routerLink]="['/browse', item.key, 'purpose', item.key]">
-                                                <fa-icon [icon]="['far', 'lightbulb']" size="fw" class="text-muted">
-                                                </fa-icon>
-                                                View purpose
-                                            </a>
-                                            <a target="_blank" ngbDropdownItem title="View in jira"
-                                                href="{{prepareExternalUrl(item.key)}}">
-                                                <fa-icon [icon]="['fab', 'jira']" size="fw" class="text-muted">
-                                                </fa-icon>
-                                                View in Jira
-                                            </a>
-
-                                            <div *ngIf="projects && projects.length > 0 && item.project">
-
-                                                <div class="dropdown-divider"></div>
-
-                                                <button ngbDropdownItem (click)="editFixversions(item)">
-                                                    <fa-icon icon="edit" size="fw" class="text-muted"></fa-icon>
-                                                    Change release plan
-                                                </button>
-                                            </div>
+                                <div class="float-right">
+                                    <app-issue-navigation (issue)="item">
+                                        <div *ngIf="projects && projects.length > 0 && item.project">
+                                            <div class="small p-1 bg-light text-muted">CHANGE</div>
+                                            <button ngbDropdownItem (click)="editFixversions(item)">
+                                                <fa-icon icon="edit" size="fw" class="text-muted"></fa-icon>
+                                                Release version
+                                            </button>
                                         </div>
-                                    </div>
+                                    </app-issue-navigation>
                                 </div>
 
-                                <div class="float-right text-muted text-uppercase">{{item.status}}</div>
-                                <span class=" text-uppercase">
+                                <div class="float-right text-muted small text-uppercase pt-1">{{item.status}}</div>
+                                <a class="small text-uppercase" title="View purpose"
+                                    [routerLink]="['/browse', item.key, 'purpose', item.key]">
                                     {{item.issueType}}: {{item.key}}
-                                </span>
+                                </a>
                             </div>
                             {{item.title}}
                             <div>
                                 <sub class="text-uppercase text-muted">{{item.linkType}}</sub>
                             </div>
 
-                            <app-fixversions-editor (changed)="onfixVersionChanged($event)" [issue]="item"
+                            <app-fixversions-editor (changed)="onfixVersionChanged($event, item)" [issue]="item"
                                 *ngIf="item.isEditingFixversions">
                             </app-fixversions-editor>
 

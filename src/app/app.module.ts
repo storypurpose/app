@@ -28,7 +28,6 @@ import { PageNotFoundComponent } from './components/page-not-found.component';
 import { IssueviewerComponent } from './components/issuemanager/issueviewer.component';
 import { IssueEntryComponent } from './components/issuemanager/issue-entry.component';
 
-import { DisqusModule } from "ngx-disqus";
 import { NgxMdModule } from 'ngx-md';
 import { ErrorHandlingInterceptor } from './lib/error-handling.interceptor';
 import { AboutComponent } from './components/help/about.component';
@@ -44,7 +43,6 @@ import { CommonComponentsModule } from './common/common-components.module';
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { environment } from '../environments/environment';
 import { ProjectConfigComponent } from './components/setup/project-config.component';
-import { FieldSelectorListComponent } from './components/setup/field-selector-list.component';
 import { HierarchyFieldEditorComponent } from './components/setup/hierarchy-field.component';
 import { OrganizationComponent } from './components/setup/organization.component';
 import { PrivacyComponent } from './components/help/privacy.component';
@@ -74,12 +72,10 @@ export function initGapi(gapiSession: GapiSession) {
     AppComponent, PageNotFoundComponent,
     IssueviewerComponent,
 
-    IssueEntryComponent, 
+    IssueEntryComponent,
 
     ConnectionDetailsComponent, ProjectConfigComponent, OrganizationComponent, HierarchyFieldEditorComponent,
     ConfigurationsComponent, ExportConfigurationComponent, ImportConfigurationComponent,
-
-    FieldSelectorListComponent,
 
     PrivacyComponent, TermsComponent
   ],

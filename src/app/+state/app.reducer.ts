@@ -80,6 +80,16 @@ export function appReducer(state: App, action: any): App {
                         currentProject.standardIssueTypes = getIssueTypes(action.payload.issueTypes, false);
                         currentProject.subTaskIssueTypes = getIssueTypes(action.payload.issueTypes, true);
                     }
+                    currentProject.metadata = {};
+                    if (action.payload.components) {
+                        currentProject.metadata.components =
+                            _.sortBy(_.map(action.payload.components, (ff) => _.pick(ff, ['id', 'name'])), ['name']);
+                    }
+                    if (action.payload.versions) {
+                        currentProject.metadata.versions =
+                            _.sortBy(_.map(_.filter(action.payload.versions, { archived: false }), (ff) => _.pick(ff, ['id', 'name', 'releaseDate'])), ['name']);
+                    }
+
                     list.push(currentProject);
                 }
                 currentProject.current = true;

@@ -1,17 +1,33 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import * as _ from 'lodash';
 import { CachingService } from 'src/app/lib/caching.service';
+import { AppState } from 'src/app/+state/app.state';
+import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 @Component({
     selector: 'app-storyboard-renderer',
     templateUrl: './storyboard-renderer.component.html'
 })
-export class StoryboardRendererComponent {
+export class StoryboardRendererComponent implements OnInit, OnDestroy {
 
     @Input() storyboardItem: any;
     expandedAll = true;
 
-    constructor(public cachingService: CachingService) {
+    projects$: Subscription;
+    projects: any;
+
+    constructor(public cachingService: CachingService,
+        public store$: Store<AppState>) {
+    }
+    ngOnInit(): void {
+        this.projects$ = this.store$.select(p => p.app.projects)
+            .pipe(filter(p => p))
+            .subscribe(list => this.projects = list);
+    }
+    ngOnDestroy(): void {
+        this.projects$ ? this.projects$.unsubscribe() : null;
     }
 
     getItems(fixVersion, component) {
@@ -41,5 +57,22 @@ export class StoryboardRendererComponent {
         return (connectionDetails && connectionDetails.serverUrl && connectionDetails.serverUrl.length > 0)
             ? `${connectionDetails.serverUrl}/browse/${issueKey}`
             : '';
+    }
+
+    editFixversions(issue) {
+        issue.updated = issue.updated || {};
+        if (!issue.project.metadata || !issue.project.metadata.versions) {
+            const refProject = _.find(this.projects, { key: issue.project.key });
+            if (refProject && refProject.metadata) {
+                issue.project.metadata = issue.project.metadata || {};
+                issue.project.metadata.versions = refProject.metadata.versions;
+            }
+        }
+        issue.isEditingFixversions = true;
+    }
+
+    onfixVersionChanged(eventArgs) {
+        eventArgs.issue.isEditingFixversions = false;
+        console.log('onfixVersionChanged', eventArgs);
     }
 }

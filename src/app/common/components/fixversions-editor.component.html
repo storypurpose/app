@@ -1,0 +1,24 @@
+<div *ngIf="issue" class="mt-2 border">
+    <div class="p-2 bg-light">
+        Current:
+        <div class="pt-0 pb-1 text-muted" *ngFor="let fv of issue.fixVersions">
+            {{fv}}
+        </div>
+        New:
+        <div *ngIf="issue.project && issue.project.metadata && issue.project.metadata.versions">
+            <app-field-selector-list [customFields]="issue.project.metadata.versions"
+                [(list)]="issue.updated.fixVersions">
+            </app-field-selector-list>
+        </div>
+    </div>
+    <div class="border-top text-right">
+        <div class="btn btn-group btn-group-sm">
+            <button class="btn btn-primary">
+                <fa-icon icon="check"></fa-icon>
+            </button>
+            <button class="btn btn-secondary">
+                <fa-icon icon="times"></fa-icon>
+            </button>
+        </div>
+    </div>
+</div>

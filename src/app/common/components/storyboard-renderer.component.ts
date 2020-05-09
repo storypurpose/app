@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import * as _ from 'lodash';
 import { CachingService } from 'src/app/lib/caching.service';
 import { AppState } from 'src/app/+state/app.state';
@@ -11,6 +11,7 @@ import { filter } from 'rxjs/operators';
     templateUrl: './storyboard-renderer.component.html'
 })
 export class StoryboardRendererComponent implements OnInit, OnDestroy {
+    @Output() fieldValueChange = new EventEmitter<any>();
 
     @Input() storyboardItem: any;
     expandedAll = true;
@@ -60,34 +61,48 @@ export class StoryboardRendererComponent implements OnInit, OnDestroy {
     }
 
     editFixversions(issue) {
-        issue.updated = issue.updated || {};
-        if (!issue.project.metadata || !issue.project.metadata.versions) {
-            const refProject = _.find(this.projects, { key: issue.project.key });
-            if (refProject && refProject.metadata) {
+        const refProject = _.find(this.projects, { key: issue.project.key });
+        if (refProject) {
+            if (!issue.project.metadata || !issue.project.metadata.versions) {
+                if (refProject && refProject.metadata) {
+                    issue.project.metadata = issue.project.metadata || {};
+                    issue.project.metadata.versions = _.map(_.filter(refProject.metadata.versions, { archived: false }), (found) => {
+                        return { id: found.name, name: `${found.name}` + (found.releaseDate ? ` (${found.releaseDate})` : '') };
+                    });
+                }
+            }
 
-                issue.updated.fixVersions = [];
-                if (issue.fixVersions) {
-                    issue.fixVersions.forEach(fv => {
+            issue.updated = issue.updated || { fixVersions: [] };
+            if (issue.fixVersions) {
+                issue.fixVersions.forEach(fv => {
+                    const exists = _.find(issue.updated.fixVersions, { id: fv });
+                    if (!exists) {
                         const found = _.find(refProject.metadata.versions, { name: fv });
                         if (found) {
-                            issue.updated.fixVersions.push({ id: found.name, name: `${found.name} (${found.releaseDate})` });
+                            issue.updated.fixVersions.push({ id: found.name, name: `${found.name}` + (found.releaseDate ? ` (${found.releaseDate})` : '') });
                         }
-                    })
-                }
-
-                issue.project.metadata = issue.project.metadata || {};
-                issue.project.metadata.versions = _.map(_.filter(refProject.metadata.versions, { archived: false }), (found) => {
-                    return { id: found.name, name: `${found.name}` + (found.releaseDate ? `(${found.releaseDate})` : '') };
-                });
+                    }
+                })
             }
+
+            issue.isEditingFixversions = true;
         }
-        issue.isEditingFixversions = true;
     }
 
-    onfixVersionChanged(eventArgs, issue) {
-        issue.isEditingFixversions = false;
-        if (eventArgs) {
+    onTitleChanged(issue) {
+        this.fieldValueChange.emit({ issueKey: issue.key, fieldName: 'summary', updatedValue: issue.title });
+        issue.editTitle = false;
+    }
 
+    onfixVersionsChanged(updatedValue, issue) {
+        issue.isEditingFixversions = false;
+        if (updatedValue) {
+            this.fieldValueChange.emit({
+                issueKey: issue.key, fieldName: 'fixVersions',
+                updatedValue: _.map(updatedValue, u => { return { name: u.id } })
+            });
+        } else {
+            issue.updated.fixVersions = [];
         }
     }
 }

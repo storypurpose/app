@@ -7,8 +7,10 @@ export const ActionTypes = {
     SetPurpose: type("[SetPurpose]"),
     UpdateOrganizationPurpose: type("[UpdateOrganizationPurpose]"),
     SetRecentlyViewed: type("[SetRecentlyViewed]"),
-    // ManageOrganizationEditorVisibility: type("[ManageOrganizationEditorVisibility]"),
-    // ManageHierarchyEditorVisibility: type("[ManageHierarchyEditorVisibility]")
+
+    UpdateFieldValue: type("[UpdateFieldValue]"),
+    UpdateFieldValueFailed: type("[UpdateFieldValue] Failed"),
+    UpdateFieldValueSuccess: type("[UpdateFieldValue] Success"),
 }
 
 export class SetSelectedItemAction implements Action {
@@ -29,14 +31,12 @@ export class SetRecentlyViewedAction implements Action {
     type = ActionTypes.SetRecentlyViewed;
     constructor(public payload: any) { }
 }
-// export class ManageOrganizationEditorVisibilityAction implements Action {
-//     type = ActionTypes.ManageOrganizationEditorVisibility;
-//     constructor(public payload: any) { }
-// }
-// export class ManageHierarchyEditorVisibilityAction implements Action {
-//     type = ActionTypes.ManageHierarchyEditorVisibility;
-//     constructor(public payload: any) { }
-// }
+
+export class UpdateFieldValueAction implements Action {
+    type = ActionTypes.UpdateFieldValue;
+    constructor(public payload: any) { }
+}
+
 export type Actions =
 
     SetSelectedItemAction
@@ -45,6 +45,6 @@ export type Actions =
     | UpdateOrganizationPurposeAction
 
     | SetRecentlyViewedAction
-    // | ManageOrganizationEditorVisibilityAction
-    // | ManageHierarchyEditorVisibilityAction
+
+    | UpdateFieldValueAction
     ;

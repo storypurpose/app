@@ -7,8 +7,8 @@ import { CachingService } from 'src/app/lib/caching.service';
     templateUrl: './issue-navigation.component.html'
 })
 export class IssueNavigationComponent {
-
-    @Input() issueKey: any;
+    @Input() parentIssueKey: string;
+    @Input() issueKey: string;
     constructor(public cachingService: CachingService) {
     }
     prepareExternalUrl(issueKey) {

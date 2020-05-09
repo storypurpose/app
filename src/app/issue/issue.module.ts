@@ -19,6 +19,8 @@ import { AngularSplitModule } from 'angular-split';
 import { StoryboardComponent } from './components/storyboard.component';
 import { DialogModule } from 'primeng/dialog';
 import { RecentlyViewedComponent } from './components/recently-viewed.component';
+import { EffectsModule } from '@ngrx/effects';
+import { IssueEffects } from './+state/issue.effects';
 
 const routes: Route[] = [
   {
@@ -55,6 +57,7 @@ const routes: Route[] = [
 
     CommonComponentsModule,
     StoreModule.forFeature("issue", issueReducer, { initialState: issueInitialState }),
+    EffectsModule.forFeature([IssueEffects]),
 
     RouterModule.forChild(routes)
   ]

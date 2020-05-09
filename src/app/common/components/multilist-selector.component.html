@@ -1,0 +1,37 @@
+<div class="p-2 border-bottom" *ngIf="formMode">
+    <button class="btn btn-link btn-sm text-dark float-right pt-0 pr-0" (click)="cancel()">
+        <fa-icon icon="times" [fixedWidth]="true" class="text-dark"></fa-icon>
+    </button>
+    <b>{{fieldTitle}}</b>
+</div>
+<div [ngClass]="{'p-2': formMode}">
+
+    <div class="pt-0 pb-1 text-muted" *ngFor="let ff of list;let i = index">
+        <a (click)="remove(i)" class="text-muted float-right mr-2">
+            <fa-icon [icon]="['far', 'times-circle']"></fa-icon>
+        </a>
+        {{ff.name}}
+    </div>
+    <div class="input-group input-group-sm pt-1" *ngIf="lookupList && lookupList.length > 0"
+        title="Press Ctrl+Enter to add selected item">
+        <select class="form-control rounded-0" [(ngModel)]="selectedField" (keydown.control.enter)="add()"
+            (change)="addOnChange()">
+            <option></option>
+            <option *ngFor="let ff of lookupList" [value]="ff.id">{{ff.name}}</option>
+        </select>
+        <div class="input-group-append" *ngIf="!selectOnChange">
+            <button [disabled]="!selectedField" class="btn btn-light bg-white text-success rounded-0 border "
+                type="button" (click)="add()">
+                <fa-icon icon="plus" [fixedWidth]="true" size="sm"></fa-icon>
+            </button>
+        </div>
+    </div>
+
+    <div class="text-right pt-2" *ngIf="formMode">
+        <button class="btn btn-default btn-sm" (click)="save()">
+            <fa-icon icon="check" [fixedWidth]="true" size="sm" class="text-primary"></fa-icon>
+            Done
+        </button>
+    </div>
+
+</div>

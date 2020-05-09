@@ -8,7 +8,10 @@
         </button>
         <span class="pt-2">
             <span class="mr-1">{{issue.key}}:</span>
-            {{issue.title}}</span>
+            {{issue.title}}
+        </span>
+
+        <ngx-md [data]="issue.description"></ngx-md>
     </div>
 
     <div *ngIf="filteredItems && filteredItems.length > 0">

@@ -4,7 +4,8 @@
             <fa-icon icon="ellipsis-v"></fa-icon>
         </a>
         <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-menu-right">
-            <a title="View purpose" ngbDropdownItem [routerLink]="['/browse', issueKey, 'purpose', issueKey]">
+            <a title="View purpose" ngbDropdownItem
+                [routerLink]="['/browse', parentIssueKey ? parentIssueKey : issueKey, 'purpose', issueKey, 'details']">
                 <fa-icon [icon]="['far', 'lightbulb']" size="fw" class="text-muted">
                 </fa-icon>
                 View purpose

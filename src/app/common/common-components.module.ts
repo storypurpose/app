@@ -10,13 +10,12 @@ import { ChartsModule } from 'ng2-charts';
 import 'chartjs-plugin-labels';
 import { AutofocusDirective } from './lib/autofocus.directive';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-import { FixVersionsEditorComponent } from './components/fixversions-editor.component';
-import { FieldSelectorListComponent } from './components/field-selector-list.component';
+import { MultilistSelectorComponent } from './components/multilist-selector.component';
 import { IssueNavigationComponent } from './components/issue-navigation.component';
 
 const components = [
-  ButtonPanelComponent, StoryboardRendererComponent, StatisticsComponent, AutofocusDirective, FixVersionsEditorComponent,
-  FieldSelectorListComponent, IssueNavigationComponent
+  ButtonPanelComponent, StoryboardRendererComponent, StatisticsComponent, AutofocusDirective,
+  MultilistSelectorComponent, IssueNavigationComponent
 ];
 @NgModule({
   exports: components,

@@ -36,11 +36,17 @@
                             *ngFor="let item of getItems(fv, c)">
                             <div class="mb-1">
                                 <div class="float-right">
-                                    <app-issue-navigation (issue)="item">
-                                        <div *ngIf="projects && projects.length > 0 && item.project">
-                                            <div class="small p-1 bg-light text-muted">CHANGE</div>
+                                    <app-issue-navigation [parentIssueKey]="storyboardItem.key" [issueKey]="item.key">
+                                        <div
+                                            *ngIf="projects && projects.length > 0 && item.project && item.project.key  && item.project.key.length > 0">
+                                            <div class="small p-1 bg-light text-dark mt-2">
+                                                <fa-icon icon="edit" size="fw" class="text-muted mr-"></fa-icon>
+                                                UPDATE
+                                            </div>
+                                            <button ngbDropdownItem (click)="item.editTitle = true">
+                                                Title
+                                            </button>
                                             <button ngbDropdownItem (click)="editFixversions(item)">
-                                                <fa-icon icon="edit" size="fw" class="text-muted"></fa-icon>
                                                 Release version
                                             </button>
                                         </div>
@@ -53,14 +59,31 @@
                                     {{item.issueType}}: {{item.key}}
                                 </a>
                             </div>
-                            {{item.title}}
+                            <div *ngIf="!item.editTitle">{{item.title}}</div>
+                            <div *ngIf="item.editTitle">
+                                <textarea rows="2" class="form-control form-control-sm" [appAutofocus]="item.editTitle"
+                                    [(ngModel)]="item.title"></textarea>
+                                <div class="text-right">
+                                        <button class="btn btn-sm btn-primary mr-1" (click)="onTitleChanged(item)">
+                                            <fa-icon icon="check"></fa-icon> Save
+                                        </button>
+                                        <button class="btn btn-sm btn-default" (click)="item.editTitle = false">
+                                            <fa-icon icon="times"></fa-icon> Cancel
+                                        </button>
+                                </div>
+                            </div>
                             <div>
                                 <sub class="text-uppercase text-muted">{{item.linkType}}</sub>
                             </div>
 
-                            <app-fixversions-editor (changed)="onfixVersionChanged($event, item)" [issue]="item"
-                                *ngIf="item.isEditingFixversions">
-                            </app-fixversions-editor>
+                            <div class="mt-3 border bg-light rounded"
+                                *ngIf="item.isEditingFixversions && item.project && item.project.metadata && item.project.metadata.versions">
+                                <app-multilist-selector [lookupList]="item.project.metadata.versions"
+                                    [(list)]="item.updated.fixVersions" [selectOnChange]="true" [formMode]="true"
+                                    fieldTitle="Release version"
+                                    (fieldValueChange)="onfixVersionsChanged($event, item)">
+                                </app-multilist-selector>
+                            </div>
 
                         </div>
                     </div>

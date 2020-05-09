@@ -7,7 +7,7 @@
                 <app-extended-fields [issue]="issue" *ngIf="leftPaneSize > 0"></app-extended-fields>
             </div>
         </as-split-area>
-        <as-split-area [size]="columns[1].size" class="small">
+        <as-split-area [size]="columns[1].size" [ngClass]="{'small': columns[0].size !== 0}">
             <button class="btn btn-sm btn-link text-muted float-right" title="expand/collapse pane"
                 (click)="toggleFullscreen()">
                 <fa-icon [icon]="columns[0].size === 0 ? 'compress-arrows-alt' : 'expand-arrows-alt'"

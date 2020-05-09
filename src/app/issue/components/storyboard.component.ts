@@ -9,6 +9,7 @@ import { CustomNodeTypes, populateFieldValues } from 'src/app/lib/jira-tree-util
 import { filter } from 'rxjs/operators';
 import { initializeMetadata, mergeMetadata, extractMetadata, populateStatistics } from 'src/app/lib/storyboard-utils';
 import { IssueState } from '../+state/issue.state';
+import { UpdateFieldValueAction } from '../+state/issue.actions';
 
 @Component({
     selector: 'app-storyboard',
@@ -123,5 +124,9 @@ export class StoryboardComponent implements OnInit, OnDestroy {
                     }
                 });
         }
+    }
+
+    onFieldValueChanged(eventArgs) {
+        this.store$.dispatch(new UpdateFieldValueAction(eventArgs));
     }
 }

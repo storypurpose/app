@@ -27,8 +27,8 @@ export class JiraService {
     httpOptions: any;
 
     staticFileLocation = './staticfiles';
-    constructor(private http: HttpClient, 
-        public cachingService: CachingService, 
+    constructor(private httpClient: HttpClient,
+        public cachingService: CachingService,
         public store$: Store<AppState>) {
 
         store$.select(p => p.app.mode)
@@ -42,56 +42,63 @@ export class JiraService {
                 this.httpOptions = {
                     headers: new HttpHeaders({
                         'Content-Type': 'application/json',
-                        'Authorization': `Basic ${this.cachingService.encodeCredentials(this.connectionDetails.username, this.connectionDetails.password)}`
+                        'Authorization': `Basic ${this.cachingService.encodeCredentials(this.connectionDetails.username, this.connectionDetails.password)}`,
+                        'X-Atlassian-Token': 'no-check'
                     })
                 };
             })
     }
 
     testConnection(connectionDetails) {
-        return this.http.get(`${this.proxyurl}/${connectionDetails.serverUrl}${this.restVersionEndpoint}/myself`,
+        return this.httpClient.get(`${this.proxyurl}/${connectionDetails.serverUrl}${this.restVersionEndpoint}/myself`,
             {
                 headers: new HttpHeaders({
                     'Content-Type': 'application/json',
-                    'Authorization': `Basic ${this.cachingService.encodeCredentials(connectionDetails.username, connectionDetails.password)}`
+                    'Authorization': `Basic ${this.cachingService.encodeCredentials(connectionDetails.username, connectionDetails.password)}`,
+                    'X-Atlassian-Token': 'no-check'
                 })
             });
     }
     getIssueDetails(keyId, extendedFields = []) {
         extendedFields.push('description');
         if (this.isOnlineMode === false) {
-            return this.http.get(`${this.staticFileLocation}/${keyId.toLowerCase()}.json`, this.httpOptions)
+            return this.httpClient.get(`${this.staticFileLocation}/${keyId.toLowerCase()}.json`, this.httpOptions)
         }
         const fieldCodes = _.join(_.concat(this.fieldList, this.detailFields, extendedFields));
         const url = `issue/${keyId}?fields=${fieldCodes}`;
-        return this.http.get(`${this.proxyurl}/${this.baseUrl}/${url}`, this.httpOptions);
+        return this.httpClient.get(`${this.proxyurl}/${this.baseUrl}/${url}`, this.httpOptions);
     }
     getProjectDetails(projectKey) {
-        let projectUrl$ = this.http.get(`${this.proxyurl}/${this.baseUrl}/project/${projectKey}`, this.httpOptions);
-        let fieldsUrl$ = this.http.get(`${this.proxyurl}/${this.baseUrl}/field`, this.httpOptions);
+        let projectUrl$ = this.httpClient.get(`${this.proxyurl}/${this.baseUrl}/project/${projectKey}`, this.httpOptions);
+        let fieldsUrl$ = this.httpClient.get(`${this.proxyurl}/${this.baseUrl}/field`, this.httpOptions);
         if (this.isOnlineMode === false) {
-            projectUrl$ = this.http.get(`${this.staticFileLocation}/project-${projectKey}.json`, this.httpOptions);
-            fieldsUrl$ = this.http.get(`${this.staticFileLocation}/field-${projectKey}.json`, this.httpOptions)
+            projectUrl$ = this.httpClient.get(`${this.staticFileLocation}/project-${projectKey}.json`, this.httpOptions);
+            fieldsUrl$ = this.httpClient.get(`${this.staticFileLocation}/field-${projectKey}.json`, this.httpOptions)
         }
         return combineLatest(projectUrl$, fieldsUrl$);
     }
 
     executeJql(jql, pageIndex = 0, pageSize = 10, extendedFields = [], srcJson = null) {
         if (this.isOnlineMode === false && srcJson && srcJson.length > 0) {
-            return this.http.get(`${this.staticFileLocation}/${srcJson}`, this.httpOptions)
+            return this.httpClient.get(`${this.staticFileLocation}/${srcJson}`, this.httpOptions)
         }
         const startAt = pageIndex * pageSize;
         const fieldCodes = _.join(_.concat(this.fieldList, extendedFields));
         const url = `search?jql=${jql}&fields=${fieldCodes}&startAt=${startAt}&maxResult=${pageSize}`;
-        return this.http.get(`${this.proxyurl}/${this.baseUrl}/${url}`, this.httpOptions);
+        return this.httpClient.get(`${this.proxyurl}/${this.baseUrl}/${url}`, this.httpOptions);
     }
 
     favouriteSearches(srcJson = null) {
         if (this.isOnlineMode === false && srcJson && srcJson.length > 0) {
-            return this.http.get(`${this.staticFileLocation}/${srcJson}`, this.httpOptions)
+            return this.httpClient.get(`${this.staticFileLocation}/${srcJson}`, this.httpOptions)
         }
         const url = `filter/favourite`;
-        return this.http.get(`${this.proxyurl}/${this.baseUrl}/${url}`, this.httpOptions);
+        return this.httpClient.get(`${this.proxyurl}/${this.baseUrl}/${url}`, this.httpOptions);
     }
 
+    updateFieldValue$(payload) {
+        const valueString = `{"update":{"${payload.fieldName}":[{"set": ${JSON.stringify(payload.updatedValue)}}]}}`;
+        const data = JSON.parse(valueString);
+        return this.httpClient.put(`${this.proxyurl}/${this.baseUrl}/issue/${payload.issueKey}`, data, this.httpOptions);
+    }
 }

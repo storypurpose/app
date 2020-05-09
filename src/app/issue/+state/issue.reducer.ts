@@ -26,6 +26,12 @@ export function issueReducer(state: Issue, action: any): Issue {
         case ActionTypes.SetRecentlyViewed: {
             return { ...state, recentmostItem: action.payload };
         }
+
+        case ActionTypes.UpdateFieldValueSuccess: {
+            console.log(action);
+            return state;
+        }
+        
         default: return state;
     }
 }

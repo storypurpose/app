@@ -99,6 +99,10 @@ export class JiraService {
     updateFieldValue$(payload) {
         const valueString = `{"update":{"${payload.fieldName}":[{"set": ${JSON.stringify(payload.updatedValue)}}]}}`;
         const data = JSON.parse(valueString);
-        return this.httpClient.put(`${this.proxyurl}/${this.baseUrl}/issue/${payload.issueKey}`, data, this.httpOptions);
+        if (this.isOnlineMode) {
+            return this.httpClient.put(`${this.proxyurl}/${this.baseUrl}/issue/${payload.issueKey}`, data, this.httpOptions);
+        } else {
+            return of(null);
+        }
     }
 }

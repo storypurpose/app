@@ -43,6 +43,7 @@ export class StoryboardComponent implements OnInit, OnDestroy {
         this.selectedItem$ = this.store$.select(p => p.issue.selectedItem)
             .pipe(filter(p => p))
             .subscribe(selectedItem => {
+                console.log('selectedItem', selectedItem);
                 const selectedNode = selectedItem;
                 if (selectedNode) {
 
@@ -105,7 +106,7 @@ export class StoryboardComponent implements OnInit, OnDestroy {
     private populateRelatedLinks() {
         const issueKeys = _.map(this.storyboardItem.relatedLinks, 'key');
         if (issueKeys && issueKeys.length > 0) {
-            this.jiraService.executeJql(`key in (${_.join(issueKeys, ',')})`, 0, 100, ['components', 'labels', 'fixVersions'], 'epic-children.json')
+            this.jiraService.executeJql(`key in (${_.join(issueKeys, ',')})`, 0, 100, ['components', 'labels', 'fixVersions'], 'linked-issues.json')
                 .subscribe((data: any) => {
                     if (data && data.issues) {
                         this.storyboardItem.relatedLinksLoaded = true;
@@ -114,6 +115,7 @@ export class StoryboardComponent implements OnInit, OnDestroy {
                         this.storyboardItem.relatedLinks.forEach(u => {
                             const found = _.find(records, { key: u.key });
                             if (found) {
+                                u.project = found.project;
                                 u.labels = found.labels;
                                 u.fixVersions = found.fixVersions;
                                 u.component = found.component;

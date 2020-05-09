@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import { CustomNodeTypes, searchTreeByKey, copyFieldValues, populateFieldValues, searchTreeByIssueType } from 'src/app/lib/jira-tree-utils';
 import { CachingService } from 'src/app/lib/caching.service';
 import { SetPurposeAction, SetSelectedItemAction, UpdateOrganizationPurposeAction } from '../+state/issue.actions';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AppState } from 'src/app/+state/app.state';
 import { getExtendedFields } from 'src/app/lib/project-config.utils';
 import { populatedFieldList } from 'src/app/lib/jira-tree-utils';
@@ -23,9 +23,12 @@ export class SelectedItemContainerComponent implements OnInit, OnDestroy {
     hierarchicalIssueQuery$: Observable<any>;
     paramsQuery$: Observable<any>;
     projectsQuery$: Observable<any>;
+    queryParamsQuery$: Observable<any>;
 
     combined$: Subscription;
     epicChildrenLoaded$: Subscription;
+
+    updatedField$: Subscription;
 
     selectedItem$: Subscription;
     selectedItem: any;
@@ -39,7 +42,8 @@ export class SelectedItemContainerComponent implements OnInit, OnDestroy {
     projects: any;
 
     localNodeType: any;
-    constructor(public activatedRoute: ActivatedRoute,
+    constructor(public router: Router,
+        public activatedRoute: ActivatedRoute,
         public cachingService: CachingService,
         public jiraService: JiraService,
         public store$: Store<AppState>
@@ -47,6 +51,10 @@ export class SelectedItemContainerComponent implements OnInit, OnDestroy {
     }
     ngOnInit(): void {
         this.localNodeType = CustomNodeTypes;
+
+        this.updatedField$ = this.store$.select(p => p.issue.updatedField)
+            .pipe(filter(p => p))
+            .subscribe(p => this.router.navigate([], { queryParams: { updated: p.issueKey } }));
 
         this.organization$ = this.store$.select(p => p.app.organization)
             .pipe(filter(p => p))
@@ -63,10 +71,12 @@ export class SelectedItemContainerComponent implements OnInit, OnDestroy {
         this.epicChildrenLoadedQuery$ = this.store$.select(p => p.app.epicChildrenLoaded).pipe(filter(issue => issue === true));
         this.hierarchicalIssueQuery$ = this.store$.select(p => p.app.hierarchicalIssue).pipe(filter(issue => issue));
         this.paramsQuery$ = this.activatedRoute.params.pipe(filter(p => p && p["selected"] && p["selected"].length > 0), map(p => p["selected"]));
+        this.queryParamsQuery$ = this.activatedRoute.queryParams;
         this.projectsQuery$ = this.store$.select(p => p.app.projects).pipe(filter(p => p))
 
-        this.combined$ = combineLatest(this.hierarchicalIssueQuery$, this.paramsQuery$, this.projectsQuery$, this.epicChildrenLoadedQuery$)
-            .subscribe(([hierarchicalIssue, rpSelected, projects, epicChildrenLoaded]) => {
+        this.combined$ = combineLatest(this.hierarchicalIssueQuery$, this.paramsQuery$, this.queryParamsQuery$, this.projectsQuery$, this.epicChildrenLoadedQuery$)
+            .subscribe(([hierarchicalIssue, rpSelected, qp, projects, epicChildrenLoaded]) => {
+                console.log('qp', qp);
                 this.selectItem(projects, hierarchicalIssue, rpSelected, epicChildrenLoaded);
             })
     }
@@ -96,6 +106,7 @@ export class SelectedItemContainerComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
+        this.updatedField$ ? this.updatedField$.unsubscribe() : null;
         this.epicChildrenLoaded$ ? this.epicChildrenLoaded$.unsubscribe() : null;
         this.organization$ ? this.organization$.unsubscribe() : null;
         this.combined$ ? this.combined$.unsubscribe() : null;

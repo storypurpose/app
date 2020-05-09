@@ -16,7 +16,7 @@ export const CustomNodeTypes = {
     Hierarchy: "Hierarchy",
     Project: "Project",
 
-    EpicChildren: "epic-children",
+    EpicChildren: "EpicChildren",
     RelatedLink: "RelatedLink",
     Issue: "Issue",
 

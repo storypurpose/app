@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import { Issue } from './issue.state';
 import { ActionTypes } from './issue.actions';
-import { CustomNodeTypes } from 'src/app/lib/jira-tree-utils';
+import { CustomNodeTypes, searchTreeByKey } from 'src/app/lib/jira-tree-utils';
 
 export function issueReducer(state: Issue, action: any): Issue {
     switch (action.type) {
@@ -27,11 +27,23 @@ export function issueReducer(state: Issue, action: any): Issue {
             return { ...state, recentmostItem: action.payload };
         }
 
-        case ActionTypes.UpdateFieldValueSuccess: {
-            console.log(action);
-            return state;
+        case ActionTypes.UpdateFieldValue: {
+            return { ...state, updatedField: null }
         }
-        
+
+        case ActionTypes.UpdateFieldValueSuccess: {
+            const selectedItem = state.selectedItem;
+            const updatedField = action.payload;
+            const found = searchTreeByKey(selectedItem, updatedField.issueKey);
+            if (found) {
+                if (updatedField.fieldName === 'title') {
+                    found.title = updatedField.updatedValue;
+                } else if (updatedField.fieldName === 'fixVersions')
+                    found.fixVersions = _.map(updatedField.updatedValue, v => v.name);
+            }
+            return { ...state, updatedField, selectedItem };
+        }
+
         default: return state;
     }
 }

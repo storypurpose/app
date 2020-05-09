@@ -6,6 +6,6 @@ export const issueInitialState: Issue = {
     list: [],
     recentlyViewedItems: [],
     recentmostItem: null,
-    // organizationEditorVisible: false,
-    // hierarchyEditorVisible: false
+    
+    updatedField: null
 };

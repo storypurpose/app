@@ -43,7 +43,7 @@
                                                 <fa-icon icon="edit" size="fw" class="text-muted mr-"></fa-icon>
                                                 UPDATE
                                             </div>
-                                            <button ngbDropdownItem (click)="item.editTitle = true">
+                                            <button ngbDropdownItem (click)="editTitle(item)">
                                                 Title
                                             </button>
                                             <button ngbDropdownItem (click)="editFixversions(item)">
@@ -60,16 +60,25 @@
                                 </a>
                             </div>
                             <div *ngIf="!item.editTitle">{{item.title}}</div>
-                            <div *ngIf="item.editTitle">
-                                <textarea rows="2" class="form-control form-control-sm" [appAutofocus]="item.editTitle"
-                                    [(ngModel)]="item.title"></textarea>
-                                <div class="text-right">
-                                        <button class="btn btn-sm btn-primary mr-1" (click)="onTitleChanged(item)">
-                                            <fa-icon icon="check"></fa-icon> Save
+                            <div class="mt-3 border bg-light rounded" *ngIf="item.editTitle">
+                                <div class="p-2">
+                                    <button class="btn btn-link btn-sm text-dark float-right pt-0 pr-0"
+                                        (click)="cancelEditTitle(item)">
+                                        <fa-icon icon="times" [fixedWidth]="true" class="text-dark"></fa-icon>
+                                    </button>
+                                    <b>Title</b>
+                                </div>
+
+                                <div class="pl-2 pr-2 pb-2">
+                                    <textarea rows="3" class="form-control form-control-sm"
+                                        [appAutofocus]="item.editTitle" (keydown.escape)="cancelEditTitle(item)"
+                                        (keydown.control.enter)="onTitleChanged(item)"
+                                        [(ngModel)]="item.title"></textarea>
+                                    <div class="text-right mt-1">
+                                        <button class="btn btn-sm btn-default" (click)="onTitleChanged(item)">
+                                            <fa-icon icon="check" class="text-primary"></fa-icon> Done
                                         </button>
-                                        <button class="btn btn-sm btn-default" (click)="item.editTitle = false">
-                                            <fa-icon icon="times"></fa-icon> Cancel
-                                        </button>
+                                    </div>
                                 </div>
                             </div>
                             <div>

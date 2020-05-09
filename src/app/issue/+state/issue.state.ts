@@ -4,8 +4,8 @@ export interface Issue {
   list: any;
   recentlyViewedItems: any;
   recentmostItem: any;
-  // organizationEditorVisible: boolean;
-  // hierarchyEditorVisible: boolean;
+
+  updatedField: any;
 }
 
 export interface IssueState {

@@ -19,7 +19,7 @@ export class IssueEffects {
         switchMap((action: any) =>
             this.jiraService.updateFieldValue$(action.payload)
                 .pipe(
-                    map(list => ({ type: a.ActionTypes.UpdateFieldValueSuccess, payload: list })),
+                    map(() => ({ type: a.ActionTypes.UpdateFieldValueSuccess, payload: action.payload })),
                     catchError(() => of({ type: a.ActionTypes.UpdateFieldValueFailed }))
                 )
         )

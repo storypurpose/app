@@ -10,13 +10,13 @@ export function issueReducer(state: Issue, action: any): Issue {
         }
 
         case ActionTypes.SetPurpose: {
-            return { ...state, list: action.payload };
+            return { ...state, purpose: action.payload };
         }
         case ActionTypes.UpdateOrganizationPurpose: {
             const payload = action.payload || {};
             return {
-                ...state, list:
-                    state.list.map((record) => record.issueType === CustomNodeTypes.Organization
+                ...state, purpose:
+                    state.purpose.map((record) => record.issueType === CustomNodeTypes.Organization
                         ? { ...record, key: payload.name, title: payload.name, purpose: payload.purpose }
                         : record)
 

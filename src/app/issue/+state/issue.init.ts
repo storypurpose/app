@@ -3,7 +3,7 @@ import { Issue } from './issue.state';
 export const issueInitialState: Issue = {
     selectedItem: null,
     
-    list: [],
+    purpose: [],
     recentlyViewedItems: [],
     recentmostItem: null,
     

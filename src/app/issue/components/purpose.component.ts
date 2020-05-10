@@ -35,7 +35,7 @@ export class PurposeDetailsComponent implements OnInit, OnDestroy {
             .pipe(filter(p => p))
             .subscribe(p => this.selectedItem = p);
 
-        this.purpose$ = this.store$.select(p => p.issue.list)
+        this.purpose$ = this.store$.select(p => p.issue.purpose)
             .pipe(filter(p => p))
             .subscribe(data => {
                 this.purpose = data;

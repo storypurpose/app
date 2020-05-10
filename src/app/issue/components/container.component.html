@@ -1,6 +1,6 @@
 <div class="pt-0 pr-3 pb-2 pl-3">
     <div class="pb-3" *ngIf="selectedItem">
-        <div class="border-bottom ">
+        <div class="">
             <div>
                 <div class="float-right small mt-1"
                     *ngIf="selectedItem.fixVersions && selectedItem.fixVersions.length > 0">
@@ -15,23 +15,23 @@
                     </a>
                 </sub>
             </div>
-            <h2 class="font-weight-light mb-0">
+            <h2 class="font-weight-light">
                 {{selectedItem.title}}
                 <sup class="badge badge-light text-uppercase text-muted" style="font-size: small;">
                     {{selectedItem.status}}
                 </sup>
             </h2>
             <div class="pb-0">
-                <a class="btn btn-link mr-1 pl-0" [routerLink]="['details']" title="View purpose"
+                <a class="btn btn-default btn-sm mr-1" [routerLink]="['details']" title="View purpose"
                     [routerLinkActive]="'active'">
                     <fa-icon [icon]="['far', 'lightbulb']" size="sm"></fa-icon> Purpose
                 </a>
 
-                <a class="btn btn-link mr-1" routerLink="workbench" [routerLinkActive]="'active'">
+                <a class="btn btn-default btn-sm mr-1" routerLink="workbench" [routerLinkActive]="'active'">
                     <fa-icon [icon]="['far','window-restore']" size="sm"></fa-icon> Workbench
                 </a>
 
-                <a class="btn btn-link mr-1" routerLink="storyboard" [routerLinkActive]="'active'"
+                <a class="btn btn-default btn-sm mr-1" routerLink="storyboard" [routerLinkActive]="'active'"
                     *ngIf="canNavigateToStoryboard()">
                     <fa-icon icon="map" size="sm"></fa-icon> Storyboard
                 </a>

@@ -1,7 +1,7 @@
 export interface Issue {
   selectedItem: any;
 
-  list: any;
+  purpose: any;
   recentlyViewedItems: any;
   recentmostItem: any;
 

@@ -2,9 +2,9 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { JiraService } from '../../lib/jira.service';
 import {
-    transformParentNode, populateFieldValues, buildIssueLinks, searchTreeByIssueType, CustomNodeTypes, isCustomNode,
+    transformParentNode, populateFieldValues, buildIssueLinkGroups, searchTreeByIssueType, CustomNodeTypes, isCustomNode,
     getExtendedFieldValue, getIcon, createEpicChildrenNode, isCustomMenuType, TreeTemplateTypes,
-    fieldList, detailFields, populatedFieldList
+    ORG_PLACEHOLDER, detailFields, populatedFieldList, getIssueLinks
 } from '../../lib/jira-tree-utils';
 
 import * as _ from 'lodash';
@@ -14,8 +14,8 @@ import { CachingService } from '../../lib/caching.service';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../+state/app.state';
 import {
-    SetCurrentIssueKeyAction, UpsertProjectAction, SetHierarchicalIssueAction, EpicChildrenLoadedAction,
-    SetOrganizationAction, DismissProjectSetupAction, ConfigureProjectAction, ToggleQueryEditorVisibilityAction
+    UpsertProjectAction, SetHierarchicalIssueAction, EpicChildrenLoadedAction,
+    SetOrganizationAction, DismissProjectSetupAction, ConfigureProjectAction, ToggleQueryEditorVisibilityAction, SetCurrentIssueKeyObsoleteAction
 } from '../../+state/app.actions';
 import { Subscription } from 'rxjs';
 import { getExtendedFields } from '../../lib/project-config.utils';
@@ -29,7 +29,6 @@ import { SetQueryContextAction } from 'src/app/search/+state/search.actions';
 })
 export class IssueviewerComponent implements OnInit, OnDestroy {
     localNodeType: any;
-    ORG_PLACEHOLDER = "my_org";
 
     public showOrganizationSetup = false;
     public showHierarchyFieldSetup = false;
@@ -129,7 +128,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
             .subscribe(issue => {
                 this.titleService.setTitle(`${environment.appTitle}: ${issue}`);
 
-                this.store$.dispatch(new SetCurrentIssueKeyAction(issue));
+                this.store$.dispatch(new SetCurrentIssueKeyObsoleteAction(issue));
                 this.issueKey = issue;
                 const extentedHierarchyFields = this.mappedHierarchyFields || this.allHierarchyAndEpicLinkFields || [];
 
@@ -197,7 +196,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
         this.showDetails = false;
         if (this.result) {
             this.issueLookup = _.union(this.issueLookup, [issue.key]);
-            const linkedIssues = buildIssueLinks(this.result);
+            const linkedIssues = buildIssueLinkGroups(getIssueLinks(this.result), this.result.key);
             if (linkedIssues && linkedIssues.length === 1 && linkedIssues[0].children && linkedIssues[0].children.length > 0) {
                 this.issueLookup = _.union(this.issueLookup, _.map(linkedIssues[0].children, 'key'));
             }
@@ -502,7 +501,7 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
             }
         } else {
             return {
-                key: this.ORG_PLACEHOLDER,
+                key: ORG_PLACEHOLDER,
                 title: '',
                 label: 'Organization',
                 description: '',

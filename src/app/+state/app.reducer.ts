@@ -18,7 +18,7 @@ export function appReducer(state: App, action: any): App {
             return { ...state, projectConfigEditorVisible: action.payload ? true : false, projectToConfigure: action.payload };
         }
 
-        case ActionTypes.SetCurrentIssueKey: {
+        case ActionTypes.SetCurrentIssueKeyObsolete: {
             return { ...state, currentIssueKey: action.payload };
         }
         case ActionTypes.SetHierarchicalIssue: {
@@ -74,22 +74,7 @@ export function appReducer(state: App, action: any): App {
                 list.forEach(p => p.current = false);
                 currentProject = _.find(list, { key: action.payload.key })
                 if (!currentProject) {
-                    currentProject = _.pick(action.payload, ['id', 'key', 'description', 'name', 'customFields']);
-                    currentProject.hierarchy = [];
-                    if (action.payload.issueTypes) {
-                        currentProject.standardIssueTypes = getIssueTypes(action.payload.issueTypes, false);
-                        currentProject.subTaskIssueTypes = getIssueTypes(action.payload.issueTypes, true);
-                    }
-                    currentProject.metadata = {};
-                    if (action.payload.components) {
-                        currentProject.metadata.components =
-                            _.sortBy(_.map(action.payload.components, (ff) => _.pick(ff, ['id', 'name'])), ['name']);
-                    }
-                    if (action.payload.versions) {
-                        currentProject.metadata.versions =
-                            _.sortBy(_.map(action.payload.versions, (ff) => _.pick(ff, ['archived', 'id', 'name', 'releaseDate'])), ['name']);
-                    }
-
+                    currentProject = action.payload;
                     list.push(currentProject);
                 }
                 currentProject.current = true;

@@ -1,17 +1,17 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as _ from 'lodash';
-import { CachingService } from '../lib/caching.service';
+import { CachingService } from '../../lib/caching.service';
 import { MessageService } from 'primeng/api';
-import { AppState } from '../+state/app.state';
+import { AppState } from '../../+state/app.state';
 import { Store } from '@ngrx/store';
-import { ShowConnectionEditorAction, ModeTypes } from '../+state/app.actions';
+import { ShowConnectionEditorAction, ModeTypes } from '../../+state/app.actions';
 import { Subscription } from 'rxjs';
 
 @Component({
-    selector: 'app-workspace',
-    templateUrl: './workspace.component.html'
+    selector: 'app-issue-home',
+    templateUrl: './home.component.html'
 })
-export class WorkspaceComponent implements OnInit, OnDestroy {
+export class IssueHomeComponent implements OnInit, OnDestroy {
     public connectionDetails: any;
     isOnlineMode = false;
     connectionDetailsSubscription: Subscription;

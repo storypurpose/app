@@ -26,12 +26,9 @@ import { AngularSplitModule } from 'angular-split';
 import { ConnectionDetailsComponent } from './components/setup/connection-details.component';
 import { PageNotFoundComponent } from './components/page-not-found.component';
 import { IssueviewerComponent } from './components/issuemanager/issueviewer.component';
-import { IssueEntryComponent } from './components/issuemanager/issue-entry.component';
 
 import { NgxMdModule } from 'ngx-md';
 import { ErrorHandlingInterceptor } from './lib/error-handling.interceptor';
-import { AboutComponent } from './components/help/about.component';
-import { WorkspaceComponent } from './components/workspace.component';
 import { GoogleAnalyticsService } from './lib/google-analytics.service';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -62,20 +59,19 @@ import { NavbarComponent } from './components/header/navbar.component';
 import { SearchboxComponent } from './components/header/searchbox.component';
 import { CurrentProjectComponent } from './components/header/current-project.component';
 import { AppEffects } from './+state/app.effects';
+import { IssueEntryComponent } from './components/issuemanager/issue-entry.component';
+import { WorkspaceComponent } from './components/workspace.component';
 
 export function initGapi(gapiSession: GapiSession) {
   return () => gapiSession.initClient();
 }
 @NgModule({
   declarations: [
-    AboutComponent, WorkspaceComponent,
     NavbarComponent, CopyrightComponent, ToolsComponent, SearchboxComponent, CurrentProjectComponent,
 
     AppComponent, PageNotFoundComponent,
-    IssueviewerComponent,
-
-    IssueEntryComponent,
-
+    IssueviewerComponent, IssueEntryComponent, WorkspaceComponent, 
+  
     ConnectionDetailsComponent, ProjectConfigComponent, OrganizationComponent, HierarchyFieldEditorComponent,
     ConfigurationsComponent, ExportConfigurationComponent, ImportConfigurationComponent,
 
@@ -90,7 +86,6 @@ export function initGapi(gapiSession: GapiSession) {
 
     FontAwesomeModule,
     UiSwitchModule,
-
     NgbModule,
 
     SliderModule,

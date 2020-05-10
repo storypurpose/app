@@ -1,5 +1,6 @@
 import * as _ from 'lodash';
 const MAX_LENGTH = 100;
+
 export const TreeTemplateTypes = {
     Heading: 'Heading',
     Editable: 'Editable',
@@ -8,8 +9,10 @@ export const TreeTemplateTypes = {
 
 export const fieldList = ['project', 'reporter', 'assignee', 'status', 'summary', 'key', 'issuelinks', 'issuetype', 'duedate'];
 export const populatedFieldList = ['project', 'issueParent', 'issueType', 'assignee', 'status', 'summary', 'label', 'title', 'key',
-    'icon', 'duedate', 'description', 'components', 'labels', 'fixVersions'];
+    'icon', 'duedate', 'description', 'components', 'labels', 'fixVersions', 'linkType'];
 export const detailFields = ['description', 'components', 'labels', 'fixVersions'];
+
+export const ORG_PLACEHOLDER = "my_org";
 
 export const CustomNodeTypes = {
     Organization: "Organization",
@@ -63,15 +66,18 @@ export function isCustomMenuType(args) {
 
 export function populateFieldValuesCompact(node) {
     if (node && node.fields) {
+        const issueType = node.fields.issuetype ? node.fields.issuetype.name : 'unknown';
         return {
             key: node.key,
             project: _.pick(node.fields.project, ['id', 'key', 'name']),
-            issueType: node.fields.issuetype ? node.fields.issuetype.name : 'unknown',
+            issueType,
             status: node.fields.status ? node.fields.status.name : 'unknown',
+            label: _.truncate(node.fields.summary, { length: MAX_LENGTH }),
             title: node.fields.summary,
-            icon: getIcon(node.issueType),
+            icon: getIcon(issueType),
             duedate: node.fields.duedate,
             assignee: _.pick(node.fields.assignee, ['key', 'name', 'displayName']),
+            priority: node.fields.priority ? node.fields.priority.name : 'unknown',
 
             description: node.fields.description,
             labels: node.fields.labels,
@@ -92,6 +98,7 @@ export function populateFieldValues(node) {
         node.icon = getIcon(node.issueType);
         node.duedate = node.fields.duedate;
         node.assignee = _.pick(node.fields.assignee, ['key', 'name', 'displayName']);
+        node.priority = node.fields.priority ? node.fields.priority.name : 'unknown';
 
         node.description = node.fields.description;
         node.labels = node.fields.labels;
@@ -189,6 +196,52 @@ export function transformParentNode(node, linkedIssues) {
     return transformToTreenode(node, level1Nodes);
 }
 
+export function createOrganizationNode(organization) {
+    if (organization) {
+        return {
+            key: organization.name,
+            title: organization.name,
+            label: organization.name,
+            description: organization.purpose,
+            type: TreeTemplateTypes.Heading,
+            menuType: CustomNodeTypes.Organization,
+            issueType: CustomNodeTypes.Organization,
+            icon: getIcon(CustomNodeTypes.Organization),
+            expanded: true,
+            editable: false,
+            selectable: false
+        }
+    } else {
+        return {
+            key: ORG_PLACEHOLDER,
+            title: '',
+            label: 'Organization',
+            description: '',
+            type: TreeTemplateTypes.Editable,
+            menuType: CustomNodeTypes.Organization,
+            issueType: CustomNodeTypes.Organization,
+            expanded: true,
+            editable: true,
+            selectable: true
+        }
+    }
+}
+
+export function createProjectNode(project: any) {
+    return {
+        key: project.key,
+        title: project.name,
+        label: project.name,
+        type: TreeTemplateTypes.Heading,
+        description: project.description,
+        issueType: CustomNodeTypes.Project,
+        menuType: CustomNodeTypes.Project,
+        icon: getIcon(CustomNodeTypes.Project),
+        expanded: true,
+        selectable: false        
+    };
+}
+
 export function createEpicChildrenNode(node: any): any {
     return {
         label: "Epic Children", title: "Epic Children", key: 'E_' + node.key, parentId: node.key, selectable: false,
@@ -196,46 +249,40 @@ export function createEpicChildrenNode(node: any): any {
     };
 }
 
-export function buildIssueLinks(node: any) {
+export function buildIssueLinkGroups(children: any, issueKey) {
+    const grouped = _.groupBy(children, 'linkType');
+    children = Object.keys(grouped).map(key => {
+        return {
+            "label": key, title: `${key} ${grouped[key].length} issues`, key: `RL_${issueKey}`, parentId: issueKey,
+            selectable: false, issueType: CustomNodeTypes.RelatedLink,
+            children: grouped[key], expanded: true
+        }
+    })
+    return children;
+}
+
+export function getIssueLinks(node: any) {
     if (node && node.fields && node.fields.issuelinks && node.fields.issuelinks.length > 0) {
-        const issueLinks: any = [];
         const inwardIssues = _.filter(node.fields.issuelinks, (il) => il.inwardIssue);
         let children: any = [];
         if (inwardIssues && inwardIssues.length > 0) {
             children = _.union(children, _.map(inwardIssues, (il) => {
-                const issue = populateFieldValues(il.inwardIssue);
-                issue.linkType = (il.type) ? il.type.inward : 'link'
+                const issue: any = populateFieldValuesCompact(il.inwardIssue);
+                issue.linkType = (il.type) ? il.type.inward : 'link';
                 return issue;
             }));
         }
         const outwardIssues = _.filter(node.fields.issuelinks, (il) => il.outwardIssue);
         if (outwardIssues && outwardIssues.length > 0) {
             children = _.union(children, _.map(outwardIssues, (il) => {
-                const issue = populateFieldValues(il.outwardIssue);
-                issue.linkType = (il.type) ? il.type.outward : 'link'
+                const issue: any = populateFieldValuesCompact(il.outwardIssue);
+                issue.linkType = (il.type) ? il.type.outward : 'link';
                 return issue;
             }));
         }
         if (node.project && node.project.key) {
             children.forEach(u => u.project = node.project);
         }
-        const grouped = _.groupBy(children, 'linkType');
-        children = Object.keys(grouped).map(key => {
-            return {
-                "label": key, title: `${key} ${grouped[key].length} issues`, key: `RL_${node.key}`, parentId: node.key,
-                selectable: false, issueType: CustomNodeTypes.RelatedLink,
-                children: grouped[key], expanded: true
-            }
-        })
-
-        // if (children.length > 0) {
-        //     issueLinks.push({
-        //         "label": `Related issues`, title: `${children.length} issues linked`, key: `RL_${node.key}`, parentId: node.key,
-        //         selectable: false, issueType: CustomNodeTypes.RelatedLink,
-        //         "children": children,
-        //         expanded: true
-        //     });
-        // }
         return children;
     }
     return null;

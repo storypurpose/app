@@ -1,4 +1,7 @@
 export interface Issue {
+  currentIssueKey: string;
+  issueDetails: any;
+
   selectedItem: any;
 
   purpose: any;

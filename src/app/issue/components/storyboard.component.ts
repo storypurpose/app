@@ -118,7 +118,7 @@ export class StoryboardComponent implements OnInit, OnDestroy {
                                 u.project = found.project;
                                 u.labels = found.labels;
                                 u.fixVersions = found.fixVersions;
-                                u.component = found.component;
+                                u.components = found.components;
                             }
                         });
 

@@ -6,7 +6,7 @@ export const ActionTypes = {
 
     ShowConnectionEditor: type("[ShowConnectionDetails]"),
 
-    SetCurrentIssueKey: type("[SetCurrentIssueKey]"),
+    SetCurrentIssueKeyObsolete: type("[SetCurrentIssueKeyObsolete]"),
     SetHierarchicalIssue: type("[SetHierarchicalIssue]"),
     EpicChildrenLoaded: type('[EpicChildrenLoaded]'),
 
@@ -20,8 +20,12 @@ export const ActionTypes = {
     ConfigureProject: type('[ConfigureProject]'),
     LoadProjects: type("[LoadProjects]"),
     SetCurrentProject: type("[SetCurrentProject]"),
+    
     UpsertProjectBegin: type("[UpsertProject] Begin"),
+    
     UpsertProject: type("[UpsertProject]"),
+    UpsertProjectSuccess: type("[UpsertProject] Success"),
+
     DismissProjectSetup: type("[DismissProjectSetup]")
 }
 
@@ -43,8 +47,8 @@ export class ConfigureProjectAction implements Action {
     type = ActionTypes.ConfigureProject;
     constructor(public payload: any) { }
 }
-export class SetCurrentIssueKeyAction implements Action {
-    type = ActionTypes.SetCurrentIssueKey;
+export class SetCurrentIssueKeyObsoleteAction implements Action {
+    type = ActionTypes.SetCurrentIssueKeyObsolete;
     constructor(public payload: any) { }
 }
 export class SetHierarchicalIssueAction implements Action {
@@ -105,7 +109,7 @@ export type Actions =
     | ShowConnectionEditorAction
     | ConfigureProjectAction
 
-    | SetCurrentIssueKeyAction
+    | SetCurrentIssueKeyObsoleteAction
     | SetHierarchicalIssueAction
     | EpicChildrenLoadedAction
 

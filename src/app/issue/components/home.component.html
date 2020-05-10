@@ -1,0 +1,40 @@
+<div *ngIf="!(connectionDetails && connectionDetails.verified) && isOnlineMode" class="center-text custom-shadow p-3 bg-light">
+    <div class="alert bg-white">
+
+        <div *ngIf="connectionDetails && !connectionDetails.verified">
+            <div class="mb-2">
+                <fa-icon icon="exclamation-triangle" class="text-warning"></fa-icon>
+                Connection details are incomplete.
+            </div>
+            <a class="btn btn-sm btn-primary text-white mt-2" (click)="onShowSetup()">
+                Enter credentials <fa-icon icon="chevron-right"></fa-icon>
+            </a>
+        </div>
+
+        <div *ngIf="!connectionDetails">
+            <div class="mb-3 alert-warning p-2 rounded">
+                <fa-icon [icon]="['fab', 'jira']" class="text-primary"></fa-icon>
+                Please provide Jira connection details
+            </div>
+            <a class="btn btn-primary btn-sm text-white mr-2" (click)="onShowSetup()">
+                Manual setup <fa-icon icon="angle-right"></fa-icon>
+            </a>
+
+            <a class="btn btn-light border btn-sm " routerLink="../configurations" [queryParams]="{mode:'import'}">
+                <fa-icon icon="file-import" class="text-muted"></fa-icon> Import config file
+            </a>
+        </div>
+
+    </div>
+    <div class="text-left">
+        <ol>
+            <li>Setup the jira connection details</li>
+            <li>Enter the Jira issue key</li>
+            <li>Track purpose of issue</li>
+        </ol>
+    </div>
+</div>
+
+<div *ngIf="(connectionDetails && connectionDetails.verified) || isOnlineMode === false">
+    <router-outlet></router-outlet>
+</div>

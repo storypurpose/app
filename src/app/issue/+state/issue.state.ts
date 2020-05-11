@@ -1,8 +1,8 @@
 export interface Issue {
   currentIssueKey: string;
-  issueDetails: any;
+  primaryIssue: any;
 
-  selectedItem: any;
+  selectedIssue: any;
 
   purpose: any;
   recentlyViewedItems: any;
@@ -13,4 +13,5 @@ export interface Issue {
 
 export interface IssueState {
   readonly issue: Issue;
+  readonly app: any;
 }

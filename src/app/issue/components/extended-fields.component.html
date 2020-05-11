@@ -9,7 +9,8 @@
             <div class="list-group-item" *ngFor="let ef of issue.extendedFields">
                 <div class="small text-uppercase mb-2">{{ef.name}}</div>
                 <div class="ml-4" [ngClass]="{'small': fontSizeSmall}">
-                    <ngx-md [data]="ef.value"></ngx-md>
+                    <pre>{{ef.value | json}}</pre>
+                    <!-- <ngx-md [data]="ef.value"></ngx-md> -->
                 </div>
             </div>
         </div>

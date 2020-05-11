@@ -1,12 +1,12 @@
 import { Component, Input, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
-import { JiraService } from '../../lib/jira.service';
-import { flattenNodes, appendExtendedFields } from '../../lib/jira-tree-utils';
+import { JiraService } from '../../../lib/jira.service';
+import { flattenNodes, appendExtendedFields } from '../../../lib/jira-tree-utils';
 import * as _ from 'lodash';
 import { filter } from 'rxjs/operators';
-import { CachingService } from '../../lib/caching.service';
+import { CachingService } from '../../../lib/caching.service';
 import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { AppState } from '../../+state/app.state';
+import { AppState } from '../../../+state/app.state';
 
 @Component({
     selector: 'app-task-list',

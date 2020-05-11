@@ -238,7 +238,7 @@ export function createProjectNode(project: any) {
         menuType: CustomNodeTypes.Project,
         icon: getIcon(CustomNodeTypes.Project),
         expanded: true,
-        selectable: false        
+        selectable: false
     };
 }
 
@@ -248,6 +248,47 @@ export function createEpicChildrenNode(node: any): any {
         issueType: CustomNodeTypes.EpicChildren, leaf: false, children: null
     };
 }
+
+export function createHierarchyNode(found: any): any {
+    return {
+        key: found.name,
+        title: found.extendedValue,
+        label: found.extendedValue,
+        description: found.description,
+        icon: getIcon(CustomNodeTypes.Hierarchy),
+        issueType: found.name,
+        hfKey: found.id,
+        children: [],
+        expanded: true,
+        editable: false,
+        isHierarchyField: true,
+        selectable: false,
+        type: TreeTemplateTypes.Heading,
+        menuType: CustomNodeTypes.Hierarchy
+    };
+}
+
+export function convertToTree(list, tree) {
+    const subset = list.splice(1, list.length - 1);
+    tree.children = subset;
+    if (subset && subset.length > 0) {
+        convertToTree(subset, subset[0]);
+    }
+}
+
+export function addToLeafNode(node, nodeToAdd) {
+    if (node && nodeToAdd) {
+        if (node.children && node.children.length === 1) {
+            addToLeafNode(node.children[0], nodeToAdd);
+        } else {
+            node.children = node.children || [];
+            node.children.push(nodeToAdd);
+        }
+    }
+    return node || nodeToAdd;
+}
+
+
 
 export function buildIssueLinkGroups(children: any, issueKey) {
     const grouped = _.groupBy(children, 'linkType');

@@ -17,11 +17,12 @@ export class IssueEffects {
 
     @Effect() loadIssueDetails = this.actions$.pipe(ofType(a.ActionTypes.LoadIssueDetails),
         switchMap((action: any) =>
-            this.jiraService.getIssueDetails(action.payload)
+            this.jiraService.getIssueDetails(action.payload.issue, _.map(action.payload.extendedFields, 'id'))
                 .pipe(
                     map((result: any) => {
                         const payload = {
                             issue: result,
+                            extendedFields: action.payload.extendedFields,
                             organization: this.cachingService.getOrganization(),
                             projectConfig: null
                         }

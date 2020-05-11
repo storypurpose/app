@@ -1,7 +1,8 @@
 <div class="btn-group btn-group-sm">
     <div ngbDropdown display="dynamic" placement="bottom-right">
         <a class="btn btn-link text-muted hide-caret" id="dropdownBasic1" ngbDropdownToggle title="admin tools">
-            <fa-icon [icon]="['far', 'sun']"></fa-icon>
+            <!-- <fa-icon [icon]="['far', 'sun']"></fa-icon> -->
+            <fa-icon icon="ellipsis-v"></fa-icon>
             <span class="d-inline d-md-none ml-2"> Tools</span>
         </a>
         <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-menu-right">
@@ -11,14 +12,6 @@
                 <fa-icon icon="tools" size="fw" class="text-muted"></fa-icon>
                 Connection details
             </a>
-
-            <!-- <div *ngIf="projects && projects.length > 0">
-                <div class="text-muted small mt-3 ml-2">PROJECTS CONFIGURATION</div>
-                <button ngbDropdownItem (click)="showProjectSetup(project)" *ngFor="let project of projects">
-                    <fa-icon icon="bookmark" size="fw" class="text-muted"></fa-icon>
-                    {{project.name}}
-                </button>
-            </div> -->
 
             <div class="text-muted small mt-3 ml-2">CONFIGURATIONS</div>
 
@@ -32,6 +25,16 @@
                 <fa-icon size="fw" icon="download" class="text-muted"></fa-icon>
                 Export
             </a>
+
+            <div class="dropdown-divider"></div>
+            <a ngbDropdownItem target="_blank" href="https://www.linkedin.com/in/adhamankar/">
+                <fa-icon size="fw" icon="copyright" class="text-muted"></fa-icon>
+                2020 AD
+                <div class="ml-4 small text-muted">
+                    <sup>VERSION: {{version}}</sup>
+                </div>
+            </a>
+
         </div>
     </div>
 </div>

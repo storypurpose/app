@@ -39,7 +39,7 @@ export class WorkbenchComponent implements AfterViewInit, OnInit, OnDestroy {
         this.epicChildrenLoaded$ = this.store$.select(p => p.app.epicChildrenLoaded).pipe(filter(issue => issue === true))
             .subscribe(() => this.groupEpicChildren('status'));
 
-        this.issue$ = this.store$.select(p => p.issue.selectedItem).pipe(filter(p => p))
+        this.issue$ = this.store$.select(p => p.issue.selectedIssue).pipe(filter(p => p))
             .subscribe(issue => {
                 this.issue = issue;
                 const relatedLinks = _.filter(this.issue.children, { issueType: CustomNodeTypes.RelatedLink });

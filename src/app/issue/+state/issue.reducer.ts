@@ -1,52 +1,73 @@
 import * as _ from 'lodash';
 import { Issue } from './issue.state';
 import { ActionTypes } from './issue.actions';
-import { CustomNodeTypes, searchTreeByKey, populateFieldValuesCompact, getIssueLinks, populatedFieldList } from 'src/app/lib/jira-tree-utils';
+import {
+    CustomNodeTypes, searchTreeByKey, populateFieldValuesCompact,
+    getIssueLinks, populatedFieldList, getExtendedFieldValue
+} from 'src/app/lib/jira-tree-utils';
 
 export function issueReducer(state: Issue, action: any): Issue {
     switch (action.type) {
         case ActionTypes.LoadIssueDetails: {
-            return { ...state, issueDetails: null, currentIssueKey: action.payload };
+            return { ...state, primaryIssue: null, currentIssueKey: action.payload.issue };
         }
 
         case ActionTypes.LoadIssueDetailsSuccess: {
             const issueDetails: any = populateFieldValuesCompact(action.payload.issue);
+            console.log(action.payload);
+            if (action.payload.extendedFields && action.payload.extendedFields.length > 0) {
+                issueDetails.extendedFields = [];
+                action.payload.extendedFields.forEach(field => {
+                    field.extendedValue = getExtendedFieldValue(action.payload.issue, field.id);
+                    issueDetails.extendedFields.push(field);
+                })
+            }
+
             if (issueDetails) {
                 issueDetails.organization = action.payload.organization;
                 issueDetails.projectConfig = action.payload.projectConfig;
                 issueDetails.projectConfigLoaded = action.payload.projectConfig ? true : false;
                 issueDetails.relatedLinks = getIssueLinks(action.payload.issue);
             }
-            return { ...state, currentIssueKey: action.payload, issueDetails };
+            return { ...state, currentIssueKey: action.payload, primaryIssue: issueDetails };
         }
 
+        case ActionTypes.LoadEpicChildren: {
+            return { ...state, primaryIssue: { ...state.primaryIssue, epicChildrenLoading: true } };
+        }
         case ActionTypes.LoadEpicChildrenSuccess: {
             const epicChildren = _.map(action.payload.issues, p => populateFieldValuesCompact(p));
             return {
-                ...state, issueDetails: {
-                    ...state.issueDetails, epicChildrenLoaded: true, epicChildren
+                ...state, primaryIssue: {
+                    ...state.primaryIssue, epicChildrenLoading: false, epicChildrenLoaded: true, epicChildren
                 }
             };
+        }
+        case ActionTypes.LoadRelatedLinks: {
+            return { ...state, primaryIssue: { ...state.primaryIssue, relatedLinksLoading: true } };
         }
         case ActionTypes.LoadRelatedLinksSuccess: {
             const relatedLinks = populateRelatedLinks(state, action);
             return {
-                ...state, issueDetails: {
-                    ...state.issueDetails, relatedLinksLoaded: true, relatedLinks
+                ...state, primaryIssue: {
+                    ...state.primaryIssue, relatedLinksLoading: false, relatedLinksLoaded: true, relatedLinks
                 }
             };
+        }
+        case ActionTypes.LoadProjectDetails: {
+            return { ...state, primaryIssue: { ...state.primaryIssue, projectConfigLoading: true } };
         }
         case ActionTypes.LoadProjectDetailsSuccess: {
             const projectConfig = populateProjectDetails(action.payload);
             return {
-                ...state, issueDetails: {
-                    ...state.issueDetails, projectConfigLoaded: true, projectConfig
+                ...state, primaryIssue: {
+                    ...state.primaryIssue, projectConfigLoading: false, projectConfigLoaded: true, projectConfig
                 }
             };
         }
 
         case ActionTypes.SetSelectedItem: {
-            return { ...state, selectedItem: action.payload };
+            return { ...state, selectedIssue: action.payload };
         }
 
         case ActionTypes.SetPurpose: {
@@ -72,7 +93,7 @@ export function issueReducer(state: Issue, action: any): Issue {
         }
 
         case ActionTypes.UpdateFieldValueSuccess: {
-            const selectedItem = state.selectedItem;
+            const selectedItem = state.selectedIssue;
             const updatedField = action.payload;
             const found = searchTreeByKey(selectedItem, updatedField.issueKey);
             if (found) {
@@ -81,7 +102,7 @@ export function issueReducer(state: Issue, action: any): Issue {
                 } else if (updatedField.fieldName === 'fixVersions')
                     found.fixVersions = _.map(updatedField.updatedValue, v => v.name);
             }
-            return { ...state, updatedField, selectedItem };
+            return { ...state, updatedField, selectedIssue: selectedItem };
         }
 
         default: return state;
@@ -115,7 +136,7 @@ function getIssueTypes(list, isSubTask): any {
 }
 
 function populateRelatedLinks(state: Issue, action: any) {
-    const relatedLinks = state.issueDetails.relatedLinks;
+    const relatedLinks = state.primaryIssue.relatedLinks;
     if (action.payload && action.payload.issues) {
         const records = _.map(action.payload.issues, (item) => _.pick(populateFieldValuesCompact(item), populatedFieldList));
         relatedLinks.forEach(u => {

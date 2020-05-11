@@ -8,8 +8,8 @@ import { Store } from '@ngrx/store';
 import { CustomNodeTypes, populateFieldValues } from 'src/app/lib/jira-tree-utils';
 import { filter } from 'rxjs/operators';
 import { initializeMetadata, mergeMetadata, extractMetadata, populateStatistics } from 'src/app/lib/storyboard-utils';
-import { IssueState } from '../+state/issue.state';
-import { UpdateFieldValueAction } from '../+state/issue.actions';
+import { IssueState } from '../../+state/issue.state';
+import { UpdateFieldValueAction } from '../../+state/issue.actions';
 
 @Component({
     selector: 'app-storyboard',
@@ -40,7 +40,7 @@ export class StoryboardComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.localNodeType = CustomNodeTypes;
 
-        this.selectedItem$ = this.store$.select(p => p.issue.selectedItem)
+        this.selectedItem$ = this.store$.select(p => p.issue.selectedIssue)
             .pipe(filter(p => p))
             .subscribe(selectedItem => {
                 console.log('selectedItem', selectedItem);

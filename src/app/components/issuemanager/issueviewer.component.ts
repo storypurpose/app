@@ -323,11 +323,11 @@ export class IssueviewerComponent implements OnInit, OnDestroy {
                     : null
             },
             {
-                label: 'Define purpose', icon: 'far fa-lightbulb', menuType: [CustomNodeTypes.Organization],
+                label: 'Define purpose', icon: 'fire', menuType: [CustomNodeTypes.Organization],
                 command: () => this.showOrganizationSetup = true
             },
             {
-                label: 'Define purpose', icon: 'far fa-lightbulb', menuType: [CustomNodeTypes.Hierarchy],
+                label: 'Define purpose', icon: 'fire', menuType: [CustomNodeTypes.Hierarchy],
                 command: (args) => {
                     if (args.item && args.item.data) {
                         this.hierarchyFieldPurpose = _.pick(args.item.data, ['key', 'hfKey', 'title', 'description', 'issueType']);

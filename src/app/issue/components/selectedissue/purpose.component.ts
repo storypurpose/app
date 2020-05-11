@@ -2,7 +2,7 @@ import { Component, Output, EventEmitter, OnInit, OnDestroy } from '@angular/cor
 import * as _ from "lodash";
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { IssueState } from '../+state/issue.state';
+import { IssueState } from '../../+state/issue.state';
 import { Store } from '@ngrx/store';
 import { CachingService } from 'src/app/lib/caching.service';
 
@@ -31,7 +31,7 @@ export class PurposeDetailsComponent implements OnInit, OnDestroy {
     ) { }
 
     ngOnInit(): void {
-        this.selectedItem$ = this.store$.select(p => p.issue.selectedItem)
+        this.selectedItem$ = this.store$.select(p => p.issue.selectedIssue)
             .pipe(filter(p => p))
             .subscribe(p => this.selectedItem = p);
 

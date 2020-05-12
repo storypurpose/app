@@ -7,12 +7,15 @@ import { CachingService } from '../../../lib/caching.service';
 import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../+state/app.state';
+import { LoadSubtasksAction } from '../../+state/issue.actions';
 
 @Component({
     selector: 'app-task-list',
     templateUrl: './task-list.component.html'
 })
 export class TasklistComponent implements OnInit, OnDestroy {
+    @Input() projectConfig: any;
+
     _issue: any;
     @Input() set issue(value: any) {
         this._issue = value;
@@ -25,7 +28,6 @@ export class TasklistComponent implements OnInit, OnDestroy {
 
     tasklistFilterVisible = false;
     childIssueType = '';
-    childItems: any;
     filteredItems: any;
 
     hasExtendedFields = false;
@@ -37,56 +39,54 @@ export class TasklistComponent implements OnInit, OnDestroy {
     issueTypeStats: any;
     issueTypeFilter = "all";
 
-    combined$: Subscription;
+    subtasks$: Subscription;
+    subtasks: any;
     currentProject$: Subscription;
 
-    constructor(public jiraService: JiraService,
-        public cachingService: CachingService,
-        public store$: Store<AppState>) {
-
+    constructor(public store$: Store<AppState>) {
     }
+
     ngOnInit(): void {
+        this.subtasks$ = this.store$.select(p => p.issue.subtasks)
+            .pipe(filter(p => p))
+            .subscribe(subtasks => {
+                this.subtasks = subtasks;
+                this.subtasks.forEach(u => u.hideExtendedFields = this.hideExtendedFields);
+
+                this.onFilterChanged();
+                this.populateStatistics();
+
+            })
         this.currentProject$ = this.store$.select(p => p.app.currentProjectUpdated)
             .subscribe(() => this.loadDetails());
     }
 
     ngOnDestroy(): void {
-        // this.combined$ ? this.combined$.unsubscribe() : null;
+        this.subtasks$ ? this.subtasks$.unsubscribe() : null;
         this.currentProject$ ? this.currentProject$.unsubscribe() : null;
     }
 
     loadDetails() {
-        if (this.issue && this.issue.project &&
-            this.issue.project.subTaskIssueTypes && this.issue.project.subTaskIssueTypes.length > 0) {
+        this.subtasks = null;
+        if (this.issue && this.projectConfig && this.projectConfig.subTaskIssueTypes && this.projectConfig.subTaskIssueTypes.length > 0) {
 
-            const subTaskIssueTypes = _.join(_.map(this.issue.project.subTaskIssueTypes, (ff) => `'${ff.name}'`), ',');
-            const extendedFields = _.spread(_.union)(_.map(this.issue.project.subTaskIssueTypes, 'list'));
+            const subTaskIssueTypes = _.join(_.map(this.projectConfig.subTaskIssueTypes, (ff) => `'${ff.name}'`), ',');
+            const extendedFields = _.spread(_.union)(_.map(this.projectConfig.subTaskIssueTypes, 'list'));
             this.hasExtendedFields = (extendedFields && extendedFields.length > 0);
 
-            const codelist = _.map(extendedFields, 'id');
-
-            this.jiraService.executeJql(`issuetype in (${subTaskIssueTypes}) AND parent=${this.issue.key}`, 0, 100, codelist, 'test-cases.json')
-                .pipe(filter((data: any) => data && data.issues))
-                .subscribe((data: any) => {
-                    this.childItems = flattenNodes(data.issues);
-                    this.childItems.forEach(u => u.hideExtendedFields = this.hideExtendedFields);
-                    appendExtendedFields(this.childItems, extendedFields);
-
-                    this.onFilterChanged();
-                    this.populateStatistics();
-                });
+            this.store$.dispatch(new LoadSubtasksAction({ issueKey: this.issue.key, subTaskIssueTypes, extendedFields }));
         }
     }
 
     private populateStatistics() {
-        const statusResultSet = _.mapValues(_.groupBy(_.map(this.childItems, 'status')), (s) => s.length);
+        const statusResultSet = _.mapValues(_.groupBy(_.map(this.subtasks, 'status')), (s) => s.length);
         this.statusStats = Object.keys(statusResultSet).map((key) => { return { key, count: statusResultSet[key] }; });
-        const issueTypeResultSet = _.mapValues(_.groupBy(_.map(this.childItems, 'issueType')), (s) => s.length);
+        const issueTypeResultSet = _.mapValues(_.groupBy(_.map(this.subtasks, 'issueType')), (s) => s.length);
         this.issueTypeStats = Object.keys(issueTypeResultSet).map((key) => { return { key, count: issueTypeResultSet[key] }; });
     }
 
     public onFilterChanged() {
-        this.filteredItems = _.filter(this.childItems,
+        this.filteredItems = _.filter(this.subtasks,
             (ci) => (!this.statusFilter || this.statusFilter === "all" || ci.status === this.statusFilter) &&
                 (!this.issueTypeFilter || this.issueTypeFilter === "all" || ci.issueType === this.issueTypeFilter))
 
@@ -95,8 +95,8 @@ export class TasklistComponent implements OnInit, OnDestroy {
 
     showHideExtendedFields() {
         this.hideExtendedFields = !this.hideExtendedFields;
-        if (this.childItems) {
-            this.childItems.forEach((u) => u.hideExtendedFields = this.hideExtendedFields);
+        if (this.subtasks) {
+            this.subtasks.forEach((u) => u.hideExtendedFields = this.hideExtendedFields);
         }
     }
 

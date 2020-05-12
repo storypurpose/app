@@ -5,13 +5,13 @@ import { filter, map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { CustomNodeTypes, searchTreeByKey } from 'src/app/lib/jira-tree-utils';
 import { CachingService } from 'src/app/lib/caching.service';
-import { UpdateOrganizationPurposeAction, LoadSelectedIssueAction } from '../../+state/issue.actions';
+import { UpdateOrganizationPurposeAction, LoadSelectedIssueAction, SetSelectedItemAction } from '../../+state/issue.actions';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IssueState } from '../../+state/issue.state';
 
 @Component({
     selector: 'app-selected-issue-container',
-    templateUrl: './container.component.html'
+    templateUrl: './selected-issue-container.component.html'
 })
 export class SelectedIssueContainerComponent implements OnInit, OnDestroy {
     combined$: Subscription;
@@ -54,13 +54,17 @@ export class SelectedIssueContainerComponent implements OnInit, OnDestroy {
             .subscribe(([primaryIssue, hierarchicalIssue, selectedIssueKey]) => {
                 this.primaryIssue = primaryIssue;
 
-                if (!this.selectedIssue || this.selectedIssue.key.toLowerCase() !== selectedIssueKey.toLowerCase()) {
-                    const hierarchicalNode = searchTreeByKey(hierarchicalIssue, selectedIssueKey);
-                    let extendedFields = hierarchicalNode
-                        ? this.populateExtendedFields(primaryIssue.projectConfig, hierarchicalNode.issueType)
-                        : [];
+                if (selectedIssueKey.toLowerCase() === this.primaryIssue.key.toLowerCase()) {
+                    this.store$.dispatch(new SetSelectedItemAction(primaryIssue));
+                } else {
+                    if (!this.selectedIssue || this.selectedIssue.key.toLowerCase() !== selectedIssueKey.toLowerCase()) {
+                        const hierarchicalNode = searchTreeByKey(hierarchicalIssue, selectedIssueKey);
+                        let extendedFields = hierarchicalNode
+                            ? this.populateExtendedFields(primaryIssue.projectConfig, hierarchicalNode.issueType)
+                            : [];
 
-                    this.store$.dispatch(new LoadSelectedIssueAction({ issue: selectedIssueKey, extendedFields }));
+                        this.store$.dispatch(new LoadSelectedIssueAction({ issue: selectedIssueKey, extendedFields }));
+                    }
                 }
             })
     }

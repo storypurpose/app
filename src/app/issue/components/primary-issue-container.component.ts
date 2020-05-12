@@ -17,8 +17,8 @@ import { UpsertProjectAction, SetHierarchicalIssueAction } from 'src/app/+state/
 import { getRoutelet } from 'src/app/lib/route-utils';
 
 @Component({
-    selector: 'app-issue-container',
-    templateUrl: './issue-container.component.html'
+    selector: 'app-primary-issue-container',
+    templateUrl: './primary-issue-container.component.html'
 })
 export class IssueContainerComponent implements OnInit, OnDestroy {
     combined$: Subscription;

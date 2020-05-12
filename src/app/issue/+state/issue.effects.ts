@@ -6,6 +6,7 @@ import * as a from './issue.actions';
 import { of } from 'rxjs';
 import { JiraService } from '../../lib/jira.service';
 import { CachingService } from 'src/app/lib/caching.service';
+import { flattenNodes, appendExtendedFields } from 'src/app/lib/jira-tree-utils';
 
 @Injectable()
 export class IssueEffects {
@@ -17,7 +18,7 @@ export class IssueEffects {
 
     @Effect() loadPrimaryIssue = this.actions$.pipe(ofType(a.ActionTypes.LoadPrimaryIssue),
         switchMap((action: any) =>
-            this.getIssueDetails(action)
+            this.getIssueDetails(action.payload)
                 .pipe(
                     map(payload => ({ type: a.ActionTypes.LoadPrimaryIssueSuccess, payload })),
                     catchError(() => of({ type: a.ActionTypes.LoadPrimaryIssueFailed }))
@@ -27,7 +28,7 @@ export class IssueEffects {
 
     @Effect() loadSelectedIssue = this.actions$.pipe(ofType(a.ActionTypes.LoadSelectedIssue),
         switchMap((action: any) =>
-            this.getIssueDetails(action)
+            this.getIssueDetails(action.payload)
                 .pipe(
                     map(payload => ({ type: a.ActionTypes.LoadSelectedIssueSuccess, payload })),
                     catchError(() => of({ type: a.ActionTypes.LoadSelectedIssueFailed }))
@@ -56,6 +57,18 @@ export class IssueEffects {
         )
     );
 
+    @Effect() loadSubtasks = this.actions$.pipe(ofType(a.ActionTypes.LoadSubtasks),
+        switchMap((action: any) =>
+            this.jiraService.executeJql(`issuetype in (${action.payload.subTaskIssueTypes}) AND parent=${action.payload.issueKey}`,
+                0, 100, _.map(action.payload.extendedFields, 'id'), 'test-cases.json')
+                .pipe(
+                    map(result => ({ type: a.ActionTypes.LoadSubtasksSuccess, payload: { result, extendedFields: action.payload.extendedFields } })),
+                    catchError(() => of({ type: a.ActionTypes.LoadSubtasksFailed }))
+                )
+        )
+    );
+
+
     @Effect() loadProjectConfig = this.actions$.pipe(ofType(a.ActionTypes.LoadProjectDetails),
         switchMap((action: any) =>
             this.jiraService.getProjectDetails(action.payload)
@@ -64,7 +77,8 @@ export class IssueEffects {
                         let payload = null;
                         if (result && result.length > 0) {
                             payload = result[0];
-                            payload.customFields = _.sortBy(_.map(_.filter(result[1], { custom: true }), (ff) => _.pick(ff, ['id', 'name'])), ['name']);
+                            payload.customFields =
+                                _.sortBy(_.map(_.filter(result[1], { custom: true }), (ff) => _.pick(ff, ['id', 'name'])), ['name']);
                         }
                         return ({ type: a.ActionTypes.LoadProjectDetailsSuccess, payload })
                     }),
@@ -83,12 +97,12 @@ export class IssueEffects {
         )
     );
 
-    private getIssueDetails(action: any) {
-        return this.jiraService.getIssueDetails(action.payload.issue, _.map(action.payload.extendedFields, 'id'))
+    private getIssueDetails(payload: any) {
+        return this.jiraService.getIssueDetails(payload.issue, _.map(payload.extendedFields, 'id'))
             .pipe(map((result: any) => {
                 const issueDetails = {
                     issue: result,
-                    extendedFields: action.payload.extendedFields,
+                    extendedFields: payload.extendedFields,
                     organization: this.cachingService.getOrganization(),
                     projectConfig: null
                 };
@@ -98,19 +112,5 @@ export class IssueEffects {
                 }
                 return issueDetails;
             }));
-    }
-
-    private prepareIssueDetailsPayload(result: any, extendedFields: any) {
-        const payload = {
-            issue: result,
-            extendedFields,
-            organization: this.cachingService.getOrganization(),
-            projectConfig: null
-        };
-        if (result && result.fields && result.fields.project &&
-            result.fields.project.key && result.fields.project.key.length > 0) {
-            payload.projectConfig = this.cachingService.getProjectDetails(result.fields.project.key);
-        }
-        return payload;
     }
 }

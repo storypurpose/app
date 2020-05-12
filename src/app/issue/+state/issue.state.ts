@@ -5,6 +5,8 @@ export interface Issue {
   selectedIssueKey: string;
   selectedIssue: any;
 
+  subtasks: any;
+  
   purpose: any;
   recentlyViewedItems: any;
   recentmostItem: any;

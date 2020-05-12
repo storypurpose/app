@@ -3,7 +3,7 @@ import { Issue } from './issue.state';
 import { ActionTypes } from './issue.actions';
 import {
     CustomNodeTypes, searchTreeByKey, populateFieldValuesCompact,
-    getIssueLinks, populatedFieldList, getExtendedFieldValue
+    getIssueLinks, populatedFieldList, getExtendedFieldValue, flattenNodes, appendExtendedFields
 } from 'src/app/lib/jira-tree-utils';
 
 export function issueReducer(state: Issue, action: any): Issue {
@@ -48,6 +48,19 @@ export function issueReducer(state: Issue, action: any): Issue {
                     ...state.primaryIssue, projectConfigLoading: false, projectConfigLoaded: true, projectConfig
                 }
             };
+        }
+
+        case ActionTypes.LoadSubtasks: {
+            return { ...state, subtasks: null };
+        }
+
+        case ActionTypes.LoadSubtasksSuccess: {
+            let subtasks = null;
+            if (action.payload && action.payload.result && action.payload.result.issues) {
+                subtasks = flattenNodes(action.payload.result.issues);
+                appendExtendedFields(subtasks, action.payload.extendedFields);
+            }
+            return { ...state, subtasks };
         }
 
         case ActionTypes.LoadSelectedIssue: {

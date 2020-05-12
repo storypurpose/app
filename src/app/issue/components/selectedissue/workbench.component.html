@@ -73,9 +73,9 @@
                     </ng-template>
                 </li>
 
-                <li [ngbNavItem]="2" *ngIf="issue.relatedLinksCount > 0">
+                <li [ngbNavItem]="2" *ngIf="groupedRelatedLinks.length > 0">
                     <a ngbNavLink (click)="toggleAllRelatedIssues()">
-                        <fa-icon *ngIf="issue.relatedLinksCount > 1"
+                        <fa-icon *ngIf="groupedRelatedLinks.length > 1"
                             [icon]="allRelatedIssuesVisible ? 'angle-double-down' : 'angle-double-right'" size="sm"
                             [fixedWidth]="true">
                         </fa-icon>
@@ -84,50 +84,49 @@
                     <ng-template ngbNavContent>
                         <div class="pl-2 pr-2 pb-2">
                             <div *ngIf="!selectedRelatedIssue">
-                                <div *ngFor="let child of issue.children">
-                                    <ng-container *ngIf="child.issueType !== localNodeType.EpicChildren">
-                                        <div class="text-muted text-uppercase mt-1 mb-1">
-                                            <button class="btn btn-sm btn-link text-left text-dark"
-                                                [ngClass]="{'w-100 btn-light ': child.visible}"
-                                                (click)="child.visible = !child.visible">
-                                                <fa-icon [icon]="child.visible ? 'angle-down' : 'angle-right'" size="sm"
-                                                    [fixedWidth]="true"></fa-icon>
-                                                <span class="ml-2">{{child.label}}
-                                                    <span *ngIf="child.children"> / {{child.children.length}}</span>
-                                                </span>
-                                            </button>
-                                        </div>
-                                        <div *ngIf="child.visible" class="mb-4">
-                                            <div class="ml-3 p-1 border-bottom" [title]="i.issueType"
-                                                *ngFor="let i of child.children">
-                                                <app-issue-navigation class="float-right" [issueKey]="i.key">
-                                                </app-issue-navigation>
-                                                <div
-                                                    class="badge badge-light font-weight-normal text-uppercase float-right mt-1">
-                                                    {{i.status}}
-                                                </div>
-                                                <i [class]="i.icon" class="mr-1"></i>
-                                                <a (click)="selectRelatedIssue(i)"
-                                                    class="text-primary mr-2">{{i.key}}</a>
-                                                {{i.title}}
+                                <div *ngFor="let child of groupedRelatedLinks">
+
+                                    <div class="text-muted text-uppercase mt-1 mb-1">
+                                        <button class="btn btn-sm btn-link text-left text-dark"
+                                            [ngClass]="{'w-100 btn-light ': child.visible}"
+                                            (click)="child.visible = !child.visible">
+                                            <fa-icon [icon]="child.visible ? 'angle-down' : 'angle-right'" size="sm"
+                                                [fixedWidth]="true"></fa-icon>
+                                            <span class="ml-2">{{child.label}}
+                                                <span *ngIf="child.children"> / {{child.children.length}}</span>
+                                            </span>
+                                        </button>
+                                    </div>
+                                    <div *ngIf="child.visible" class="mb-4">
+                                        <div class="ml-3 p-1 border-bottom" [title]="i.issueType"
+                                            *ngFor="let i of child.children">
+                                            <app-issue-navigation class="float-right" [issueKey]="i.key">
+                                            </app-issue-navigation>
+                                            <div
+                                                class="badge badge-light font-weight-normal text-uppercase float-right mt-1">
+                                                {{i.status}}
                                             </div>
+                                            <i [class]="i.icon" class="mr-1"></i>
+                                            <a (click)="selectRelatedIssue(i)" class="text-primary mr-2">{{i.key}}</a>
+                                            {{i.title}}
                                         </div>
-                                    </ng-container>
+                                    </div>
                                 </div>
                             </div>
                             <div *ngIf="selectedRelatedIssue">
-                                <app-task-list [issue]="selectedRelatedIssue" (close)="resetSelectedRelatedIssue()"
-                                    [showIssue]="true"></app-task-list>
+                                <app-task-list [issue]="selectedRelatedIssue" [projectConfig]="issue.projectConfig"
+                                    (close)="resetSelectedRelatedIssue()" [showIssue]="true"></app-task-list>
                             </div>
                         </div>
                     </ng-template>
                 </li>
 
                 <li [ngbNavItem]="3">
-                    <a ngbNavLink>Task breakup</a>
+                    <a ngbNavLink (click)="reloadSubtasks()" >Task breakup</a>
                     <ng-template ngbNavContent>
                         <div class="pl-2 pr-2 pb-2">
-                            <app-task-list [issue]="issue" [showIssue]="false"></app-task-list>
+                            <app-task-list [issue]="selectedIssue" [projectConfig]="issue.projectConfig" [showIssue]="false">
+                            </app-task-list>
                         </div>
                     </ng-template>
                 </li>

@@ -243,9 +243,13 @@ export function createProjectNode(project: any) {
 }
 
 export function createEpicChildrenNode(node: any): any {
+
+    const children = node.epicChildren && node.epicChildren.length > 0 ? [] : null;
+    node.epicChildren.forEach(u => children.push(u));
+    const label = 'Epic Children' + (children ? ` (${children.length})` : '');
     return {
-        label: "Epic Children", title: "Epic Children", key: 'E_' + node.key, parentId: node.key, selectable: false,
-        issueType: CustomNodeTypes.EpicChildren, leaf: false, children: null
+        label, title: label, key: 'E_' + node.key, parentId: node.key, selectable: false,
+        issueType: CustomNodeTypes.EpicChildren, leaf: false, children
     };
 }
 

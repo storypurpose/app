@@ -13,10 +13,13 @@ const LEFT_PANE_WIDTH = 55;
     templateUrl: './workbench.component.html'
 })
 export class WorkbenchComponent implements AfterViewInit, OnInit, OnDestroy {
-    issue$: Subscription;
+    selectedIssue$: Subscription;
     public issue: any;
+    selectedIssue: any;
 
     allRelatedIssuesVisible = true;
+    groupedRelatedLinks: any;
+
     allEpicChildrenVisible = true;
     groupedEpicChildren: any;
 
@@ -35,16 +38,15 @@ export class WorkbenchComponent implements AfterViewInit, OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-
-        this.epicChildrenLoaded$ = this.store$.select(p => p.app.epicChildrenLoaded).pipe(filter(issue => issue === true))
-            .subscribe(() => this.groupEpicChildren('status'));
-
-        this.issue$ = this.store$.select(p => p.issue.selectedIssue).pipe(filter(p => p))
+        this.selectedIssue$ = this.store$.select(p => p.issue.selectedIssue).pipe(filter(p => p))
             .subscribe(issue => {
+                this.selectedRelatedIssue = null;
+                this.selectedEpicIssue = null;
+
                 this.issue = issue;
-                const relatedLinks = _.filter(this.issue.children, { issueType: CustomNodeTypes.RelatedLink });
-                this.issue.relatedLinksCount = relatedLinks.length;
-                this.selectedTab = (this.issue.relatedLinksCount > 0) ? 2 : 3;
+                this.groupedRelatedLinks = this.groupChildren(this.issue.relatedLinks, 'linkType');
+                this.issue.relatedLinksCount = this.groupedRelatedLinks.length;
+                this.selectedTab = (this.groupedRelatedLinks.length > 0) ? 2 : 3;
                 this.toggleAllRelatedIssues();
                 if (this.issue.issueType === CustomNodeTypes.Epic) {
                     this.groupEpicChildren('status');
@@ -54,7 +56,7 @@ export class WorkbenchComponent implements AfterViewInit, OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.epicChildrenLoaded$ ? this.epicChildrenLoaded$.unsubscribe() : null;
-        this.issue$ ? this.issue$.unsubscribe() : null;
+        this.selectedIssue$ ? this.selectedIssue$.unsubscribe() : null;
     }
 
     ngAfterViewInit(): void {
@@ -91,9 +93,9 @@ export class WorkbenchComponent implements AfterViewInit, OnInit, OnDestroy {
     groupEpicChildren(groupByField): void {
         this.selectedTab = 1;
         if (this.issue && !this.groupedEpicChildren) {
-            const epicChildren = _.find(this.issue.children, { issueType: CustomNodeTypes.EpicChildren });
-            if (epicChildren && epicChildren.children && epicChildren.children.length > 0) {
-                this.groupedEpicChildren = this.groupChildren(epicChildren.children, groupByField);
+            const epicChildren = this.issue.epicChildren;
+            if (epicChildren && epicChildren.length > 0) {
+                this.groupedEpicChildren = this.groupChildren(epicChildren, groupByField);
             }
             this.toggleAllEpicChildren()
         }
@@ -107,6 +109,7 @@ export class WorkbenchComponent implements AfterViewInit, OnInit, OnDestroy {
     }
 
     toggleAllEpicChildren() {
+        this.selectedIssue = null;
         this.allEpicChildrenVisible = !this.allEpicChildrenVisible;
         if (this.groupedEpicChildren) {
             this.groupedEpicChildren
@@ -115,10 +118,16 @@ export class WorkbenchComponent implements AfterViewInit, OnInit, OnDestroy {
     }
 
     toggleAllRelatedIssues() {
+        this.selectedIssue = null;
         this.allRelatedIssuesVisible = !this.allRelatedIssuesVisible;
-        if (this.issue && this.issue.relatedLinksCount > 0) {
-            _.filter(this.issue.children, { issueType: CustomNodeTypes.RelatedLink })
-                .forEach(u => u.visible = this.issue.relatedLinksCount === 1 ? true : this.allRelatedIssuesVisible);
+        if (this.groupedRelatedLinks && this.groupedRelatedLinks.length > 0) {
+            this.groupedRelatedLinks.forEach(u => u.visible = this.groupedRelatedLinks.length === 1 ? true : this.allRelatedIssuesVisible);
         }
+    }
+
+    reloadSubtasks() {
+        this.selectedEpicIssue = null;
+        this.selectedRelatedIssue = null;
+        this.selectedIssue = this.issue;
     }
 }

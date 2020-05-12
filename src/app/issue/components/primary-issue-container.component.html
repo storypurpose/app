@@ -9,8 +9,10 @@
                 <div *ngIf="rootNode" class="pb-5">
                     <p-contextMenu #cm [model]="menulist" appendTo="body"></p-contextMenu>
                     <p-tree [value]="[rootNode]" selectionMode="single" [(selection)]="selectedNode"
-                        (onNodeSelect)="nodeSelected($event)" [contextMenu]="cm"
-                        (onNodeContextMenuSelect)="nodeContextMenuSelect($event.node)">
+                        (onNodeSelect)="nodeSelected($event)">
+
+                        <!-- [contextMenu]="cm" (onNodeContextMenuSelect)="nodeContextMenuSelect($event.node)" -->
+
                         <ng-template let-node pTemplate="default">
                             <div style="font-size: 90%;" [ngClass]="{
                                         'small text-muted text-uppercase font-italic': checkIfCustomNode(node),

@@ -14,6 +14,10 @@ export const ActionTypes = {
     LoadRelatedLinksFailed: type("[LoadRelatedLinks] Failed"),
     LoadRelatedLinksSuccess: type("[LoadRelatedLinks] Success"),
 
+    LoadSubtasks: type("[LoadSubtasks]"),
+    LoadSubtasksFailed: type("[LoadSubtasks] Failed"),
+    LoadSubtasksSuccess: type("[LoadSubtasks] Success"),
+
     LoadProjectDetails: type("[LoadProjectDetails]"),
     LoadProjectDetailsFailed: type("[LoadProjectDetails] Failed"),
     LoadProjectDetailsSuccess: type("[LoadProjectDetails] Success"),
@@ -45,6 +49,12 @@ export class LoadRelatedLinksAction implements Action {
     type = ActionTypes.LoadRelatedLinks;
     constructor(public payload: any) { }
 }
+
+export class LoadSubtasksAction implements Action {
+    type = ActionTypes.LoadSubtasks;
+    constructor(public payload: any) { }
+}
+
 export class LoadProjectDetailsAction implements Action {
     type = ActionTypes.LoadProjectDetails;
     constructor(public payload: any) { }

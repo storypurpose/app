@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Title } from '@angular/platform-browser';
 import { IssueState } from '../+state/issue.state';
-import { LoadIssueDetailsAction, LoadEpicChildrenAction, LoadRelatedLinksAction, LoadProjectDetailsAction } from '../+state/issue.actions';
+import { LoadIssueDetailsAction as LoadPrimaryIssueAction, LoadEpicChildrenAction, LoadRelatedLinksAction, LoadProjectDetailsAction } from '../+state/issue.actions';
 import { environment } from 'src/environments/environment';
 import { filter, map } from 'rxjs/operators';
 import { Subscription, combineLatest } from 'rxjs';
@@ -53,16 +53,16 @@ export class IssueContainerComponent implements OnInit, OnDestroy {
                         _.filter(_.flatten(_.map(projects, 'customFields')), { name: "Epic Link" })
                     );
                 }
-                this.store$.dispatch(new LoadIssueDetailsAction({ issue, extendedFields: this.extendedFields }));
+                this.store$.dispatch(new LoadPrimaryIssueAction({ issue, extendedFields: this.extendedFields }));
             });
 
         this.issueDetails$ = this.store$.select(p => p.issue.primaryIssue)
             .pipe(filter(p => p))
             .subscribe(details => {
                 this.issueDetails = details;
+                this.populateProjectConfig();
                 this.populateEpicChildren();
                 this.populateRelatedLinks();
-                this.populateProjectConfig();
 
                 this.buildTree();
             });
@@ -80,11 +80,8 @@ export class IssueContainerComponent implements OnInit, OnDestroy {
             let projectNode: any = createProjectNode(this.issueDetails.projectConfig);
             let hierarchyNode = (this.issueDetails.projectConfig.hierarchy) ? this.prepareHierarchyNodes() : null;
 
-            console.log(organizationNode, projectNode, hierarchyNode);
             projectNode = addToLeafNode(organizationNode, projectNode);
-            console.log('projectNode', projectNode);
             hierarchyNode = addToLeafNode(projectNode, hierarchyNode);
-            console.log('hierarchyNode', hierarchyNode);
 
             //const epicNode = this.populateEpic(node);
 

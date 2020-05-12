@@ -1,10 +1,10 @@
 import { Component, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import * as _ from "lodash";
-import { Subscription } from 'rxjs';
+import { Subscription, combineLatest } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { IssueState } from '../../+state/issue.state';
 import { Store } from '@ngrx/store';
-import { CachingService } from 'src/app/lib/caching.service';
+import { searchTreeByKey, copyFieldValues, CustomNodeTypes } from 'src/app/lib/jira-tree-utils';
 
 @Component({
     selector: 'app-purpose',
@@ -16,37 +16,33 @@ export class PurposeDetailsComponent implements OnInit, OnDestroy {
     public showAll = false;
     hideExtendedFields = false;
 
-    selectedItem$: Subscription;
-    selectedItem: any;
-
-    public purpose$: Subscription;
+    combined$: Subscription;
     public purpose: any;
 
     public hierarchySetupVisibility$: Subscription;
 
     public fontSizeSmall = false;
 
-    constructor(public cachingService: CachingService,
-        public store$: Store<IssueState>
-    ) { }
+    constructor(public store$: Store<IssueState>) { }
 
     ngOnInit(): void {
-        this.selectedItem$ = this.store$.select(p => p.issue.selectedIssue)
-            .pipe(filter(p => p))
-            .subscribe(p => this.selectedItem = p);
 
-        this.purpose$ = this.store$.select(p => p.issue.purpose)
-            .pipe(filter(p => p))
-            .subscribe(data => {
-                this.purpose = data;
-                // this.showHideAllPurposes(false);
+        const selectedIssueQuery$ = this.store$.select(p => p.issue.selectedIssue).pipe(filter(p => p));
+        const hierarchicalIssueQuery$ = this.store$.select(p => p.app.hierarchicalIssue).pipe(filter(issue => issue));
+
+        this.combined$ = combineLatest(selectedIssueQuery$, hierarchicalIssueQuery$)
+            .subscribe(([selectedIssue, hierarchicalIssue]) => {
+                const hierarchicalNode = searchTreeByKey(hierarchicalIssue, selectedIssue.key);
+                if (hierarchicalNode) {
+                    copyFieldValues(selectedIssue, hierarchicalNode);
+                    this.purpose = this.expandPurpose(hierarchicalNode);
+                }
             });
     }
 
     ngOnDestroy(): void {
-        this.purpose$ ? this.purpose$.unsubscribe() : null;
         this.hierarchySetupVisibility$ ? this.hierarchySetupVisibility$.unsubscribe() : null;
-        this.selectedItem$ ? this.selectedItem$.unsubscribe() : null;
+        this.combined$ ? this.combined$.unsubscribe() : null;
     }
 
     showHideAllPurposes(value) {
@@ -55,6 +51,30 @@ export class PurposeDetailsComponent implements OnInit, OnDestroy {
             this.purpose.forEach(u => u.show = this.showAll)
             if (!this.showAll && this.purpose.length > 0) {
                 this.purpose[this.purpose.length - 1].show = true;
+            }
+        }
+    }
+
+    public expandPurpose(node: any) {
+        const purpose = [];
+        this.populatePurpose(node, purpose);
+        _.reverse(purpose);
+        if (purpose.length > 0) {
+            purpose[purpose.length - 1].show = true;
+        }
+        return purpose;
+    }
+
+    public populatePurpose(node, purpose) {
+        if (node) {
+            if (node.issueType !== CustomNodeTypes.EpicChildren && node.issueType !== CustomNodeTypes.RelatedLink) {
+                purpose.push({
+                    key: node.key, issueType: node.issueType, title: node.title, purpose: node.description,
+                    editable: node.editable, hfKey: node.hfKey, show: false
+                });
+            }
+            if (node.parent) {
+                this.populatePurpose(node.parent, purpose);
             }
         }
     }

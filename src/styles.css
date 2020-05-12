@@ -309,7 +309,12 @@ ngx-md h3,
   background-color: #e8e8e8;
 }
 .btn-default:hover {
-  background-color: #dddddd;
+  background-color: #c8c8c8;
+}
+.btn-default:not(:disabled):not(.disabled).active,
+.btn-default:not(:disabled):not(.disabled):active,
+.show > .btn-default.dropdown-toggle {
+  background-color: #c8c8c8;
 }
 .hide-caret::after {
   content: none !important;

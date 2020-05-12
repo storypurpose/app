@@ -8,28 +8,12 @@ import {
 
 export function issueReducer(state: Issue, action: any): Issue {
     switch (action.type) {
-        case ActionTypes.LoadIssueDetails: {
-            return { ...state, primaryIssue: null, currentIssueKey: action.payload.issue };
+        case ActionTypes.LoadPrimaryIssue: {
+            return { ...state, primaryIssue: null, primaryIssueKey: action.payload.issue };
         }
 
-        case ActionTypes.LoadIssueDetailsSuccess: {
-            const issueDetails: any = populateFieldValuesCompact(action.payload.issue);
-            console.log(action.payload);
-            if (action.payload.extendedFields && action.payload.extendedFields.length > 0) {
-                issueDetails.extendedFields = [];
-                action.payload.extendedFields.forEach(field => {
-                    field.extendedValue = getExtendedFieldValue(action.payload.issue, field.id);
-                    issueDetails.extendedFields.push(field);
-                })
-            }
-
-            if (issueDetails) {
-                issueDetails.organization = action.payload.organization;
-                issueDetails.projectConfig = action.payload.projectConfig;
-                issueDetails.projectConfigLoaded = action.payload.projectConfig ? true : false;
-                issueDetails.relatedLinks = getIssueLinks(action.payload.issue);
-            }
-            return { ...state, currentIssueKey: action.payload, primaryIssue: issueDetails };
+        case ActionTypes.LoadPrimaryIssueSuccess: {
+            return { ...state, primaryIssue: populateIssueDetails(action.payload) };
         }
 
         case ActionTypes.LoadEpicChildren: {
@@ -64,6 +48,14 @@ export function issueReducer(state: Issue, action: any): Issue {
                     ...state.primaryIssue, projectConfigLoading: false, projectConfigLoaded: true, projectConfig
                 }
             };
+        }
+
+        case ActionTypes.LoadSelectedIssue: {
+            return { ...state, selectedIssue: null, selectedIssueKey: action.payload.issue };
+        }
+
+        case ActionTypes.LoadSelectedIssueSuccess: {
+            return { ...state, selectedIssue: populateIssueDetails(action.payload) };
         }
 
         case ActionTypes.SetSelectedItem: {
@@ -107,6 +99,24 @@ export function issueReducer(state: Issue, action: any): Issue {
 
         default: return state;
     }
+}
+
+function populateIssueDetails(payload: any) {
+    const issueDetails: any = populateFieldValuesCompact(payload.issue);
+    if (payload.extendedFields && payload.extendedFields.length > 0) {
+        issueDetails.extendedFields = [];
+        payload.extendedFields.forEach(field => {
+            field.extendedValue = getExtendedFieldValue(payload.issue, field.id);
+            issueDetails.extendedFields.push(field);
+        });
+    }
+    if (issueDetails) {
+        issueDetails.organization = payload.organization;
+        issueDetails.projectConfig = payload.projectConfig;
+        issueDetails.projectConfigLoaded = payload.projectConfig ? true : false;
+        issueDetails.relatedLinks = getIssueLinks(payload.issue);
+    }
+    return issueDetails;
 }
 
 function populateProjectDetails(project) {

@@ -15,24 +15,22 @@ export class IssueEffects {
         private cachingService: CachingService
     ) { }
 
-    @Effect() loadIssueDetails = this.actions$.pipe(ofType(a.ActionTypes.LoadIssueDetails),
+    @Effect() loadPrimaryIssue = this.actions$.pipe(ofType(a.ActionTypes.LoadPrimaryIssue),
         switchMap((action: any) =>
-            this.jiraService.getIssueDetails(action.payload.issue, _.map(action.payload.extendedFields, 'id'))
+            this.getIssueDetails(action)
                 .pipe(
-                    map((result: any) => {
-                        const payload = {
-                            issue: result,
-                            extendedFields: action.payload.extendedFields,
-                            organization: this.cachingService.getOrganization(),
-                            projectConfig: null
-                        }
-                        if (result && result.fields && result.fields.project &&
-                            result.fields.project.key && result.fields.project.key.length > 0) {
-                            payload.projectConfig = this.cachingService.getProjectDetails(result.fields.project.key);
-                        }
-                        return ({ type: a.ActionTypes.LoadIssueDetailsSuccess, payload });
-                    }),
-                    catchError(() => of({ type: a.ActionTypes.LoadIssueDetailsFailed }))
+                    map(payload => ({ type: a.ActionTypes.LoadPrimaryIssueSuccess, payload })),
+                    catchError(() => of({ type: a.ActionTypes.LoadPrimaryIssueFailed }))
+                )
+        )
+    );
+
+    @Effect() loadSelectedIssue = this.actions$.pipe(ofType(a.ActionTypes.LoadSelectedIssue),
+        switchMap((action: any) =>
+            this.getIssueDetails(action)
+                .pipe(
+                    map(payload => ({ type: a.ActionTypes.LoadSelectedIssueSuccess, payload })),
+                    catchError(() => of({ type: a.ActionTypes.LoadSelectedIssueFailed }))
                 )
         )
     );
@@ -84,4 +82,35 @@ export class IssueEffects {
                 )
         )
     );
+
+    private getIssueDetails(action: any) {
+        return this.jiraService.getIssueDetails(action.payload.issue, _.map(action.payload.extendedFields, 'id'))
+            .pipe(map((result: any) => {
+                const issueDetails = {
+                    issue: result,
+                    extendedFields: action.payload.extendedFields,
+                    organization: this.cachingService.getOrganization(),
+                    projectConfig: null
+                };
+                if (result && result.fields && result.fields.project &&
+                    result.fields.project.key && result.fields.project.key.length > 0) {
+                    issueDetails.projectConfig = this.cachingService.getProjectDetails(result.fields.project.key);
+                }
+                return issueDetails;
+            }));
+    }
+
+    private prepareIssueDetailsPayload(result: any, extendedFields: any) {
+        const payload = {
+            issue: result,
+            extendedFields,
+            organization: this.cachingService.getOrganization(),
+            projectConfig: null
+        };
+        if (result && result.fields && result.fields.project &&
+            result.fields.project.key && result.fields.project.key.length > 0) {
+            payload.projectConfig = this.cachingService.getProjectDetails(result.fields.project.key);
+        }
+        return payload;
+    }
 }

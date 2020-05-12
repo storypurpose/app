@@ -2,9 +2,9 @@ import { Action } from '@ngrx/store';
 import { type } from 'src/app/lib/utils';
 
 export const ActionTypes = {
-    LoadIssueDetails: type("[LoadIssueDetails]"),
-    LoadIssueDetailsFailed: type("[LoadIssueDetails] Failed"),
-    LoadIssueDetailsSuccess: type("[LoadIssueDetails] Success"),
+    LoadPrimaryIssue: type("[LoadPrimaryIssue]"),
+    LoadPrimaryIssueFailed: type("[LoadPrimaryIssue] Failed"),
+    LoadPrimaryIssueSuccess: type("[LoadPrimaryIssue] Success"),
 
     LoadEpicChildren: type("[LoadEpicChildren]"),
     LoadEpicChildrenFailed: type("[LoadEpicChildren] Failed"),
@@ -18,6 +18,10 @@ export const ActionTypes = {
     LoadProjectDetailsFailed: type("[LoadProjectDetails] Failed"),
     LoadProjectDetailsSuccess: type("[LoadProjectDetails] Success"),
 
+    LoadSelectedIssue: type("[LoadSelectedIssue]"),
+    LoadSelectedIssueFailed: type("[LoadSelectedIssue] Failed"),
+    LoadSelectedIssueSuccess: type("[LoadSelectedIssue] Success"),
+
     SetSelectedItem: type("[SetSelectedItem]"),
 
     SetPurpose: type("[SetPurpose]"),
@@ -30,7 +34,7 @@ export const ActionTypes = {
 }
 
 export class LoadIssueDetailsAction implements Action {
-    type = ActionTypes.LoadIssueDetails;
+    type = ActionTypes.LoadPrimaryIssue;
     constructor(public payload: any) { }
 }
 export class LoadEpicChildrenAction implements Action {
@@ -46,6 +50,10 @@ export class LoadProjectDetailsAction implements Action {
     constructor(public payload: any) { }
 }
 
+export class LoadSelectedIssueAction implements Action {
+    type = ActionTypes.LoadSelectedIssue;
+    constructor(public payload: any) { }
+}
 export class SetSelectedItemAction implements Action {
     type = ActionTypes.SetSelectedItem;
     constructor(public payload: any) { }
@@ -75,6 +83,7 @@ export type Actions =
     | LoadEpicChildrenAction
     | LoadRelatedLinksAction
 
+    | LoadSelectedIssueAction
     | SetSelectedItemAction
 
     | SetPurposeAction

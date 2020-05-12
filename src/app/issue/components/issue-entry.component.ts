@@ -25,7 +25,7 @@ export class IssueEntryComponent implements OnInit, OnDestroy {
         public store$: Store<IssueState>) {
     }
     ngOnInit(): void {
-        this.subscription = this.store$.select(p => p.issue.currentIssueKey)
+        this.subscription = this.store$.select(p => p.issue.primaryIssueKey)
             .pipe(filter(p => p && p.length > 0))
             .subscribe(key => this.issue = key);
     }

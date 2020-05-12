@@ -1,14 +1,15 @@
 import { Issue } from './issue.state';
 
 export const issueInitialState: Issue = {
-    currentIssueKey: '',
+    primaryIssueKey: '',
     primaryIssue: null,
-    
+
+    selectedIssueKey: '',
     selectedIssue: null,
-    
+
     purpose: [],
     recentlyViewedItems: [],
     recentmostItem: null,
-    
+
     updatedField: null
 };

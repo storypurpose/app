@@ -16,10 +16,10 @@ export function issueReducer(state: Issue, action: any): Issue {
             return { ...state, primaryIssue: populateIssueDetails(action.payload) };
         }
 
-        case ActionTypes.LoadEpicChildren: {
+        case ActionTypes.LoadPrimaryIssueEpicChildren: {
             return { ...state, primaryIssue: { ...state.primaryIssue, epicChildrenLoading: true } };
         }
-        case ActionTypes.LoadEpicChildrenSuccess: {
+        case ActionTypes.LoadPrimaryIssueEpicChildrenSuccess: {
             const epicChildren = _.map(action.payload.issues, p => populateFieldValuesCompact(p));
             return {
                 ...state, primaryIssue: {
@@ -27,10 +27,10 @@ export function issueReducer(state: Issue, action: any): Issue {
                 }
             };
         }
-        case ActionTypes.LoadRelatedLinks: {
+        case ActionTypes.LoadPrimaryIssueRelatedLinks: {
             return { ...state, primaryIssue: { ...state.primaryIssue, relatedLinksLoading: true } };
         }
-        case ActionTypes.LoadRelatedLinksSuccess: {
+        case ActionTypes.LoadPrimaryIssueRelatedLinksSuccess: {
             const relatedLinks = populateRelatedLinks(state, action);
             return {
                 ...state, primaryIssue: {
@@ -69,6 +69,18 @@ export function issueReducer(state: Issue, action: any): Issue {
 
         case ActionTypes.LoadSelectedIssueSuccess: {
             return { ...state, selectedIssue: populateIssueDetails(action.payload) };
+        }
+
+        case ActionTypes.LoadSelectedIssueEpicChildren: {
+            return { ...state, selectedIssue: { ...state.selectedIssue, epicChildrenLoading: true } };
+        }
+        case ActionTypes.LoadSelectedIssueEpicChildrenSuccess: {
+            const epicChildren = _.map(action.payload.issues, p => populateFieldValuesCompact(p));
+            return {
+                ...state, selectedIssue: {
+                    ...state.selectedIssue, epicChildrenLoading: false, epicChildrenLoaded: true, epicChildren
+                }
+            };
         }
 
         case ActionTypes.SetSelectedItem: {

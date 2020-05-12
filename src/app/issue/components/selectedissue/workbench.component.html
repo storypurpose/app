@@ -1,7 +1,7 @@
 <div #content [style.height.px]="contentHeight">
     <as-split direction="horizontal" *ngIf="issue" (gutterDblClick)="toggleFullscreen()" (dragEnd)="dragEnd($event)">
         <as-split-area [size]="columns[0].size">
-            <div class="mr-5 alert bg-light" style="overflow: auto;">
+            <div class="mr-3 alert bg-light" style="overflow: auto;">
                 <ngx-md [data]="issue.description"></ngx-md>
 
                 <app-extended-fields [issue]="issue" *ngIf="leftPaneSize > 0"></app-extended-fields>

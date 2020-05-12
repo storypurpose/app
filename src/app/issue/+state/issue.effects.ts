@@ -6,7 +6,7 @@ import * as a from './issue.actions';
 import { of } from 'rxjs';
 import { JiraService } from '../../lib/jira.service';
 import { CachingService } from 'src/app/lib/caching.service';
-import { flattenNodes, appendExtendedFields } from 'src/app/lib/jira-tree-utils';
+import { detailFields } from 'src/app/lib/jira-tree-utils';
 
 @Injectable()
 export class IssueEffects {
@@ -25,6 +25,24 @@ export class IssueEffects {
                 )
         )
     );
+    @Effect() loadPrimaryIssueEpicChildren = this.actions$.pipe(ofType(a.ActionTypes.LoadPrimaryIssueEpicChildren),
+        switchMap((action: any) =>
+            this.jiraService.executeJql(`'epic Link'=${action.payload}`, 0, 100, detailFields, 'epic-children.json')
+                .pipe(
+                    map(result => ({ type: a.ActionTypes.LoadPrimaryIssueEpicChildrenSuccess, payload: result })),
+                    catchError(() => of({ type: a.ActionTypes.LoadPrimaryIssueEpicChildrenFailed }))
+                )
+        )
+    );
+    @Effect() loadPrimaryIssueRelatedLinks = this.actions$.pipe(ofType(a.ActionTypes.LoadPrimaryIssueRelatedLinks),
+        switchMap((action: any) =>
+            this.jiraService.executeJql(`key in (${_.join(action.payload, ',')})`, 0, 100, detailFields, 'linked-issues.json')
+                .pipe(
+                    map(result => ({ type: a.ActionTypes.LoadPrimaryIssueRelatedLinksSuccess, payload: result })),
+                    catchError(() => of({ type: a.ActionTypes.LoadPrimaryIssueRelatedLinksFailed }))
+                )
+        )
+    );
 
     @Effect() loadSelectedIssue = this.actions$.pipe(ofType(a.ActionTypes.LoadSelectedIssue),
         switchMap((action: any) =>
@@ -35,27 +53,16 @@ export class IssueEffects {
                 )
         )
     );
-
-    @Effect() loadEpicChildren = this.actions$.pipe(ofType(a.ActionTypes.LoadEpicChildren),
+    @Effect() loadSelectedIssueEpicChildren = this.actions$.pipe(ofType(a.ActionTypes.LoadSelectedIssueEpicChildren),
         switchMap((action: any) =>
-            this.jiraService.executeJql(`'epic Link'=${action.payload}`, 0, 100, null, 'epic-children.json')
+            this.jiraService.executeJql(`'epic Link'=${action.payload}`, 0, 100, detailFields, 'epic-children.json')
                 .pipe(
-                    map(result => ({ type: a.ActionTypes.LoadEpicChildrenSuccess, payload: result })),
-                    catchError(() => of({ type: a.ActionTypes.LoadEpicChildrenFailed }))
+                    map(result => ({ type: a.ActionTypes.LoadSelectedIssueEpicChildrenSuccess, payload: result })),
+                    catchError(() => of({ type: a.ActionTypes.LoadSelectedIssueEpicChildrenFailed }))
                 )
         )
     );
 
-    @Effect() loadRelatedLinks = this.actions$.pipe(ofType(a.ActionTypes.LoadRelatedLinks),
-        switchMap((action: any) =>
-            this.jiraService.executeJql(`key in (${_.join(action.payload, ',')})`, 0, 100,
-                ['components', 'labels', 'fixVersions'], 'linked-issues.json')
-                .pipe(
-                    map(result => ({ type: a.ActionTypes.LoadRelatedLinksSuccess, payload: result })),
-                    catchError(() => of({ type: a.ActionTypes.LoadRelatedLinksFailed }))
-                )
-        )
-    );
 
     @Effect() loadSubtasks = this.actions$.pipe(ofType(a.ActionTypes.LoadSubtasks),
         switchMap((action: any) =>

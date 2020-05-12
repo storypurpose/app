@@ -35,9 +35,9 @@ h5 {
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
-  border-top: 1px solid #eee;
+  /* border-top: 1px solid #eee;
   border-left: 1px solid #eee;
-  background-color: #fafafa;
+  background-color: #fafafa; */
 }
 
 label {
@@ -249,6 +249,10 @@ body .ui-toast .ui-toast-message.ui-toast-message-success {
   background-color: #fff;
   border-left: 10px solid #64bd63;
   color: #000;
+}
+
+ngx-md p {
+  margin-bottom: 0;
 }
 
 ngx-md h1,

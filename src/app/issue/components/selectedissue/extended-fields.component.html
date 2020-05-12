@@ -1,0 +1,15 @@
+<div *ngIf="issue">
+    <div class="alert alert-warning" *ngIf="!issue.extendedFields || issue.extendedFields.length === 0">
+        <fa-icon class="text-warning" icon="exclamation-triangle"></fa-icon> There are no extended fields/attributes for
+        this record.
+    </div>
+
+    <div class="mt-5" *ngIf="issue.extendedFields && issue.extendedFields.length > 0">
+        <ng-container *ngFor="let ef of issue.extendedFields">
+            <div class="mb-2" *ngIf="ef.extendedValue && ef.extendedValue.length > 0">
+                <sub class="text-muted text-uppercase">{{ef.name}}</sub>
+                <ngx-md [ngClass]="{'small': fontSizeSmall}" [data]="ef.extendedValue"></ngx-md>
+            </div>
+        </ng-container>
+    </div>
+</div>

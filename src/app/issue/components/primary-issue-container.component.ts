@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Title } from '@angular/platform-browser';
 import { IssueState } from '../+state/issue.state';
-import { LoadIssueDetailsAction as LoadPrimaryIssueAction, LoadEpicChildrenAction, LoadRelatedLinksAction, LoadProjectDetailsAction } from '../+state/issue.actions';
+import { LoadIssueDetailsAction as LoadPrimaryIssueAction, LoadPrimaryIssueEpicChildrenAction, LoadPrimaryIssueRelatedLinksAction, LoadProjectDetailsAction } from '../+state/issue.actions';
 import { environment } from 'src/environments/environment';
 import { filter, map } from 'rxjs/operators';
 import { Subscription, combineLatest } from 'rxjs';
@@ -84,7 +84,7 @@ export class IssueContainerComponent implements OnInit, OnDestroy {
             hierarchyNode = addToLeafNode(projectNode, hierarchyNode);
 
             //const epicNode = this.populateEpic(node);
-
+            this.issueDetails.expanded = true;
             this.rootNode = addToLeafNode(hierarchyNode, this.issueDetails);
 
             this.store$.dispatch(new SetHierarchicalIssueAction(this.rootNode));
@@ -118,7 +118,7 @@ export class IssueContainerComponent implements OnInit, OnDestroy {
                 }
             }
             else if (!this.issueDetails.epicChildrenLoading) {
-                this.store$.dispatch(new LoadEpicChildrenAction(this.issueDetails.key));
+                this.store$.dispatch(new LoadPrimaryIssueEpicChildrenAction(this.issueDetails.key));
             }
         } else {
             this.issueDetails.epicChildrenLoaded = true;
@@ -138,7 +138,7 @@ export class IssueContainerComponent implements OnInit, OnDestroy {
                 }
             }
             else if (!this.issueDetails.relatedLinksLoading) {
-                this.store$.dispatch(new LoadRelatedLinksAction(_.map(this.issueDetails.relatedLinks, 'key')));
+                this.store$.dispatch(new LoadPrimaryIssueRelatedLinksAction(_.map(this.issueDetails.relatedLinks, 'key')));
             }
         } else {
             this.issueDetails.relatedLinksLoaded = true;

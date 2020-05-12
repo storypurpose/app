@@ -6,13 +6,13 @@ export const ActionTypes = {
     LoadPrimaryIssueFailed: type("[LoadPrimaryIssue] Failed"),
     LoadPrimaryIssueSuccess: type("[LoadPrimaryIssue] Success"),
 
-    LoadEpicChildren: type("[LoadEpicChildren]"),
-    LoadEpicChildrenFailed: type("[LoadEpicChildren] Failed"),
-    LoadEpicChildrenSuccess: type("[LoadEpicChildren] Success"),
+    LoadPrimaryIssueEpicChildren: type("[LoadPrimaryIssueEpicChildren]"),
+    LoadPrimaryIssueEpicChildrenFailed: type("[LoadPrimaryIssueEpicChildren] Failed"),
+    LoadPrimaryIssueEpicChildrenSuccess: type("[LoadPrimaryIssueEpicChildren] Success"),
 
-    LoadRelatedLinks: type("[LoadRelatedLinks]"),
-    LoadRelatedLinksFailed: type("[LoadRelatedLinks] Failed"),
-    LoadRelatedLinksSuccess: type("[LoadRelatedLinks] Success"),
+    LoadPrimaryIssueRelatedLinks: type("[LoadPrimaryIssueRelatedLinks]"),
+    LoadPrimaryIssueRelatedLinksFailed: type("[LoadPrimaryIssueRelatedLinks] Failed"),
+    LoadPrimaryIssueRelatedLinksSuccess: type("[LoadPrimaryIssueRelatedLinks] Success"),
 
     LoadSubtasks: type("[LoadSubtasks]"),
     LoadSubtasksFailed: type("[LoadSubtasks] Failed"),
@@ -25,6 +25,10 @@ export const ActionTypes = {
     LoadSelectedIssue: type("[LoadSelectedIssue]"),
     LoadSelectedIssueFailed: type("[LoadSelectedIssue] Failed"),
     LoadSelectedIssueSuccess: type("[LoadSelectedIssue] Success"),
+
+    LoadSelectedIssueEpicChildren: type("[LoadSelectedIssueEpicChildren]"),
+    LoadSelectedIssueEpicChildrenFailed: type("[LoadSelectedIssueEpicChildren] Failed"),
+    LoadSelectedIssueEpicChildrenSuccess: type("[LoadSelectedIssueEpicChildren] Success"),
 
     SetSelectedItem: type("[SetSelectedItem]"),
 
@@ -41,12 +45,12 @@ export class LoadIssueDetailsAction implements Action {
     type = ActionTypes.LoadPrimaryIssue;
     constructor(public payload: any) { }
 }
-export class LoadEpicChildrenAction implements Action {
-    type = ActionTypes.LoadEpicChildren;
+export class LoadPrimaryIssueEpicChildrenAction implements Action {
+    type = ActionTypes.LoadPrimaryIssueEpicChildren;
     constructor(public payload: any) { }
 }
-export class LoadRelatedLinksAction implements Action {
-    type = ActionTypes.LoadRelatedLinks;
+export class LoadPrimaryIssueRelatedLinksAction implements Action {
+    type = ActionTypes.LoadPrimaryIssueRelatedLinks;
     constructor(public payload: any) { }
 }
 
@@ -64,6 +68,11 @@ export class LoadSelectedIssueAction implements Action {
     type = ActionTypes.LoadSelectedIssue;
     constructor(public payload: any) { }
 }
+export class LoadSelectedIssueEpicChildrenAction implements Action {
+    type = ActionTypes.LoadSelectedIssueEpicChildren;
+    constructor(public payload: any) { }
+}
+
 export class SetSelectedItemAction implements Action {
     type = ActionTypes.SetSelectedItem;
     constructor(public payload: any) { }
@@ -90,11 +99,12 @@ export class UpdateFieldValueAction implements Action {
 
 export type Actions =
     LoadIssueDetailsAction
-    | LoadEpicChildrenAction
-    | LoadRelatedLinksAction
+    | LoadPrimaryIssueEpicChildrenAction
+    | LoadPrimaryIssueRelatedLinksAction
 
     | LoadSelectedIssueAction
     | SetSelectedItemAction
+    | LoadSelectedIssueEpicChildrenAction
 
     | SetPurposeAction
     | UpdateOrganizationPurposeAction

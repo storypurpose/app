@@ -5,7 +5,7 @@ import { filter, map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { CustomNodeTypes, searchTreeByKey } from 'src/app/lib/jira-tree-utils';
 import { CachingService } from 'src/app/lib/caching.service';
-import { UpdateOrganizationPurposeAction, LoadSelectedIssueAction, SetSelectedItemAction } from '../../+state/issue.actions';
+import { UpdateOrganizationPurposeAction, LoadSelectedIssueAction, LoadSelectedIssueEpicChildrenAction, SetSelectedItemAction } from '../../+state/issue.actions';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IssueState } from '../../+state/issue.state';
 
@@ -42,7 +42,13 @@ export class SelectedIssueContainerComponent implements OnInit, OnDestroy {
             .subscribe(org => this.store$.dispatch(new UpdateOrganizationPurposeAction(org)));
 
         this.selectedIssue$ = this.store$.select(p => p.issue.selectedIssue).pipe(filter(p => p))
-            .subscribe(selectedIssue => this.selectedIssue = selectedIssue);
+            .subscribe(selectedIssue => {
+                this.selectedIssue = selectedIssue;
+                if (this.selectedIssue.issueType === CustomNodeTypes.Epic && !this.selectedIssue.epicChildrenLoaded
+                    && !this.selectedIssue.epicChildrenLoading) {
+                    this.store$.dispatch(new LoadSelectedIssueEpicChildrenAction(this.selectedIssue.key));
+                }
+            });
 
         const primaryIssueQuery$ = this.store$.select(p => p.issue.primaryIssue).pipe(filter(p => p));
         const hierarchicalIssueQuery$ = this.store$.select(p => p.app.hierarchicalIssue).pipe(filter(issue => issue));

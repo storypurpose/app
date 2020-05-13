@@ -5,7 +5,8 @@ import { filter, map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { CustomNodeTypes, searchTreeByKey } from 'src/app/lib/jira-tree-utils';
 import { CachingService } from 'src/app/lib/caching.service';
-import { UpdateOrganizationPurposeAction, LoadSelectedIssueAction, LoadSelectedIssueEpicChildrenAction, SetSelectedItemAction } from '../../+state/issue.actions';
+import { UpdateOrganizationPurposeAction, SetSelectedItemAction,
+    LoadSelectedIssueAction, LoadSelectedIssueEpicChildrenAction,  LoadSelectedIssueRelatedLinksAction } from '../../+state/issue.actions';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IssueState } from '../../+state/issue.state';
 
@@ -44,8 +45,11 @@ export class SelectedIssueContainerComponent implements OnInit, OnDestroy {
         this.selectedIssue$ = this.store$.select(p => p.issue.selectedIssue).pipe(filter(p => p))
             .subscribe(selectedIssue => {
                 this.selectedIssue = selectedIssue;
-                if (this.selectedIssue.issueType === CustomNodeTypes.Epic && !this.selectedIssue.epicChildrenLoaded
-                    && !this.selectedIssue.epicChildrenLoading) {
+                if (!this.selectedIssue.relatedLinksLoaded && !this.selectedIssue.relatedLinksLoading) {
+                    this.store$.dispatch(new LoadSelectedIssueRelatedLinksAction(_.map(this.selectedIssue.relatedLinks, 'key')));
+                }
+                if (this.selectedIssue.issueType === CustomNodeTypes.Epic &&
+                    !this.selectedIssue.epicChildrenLoaded && !this.selectedIssue.epicChildrenLoading) {
                     this.store$.dispatch(new LoadSelectedIssueEpicChildrenAction(this.selectedIssue.key));
                 }
             });

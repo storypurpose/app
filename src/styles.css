@@ -378,3 +378,13 @@ ngx-md h3,
 .pagination {
   margin: 0 !important;
 }
+
+.zoom-slider {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 200px;
+  height: 24pt;
+  padding: 12pt;
+  margin:0 8pt 8pt 0;
+}

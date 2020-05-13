@@ -3,7 +3,7 @@ import { Issue } from './issue.state';
 import { ActionTypes } from './issue.actions';
 import {
     CustomNodeTypes, searchTreeByKey, populateFieldValuesCompact,
-    getIssueLinks, populatedFieldList, getExtendedFieldValue, flattenNodes, appendExtendedFields
+    getIssueLinks, populatedFieldList, getExtendedFieldValue, flattenNodes, appendExtendedFields, populateFieldValues
 } from 'src/app/lib/jira-tree-utils';
 
 export function issueReducer(state: Issue, action: any): Issue {
@@ -66,19 +66,33 @@ export function issueReducer(state: Issue, action: any): Issue {
         case ActionTypes.LoadSelectedIssue: {
             return { ...state, selectedIssue: null, selectedIssueKey: action.payload.issue };
         }
-
         case ActionTypes.LoadSelectedIssueSuccess: {
             return { ...state, selectedIssue: populateIssueDetails(action.payload) };
         }
-
         case ActionTypes.LoadSelectedIssueEpicChildren: {
-            return { ...state, selectedIssue: { ...state.selectedIssue, epicChildrenLoading: true } };
+            return { ...state, selectedIssue: { ...state.selectedIssue, epicChildrenLoading: true, epicChildrenLoaded: false } };
         }
         case ActionTypes.LoadSelectedIssueEpicChildrenSuccess: {
             const epicChildren = _.map(action.payload.issues, p => populateFieldValuesCompact(p));
             return {
                 ...state, selectedIssue: {
                     ...state.selectedIssue, epicChildrenLoading: false, epicChildrenLoaded: true, epicChildren
+                }
+            };
+        }
+        case ActionTypes.LoadSelectedIssueRelatedLinks: {
+            return { ...state, selectedIssue: { ...state.selectedIssue, relatedLinksLoading: true, relatedLinksLoaded: false } };
+        }
+        case ActionTypes.LoadSelectedIssueRelatedLinksSuccess: {
+            const relatedLinks = _.map(action.payload.issues, p => populateFieldValuesCompact(p));
+            const cached = state.selectedIssue.relatedLinks;
+            relatedLinks.forEach((u: any) => {
+                const found = _.find(cached, { key: u.key });
+                u.linkType = (found) ? found.linkType : 'link';
+            });
+            return {
+                ...state, selectedIssue: {
+                    ...state.selectedIssue, relatedLinksLoading: false, relatedLinksLoaded: true, relatedLinks
                 }
             };
         }
@@ -140,6 +154,9 @@ function populateIssueDetails(payload: any) {
         issueDetails.projectConfig = payload.projectConfig;
         issueDetails.projectConfigLoaded = payload.projectConfig ? true : false;
         issueDetails.relatedLinks = getIssueLinks(payload.issue);
+
+        issueDetails.epicChildrenLoading = false;
+        issueDetails.epicChildrenLoaded = false;
     }
     return issueDetails;
 }

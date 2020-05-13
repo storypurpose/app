@@ -5,8 +5,9 @@ import { AppState } from 'src/app/+state/app.state';
 import { filter, tap } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { CustomNodeTypes } from 'src/app/lib/jira-tree-utils';
+import { groupChildren } from 'src/app/lib/utils';
 
-const LEFT_PANE_WIDTH = 55;
+const LEFT_PANE_WIDTH = 60;
 
 @Component({
     selector: 'app-workbench',
@@ -40,15 +41,20 @@ export class WorkbenchComponent implements AfterViewInit, OnInit, OnDestroy {
     ngOnInit(): void {
         this.selectedIssue$ = this.store$.select(p => p.issue.selectedIssue).pipe(filter(p => p))
             .subscribe(issue => {
+                this.issue = issue;
+
                 this.selectedRelatedIssue = null;
                 this.selectedEpicIssue = null;
 
-                this.issue = issue;
-                this.groupedRelatedLinks = this.groupChildren(this.issue.relatedLinks, 'linkType');
-                this.issue.relatedLinksCount = this.groupedRelatedLinks.length;
-                this.selectedTab = (this.groupedRelatedLinks.length > 0) ? 2 : 3;
-                this.toggleAllRelatedIssues();
-                if (this.issue.issueType === CustomNodeTypes.Epic) {
+                console.log(this.issue.relatedLinksLoaded);
+                if (this.issue.relatedLinksLoaded && !this.groupedRelatedLinks) {
+                    this.groupedRelatedLinks = groupChildren(this.issue.relatedLinks, 'linkType');
+                    this.issue.relatedLinksCount = this.groupedRelatedLinks.length;
+                    this.selectedTab = (this.groupedRelatedLinks.length > 0) ? 2 : 3;
+                    this.toggleAllRelatedIssues();
+                }
+
+                if (this.issue.issueType === CustomNodeTypes.Epic && this.issue.epicChildrenLoaded) {
                     this.groupEpicChildren('status');
                 }
             });
@@ -81,13 +87,13 @@ export class WorkbenchComponent implements AfterViewInit, OnInit, OnDestroy {
     resetSelectedRelatedIssue = () => this.selectedRelatedIssue = null;
     selectRelatedIssue(ri) {
         this.selectedRelatedIssue = ri;
-        this.selectedRelatedIssue.project = this.issue.project;
+        this.selectedRelatedIssue.projectConfig = this.issue.projectConfig;
     }
 
     resetSelectedEpicIssue = () => this.selectedEpicIssue = null;
     selectEpicIssue(ri) {
         this.selectedEpicIssue = ri;
-        this.selectedEpicIssue.project = this.issue.project;
+        this.selectedEpicIssue.projectConfig = this.issue.projectConfig;
     }
 
     groupEpicChildren(groupByField): void {
@@ -95,17 +101,10 @@ export class WorkbenchComponent implements AfterViewInit, OnInit, OnDestroy {
         if (this.issue && !this.groupedEpicChildren) {
             const epicChildren = this.issue.epicChildren;
             if (epicChildren && epicChildren.length > 0) {
-                this.groupedEpicChildren = this.groupChildren(epicChildren, groupByField);
+                this.groupedEpicChildren = groupChildren(epicChildren, groupByField);
             }
             this.toggleAllEpicChildren()
         }
-    }
-
-    private groupChildren(children: any, groupByField: any) {
-        const grouped = _.groupBy(children, groupByField);
-        return Object.keys(grouped).map(key => {
-            return { label: key, total: grouped[key].length, children: grouped[key] };
-        });
     }
 
     toggleAllEpicChildren() {

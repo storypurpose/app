@@ -13,14 +13,15 @@
                 <fa-icon [icon]="columns[0].size === 0 ? 'compress-arrows-alt' : 'expand-arrows-alt'"
                     [fixedWidth]="true"></fa-icon>
             </button>
-            <ul ngbNav #nav="ngbNav" class="nav-tabs" [(activeId)]="selectedTab" [destroyOnHide]="false">
+            <ul ngbNav #nav="ngbNav" class="nav-tabs"
+                [(activeId)]="selectedTab" [destroyOnHide]="false">
                 <li [ngbNavItem]="1" *ngIf="issue.issueType === localNodeType.Epic">
                     <a ngbNavLink (click)="toggleAllEpicChildren()">
                         <fa-icon *ngIf="groupedEpicChildren && groupedEpicChildren.length > 1"
                             [icon]="allEpicChildrenVisible ? 'angle-double-down' : 'angle-double-right'" size="sm"
                             [fixedWidth]="true">
                         </fa-icon>
-                        Issues in this epic
+                        Issues in epic
                     </a>
                     <ng-template ngbNavContent>
                         <div class="pl-2 pr-2 pb-2">
@@ -60,12 +61,12 @@
                                         Storyboard view
                                         <fa-icon icon="chevron-right" size="sm"></fa-icon>
                                     </a>
-
                                 </div>
 
                                 <div *ngIf="selectedEpicIssue">
                                     <app-task-list [issue]="selectedEpicIssue" [showIssue]="true"
-                                        (close)="resetSelectedEpicIssue()"></app-task-list>
+                                        (close)="resetSelectedEpicIssue()">
+                                    </app-task-list>
                                 </div>
 
                             </div>
@@ -73,7 +74,7 @@
                     </ng-template>
                 </li>
 
-                <li [ngbNavItem]="2" *ngIf="groupedRelatedLinks.length > 0">
+                <li [ngbNavItem]="2" *ngIf="groupedRelatedLinks && groupedRelatedLinks.length > 0">
                     <a ngbNavLink (click)="toggleAllRelatedIssues()">
                         <fa-icon *ngIf="groupedRelatedLinks.length > 1"
                             [icon]="allRelatedIssuesVisible ? 'angle-double-down' : 'angle-double-right'" size="sm"
@@ -83,6 +84,11 @@
                     </a>
                     <ng-template ngbNavContent>
                         <div class="pl-2 pr-2 pb-2">
+
+                            <!-- <app-grouped-issue-list [issues]="issue.relatedLinks" groupBy="linkType"
+                                [projectConfig]="issue.projectConfig">
+                            </app-grouped-issue-list> -->
+
                             <div *ngIf="!selectedRelatedIssue">
                                 <div *ngFor="let child of groupedRelatedLinks">
 
@@ -114,18 +120,18 @@
                                 </div>
                             </div>
                             <div *ngIf="selectedRelatedIssue">
-                                <app-task-list [issue]="selectedRelatedIssue" [projectConfig]="issue.projectConfig"
-                                    (close)="resetSelectedRelatedIssue()" [showIssue]="true"></app-task-list>
+                                <app-task-list [issue]="selectedRelatedIssue" (close)="resetSelectedRelatedIssue()"
+                                    [showIssue]="true"></app-task-list>
                             </div>
                         </div>
                     </ng-template>
                 </li>
 
                 <li [ngbNavItem]="3">
-                    <a ngbNavLink (click)="reloadSubtasks()" >Task breakup</a>
+                    <a ngbNavLink (click)="reloadSubtasks()">Task breakup</a>
                     <ng-template ngbNavContent>
                         <div class="pl-2 pr-2 pb-2">
-                            <app-task-list [issue]="selectedIssue" [projectConfig]="issue.projectConfig" [showIssue]="false">
+                            <app-task-list [issue]="selectedIssue" [showIssue]="false">
                             </app-task-list>
                         </div>
                     </ng-template>

@@ -19,6 +19,8 @@ export class StoryboardRendererComponent implements OnInit, OnDestroy {
     projects$: Subscription;
     projects: any;
 
+    public zoom = 100;
+
     constructor(public cachingService: CachingService,
         public store$: Store<AppState>) {
     }

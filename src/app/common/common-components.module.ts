@@ -12,6 +12,7 @@ import { AutofocusDirective } from './lib/autofocus.directive';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { MultilistSelectorComponent } from './components/multilist-selector.component';
 import { IssueNavigationComponent } from './components/issue-navigation.component';
+import { SliderModule } from 'primeng/slider';
 
 const components = [
   ButtonPanelComponent, StoryboardRendererComponent, StatisticsComponent, AutofocusDirective,
@@ -25,6 +26,8 @@ const components = [
     FormsModule,
     RouterModule,
     ChartsModule,
+
+    SliderModule,
 
     NgbDropdownModule,
     FontAwesomeModule

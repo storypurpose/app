@@ -1,21 +1,16 @@
 import { Component, Input, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
-import { JiraService } from '../../../lib/jira.service';
-import { flattenNodes, appendExtendedFields } from '../../../lib/jira-tree-utils';
 import * as _ from 'lodash';
 import { filter } from 'rxjs/operators';
-import { CachingService } from '../../../lib/caching.service';
 import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { AppState } from '../../../+state/app.state';
 import { LoadSubtasksAction } from '../../+state/issue.actions';
+import { IssueState } from '../../+state/issue.state';
 
 @Component({
     selector: 'app-task-list',
     templateUrl: './task-list.component.html'
 })
 export class TasklistComponent implements OnInit, OnDestroy {
-    @Input() projectConfig: any;
-
     _issue: any;
     @Input() set issue(value: any) {
         this._issue = value;
@@ -31,7 +26,7 @@ export class TasklistComponent implements OnInit, OnDestroy {
     filteredItems: any;
 
     hasExtendedFields = false;
-    showDetails = false;
+    hideDetails = true;
     hideExtendedFields = true;
 
     statusStats: any;
@@ -41,9 +36,8 @@ export class TasklistComponent implements OnInit, OnDestroy {
 
     subtasks$: Subscription;
     subtasks: any;
-    currentProject$: Subscription;
 
-    constructor(public store$: Store<AppState>) {
+    constructor(public store$: Store<IssueState>) {
     }
 
     ngOnInit(): void {
@@ -55,23 +49,20 @@ export class TasklistComponent implements OnInit, OnDestroy {
 
                 this.onFilterChanged();
                 this.populateStatistics();
-
             })
-        this.currentProject$ = this.store$.select(p => p.app.currentProjectUpdated)
-            .subscribe(() => this.loadDetails());
     }
 
     ngOnDestroy(): void {
         this.subtasks$ ? this.subtasks$.unsubscribe() : null;
-        this.currentProject$ ? this.currentProject$.unsubscribe() : null;
     }
 
     loadDetails() {
         this.subtasks = null;
-        if (this.issue && this.projectConfig && this.projectConfig.subTaskIssueTypes && this.projectConfig.subTaskIssueTypes.length > 0) {
+        if (this.issue && this.issue.projectConfig && 
+            this.issue.projectConfig.subTaskIssueTypes && this.issue.projectConfig.subTaskIssueTypes.length > 0) {
 
-            const subTaskIssueTypes = _.join(_.map(this.projectConfig.subTaskIssueTypes, (ff) => `'${ff.name}'`), ',');
-            const extendedFields = _.spread(_.union)(_.map(this.projectConfig.subTaskIssueTypes, 'list'));
+            const subTaskIssueTypes = _.join(_.map(this.issue.projectConfig.subTaskIssueTypes, (ff) => `'${ff.name}'`), ',');
+            const extendedFields = _.spread(_.union)(_.map(this.issue.projectConfig.subTaskIssueTypes, 'list'));
             this.hasExtendedFields = (extendedFields && extendedFields.length > 0);
 
             this.store$.dispatch(new LoadSubtasksAction({ issueKey: this.issue.key, subTaskIssueTypes, extendedFields }));

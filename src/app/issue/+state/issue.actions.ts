@@ -30,6 +30,10 @@ export const ActionTypes = {
     LoadSelectedIssueEpicChildrenFailed: type("[LoadSelectedIssueEpicChildren] Failed"),
     LoadSelectedIssueEpicChildrenSuccess: type("[LoadSelectedIssueEpicChildren] Success"),
 
+    LoadSelectedIssueRelatedLinks: type("[LoadSelectedIssueRelatedLinks]"),
+    LoadSelectedIssueRelatedLinksFailed: type("[LoadSelectedIssueRelatedLinks] Failed"),
+    LoadSelectedIssueRelatedLinksSuccess: type("[LoadSelectedIssueRelatedLinks] Success"),
+
     SetSelectedItem: type("[SetSelectedItem]"),
 
     SetPurpose: type("[SetPurpose]"),
@@ -72,6 +76,11 @@ export class LoadSelectedIssueEpicChildrenAction implements Action {
     type = ActionTypes.LoadSelectedIssueEpicChildren;
     constructor(public payload: any) { }
 }
+export class LoadSelectedIssueRelatedLinksAction implements Action {
+    type = ActionTypes.LoadSelectedIssueRelatedLinks;
+    constructor(public payload: any) { }
+}
+
 
 export class SetSelectedItemAction implements Action {
     type = ActionTypes.SetSelectedItem;
@@ -105,6 +114,7 @@ export type Actions =
     | LoadSelectedIssueAction
     | SetSelectedItemAction
     | LoadSelectedIssueEpicChildrenAction
+    | LoadSelectedIssueRelatedLinksAction
 
     | SetPurposeAction
     | UpdateOrganizationPurposeAction

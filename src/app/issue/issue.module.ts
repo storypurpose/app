@@ -28,6 +28,7 @@ import { IssueHomeComponent } from './components/home.component';
 import { IssueEntryComponent } from './components/issue-entry.component';
 import { IssueNotEnteredComponent } from './components/issue-not-entered.component';
 import { SelectedIssueHomeComponent } from './components/selectedissue/home.component';
+import { GroupedIssuelistComponent } from './components/selectedissue/grouped-issue-list.component';
 
 const routes: Route[] = [
   {
@@ -53,27 +54,14 @@ const routes: Route[] = [
   },
 ];
 
-
-// const routes: Route[] = [
-//   {
-//     path: ':selected', component: SelectedItemContainerComponent, children: [
-//       { path: 'details', component: PurposeDetailsComponent },
-//       { path: 'workbench', component: WorkbenchComponent },
-//       { path: 'storyboard', component: StoryboardComponent },
-//       // { path: 'items', component: TasklistComponent },
-//       // { path: 'attributes', component: ExtendedFieldsComponent },
-//       { path: '', redirectTo: "details", pathMatch: "full" }
-//     ]
-//   }
-// ];
-
 @NgModule({
   declarations: [
     IssueHomeComponent, IssueContainerComponent, IssueNotEnteredComponent, IssueEntryComponent,
 
     SelectedIssueHomeComponent,
     SelectedIssueContainerComponent, WorkbenchComponent, RecentlyViewedComponent,
-    PurposeDetailsComponent, TasklistComponent, ExtendedFieldsComponent, StoryboardComponent
+    PurposeDetailsComponent, ExtendedFieldsComponent, StoryboardComponent,
+    TasklistComponent, GroupedIssuelistComponent
   ],
   imports: [
     CommonModule,

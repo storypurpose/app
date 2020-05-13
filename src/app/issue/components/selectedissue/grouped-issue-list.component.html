@@ -1,0 +1,37 @@
+<div *ngIf="issues">
+    <div class="alert alert-warning" *ngIf="issues.length === 0">
+        There are no records.
+    </div>
+    <div *ngIf="issues.length > 0">
+
+        <div *ngIf="!selectedIssue">
+            <div *ngFor="let child of groupedIssues">
+                <div class="text-muted text-uppercase mt-1 mb-1">
+                    <button class="btn btn-sm btn-link text-left text-dark"
+                        [ngClass]="{'w-100 btn-light ': child.visible}" (click)="child.visible = !child.visible">
+                        <fa-icon [icon]="child.visible ? 'angle-down' : 'angle-right'" size="sm" [fixedWidth]="true">
+                        </fa-icon>
+                        <span class="ml-2">{{child.label}}
+                            <span *ngIf="child.children"> / {{child.children.length}}</span>
+                        </span>
+                    </button>
+                </div>
+                <div *ngIf="child.visible" class="mb-4">
+                    <div class="ml-3 p-1 border-bottom" [title]="i.issueType" *ngFor="let i of child.children">
+                        <app-issue-navigation class="float-right" [issueKey]="i.key">
+                        </app-issue-navigation>
+                        <div class="badge badge-light font-weight-normal text-uppercase float-right mt-1">
+                            {{i.status}}
+                        </div>
+                        <i [class]="i.icon" class="mr-1"></i>
+                        <a (click)="selectIssue(i)" class="text-primary mr-2">{{i.key}}</a>
+                        {{i.title}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="selectedIssue">
+            <app-task-list [issue]="selectedIssue" (close)="resetSelectedIssue()" [showIssue]="true"></app-task-list>
+        </div>
+    </div>
+</div>

@@ -10,8 +10,13 @@
             <span class="mr-1">{{issue.key}}:</span>
             {{issue.title}}
         </span>
-
-        <ngx-md [data]="issue.description"></ngx-md>
+        <button class="btn btn-link btn-sm" *ngIf="issue.description && issue.description.length > 0"
+            (click)="hideDetails = !hideDetails">
+            {{(hideDetails ? "more ..." : "... less") }}
+        </button>
+        <div class="small p-4" [ngbCollapse]="hideDetails">
+            <ngx-md [data]="issue.description"></ngx-md>
+        </div>
     </div>
 
     <div *ngIf="filteredItems && filteredItems.length > 0">

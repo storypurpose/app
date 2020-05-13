@@ -62,6 +62,16 @@ export class IssueEffects {
                 )
         )
     );
+    @Effect() loadSelectedIssueRelatedLinks = this.actions$.pipe(ofType(a.ActionTypes.LoadSelectedIssueRelatedLinks),
+        switchMap((action: any) =>
+            this.jiraService.executeJql(`key in (${_.join(action.payload, ',')})`, 0, 100, detailFields, 'linked-issues.json')
+                .pipe(
+                    map(result => ({ type: a.ActionTypes.LoadSelectedIssueRelatedLinksSuccess, payload: result })),
+                    catchError(() => of({ type: a.ActionTypes.LoadSelectedIssueRelatedLinksFailed }))
+                )
+        )
+    );
+
 
 
     @Effect() loadSubtasks = this.actions$.pipe(ofType(a.ActionTypes.LoadSubtasks),

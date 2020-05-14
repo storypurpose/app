@@ -26,6 +26,7 @@ export class AppEffects {
 
   @Effect() dismissProjectSetup = this.actions$.pipe(ofType(a.ActionTypes.DismissProjectSetup),
     switchMap((action: any) => {
+      action.payload.isConfigured = true;
       this.cachingService.setProjectDetails(action.payload);
       return of({ type: a.ActionTypes.UpsertProjectSuccess, payload: action.payload })
     })

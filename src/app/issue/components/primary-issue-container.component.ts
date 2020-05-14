@@ -10,7 +10,7 @@ import {
     LoadProjectDetailsAction, UpdateOrganizationTitleAction
 } from '../+state/issue.actions';
 import { environment } from 'src/environments/environment';
-import { filter, map } from 'rxjs/operators';
+import { filter, map, tap } from 'rxjs/operators';
 import { Subscription, combineLatest } from 'rxjs';
 import {
     createEpicChildrenNode, buildIssueLinkGroups, createOrganizationNode, createProjectNode,
@@ -24,6 +24,8 @@ import { getRoutelet } from 'src/app/lib/route-utils';
     templateUrl: './primary-issue-container.component.html'
 })
 export class IssueContainerComponent implements OnInit, OnDestroy {
+    currentProjectUpdated$: Subscription;
+    updatedField$: Subscription;
     combined$: Subscription;
     issueKey: string;
 
@@ -45,6 +47,9 @@ export class IssueContainerComponent implements OnInit, OnDestroy {
         public store$: Store<IssueState>) {
     }
     ngOnInit(): void {
+        
+        this.reloadOnChange();
+
         const paramsQ = this.activatedRoute.params.pipe(filter(p => p && p["issue"] && p["issue"].length > 0), map(p => p["issue"]));
         const projectsQ = this.store$.select(p => p.app.projects);
         this.combined$ = combineLatest(paramsQ, projectsQ)
@@ -71,7 +76,20 @@ export class IssueContainerComponent implements OnInit, OnDestroy {
             });
     }
 
+    private reloadOnChange() {
+        this.currentProjectUpdated$ = this.store$.select(p => p.app.currentProjectUpdated).pipe(filter(projectUpdated => projectUpdated === true && this.primaryIssue))
+            .subscribe(() => {
+                this.store$.dispatch(new LoadPrimaryIssueAction({ issue: this.primaryIssue.key, extendedFields: this.extendedFields }));
+            });
+        this.updatedField$ = this.store$.select(p => p.issue.updatedField).pipe(filter(fieldUpdated => fieldUpdated && this.primaryIssue))
+            .subscribe(() => {
+                this.store$.dispatch(new LoadPrimaryIssueAction({ issue: this.primaryIssue.key, extendedFields: this.extendedFields }));
+            });
+    }
+
     ngOnDestroy() {
+        this.currentProjectUpdated$ ? this.currentProjectUpdated$.unsubscribe() : null;
+        this.updatedField$ ? this.updatedField$.unsubscribe() : null;
         this.combined$ ? this.combined$.unsubscribe() : null;
         this.primaryIssue$ ? this.primaryIssue$.unsubscribe() : null;
     }
@@ -140,7 +158,7 @@ export class IssueContainerComponent implements OnInit, OnDestroy {
                     }
                 }
             }
-            else if (!this.primaryIssue.relatedLinksLoading) {
+            else if (!this.primaryIssue.relatedLinksLoading && this.primaryIssue.relatedLinks && this.primaryIssue.relatedLinks.length > 0) {
                 this.store$.dispatch(new LoadPrimaryIssueRelatedLinksAction(_.map(this.primaryIssue.relatedLinks, 'key')));
             }
         } else {

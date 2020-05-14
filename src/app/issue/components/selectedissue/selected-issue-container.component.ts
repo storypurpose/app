@@ -5,8 +5,10 @@ import { filter, map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { CustomNodeTypes, searchTreeByKey } from 'src/app/lib/jira-tree-utils';
 import { CachingService } from 'src/app/lib/caching.service';
-import { UpdateOrganizationPurposeAction, SetSelectedIssueAction,
-    LoadSelectedIssueAction, LoadSelectedIssueEpicChildrenAction,  LoadSelectedIssueRelatedLinksAction } from '../../+state/issue.actions';
+import {
+    UpdateOrganizationPurposeAction, SetSelectedIssueAction,
+    LoadSelectedIssueAction, LoadSelectedIssueEpicChildrenAction, LoadSelectedIssueRelatedLinksAction
+} from '../../+state/issue.actions';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IssueState } from '../../+state/issue.state';
 
@@ -18,6 +20,7 @@ export class SelectedIssueContainerComponent implements OnInit, OnDestroy {
     combined$: Subscription;
 
     updatedField$: Subscription;
+    extendedFields: any;
 
     selectedIssue$: Subscription;
     selectedIssue: any;
@@ -36,8 +39,11 @@ export class SelectedIssueContainerComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.localNodeType = CustomNodeTypes;
 
-        this.updatedField$ = this.store$.select(p => p.issue.updatedField).pipe(filter(p => p))
-            .subscribe(p => this.router.navigate([], { queryParams: { updated: p.issueKey } }));
+        this.updatedField$ = this.store$.select(p => p.issue.updatedField).pipe(filter(p => p && this.selectedIssue))
+            .subscribe(p => {
+                this.store$.dispatch(
+                    new LoadSelectedIssueAction({ issue: this.selectedIssue.key, extendedFields: this.extendedFields }));
+            });
 
         this.organization$ = this.store$.select(p => p.app.organization).pipe(filter(p => p))
             .subscribe(org => this.store$.dispatch(new UpdateOrganizationPurposeAction(org)));
@@ -46,7 +52,9 @@ export class SelectedIssueContainerComponent implements OnInit, OnDestroy {
             .subscribe(selectedIssue => {
                 this.selectedIssue = selectedIssue;
                 if (!this.selectedIssue.relatedLinksLoaded && !this.selectedIssue.relatedLinksLoading) {
-                    this.store$.dispatch(new LoadSelectedIssueRelatedLinksAction(_.map(this.selectedIssue.relatedLinks, 'key')));
+                    if (this.selectedIssue.relatedLinks && this.selectedIssue.relatedLinks.length > 0) {
+                        this.store$.dispatch(new LoadSelectedIssueRelatedLinksAction(_.map(this.selectedIssue.relatedLinks, 'key')));
+                    }
                 }
                 if (this.selectedIssue.issueType === CustomNodeTypes.Epic &&
                     !this.selectedIssue.epicChildrenLoaded && !this.selectedIssue.epicChildrenLoading) {
@@ -58,9 +66,8 @@ export class SelectedIssueContainerComponent implements OnInit, OnDestroy {
         const hierarchicalIssueQuery$ = this.store$.select(p => p.app.hierarchicalIssue).pipe(filter(issue => issue));
         const paramsQuery$ = this.activatedRoute.params
             .pipe(filter(p => p && p["selected"] && p["selected"].length > 0), map(p => p["selected"]));
-        const queryParamsQuery$ = this.activatedRoute.queryParams;
 
-        this.combined$ = combineLatest(primaryIssueQuery$, hierarchicalIssueQuery$, paramsQuery$, queryParamsQuery$)
+        this.combined$ = combineLatest(primaryIssueQuery$, hierarchicalIssueQuery$, paramsQuery$)
             .subscribe(([primaryIssue, hierarchicalIssue, selectedIssueKey]) => {
                 this.primaryIssue = primaryIssue;
 
@@ -69,11 +76,11 @@ export class SelectedIssueContainerComponent implements OnInit, OnDestroy {
                 } else {
                     if (!this.selectedIssue || this.selectedIssue.key.toLowerCase() !== selectedIssueKey.toLowerCase()) {
                         const hierarchicalNode = searchTreeByKey(hierarchicalIssue, selectedIssueKey);
-                        let extendedFields = hierarchicalNode
+                        this.extendedFields = hierarchicalNode
                             ? this.populateExtendedFields(primaryIssue.projectConfig, hierarchicalNode.issueType)
                             : [];
 
-                        this.store$.dispatch(new LoadSelectedIssueAction({ issue: selectedIssueKey, extendedFields }));
+                        this.store$.dispatch(new LoadSelectedIssueAction({ issue: selectedIssueKey, extendedFields: this.extendedFields }));
                     }
                 }
             })

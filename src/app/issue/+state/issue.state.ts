@@ -6,7 +6,7 @@ export interface Issue {
   selectedIssue: any;
 
   subtasks: any;
-  
+
   purpose: any;
   recentlyViewedItems: any;
   recentmostItem: any;

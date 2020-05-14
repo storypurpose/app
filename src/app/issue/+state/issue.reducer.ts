@@ -124,16 +124,8 @@ export function issueReducer(state: Issue, action: any): Issue {
         }
 
         case ActionTypes.UpdateFieldValueSuccess: {
-            const selectedItem = state.selectedIssue;
             const updatedField = action.payload;
-            const found = searchTreeByKey(selectedItem, updatedField.issueKey);
-            if (found) {
-                if (updatedField.fieldName === 'title') {
-                    found.title = updatedField.updatedValue;
-                } else if (updatedField.fieldName === 'fixVersions')
-                    found.fixVersions = _.map(updatedField.updatedValue, v => v.name);
-            }
-            return { ...state, updatedField, selectedIssue: selectedItem };
+            return { ...state, updatedField };
         }
 
         case ActionTypes.UpdateOrganizationTitleSuccess: {

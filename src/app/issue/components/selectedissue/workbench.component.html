@@ -13,8 +13,7 @@
                 <fa-icon [icon]="columns[0].size === 0 ? 'compress-arrows-alt' : 'expand-arrows-alt'"
                     [fixedWidth]="true"></fa-icon>
             </button>
-            <ul ngbNav #nav="ngbNav" class="nav-tabs"
-                [(activeId)]="selectedTab" [destroyOnHide]="false">
+            <ul ngbNav #nav="ngbNav" class="nav-tabs" [(activeId)]="selectedTab" [destroyOnHide]="false">
                 <li [ngbNavItem]="1" *ngIf="issue.issueType === localNodeType.Epic">
                     <a ngbNavLink (click)="toggleAllEpicChildren()">
                         <fa-icon *ngIf="groupedEpicChildren && groupedEpicChildren.length > 1"
@@ -44,8 +43,8 @@
                                         </div>
                                         <div *ngIf="child.visible" class="mb-4">
                                             <div class="ml-3 p-1 border-bottom" *ngFor="let i of child.children">
-                                                <app-issue-navigation class="float-right" [issueKey]="i.key">
-                                                </app-issue-navigation>
+                                                <app-issue-navigation-menu class="float-right" [issueKey]="i.key">
+                                                </app-issue-navigation-menu>
                                                 <div
                                                     class="badge badge-light font-weight-normal text-uppercase float-right mt-1">
                                                     {{i.duedate}}
@@ -106,8 +105,8 @@
                                     <div *ngIf="child.visible" class="mb-4">
                                         <div class="ml-3 p-1 border-bottom" [title]="i.issueType"
                                             *ngFor="let i of child.children">
-                                            <app-issue-navigation class="float-right" [issueKey]="i.key">
-                                            </app-issue-navigation>
+                                            <app-issue-navigation-menu class="float-right" [issueKey]="i.key">
+                                            </app-issue-navigation-menu>
                                             <div
                                                 class="badge badge-light font-weight-normal text-uppercase float-right mt-1">
                                                 {{i.status}}

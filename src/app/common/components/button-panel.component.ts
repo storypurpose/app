@@ -9,16 +9,13 @@ export class ButtonPanelComponent {
     @Output() save = new EventEmitter<any>();
     @Output() reset = new EventEmitter<any>();
 
-    @Input() canSave = true;
     @Input() showSave = true;
+    @Input() showReset = false;
 
-    onSave() {
-        this.save.emit(true);
-    }
-    onClose() {
-        this.close.emit(false);
-    }
-    onReset() {
-        this.reset.emit(true);
-    }
+    @Input() canSave = true;
+    onSave = () => this.save.emit(true);
+
+    onClose = () => this.close.emit(false);
+
+    onReset = () => this.reset.emit(true);
 }

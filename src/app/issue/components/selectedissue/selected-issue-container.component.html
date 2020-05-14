@@ -9,11 +9,10 @@
                 </div>
                 <sub class="text-uppercase mr-2">
                     {{selectedIssue.issueType}}: {{selectedIssue.key}}
-                    <a target="_blank" title="View in jira" class=" ml-1"
-                        href="{{prepareExternalUrl(selectedIssue.key)}}">
-                        <fa-icon [icon]="['fab', 'jira']" class="text-primary"></fa-icon>
-                    </a>
                 </sub>
+
+                <app-issue-navigation-menu icon="ellipsis-h" placement="bottom-left" [issueKey]="selectedIssue.key">
+                </app-issue-navigation-menu>
             </div>
             <h2 class="font-weight-light">
                 {{selectedIssue.title}}

@@ -11,12 +11,12 @@ import 'chartjs-plugin-labels';
 import { AutofocusDirective } from './lib/autofocus.directive';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { MultilistSelectorComponent } from './components/multilist-selector.component';
-import { IssueNavigationComponent } from './components/issue-navigation.component';
+import { IssueNavigationMenuComponent } from './components/issue-navigation-menu.component';
 import { SliderModule } from 'primeng/slider';
 
 const components = [
   ButtonPanelComponent, StoryboardRendererComponent, StatisticsComponent, AutofocusDirective,
-  MultilistSelectorComponent, IssueNavigationComponent
+  MultilistSelectorComponent, IssueNavigationMenuComponent
 ];
 @NgModule({
   exports: components,

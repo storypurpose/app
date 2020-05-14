@@ -43,7 +43,7 @@
                                 style="width:250px" *ngFor="let item of getItems(fv, c)">
                                 <div class="mb-1">
                                     <div class="float-right">
-                                        <app-issue-navigation [parentIssueKey]="storyboardItem.key"
+                                        <app-issue-navigation-menu [parentIssueKey]="storyboardItem.key"
                                             [issueKey]="item.key">
                                             <div
                                                 *ngIf="projects && projects.length > 0 && item.project && item.project.key  && item.project.key.length > 0">
@@ -58,7 +58,7 @@
                                                     Release version
                                                 </button>
                                             </div>
-                                        </app-issue-navigation>
+                                        </app-issue-navigation-menu>
                                     </div>
 
                                     <div class="float-right text-muted small text-uppercase pt-1">{{item.status}}</div>

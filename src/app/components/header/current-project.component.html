@@ -14,15 +14,14 @@
     </div>
 </div>
 
-<div class="btn-group btn-group-sm ml-2 alert-warning" *ngIf="currentProject && !currentProject.isConfigured">
-    <div class="text-right">
-        <button class="btn btn-link btn-sm pt-0 pb-0" (click)="showProjectSetup(currentProject)">
-            <div class="small text-dark">New project found </div>
-            <div class=" text-primary">Configure now</div>
-        </button>
-        <button class="btn btn-link text-danger" (click)="dismissProjectSetup(currentProject)"
-            title="Dismiss and don't show again">
-            <fa-icon icon="times" size="small"></fa-icon>
-        </button>
-    </div>
+<div class="btn-group btn-group-sm ml-2 alert-warning" style="white-space: nowrap;"
+    *ngIf="currentProject && !currentProject.isConfigured">
+    <button class="btn btn-link btn-sm pt-0 pb-0" (click)="showProjectSetup(currentProject)">
+        <div class="small text-dark">New project found </div>
+        <div class=" text-primary">Configure now</div>
+    </button>
+    <button class="btn btn-link text-danger" (click)="dismissProjectSetup(currentProject)"
+        title="Dismiss and don't show again">
+        <fa-icon icon="times" size="small"></fa-icon>
+    </button>
 </div>

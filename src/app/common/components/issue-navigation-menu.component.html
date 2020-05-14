@@ -1,7 +1,7 @@
 <div class="btn-group btn-group-sm">
-    <div ngbDropdown display="dynamic" placement="bottom-right">
+    <div ngbDropdown display="dynamic" [placement]="(placement && placement.length > 0 ? placement : 'bottom-right')">
         <a class="text-primary pl-2 hide-caret" id="dropdownBasic1" ngbDropdownToggle title="Issue tools">
-            <fa-icon icon="ellipsis-v"></fa-icon>
+            <fa-icon [icon]="(icon && icon.length > 0 ? icon : 'ellipsis-v')"></fa-icon>
         </a>
         <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-menu-right">
             <a title="View purpose" ngbDropdownItem

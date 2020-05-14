@@ -5,7 +5,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { GoogleAnalyticsService } from 'src/app/lib/google-analytics.service';
 import { AppState } from 'src/app/+state/app.state';
 import { Store } from '@ngrx/store';
-import { UpsertProjectAction, UpsertProjectBeginAction } from 'src/app/+state/app.actions';
+import { UpsertProjectAction, UpsertProjectBeginAction, DismissProjectSetupAction } from 'src/app/+state/app.actions';
 
 @Component({
     selector: 'app-project-config',
@@ -34,6 +34,7 @@ export class ProjectConfigComponent {
         this.onClose(false);
     }
     onClose(reload) {
+        this.store$.dispatch(new DismissProjectSetupAction(this.project));
         this.close.emit(reload);
     }
     onReset() {

@@ -386,5 +386,11 @@ ngx-md h3,
   width: 200px;
   height: 24pt;
   padding: 12pt;
-  margin:0 8pt 8pt 0;
+  margin: 0 8pt 8pt 0;
+}
+
+body .ui-multiselect,
+body .ui-multiselect .ui-multiselect-trigger {
+  background-color: #f8f8f8 !important;
+  border-width: 0;
 }

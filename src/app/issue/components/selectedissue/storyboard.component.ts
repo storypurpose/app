@@ -13,6 +13,9 @@ import { UpdateFieldValueAction } from '../../+state/issue.actions';
     templateUrl: './storyboard.component.html'
 })
 export class StoryboardComponent implements OnInit, OnDestroy {
+    selectedStatuses: any = [];
+    statusLookup = [];
+
     includeRelatedIssues = false;
     relatedIssuesIncluded = false;
 
@@ -53,22 +56,39 @@ export class StoryboardComponent implements OnInit, OnDestroy {
         this.storyboardItem.children = [];
         this.storyboardItem.metadata = initializeMetadata();
 
+        const filters = _.map(this.selectedStatuses, 'key');
         if (this.includeEpicChildren) {
             if (this.storyboardItem.epicChildren && this.storyboardItem.epicChildren.length > 0) {
                 this.epicChildrenIncluded = true;
-                this.storyboardItem.children = _.union(this.storyboardItem.children, this.storyboardItem.epicChildren)
-                mergeMetadata(this.storyboardItem.metadata, extractMetadata(this.storyboardItem.epicChildren));
+
+                const epicChildren = this.filterByStatus(this.storyboardItem.epicChildren, filters);
+                this.storyboardItem.children = _.union(this.storyboardItem.children, epicChildren)
+                mergeMetadata(this.storyboardItem.metadata, extractMetadata(epicChildren));
             }
         }
         if (this.includeRelatedIssues && this.storyboardItem.relatedLinks && this.storyboardItem.relatedLinks.length > 0) {
             this.relatedIssuesIncluded = true;
-            this.storyboardItem.children = _.union(this.storyboardItem.children, this.storyboardItem.relatedLinks)
-            mergeMetadata(this.storyboardItem.metadata, extractMetadata(this.storyboardItem.relatedLinks))
+            const relatedLinks = this.filterByStatus(this.storyboardItem.relatedLinks, filters);
+            this.storyboardItem.children = _.union(this.storyboardItem.children, relatedLinks)
+            mergeMetadata(this.storyboardItem.metadata, extractMetadata(relatedLinks))
         }
         this.storyboardItem.statistics = populateStatistics(this.storyboardItem);
+        if (this.storyboardItem.statistics && this.statusLookup && this.statusLookup.length === 0) {
+            this.statusLookup = this.storyboardItem.statistics.status;
+        }
     }
+
+    private filterByStatus = (list, filters) =>
+        (filters && filters.length > 0)
+            ? _.filter(list, (r) => _.find(filters, f => f === r.status) !== undefined)
+            : list;
+
 
     onFieldValueChanged(eventArgs) {
         this.store$.dispatch(new UpdateFieldValueAction(eventArgs));
+    }
+
+    onSelectedStatusChange(eventArgs) {
+        this.plotIssuesOnStoryboard();
     }
 }

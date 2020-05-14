@@ -25,7 +25,6 @@ import { DialogModule } from 'primeng/dialog';
 import { AngularSplitModule } from 'angular-split';
 import { ConnectionDetailsComponent } from './components/setup/connection-details.component';
 import { PageNotFoundComponent } from './components/page-not-found.component';
-import { IssueviewerComponent } from './components/issuemanager/issueviewer.component';
 
 import { NgxMdModule } from 'ngx-md';
 import { ErrorHandlingInterceptor } from './lib/error-handling.interceptor';
@@ -70,8 +69,8 @@ export function initGapi(gapiSession: GapiSession) {
     NavbarComponent, CopyrightComponent, ToolsComponent, SearchboxComponent, CurrentProjectComponent,
 
     AppComponent, PageNotFoundComponent,
-    IssueviewerComponent, IssueEntryComponent, WorkspaceComponent, 
-  
+    IssueEntryComponent, WorkspaceComponent,
+
     ConnectionDetailsComponent, ProjectConfigComponent, OrganizationComponent, HierarchyFieldEditorComponent,
     ConfigurationsComponent, ExportConfigurationComponent, ImportConfigurationComponent,
 

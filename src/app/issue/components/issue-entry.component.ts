@@ -37,7 +37,7 @@ export class IssueEntryComponent implements OnInit, OnDestroy {
 
     navigateTo(issue) {
         if (this.canNavigate()) {
-            this.router.navigate(['/issue', issue.trim()]);
+            this.router.navigate(['/browse', issue.trim()]);
         }
     }
     selectTo(issue) {
@@ -46,7 +46,7 @@ export class IssueEntryComponent implements OnInit, OnDestroy {
 
             _.find(this.issueLookup, (i) => i === issueToNavigate)
                 ? this.router.navigate(['purpose', issueToNavigate, 'details'], { relativeTo: this.activatedRoute })
-                : this.router.navigate(['/issue', issueToNavigate, 'purpose', issueToNavigate, 'details']);
+                : this.router.navigate(['/browse', issueToNavigate, 'purpose', issueToNavigate, 'details']);
         }
     }
 

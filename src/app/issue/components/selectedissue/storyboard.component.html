@@ -26,7 +26,13 @@
                 </div>
             </ng-container>
         </div>
-        <div class="col-md-5 text-right">
+        <div class="col-md-3">
+            <p-multiSelect styleClass="w-100" defaultLabel="Filter" *ngIf="statusLookup && statusLookup.length > 0"
+                [options]="statusLookup" [(ngModel)]="selectedStatuses"
+                (onChange)="onSelectedStatusChange($event)" optionLabel="key">
+            </p-multiSelect>
+        </div>
+        <div class="col-md-2 text-right">
             <button class="btn btn-link float-right mt-1" (click)="showStatistics = true"
                 *ngIf="(storyboardItem.epicChildren && storyboardItem.epicChildren.length > 0) || (storyboardItem.relatedLinks && storyboardItem.relatedLinks.length > 0)">
                 <fa-icon [icon]="['far', 'chart-bar']" size="lg"></fa-icon>

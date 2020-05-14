@@ -29,6 +29,7 @@ import { IssueEntryComponent } from './components/issue-entry.component';
 import { IssueNotEnteredComponent } from './components/issue-not-entered.component';
 import { SelectedIssueHomeComponent } from './components/selectedissue/home.component';
 import { GroupedIssuelistComponent } from './components/selectedissue/grouped-issue-list.component';
+import { MultiSelectModule } from 'primeng/multiselect';
 
 const routes: Route[] = [
   {
@@ -73,6 +74,7 @@ const routes: Route[] = [
     ContextMenuModule,
     DialogModule,
     SidebarModule,
+    MultiSelectModule,
 
     NgbDropdownModule,
     NgbCollapseModule,

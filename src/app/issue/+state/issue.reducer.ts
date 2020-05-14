@@ -188,7 +188,7 @@ function populateRelatedLinks(state: Issue, action: any) {
         return null;
     }
     const relatedLinks = state.primaryIssue.relatedLinks;
-    if (action.payload && action.payload.issues) {
+    if (action.payload && action.payload.issues && relatedLinks) {
         const records = _.map(action.payload.issues, (item) => _.pick(populateFieldValuesCompact(item), populatedFieldList));
         relatedLinks.forEach(u => {
             const found = _.find(records, { key: u.key });

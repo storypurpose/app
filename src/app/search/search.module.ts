@@ -21,6 +21,7 @@ import { SearchStoryboardViewComponent } from './components/storyboard-view.comp
 import { AngularSplitModule } from 'angular-split';
 import { SavedSearchesComponent } from './components/saved-searches.component';
 import { FavouriteSearchesComponent } from './components/favourite-searches.component';
+import { MultiSelectModule } from 'primeng/multiselect';
 
 const routes: Route[] = [
   {
@@ -47,6 +48,7 @@ const routes: Route[] = [
     TreeTableModule,
     DialogModule,
     ChartsModule,
+    MultiSelectModule,
 
     AngularSplitModule,
 

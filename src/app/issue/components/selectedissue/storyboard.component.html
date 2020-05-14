@@ -1,6 +1,6 @@
 <div class="pr-3" *ngIf="storyboardItem">
     <div class="row small">
-        <div class="col-md-3 mb-3">
+        <div class="col-md-4 mb-3">
             <ng-container
                 *ngIf="(storyboardItem.epicChildren && storyboardItem.epicChildren.length > 0) || (storyboardItem.relatedLinks && storyboardItem.relatedLinks.length > 0)">
                 <div *ngIf="storyboardItem.epicChildren && storyboardItem.epicChildren.length > 0">
@@ -28,12 +28,12 @@
         </div>
         <div class="col-md-3">
             <p-multiSelect styleClass="w-100" defaultLabel="Filter" *ngIf="statusLookup && statusLookup.length > 0"
-                [options]="statusLookup" [(ngModel)]="selectedStatuses"
-                (onChange)="onSelectedStatusChange($event)" optionLabel="key">
+                [options]="statusLookup" [(ngModel)]="selectedStatuses" (onChange)="onSelectedStatusChange($event)"
+                optionLabel="key">
             </p-multiSelect>
         </div>
-        <div class="col-md-2 text-right">
-            <button class="btn btn-link float-right mt-1" (click)="showStatistics = true"
+        <div class="col-md-1">
+            <button class="btn btn-link" (click)="showStatistics = true"
                 *ngIf="(storyboardItem.epicChildren && storyboardItem.epicChildren.length > 0) || (storyboardItem.relatedLinks && storyboardItem.relatedLinks.length > 0)">
                 <fa-icon [icon]="['far', 'chart-bar']" size="lg"></fa-icon>
             </button>

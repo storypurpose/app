@@ -391,6 +391,5 @@ ngx-md h3,
 
 body .ui-multiselect,
 body .ui-multiselect .ui-multiselect-trigger {
-  background-color: #f8f8f8 !important;
-  border-width: 0;
+  border-color: #ddd;
 }

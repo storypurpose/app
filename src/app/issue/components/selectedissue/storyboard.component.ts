@@ -83,7 +83,6 @@ export class StoryboardComponent implements OnInit, OnDestroy {
             ? _.filter(list, (r) => _.find(filters, f => f === r.status) !== undefined)
             : list;
 
-
     onFieldValueChanged(eventArgs) {
         this.store$.dispatch(new UpdateFieldValueAction(eventArgs));
     }

@@ -1,7 +1,21 @@
 <div *ngIf="storyboardItem">
-    <button class="btn btn-link float-right mt-1" (click)="showStatistics = true">
-        <fa-icon [icon]="['far', 'chart-bar']" size="lg"></fa-icon>
-    </button>
+    <div class="row mt-2 mb-1">
+        <div class="col-md-8">
+
+        </div>
+        <div class="col-md-3">
+            <p-multiSelect styleClass="w-100" defaultLabel="Filter" *ngIf="statusLookup && statusLookup.length > 0"
+                [options]="statusLookup" [(ngModel)]="selectedStatuses" (onChange)="onSelectedStatusChange($event)"
+                optionLabel="key">
+            </p-multiSelect>
+        </div>
+        <div class="col-md-1">
+            <button class="btn btn-link" (click)="showStatistics = true">
+                <fa-icon [icon]="['far', 'chart-bar']" size="lg"></fa-icon>
+            </button>
+        </div>
+    </div>
+
     <app-storyboard-renderer [storyboardItem]="storyboardItem"></app-storyboard-renderer>
 
     <p-dialog header="Statistics" *ngIf="storyboardItem.statistics" position="topright" class="bg-light"

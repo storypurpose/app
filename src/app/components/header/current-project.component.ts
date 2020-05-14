@@ -4,7 +4,7 @@ import { AppState } from 'src/app/+state/app.state';
 import { Subscription } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { ConfigureProjectAction as ConfigureProjectAction } from 'src/app/+state/app.actions';
+import { ConfigureProjectAction as ConfigureProjectAction, DismissProjectSetupAction } from 'src/app/+state/app.actions';
 
 @Component({
     selector: 'app-current-project',
@@ -35,5 +35,11 @@ export class CurrentProjectComponent implements OnInit, OnDestroy {
     }
     showProjectSetup(project) {
         this.store$.dispatch(new ConfigureProjectAction(project));
+    }
+    dismissProjectSetup(project) {
+        if (project) {
+            project.isConfigured = true;
+            this.store$.dispatch(new DismissProjectSetupAction(project));
+        }
     }
 }

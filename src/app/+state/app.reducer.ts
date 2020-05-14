@@ -83,9 +83,7 @@ export function appReducer(state: App, action: any): App {
         }
 
         case ActionTypes.DismissProjectSetup: {
-            let currentProject = state.currentProject;
-            currentProject.isConfigured = true;
-            return { ...state, currentProject };
+            return { ...state, currentProject: { ...state.currentProject, isConfigured: true } };
         }
 
         default: return state;

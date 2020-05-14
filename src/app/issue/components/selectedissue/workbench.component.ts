@@ -46,7 +46,6 @@ export class WorkbenchComponent implements AfterViewInit, OnInit, OnDestroy {
                 this.selectedRelatedIssue = null;
                 this.selectedEpicIssue = null;
 
-                console.log(this.issue.relatedLinksLoaded);
                 if (this.issue.relatedLinksLoaded && !this.groupedRelatedLinks) {
                     this.groupedRelatedLinks = groupChildren(this.issue.relatedLinks, 'linkType');
                     this.issue.relatedLinksCount = this.groupedRelatedLinks.length;

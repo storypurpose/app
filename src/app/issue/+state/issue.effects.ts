@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import { Injectable } from '@angular/core';
 import { Effect, Actions, ofType } from '@ngrx/effects';
-import { map, switchMap, catchError } from 'rxjs/operators';
+import { map, switchMap, catchError, tap } from 'rxjs/operators';
 import * as a from './issue.actions';
 import { of } from 'rxjs';
 import { JiraService } from '../../lib/jira.service';
@@ -72,8 +72,6 @@ export class IssueEffects {
         )
     );
 
-
-
     @Effect() loadSubtasks = this.actions$.pipe(ofType(a.ActionTypes.LoadSubtasks),
         switchMap((action: any) =>
             this.jiraService.executeJql(`issuetype in (${action.payload.subTaskIssueTypes}) AND parent=${action.payload.issueKey}`,
@@ -84,7 +82,6 @@ export class IssueEffects {
                 )
         )
     );
-
 
     @Effect() loadProjectConfig = this.actions$.pipe(ofType(a.ActionTypes.LoadProjectDetails),
         switchMap((action: any) =>
@@ -113,6 +110,21 @@ export class IssueEffects {
                 )
         )
     );
+
+    @Effect() updateOrganizationTitle = this.actions$.pipe(ofType(a.ActionTypes.UpdateOrganizationTitle),
+        tap((action: any) => this.cachingService.setOrganization(action.payload)),
+        switchMap((action: any) => of({ type: a.ActionTypes.UpdateOrganizationTitleSuccess, payload: action.payload }))
+
+        // switchMap((action: any) =>
+        //     this.jiraService.executeJql(`issuetype in (${action.payload.subTaskIssueTypes}) AND parent=${action.payload.issueKey}`,
+        //         0, 100, _.map(action.payload.extendedFields, 'id'), 'test-cases.json')
+        //         .pipe(
+        //             map(() => of({ type: a.ActionTypes.UpdateOrganizationTitleSuccess})),
+        //             catchError(() => of({ type: a.ActionTypes.UpdateOrganizationTitleFailed }))
+        //         )
+        // )
+    );
+
 
     private getIssueDetails(payload: any) {
         return this.jiraService.getIssueDetails(payload.issue, _.map(payload.extendedFields, 'id'))

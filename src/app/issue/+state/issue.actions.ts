@@ -34,7 +34,7 @@ export const ActionTypes = {
     LoadSelectedIssueRelatedLinksFailed: type("[LoadSelectedIssueRelatedLinks] Failed"),
     LoadSelectedIssueRelatedLinksSuccess: type("[LoadSelectedIssueRelatedLinks] Success"),
 
-    SetSelectedItem: type("[SetSelectedItem]"),
+    SetSelectedIssue: type("[SetSelectedIssue]"),
 
     SetPurpose: type("[SetPurpose]"),
     UpdateOrganizationPurpose: type("[UpdateOrganizationPurpose]"),
@@ -43,9 +43,13 @@ export const ActionTypes = {
     UpdateFieldValue: type("[UpdateFieldValue]"),
     UpdateFieldValueFailed: type("[UpdateFieldValue] Failed"),
     UpdateFieldValueSuccess: type("[UpdateFieldValue] Success"),
+
+    UpdateOrganizationTitle: type("[UpdateOrganizationTitle]"),
+    UpdateOrganizationTitleFailed: type("[UpdateOrganizationTitle] Failed"),
+    UpdateOrganizationTitleSuccess: type("[UpdateOrganizationTitle] Success"),
 }
 
-export class LoadIssueDetailsAction implements Action {
+export class LoadPrimaryIssueAction implements Action {
     type = ActionTypes.LoadPrimaryIssue;
     constructor(public payload: any) { }
 }
@@ -82,8 +86,8 @@ export class LoadSelectedIssueRelatedLinksAction implements Action {
 }
 
 
-export class SetSelectedItemAction implements Action {
-    type = ActionTypes.SetSelectedItem;
+export class SetSelectedIssueAction implements Action {
+    type = ActionTypes.SetSelectedIssue;
     constructor(public payload: any) { }
 }
 
@@ -106,13 +110,18 @@ export class UpdateFieldValueAction implements Action {
     constructor(public payload: any) { }
 }
 
+export class UpdateOrganizationTitleAction implements Action {
+    type = ActionTypes.UpdateOrganizationTitle;
+    constructor(public payload: any) { }
+}
+
 export type Actions =
-    LoadIssueDetailsAction
+    LoadPrimaryIssueAction
     | LoadPrimaryIssueEpicChildrenAction
     | LoadPrimaryIssueRelatedLinksAction
 
     | LoadSelectedIssueAction
-    | SetSelectedItemAction
+    | SetSelectedIssueAction
     | LoadSelectedIssueEpicChildrenAction
     | LoadSelectedIssueRelatedLinksAction
 
@@ -122,4 +131,6 @@ export type Actions =
     | SetRecentlyViewedAction
 
     | UpdateFieldValueAction
+
+    | UpdateOrganizationTitleAction
     ;

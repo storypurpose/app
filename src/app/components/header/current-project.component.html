@@ -1,4 +1,5 @@
-<div class="btn-group btn-group-sm" *ngIf="projects && projects.length > 0">
+<div class="btn-group btn-group-sm"
+    *ngIf="projects && projects.length > 0 && currentProject && currentProject.isConfigured === true">
     <div ngbDropdown display="dynamic">
         <a class="btn btn-light" id="dropdownBasic1" ngbDropdownToggle title="Configure project">
             <fa-icon [icon]="['far', 'bookmark']" size="sm"></fa-icon>
@@ -10,5 +11,18 @@
                 {{project.name}}
             </button>
         </div>
+    </div>
+</div>
+
+<div class="btn-group btn-group-sm ml-2 alert-warning" *ngIf="currentProject && !currentProject.isConfigured">
+    <div class="text-right">
+        <button class="btn btn-link btn-sm pt-0 pb-0" (click)="showProjectSetup(currentProject)">
+            <div class="small text-dark">New project found </div>
+            <div class=" text-primary">Configure now</div>
+        </button>
+        <button class="btn btn-link text-danger" (click)="dismissProjectSetup(currentProject)"
+            title="Dismiss and don't show again">
+            <fa-icon icon="times" size="small"></fa-icon>
+        </button>
     </div>
 </div>

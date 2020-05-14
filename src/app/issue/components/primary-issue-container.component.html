@@ -6,6 +6,7 @@
                     <app-issue-entry [hideIssuelistNavigator]="false" (showIssuelist)="onShowIssuelist()">
                     </app-issue-entry>
                 </div>
+
                 <div *ngIf="rootNode" class="pb-5">
                     <p-contextMenu #cm [model]="menulist" appendTo="body"></p-contextMenu>
                     <p-tree [value]="[rootNode]" selectionMode="single" [(selection)]="selectedNode"

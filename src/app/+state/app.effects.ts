@@ -24,6 +24,13 @@ export class AppEffects {
     })
   );
 
+  @Effect() dismissProjectSetup = this.actions$.pipe(ofType(a.ActionTypes.DismissProjectSetup),
+    switchMap((action: any) => {
+      this.cachingService.setProjectDetails(action.payload);
+      return of({ type: a.ActionTypes.UpsertProjectSuccess, payload: action.payload })
+    })
+  );
+
   //   @Effect() loadFieldConfiguration = this.actions$.pipe(ofType(a.ActionTypes.LoadFieldConfigurationBegin),
   //     switchMap((action: any) =>
   //       this.jiraService.getFieldConfiguration$(action.payload)

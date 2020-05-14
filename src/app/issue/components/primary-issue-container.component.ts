@@ -5,7 +5,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Title } from '@angular/platform-browser';
 import { IssueState } from '../+state/issue.state';
-import { LoadIssueDetailsAction as LoadPrimaryIssueAction, LoadPrimaryIssueEpicChildrenAction, LoadPrimaryIssueRelatedLinksAction, LoadProjectDetailsAction } from '../+state/issue.actions';
+import {
+    LoadPrimaryIssueAction, LoadPrimaryIssueEpicChildrenAction, LoadPrimaryIssueRelatedLinksAction,
+    LoadProjectDetailsAction, UpdateOrganizationTitleAction
+} from '../+state/issue.actions';
 import { environment } from 'src/environments/environment';
 import { filter, map } from 'rxjs/operators';
 import { Subscription, combineLatest } from 'rxjs';
@@ -24,8 +27,8 @@ export class IssueContainerComponent implements OnInit, OnDestroy {
     combined$: Subscription;
     issueKey: string;
 
-    issueDetails$: Subscription;
-    issueDetails: any;
+    primaryIssue$: Subscription;
+    primaryIssue: any;
 
     selectedNode: any;
     menulist: any;
@@ -56,10 +59,10 @@ export class IssueContainerComponent implements OnInit, OnDestroy {
                 this.store$.dispatch(new LoadPrimaryIssueAction({ issue, extendedFields: this.extendedFields }));
             });
 
-        this.issueDetails$ = this.store$.select(p => p.issue.primaryIssue)
+        this.primaryIssue$ = this.store$.select(p => p.issue.primaryIssue)
             .pipe(filter(p => p))
             .subscribe(details => {
-                this.issueDetails = details;
+                this.primaryIssue = details;
                 this.populateProjectConfig();
                 this.populateEpicChildren();
                 this.populateRelatedLinks();
@@ -70,22 +73,22 @@ export class IssueContainerComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.combined$ ? this.combined$.unsubscribe() : null;
-        this.issueDetails$ ? this.issueDetails$.unsubscribe() : null;
+        this.primaryIssue$ ? this.primaryIssue$.unsubscribe() : null;
     }
 
     private buildTree() {
-        if (this.issueDetails.epicChildrenLoaded === true && this.issueDetails.relatedLinksLoaded === true
-            && this.issueDetails.projectConfigLoaded === true) {
-            const organizationNode = createOrganizationNode(this.issueDetails.organization);
-            let projectNode: any = createProjectNode(this.issueDetails.projectConfig);
-            let hierarchyNode = (this.issueDetails.projectConfig.hierarchy) ? this.prepareHierarchyNodes() : null;
+        if (this.primaryIssue.epicChildrenLoaded === true && this.primaryIssue.relatedLinksLoaded === true
+            && this.primaryIssue.projectConfigLoaded === true) {
+            const organizationNode = createOrganizationNode(this.primaryIssue.organization);
+            let projectNode: any = createProjectNode(this.primaryIssue.projectConfig);
+            let hierarchyNode = (this.primaryIssue.projectConfig.hierarchy) ? this.prepareHierarchyNodes() : null;
 
             projectNode = addToLeafNode(organizationNode, projectNode);
             hierarchyNode = addToLeafNode(projectNode, hierarchyNode);
 
             //const epicNode = this.populateEpic(node);
-            this.issueDetails.expanded = true;
-            this.rootNode = addToLeafNode(hierarchyNode, this.issueDetails);
+            this.primaryIssue.expanded = true;
+            this.rootNode = addToLeafNode(hierarchyNode, this.primaryIssue);
 
             this.store$.dispatch(new SetHierarchicalIssueAction(this.rootNode));
         }
@@ -93,8 +96,8 @@ export class IssueContainerComponent implements OnInit, OnDestroy {
 
     private prepareHierarchyNodes() {
         const hierarchyNodes = { children: [] };
-        this.issueDetails.projectConfig.hierarchy.forEach(field => {
-            const found: any = _.find(this.issueDetails.extendedFields, { id: field.id });
+        this.primaryIssue.projectConfig.hierarchy.forEach(field => {
+            const found: any = _.find(this.primaryIssue.extendedFields, { id: field.id });
             if (found && found.extendedValue && found.extendedValue.length > 0) {
                 hierarchyNodes.children.push(createHierarchyNode(found));
             }
@@ -108,56 +111,52 @@ export class IssueContainerComponent implements OnInit, OnDestroy {
     }
 
     private populateEpicChildren() {
-        if (this.issueDetails.issueType === CustomNodeTypes.Epic) {
-            if (this.issueDetails.epicChildrenLoaded) {
-                const epicChildrenNodeAlreadyExists = _.find(this.issueDetails.children, { issueType: CustomNodeTypes.EpicChildren });
-                if (!epicChildrenNodeAlreadyExists && this.issueDetails.epicChildren && this.issueDetails.epicChildren.length > 0) {
-                    this.issueDetails.children = this.issueDetails.children || [];
-                    this.issueDetails.children.unshift(createEpicChildrenNode(this.issueDetails));
-                    this.issueDetails.expanded = true;
+        if (this.primaryIssue.issueType === CustomNodeTypes.Epic) {
+            if (this.primaryIssue.epicChildrenLoaded) {
+                const epicChildrenNodeAlreadyExists = _.find(this.primaryIssue.children, { issueType: CustomNodeTypes.EpicChildren });
+                if (!epicChildrenNodeAlreadyExists && this.primaryIssue.epicChildren && this.primaryIssue.epicChildren.length > 0) {
+                    this.primaryIssue.children = this.primaryIssue.children || [];
+                    this.primaryIssue.children.unshift(createEpicChildrenNode(this.primaryIssue));
+                    this.primaryIssue.expanded = true;
                 }
             }
-            else if (!this.issueDetails.epicChildrenLoading) {
-                this.store$.dispatch(new LoadPrimaryIssueEpicChildrenAction(this.issueDetails.key));
+            else if (!this.primaryIssue.epicChildrenLoading) {
+                this.store$.dispatch(new LoadPrimaryIssueEpicChildrenAction(this.primaryIssue.key));
             }
         } else {
-            this.issueDetails.epicChildrenLoaded = true;
+            this.primaryIssue.epicChildrenLoaded = true;
         }
     }
 
     private populateRelatedLinks() {
-        if (this.issueDetails.relatedLinks && this.issueDetails.relatedLinks.length > 0) {
-            if (this.issueDetails.relatedLinksLoaded) {
-                const relatedLinks = _.filter(this.issueDetails.children, { issueType: CustomNodeTypes.RelatedLink });
+        if (this.primaryIssue && this.primaryIssue.relatedLinks && this.primaryIssue.relatedLinks.length > 0) {
+            if (this.primaryIssue.relatedLinksLoaded) {
+                const relatedLinks = _.filter(this.primaryIssue.children, { issueType: CustomNodeTypes.RelatedLink });
                 if (relatedLinks.length === 0) {
-                    const linkedRecords = buildIssueLinkGroups(this.issueDetails.relatedLinks, this.issueDetails.key);
+                    const linkedRecords = buildIssueLinkGroups(this.primaryIssue.relatedLinks, this.primaryIssue.key);
                     if (linkedRecords) {
-                        this.issueDetails.children = this.issueDetails.children || [];
-                        linkedRecords.forEach(u => this.issueDetails.children.push(u));
+                        this.primaryIssue.children = this.primaryIssue.children || [];
+                        linkedRecords.forEach(u => this.primaryIssue.children.push(u));
                     }
                 }
             }
-            else if (!this.issueDetails.relatedLinksLoading) {
-                this.store$.dispatch(new LoadPrimaryIssueRelatedLinksAction(_.map(this.issueDetails.relatedLinks, 'key')));
+            else if (!this.primaryIssue.relatedLinksLoading) {
+                this.store$.dispatch(new LoadPrimaryIssueRelatedLinksAction(_.map(this.primaryIssue.relatedLinks, 'key')));
             }
         } else {
-            this.issueDetails.relatedLinksLoaded = true;
+            this.primaryIssue.relatedLinksLoaded = true;
         }
     }
 
     private populateProjectConfig() {
-        if (this.issueDetails.projectConfigLoaded) {
-            if (this.issueDetails.projectConfig) {
-                this.store$.dispatch(new UpsertProjectAction(this.issueDetails.projectConfig));
+        if (this.primaryIssue.projectConfigLoaded) {
+            if (this.primaryIssue.projectConfig) {
+                this.store$.dispatch(new UpsertProjectAction(this.primaryIssue.projectConfig));
             }
         }
-        else {
-            if (this.issueDetails.project && this.issueDetails.project.key && this.issueDetails.project.key.length > 0
-                && !this.issueDetails.projectConfigLoading) {
-                this.store$.dispatch(new LoadProjectDetailsAction(this.issueDetails.project.key));
-            } else {
-                this.issueDetails.projectConfigLoaded = true
-            }
+        else if (this.primaryIssue.project && this.primaryIssue.project.key && this.primaryIssue.project.key.length > 0
+            && !this.primaryIssue.projectConfigLoading) {
+            this.store$.dispatch(new LoadProjectDetailsAction(this.primaryIssue.project.key));
         }
     }
 
@@ -180,20 +179,36 @@ export class IssueContainerComponent implements OnInit, OnDestroy {
     nodeContextMenuSelect(node) {
         console.log(node);
     }
-    updateNodeTitleOnEnter(eventArgs, node) {
-        console.log(eventArgs, node);
+
+    cancelNodeEditingOnEscape = (eventArgs, node) => {
+        eventArgs.stopPropagation();
+        eventArgs.preventDefault();
+        this.cancelNodeEditing(node);
     }
-    cancelNodeEditingOnEscape(eventArgs, node) {
-        console.log(eventArgs, node);
+
+    public cancelNodeEditing(node) {
+        if (node.memento) {
+            node.title = '';
+            node.type = node.memento.type;
+            setTimeout(() => node.selectable = node.memento.selectable, 200);
+        }
     }
 
     public canUpdateTitle = (node) => node && node.title && node.title.trim().length > 0;
 
-    updateNodeTitle(node) {
-        console.log(node);
+    updateNodeTitleOnEnter = (eventArgs, node) => {
+        eventArgs.stopPropagation();
+        eventArgs.preventDefault();
+        this.updateNodeTitle(node);
     }
-    cancelNodeEditing(node) {
-        console.log(node);
+    public updateNodeTitle(node) {
+        if (node.title && node.title.length > 0) {
+            node.type = TreeTemplateTypes.Heading;
+            node.selectable = false;
+            node.key = node.title;
+            const payload = { name: node.title };
+            this.store$.dispatch(new UpdateOrganizationTitleAction(payload));
+        }
     }
 
     getIssueTitle = (node) =>

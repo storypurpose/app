@@ -5,7 +5,7 @@ import { filter, map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { CustomNodeTypes, searchTreeByKey } from 'src/app/lib/jira-tree-utils';
 import { CachingService } from 'src/app/lib/caching.service';
-import { UpdateOrganizationPurposeAction, SetSelectedItemAction,
+import { UpdateOrganizationPurposeAction, SetSelectedIssueAction,
     LoadSelectedIssueAction, LoadSelectedIssueEpicChildrenAction,  LoadSelectedIssueRelatedLinksAction } from '../../+state/issue.actions';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IssueState } from '../../+state/issue.state';
@@ -65,7 +65,7 @@ export class SelectedIssueContainerComponent implements OnInit, OnDestroy {
                 this.primaryIssue = primaryIssue;
 
                 if (selectedIssueKey.toLowerCase() === this.primaryIssue.key.toLowerCase()) {
-                    this.store$.dispatch(new SetSelectedItemAction(primaryIssue));
+                    this.store$.dispatch(new SetSelectedIssueAction(primaryIssue));
                 } else {
                     if (!this.selectedIssue || this.selectedIssue.key.toLowerCase() !== selectedIssueKey.toLowerCase()) {
                         const hierarchicalNode = searchTreeByKey(hierarchicalIssue, selectedIssueKey);

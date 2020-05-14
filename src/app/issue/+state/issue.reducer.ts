@@ -97,7 +97,7 @@ export function issueReducer(state: Issue, action: any): Issue {
             };
         }
 
-        case ActionTypes.SetSelectedItem: {
+        case ActionTypes.SetSelectedIssue: {
             return { ...state, selectedIssue: action.payload };
         }
 
@@ -134,6 +134,10 @@ export function issueReducer(state: Issue, action: any): Issue {
                     found.fixVersions = _.map(updatedField.updatedValue, v => v.name);
             }
             return { ...state, updatedField, selectedIssue: selectedItem };
+        }
+
+        case ActionTypes.UpdateOrganizationTitleSuccess: {
+            return { ...state, primaryIssue: { ...state.primaryIssue, organization: action.payload } };
         }
 
         default: return state;
@@ -188,6 +192,9 @@ function getIssueTypes(list, isSubTask): any {
 }
 
 function populateRelatedLinks(state: Issue, action: any) {
+    if (!state.primaryIssue) {
+        return null;
+    }
     const relatedLinks = state.primaryIssue.relatedLinks;
     if (action.payload && action.payload.issues) {
         const records = _.map(action.payload.issues, (item) => _.pick(populateFieldValuesCompact(item), populatedFieldList));

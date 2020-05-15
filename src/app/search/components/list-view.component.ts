@@ -4,8 +4,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { JiraService } from '../../lib/jira.service';
-import { AppState } from 'src/app/+state/app.state';
 import { SwitchSearchresultViewmodeAction, SearchresultViewMode } from '../+state/search.actions';
 import { SearchState } from '../+state/search.state';
 
@@ -25,12 +23,13 @@ export class SearchListViewComponent implements OnInit, OnDestroy {
 
     constructor(public router: Router,
         public activatedRoute: ActivatedRoute,
-        public jiraService: JiraService,
         public store$: Store<SearchState>) {
     }
     ngOnInit(): void {
         this.store$.dispatch(new SwitchSearchresultViewmodeAction(SearchresultViewMode.LIST));
-        this.issuelist$ = this.store$.select(p => p.search.issuelist).pipe(filter(p => p))
+
+        this.issuelist$ = this.store$.select(p => p.search.issuelist)
+            .pipe(filter(p => p))
             .subscribe(key => this.issuelist = key);
     }
     ngOnDestroy(): void {

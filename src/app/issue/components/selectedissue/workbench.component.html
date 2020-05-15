@@ -42,7 +42,7 @@
                                             </button>
                                         </div>
                                         <div *ngIf="child.visible" class="mb-4">
-                                            <div class="ml-3 p-1 border-bottom" *ngFor="let i of child.children">
+                                            <div class="ml-3 p-1 border-bottom text-no-wrap" *ngFor="let i of child.children">
                                                 <app-issue-navigation-menu class="float-right" [issueKey]="i.key">
                                                 </app-issue-navigation-menu>
                                                 <div
@@ -103,7 +103,7 @@
                                         </button>
                                     </div>
                                     <div *ngIf="child.visible" class="mb-4">
-                                        <div class="ml-3 p-1 border-bottom" [title]="i.issueType"
+                                        <div class="ml-3 p-1 border-bottom text-no-wrap" [title]="i.issueType"
                                             *ngFor="let i of child.children">
                                             <app-issue-navigation-menu class="float-right" [issueKey]="i.key">
                                             </app-issue-navigation-menu>

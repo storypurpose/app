@@ -6,12 +6,33 @@ import * as a from './search.actions';
 import { of } from 'rxjs';
 import { JiraService } from '../../lib/jira.service';
 import { CachingService } from 'src/app/lib/caching.service';
+import { populateFieldValuesCompact, detailFields } from 'src/app/lib/jira-tree-utils';
 
 @Injectable()
 export class SearchEffects {
     constructor(
         private actions$: Actions,
-        private jiraService: JiraService    ) { }
+        private jiraService: JiraService) { }
+
+    @Effect() loadSearchlist = this.actions$.pipe(ofType(a.ActionTypes.LoadSearchResults),
+        switchMap((action: any) =>
+            this.jiraService.executeJql(action.payload.query, action.payload.currentPageIndex - 1, 50,
+                detailFields, 'issuelist.json')
+                .pipe(map((p: any) => {
+                    return {
+                        total: p.total,
+                        startAt: p.startAt,
+                        endAt: ((p.startAt + p.maxResults) < p.total) ? p.startAt + p.maxResults : p.total,
+                        pageSize: p.maxResults,
+                        results: _.map(p.issues, p => populateFieldValuesCompact(p))
+                    }
+                }))
+                .pipe(
+                    map(payload => ({ type: a.ActionTypes.LoadSearchResultsSuccess, payload })),
+                    catchError(() => of({ type: a.ActionTypes.LoadSearchResultsFailed }))
+                )
+        )
+    );
 
     @Effect() loadSaveSearchlist = this.actions$.pipe(ofType(a.ActionTypes.LoadSavedSearchlist),
         switchMap(() =>

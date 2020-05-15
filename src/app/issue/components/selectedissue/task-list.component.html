@@ -78,7 +78,7 @@
                 </small>
 
                 <div [ngClass]="{'ml-4': hasExtendedFields}">
-                    <div>{{record.title}}</div>
+                    <div class=" text-no-wrap">{{record.title}}</div>
                     <div style="overflow: auto;" class="alert mt-2 p-0 rounded-0 border-0"
                         *ngIf="!record.hideExtendedFields && record.extendedFields && record.extendedFields.length > 0">
                         <table class="table table-small m-0 border-0 bg-light extended-fields">

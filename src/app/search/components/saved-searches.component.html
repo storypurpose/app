@@ -1,6 +1,6 @@
 <h6>saved</h6>
 
-<div *ngIf="searchlist" class="list-group list-group-flush list-group-flush-compact">
+<div *ngIf="searchlist" class="list-group list-group-flush list-group-flush-compact" style="white-space: nowrap;">
     <div *ngFor="let search of searchlist" class="list-group-item border-0 pl-0">
         <a class="text-primary" [routerLink]="['/search/list']" [queryParams]="{query:search.jql}">
             {{search.name}}

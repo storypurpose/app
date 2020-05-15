@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { JiraService } from '../../lib/jira.service';
-import { SetIssuelistAction, SearchresultViewMode } from '../+state/search.actions';
+import { LoadSearchResultsAction, SearchresultViewMode } from '../+state/search.actions';
 import { populateFieldValuesCompact, CustomNodeTypes } from '../../lib/jira-tree-utils';
 import { ToggleQueryEditorVisibilityAction } from 'src/app/+state/app.actions';
 import { AppState } from 'src/app/+state/app.state';
@@ -78,17 +78,7 @@ export class SearchResultContainerComponent implements OnInit, OnDestroy {
     canExecuteQuery = () => this.query && this.query.trim().length > 0;
     executeQuery() {
         if (this.canExecuteQuery()) {
-            this.jiraService.executeJql(this.query, this.currentPageIndex - 1, 50, ['components', 'labels', 'fixVersions'], 'issuelist.json')
-                .pipe(map((p: any) => {
-                    return {
-                        total: p.total,
-                        startAt: p.startAt,
-                        endAt: ((p.startAt + p.maxResults) < p.total) ? p.startAt + p.maxResults : p.total,
-                        pageSize: p.maxResults,
-                        results: _.map(p.issues, p => populateFieldValuesCompact(p))
-                    }
-                }))
-                .subscribe(result => this.store$.dispatch(new SetIssuelistAction(result)));
+            this.store$.dispatch(new LoadSearchResultsAction({ query: this.query, currentPageIndex: this.currentPageIndex }));
         }
     }
     onPageChange() {

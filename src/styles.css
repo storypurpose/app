@@ -190,7 +190,6 @@ body .ui-sidebar {
   /* background-color: #f8f9fa; */
   flex-basis: 8px !important;
   border-left: 2px solid #f8f8f8;
-  margin-left: 4px;
 }
 /* .as-split-gutter-icon {
   background-image: none !important;
@@ -396,4 +395,10 @@ ngx-md h3,
 body .ui-multiselect,
 body .ui-multiselect .ui-multiselect-trigger {
   border-color: #ddd;
+}
+
+.text-no-wrap {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

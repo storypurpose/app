@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as _ from 'lodash';
-import { CachingService } from '../../lib/caching.service';
 import { MessageService } from 'primeng/api';
 import { AppState } from '../../+state/app.state';
 import { Store } from '@ngrx/store';
@@ -16,8 +15,7 @@ export class IssueHomeComponent implements OnInit, OnDestroy {
     isOnlineMode = false;
     connectionDetailsSubscription: Subscription;
 
-    constructor(public cachingService: CachingService,
-        public messageService: MessageService,
+    constructor(public messageService: MessageService,
         public store$: Store<AppState>) {
     }
 

@@ -4,7 +4,6 @@ import { Subscription, combineLatest } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { CustomNodeTypes, searchTreeByKey } from 'src/app/lib/jira-tree-utils';
-import { CachingService } from 'src/app/lib/caching.service';
 import {
     UpdateOrganizationPurposeAction, SetSelectedIssueAction,
     LoadSelectedIssueAction, LoadSelectedIssueEpicChildrenAction, LoadSelectedIssueRelatedLinksAction
@@ -32,7 +31,6 @@ export class SelectedIssueContainerComponent implements OnInit, OnDestroy {
     localNodeType: any;
     constructor(public router: Router,
         public activatedRoute: ActivatedRoute,
-        public cachingService: CachingService,
         public store$: Store<IssueState>
     ) {
     }
@@ -104,12 +102,4 @@ export class SelectedIssueContainerComponent implements OnInit, OnDestroy {
     canNavigateToStoryboard = () =>
         this.selectedIssue && this.primaryIssue &&
         (this.selectedIssue.issueType === 'Epic' || this.primaryIssue.key.toLowerCase() === this.selectedIssue.key.toLowerCase());
-
-    prepareExternalUrl(issueKey) {
-        const connectionDetails = this.cachingService.getConnectionDetails();
-
-        return (connectionDetails && connectionDetails.serverUrl && connectionDetails.serverUrl.length > 0)
-            ? `${connectionDetails.serverUrl}/browse/${issueKey}`
-            : '';
-    }
 }

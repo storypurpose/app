@@ -1,6 +1,5 @@
 import { Component, Input, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import * as _ from 'lodash';
-import { CachingService } from 'src/app/lib/caching.service';
 import { AppState } from 'src/app/+state/app.state';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
@@ -21,8 +20,7 @@ export class StoryboardRendererComponent implements OnInit, OnDestroy {
 
     public zoom = 100;
 
-    constructor(public cachingService: CachingService,
-        public store$: Store<AppState>) {
+    constructor(public store$: Store<AppState>) {
     }
     ngOnInit(): void {
         this.projects$ = this.store$.select(p => p.app.projects)
@@ -52,14 +50,6 @@ export class StoryboardRendererComponent implements OnInit, OnDestroy {
         if (this.storyboardItem && this.storyboardItem.metadata && this.storyboardItem.metadata.fixVersions) {
             this.storyboardItem.metadata.fixVersions.forEach(u => u.expanded = this.expandedAll);
         }
-    }
-
-    prepareExternalUrl(issueKey) {
-        const connectionDetails = this.cachingService.getConnectionDetails();
-
-        return (connectionDetails && connectionDetails.serverUrl && connectionDetails.serverUrl.length > 0)
-            ? `${connectionDetails.serverUrl}/browse/${issueKey}`
-            : '';
     }
 
     editFixversions(issue) {

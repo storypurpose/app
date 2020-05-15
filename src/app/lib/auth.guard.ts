@@ -33,9 +33,8 @@ export class AuthenticatedGuard implements CanActivate {
             }))
             .pipe(map(p => p !== null && p !== undefined));
 
-        testedOk$.subscribe(success => {
-            this.router.navigate(["/browse"]);
-        });
+        testedOk$.subscribe(() => this.router.navigate(["/browse"]));
+        
         return testedOk$;
     }
 }

@@ -3,8 +3,7 @@ import * as _ from 'lodash';
 
 import { MessageService } from 'primeng/api';
 import { Store } from '@ngrx/store';
-import { SetConnectionDetailsAction, SetOrganizationAction, LoadProjectsAction, SetExtendedHierarchyDetailsAction } from "../../+state/app.actions";
-import { CachingService } from '../../lib/caching.service';
+import { SetConnectionDetailsAction, SetOrganizationAction, SetProjectsAction, SetExtendedHierarchyDetailsAction } from "../../+state/app.actions";
 import { AppState } from '../../+state/app.state';
 import { Router } from '@angular/router';
 
@@ -22,8 +21,7 @@ export class ImportConfigurationComponent {
     selectOrganization = false;
     selectExtendedHierarchy = false;
 
-    constructor(public cachingService: CachingService,
-        public messageService: MessageService,
+    constructor(public messageService: MessageService,
         public router: Router,
         public store$: Store<AppState>) {
     }
@@ -50,19 +48,15 @@ export class ImportConfigurationComponent {
         if (this.configurations) {
             if (this.selectConnectionDetails) {
                 this.store$.dispatch(new SetConnectionDetailsAction(this.configurations.connectionDetails));
-                this.cachingService.setConnectionDetails(this.configurations.connectionDetails);
             }
             if (this.selectOrganization) {
                 this.store$.dispatch(new SetOrganizationAction(this.configurations.organization));
-                this.cachingService.setOrganization(this.configurations.organization);
             }
             if (this.selectExtendedHierarchy) {
                 this.store$.dispatch(new SetExtendedHierarchyDetailsAction(this.configurations.extendedHierarchy));
-                this.cachingService.setExtendedHierarchy(this.configurations.extendedHierarchy);
             }
             if (this.selectProjects) {
-                this.store$.dispatch(new LoadProjectsAction(this.configurations.projects));
-                this.cachingService.setProjects(this.configurations.projects);
+                this.store$.dispatch(new SetProjectsAction(this.configurations.projects));
             }
 
             this.messageService.add({

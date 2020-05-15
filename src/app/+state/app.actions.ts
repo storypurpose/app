@@ -2,6 +2,9 @@ import { Action } from '@ngrx/store';
 import { type } from 'src/app/lib/utils';
 
 export const ActionTypes = {
+    BootstrapApp: type("[BootstrapApp]"),
+    BootstrapAppSuccess: type("[BootstrapApp] Success"),
+
     ToggleQueryEditorVisibility: type("[ToggleQueryEditorVisibility]"),
 
     ShowConnectionEditor: type("[ShowConnectionDetails]"),
@@ -11,18 +14,29 @@ export const ActionTypes = {
     EpicChildrenLoaded: type('[EpicChildrenLoaded]'),
 
     SetMode: type("[SetMode]"),
+    SetModeSuccess: type("[SetMode] Success"),
+
     SetConnectionDetails: type("[SetConnectionDetails]"),
-    ConnectionDetailsVerified: type('[ConnectionDetailsVerified]'),
+    SetConnectionDetailsSuccess: type("[SetConnectionDetails] Success"),
+
+    VerifyConnectionDetails: type('[VerifyConnectionDetails] '),
+    VerifyConnectionDetailsFailed: type('[VerifyConnectionDetails] Failed'),
+    VerifyConnectionDetailsSuccess: type('[VerifyConnectionDetails] Success'),
 
     SetOrganization: type("[SetOrganization]"),
-    SetExtendedHierarchyDetails: type("SetExtendedHierarchyDetails"),
+    SetOrganizationSuccess: type("[SetOrganization] Success"),
+
+    SetExtendedHierarchyDetails: type("[SetExtendedHierarchyDetails]"),
+    SetExtendedHierarchyDetailsSuccess: type("[SetExtendedHierarchyDetails] Success"),
+
+    SetProjects: type("[SetProjects]"),
+    SetProjectsSuccess: type("[SetProjects] Success"),
 
     ConfigureProject: type('[ConfigureProject]'),
-    LoadProjects: type("[LoadProjects]"),
     SetCurrentProject: type("[SetCurrentProject]"),
-    
+
     UpsertProjectBegin: type("[UpsertProject] Begin"),
-    
+
     UpsertProject: type("[UpsertProject]"),
     UpsertProjectSuccess: type("[UpsertProject] Success"),
 
@@ -34,6 +48,10 @@ export const ModeTypes = {
     Online: "online"
 }
 
+export class BootstrapAppAction implements Action {
+    type = ActionTypes.BootstrapApp;
+    constructor(public payload: any) { }
+}
 export class ToggleQueryEditorVisibilityAction implements Action {
     type = ActionTypes.ToggleQueryEditorVisibility;
     constructor(public payload: any) { }
@@ -64,8 +82,12 @@ export class SetModeAction implements Action {
     type = ActionTypes.SetMode;
     constructor(public payload: any) { }
 }
+export class VerifyConnectionDetailsAction implements Action {
+    type = ActionTypes.VerifyConnectionDetails;
+    constructor(public payload: any) { }
+}
 export class ConnectionDetailsVerifiedAction implements Action {
-    type = ActionTypes.ConnectionDetailsVerified;
+    type = ActionTypes.VerifyConnectionDetailsSuccess;
     constructor(public payload: any) { }
 }
 export class SetConnectionDetailsAction implements Action {
@@ -82,8 +104,8 @@ export class SetExtendedHierarchyDetailsAction implements Action {
     constructor(public payload: any) { }
 }
 
-export class LoadProjectsAction implements Action {
-    type = ActionTypes.LoadProjects;
+export class SetProjectsAction implements Action {
+    type = ActionTypes.SetProjects;
     constructor(public payload: any) { }
 }
 export class SetCurrentProjectAction implements Action {
@@ -104,7 +126,8 @@ export class DismissProjectSetupAction implements Action {
 }
 
 export type Actions =
-    ToggleQueryEditorVisibilityAction
+    BootstrapAppAction
+    | ToggleQueryEditorVisibilityAction
 
     | ShowConnectionEditorAction
     | ConfigureProjectAction
@@ -116,6 +139,7 @@ export type Actions =
     | SetModeAction
 
     | SetConnectionDetailsAction
+    | VerifyConnectionDetailsAction
     | ConnectionDetailsVerifiedAction
 
     | SetOrganizationAction
@@ -124,6 +148,6 @@ export type Actions =
     | SetCurrentProjectAction
     | UpsertProjectAction
     | UpsertProjectBeginAction
-    | LoadProjectsAction
+    | SetProjectsAction
     | DismissProjectSetupAction
     ;

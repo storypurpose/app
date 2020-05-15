@@ -1,5 +1,3 @@
-import { Issue } from '../issue/+state/issue.state';
-
 export interface App {
   queryEditorVisible: boolean;
 
@@ -24,5 +22,5 @@ export interface App {
 
 export interface AppState {
   readonly app: App;
-  readonly issue: Issue;
+  readonly issue: any;
 }

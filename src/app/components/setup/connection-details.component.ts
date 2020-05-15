@@ -1,13 +1,11 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { JiraService, AuthenticationModeTypes } from '../../lib/jira.service';
+import { AuthenticationModeTypes } from '../../lib/jira.service';
 import * as _ from 'lodash';
-import { CachingService } from 'src/app/lib/caching.service';
 import { MessageService } from 'primeng/api';
 import { AppState } from 'src/app/+state/app.state';
 import { Store } from '@ngrx/store';
-import { SetConnectionDetailsAction, ConnectionDetailsVerifiedAction } from 'src/app/+state/app.actions';
-import { catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { VerifyConnectionDetailsAction } from 'src/app/+state/app.actions';
+import { filter } from 'rxjs/operators';
 
 @Component({
     selector: 'app-connection-details',
@@ -21,14 +19,22 @@ export class ConnectionDetailsComponent implements OnInit {
     testSuccessful = false;
     authMode = AuthenticationModeTypes;
 
-    constructor(public jiraService: JiraService,
-        public cachingService: CachingService,
-        public messageService: MessageService,
-        public store$: Store<AppState>) {
+    constructor(public store$: Store<AppState>, public messageService: MessageService) {
     }
 
     ngOnInit() {
         this.connectionDetails = this.connectionDetails || {};
+        this.store$.select(p => p.app.connectionDetails).pipe(filter(p => p))
+            .subscribe(connectionDetails => {
+                if (connectionDetails.verified) {
+                    this.messageService.clear();
+                    this.messageService.add({ severity: "success", summary: "Success", detail: "Connection tested successfully", life: 5000, closable: true });
+                    this.testSuccessful = true;
+                    this.onClose(true);
+                } else if (connectionDetails.verified === false && connectionDetails.username) {
+                    this.messageService.add({ severity: 'error', summary: "Failed", detail: "Connection failed", life: 5000, closable: true });
+                }
+            })
     }
 
     canSave() {
@@ -45,31 +51,7 @@ export class ConnectionDetailsComponent implements OnInit {
     }
 
     testConnection() {
-        this.jiraService.testConnection(this.connectionDetails)
-            .pipe(catchError(err => {
-                this.connectionDetails.verified = false;
-                this.connectionDetails.password = null;
-                this.cachingService.setConnectionDetails(this.connectionDetails);
-                return of(null)
-            }))
-            .subscribe((result: any) => {
-                if (result) {
-                    this.connectionDetails.displayName = result.displayName;
-                    this.connectionDetails.verified = true;
-                    this.store$.dispatch(new ConnectionDetailsVerifiedAction(this.connectionDetails));
-                    this.cachingService.setConnectionDetails(this.connectionDetails);
-
-                    this.messageService.add({ severity: "success", summary: "Success", detail: "Connection tested successfully", life: 5000, closable: true });
-                    this.testSuccessful = true;
-
-                    this.onClose(true);
-                }
-            });
-        // this.messageService.add({ severity: 'error', summary: "Failed", detail: "Connection failed", life: 10000, closable: true });
-    }
-
-    onReset() {
-        this.cachingService.resetConnectionDetails();
-        this.onClose(true);
+        console.log(this.connectionDetails);
+        this.store$.dispatch(new VerifyConnectionDetailsAction(this.connectionDetails));
     }
 }

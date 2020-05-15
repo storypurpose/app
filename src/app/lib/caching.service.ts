@@ -17,13 +17,10 @@ const DataTypes = {
 export class CachingService {
 
     secretKey = "storepurpose";
-    encrypt(value: string): string {
-        return CryptoJS.AES.encrypt(value, this.secretKey).toString();
-    }
 
-    decrypt(textToDecrypt: string) {
-        return CryptoJS.AES.decrypt(textToDecrypt, this.secretKey).toString(CryptoJS.enc.Utf8);
-    }
+    encrypt = (value: string) => CryptoJS.AES.encrypt(value, this.secretKey).toString();
+
+    decrypt = (textToDecrypt) => CryptoJS.AES.decrypt(textToDecrypt, this.secretKey).toString(CryptoJS.enc.Utf8);
 
     //#region Connectiondetails
     getConnectionDetails() {
@@ -35,9 +32,9 @@ export class CachingService {
         }
         return connectionDetails;
     }
-    encodeCredentials(username, password): any {
-        return btoa(`${username}:${password}`)
-    }
+    // encodeCredentials(username, password): any {
+    //     return btoa(`${username}:${password}`)
+    // }
     setConnectionDetails(payload) {
         if (payload && payload.password && payload.password.length > 0) {
             payload.password = this.encrypt(payload.password);

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { CachingService } from './caching.service';
 import * as _ from "lodash";
 import { Store } from '@ngrx/store';
 import { AppState } from '../+state/app.state';
@@ -27,9 +26,7 @@ export class JiraService {
     httpOptions: any;
 
     staticFileLocation = './staticfiles';
-    constructor(private httpClient: HttpClient,
-        public cachingService: CachingService,
-        public store$: Store<AppState>) {
+    constructor(private httpClient: HttpClient, public store$: Store<AppState>) {
 
         store$.select(p => p.app.mode)
             .subscribe(mode => this.isOnlineMode = mode && mode === ModeTypes.Online);
@@ -42,11 +39,15 @@ export class JiraService {
                 this.httpOptions = {
                     headers: new HttpHeaders({
                         'Content-Type': 'application/json',
-                        'Authorization': `Basic ${this.cachingService.encodeCredentials(this.connectionDetails.username, this.connectionDetails.password)}`,
+                        'Authorization': `Basic ${this.encodeCredentials(this.connectionDetails.username, this.connectionDetails.password)}`,
                         'X-Atlassian-Token': 'no-check'
                     })
                 };
             })
+    }
+
+    encodeCredentials(username: string, password: string): any {
+        return btoa(`${username}:${password}`)
     }
 
     testConnection(connectionDetails) {
@@ -54,7 +55,7 @@ export class JiraService {
             {
                 headers: new HttpHeaders({
                     'Content-Type': 'application/json',
-                    'Authorization': `Basic ${this.cachingService.encodeCredentials(connectionDetails.username, connectionDetails.password)}`,
+                    'Authorization': `Basic ${this.encodeCredentials(connectionDetails.username, connectionDetails.password)}`,
                     'X-Atlassian-Token': 'no-check'
                 })
             });

@@ -4,11 +4,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { JiraService } from '../../lib/jira.service';
 import { LoadSearchResultsAction, SearchresultViewMode } from '../+state/search.actions';
-import { populateFieldValuesCompact, CustomNodeTypes } from '../../lib/jira-tree-utils';
+import { CustomNodeTypes } from '../../lib/jira-tree-utils';
 import { ToggleQueryEditorVisibilityAction } from 'src/app/+state/app.actions';
-import { AppState } from 'src/app/+state/app.state';
 import { SearchState } from '../+state/search.state';
 
 @Component({
@@ -31,7 +29,6 @@ export class SearchResultContainerComponent implements OnInit, OnDestroy {
 
     constructor(public router: Router,
         public activatedRoute: ActivatedRoute,
-        public jiraService: JiraService,
         public store$: Store<SearchState>) {
     }
 

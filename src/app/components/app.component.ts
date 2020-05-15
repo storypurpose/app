@@ -1,17 +1,13 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import * as _ from 'lodash';
 import { Router, NavigationEnd } from '@angular/router';
-import { CachingService } from '../lib/caching.service';
 import { Subscription } from 'rxjs';
 import { DomSanitizer, Title } from '@angular/platform-browser';
 
 import { environment } from '../../environments/environment';
 import { AppState } from '../+state/app.state';
 import { Store } from '@ngrx/store';
-import {
-  SetModeAction, ModeTypes, ShowConnectionEditorAction,
-  SetConnectionDetailsAction, LoadProjectsAction, SetOrganizationAction, SetExtendedHierarchyDetailsAction, ToggleQueryEditorVisibilityAction
-} from '../+state/app.actions';
+import { SetModeAction, ModeTypes, ShowConnectionEditorAction, BootstrapAppAction } from '../+state/app.actions';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { GapiSession } from '../googledrive/gapi.session';
 
@@ -50,7 +46,6 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(public router: Router,
     public titleService: Title,
     public sanitizer: DomSanitizer,
-    public cachingService: CachingService,
     public store$: Store<AppState>,
     public gapiSession: GapiSession
   ) {
@@ -81,11 +76,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.connectionDetails$ = this.store$.select(p => p.app.connectionDetails)
       .subscribe(p => this.connectionDetails = p);
 
-    this.initiatizeConnectionDetailsState(this.cachingService.getConnectionDetails());
-    this.initiatizeModeState(this.cachingService.getMode());
-    this.initiatizeProjectState(this.cachingService.getProjects());
-    this.initiatizeOrganizationState(this.cachingService.getOrganization());
-    this.initiatizeExtendedHierarchyState(this.cachingService.getExtendedHierarchy());
+    this.store$.dispatch(new BootstrapAppAction(null));
   }
 
   ngOnDestroy() {
@@ -104,36 +95,11 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   onModeChanged(isOnlineMode) {
-    this.initiatizeModeState(isOnlineMode ? ModeTypes.Online : ModeTypes.Offline);
+    this.store$.dispatch(new SetModeAction(isOnlineMode ? ModeTypes.Online : ModeTypes.Offline));
     window.location.reload();
   }
 
-  initiatizeModeState(mode) {
-    this.cachingService.setMode(mode);
-    this.store$.dispatch(new SetModeAction(mode));
-  }
-  initiatizeConnectionDetailsState(details) {
-    if (details) {
-      this.store$.dispatch(new SetConnectionDetailsAction(details));
-      this.cachingService.setConnectionDetails(_.clone(details));
-    }
-  }
 
-  initiatizeProjectState(projects) {
-    if (projects && projects.length > 0) {
-      this.store$.dispatch(new LoadProjectsAction(projects));
-    }
-  }
-  initiatizeOrganizationState(organization) {
-    if (organization) {
-      this.store$.dispatch(new SetOrganizationAction(organization));
-    }
-  }
-  initiatizeExtendedHierarchyState(extendedHierarchy) {
-    if (extendedHierarchy) {
-      this.store$.dispatch(new SetExtendedHierarchyDetailsAction(extendedHierarchy));
-    }
-  }
   signIn() {
     this.gapiSession.signIn()
       .then(() => {

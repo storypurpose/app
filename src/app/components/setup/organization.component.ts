@@ -16,8 +16,7 @@ export class OrganizationComponent implements OnInit, OnDestroy {
     organization: any;
     organization$: Subscription;
 
-    constructor(public jiraService: JiraService, 
-        public cachingService: CachingService,
+    constructor(public cachingService: CachingService,
         public store$: Store<AppState>) {
     }
 

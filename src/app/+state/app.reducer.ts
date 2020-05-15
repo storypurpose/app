@@ -4,10 +4,20 @@ import { ActionTypes } from './app.actions';
 
 export function appReducer(state: App, action: any): App {
     switch (action.type) {
+        case ActionTypes.BootstrapAppSuccess: {
+            const payload = action.payload;
+            return {
+                ...state, connectionDetails: payload.connectionDetails || {},
+                projects: payload.projects,
+                organization: payload.organization || {},
+                extendedHierarchy: payload.extendedHierarchy,
+                mode: payload.mode
+            };
+        }
         case ActionTypes.ToggleQueryEditorVisibility: {
             return { ...state, queryEditorVisible: action.payload };
         }
-        case ActionTypes.SetMode: {
+        case ActionTypes.SetModeSuccess: {
             return { ...state, mode: action.payload };
         }
 
@@ -44,19 +54,19 @@ export function appReducer(state: App, action: any): App {
             return { ...state, extendedHierarchy: action.payload };
         }
 
-        case ActionTypes.ConnectionDetailsVerified: {
+        case ActionTypes.VerifyConnectionDetailsSuccess: {
             return {
                 ...state, connectionDetails: {
                     ...state.connectionDetails,
                     serverUrl: action.payload.serverUrl,
-                    username: action.payload.username,
-                    password: action.payload.password,
-                    verified: true
+                    username: action.payload.verified ? action.payload.username : null,
+                    password: action.payload.verified ? action.payload.password : null,
+                    verified: action.payload.verified
                 }
             };
         }
 
-        case ActionTypes.LoadProjects: {
+        case ActionTypes.SetProjects: {
             return { ...state, projects: action.payload };
         }
 
@@ -87,13 +97,5 @@ export function appReducer(state: App, action: any): App {
         }
 
         default: return state;
-    }
-
-    // --------------------------------------------------------------------------
-
-    function getIssueTypes(list, isSubTask): any {
-        return _.map(_.filter(list, { subtask: isSubTask }), (it) => {
-            return { name: it.name, list: [] }
-        });
     }
 }

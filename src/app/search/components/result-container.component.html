@@ -1,12 +1,13 @@
 <div class="main-container">
     <as-split direction="horizontal">
-        <as-split-area size="15" class="small pt-2 pl-3">
-            <!-- <ul ngbNav #nav="ngbNav" class="nav-tabs" [(activeId)]="selectedTab" [destroyOnHide]="false">
+        <as-split-area [size]="columns[0].size" class="small pt-2 pl-3">
+            <div *ngIf="leftPaneSize > 0">
+                <!-- <ul ngbNav #nav="ngbNav" class="nav-tabs" [(activeId)]="selectedTab" [destroyOnHide]="false">
                 <li [ngbNavItem]="1">
                     <a ngbNavLink>Favourite</a>
                     <ng-template ngbNavContent> -->
-            <app-favourite-searches></app-favourite-searches>
-            <!-- </ng-template>
+                <app-favourite-searches></app-favourite-searches>
+                <!-- </ng-template>
                 </li>
                 <li [ngbNavItem]="2">
                     <a ngbNavLink>All</a>
@@ -15,11 +16,19 @@
                     </ng-template>
                 </li>
             </ul> -->
+            </div>
         </as-split-area>
 
-        <as-split-area size="85">
+        <as-split-area [size]="columns[1].size">
             <div class="body-container">
                 <div class="container-fluid">
+                    <button class="btn btn-link text-muted float-left pl-0" title="expand/collapse pane"
+                        (click)="toggleFullscreen()">
+                        <fa-icon [icon]="columns[0].size === 0 ? 'angle-double-right' : 'angle-double-left'"
+                            [fixedWidth]="true"></fa-icon>
+                    </button>
+
+
                     <router-outlet></router-outlet>
                     <div class="center-text custom-shadow alert-warning p-4" *ngIf="issuelist && issuelist.total === 0">
                         No Records found.

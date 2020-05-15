@@ -5,7 +5,8 @@
                 *ngIf="(storyboardItem.epicChildren && storyboardItem.epicChildren.length > 0) || (storyboardItem.relatedLinks && storyboardItem.relatedLinks.length > 0)">
                 <div *ngIf="storyboardItem.epicChildren && storyboardItem.epicChildren.length > 0">
                     <input type="checkbox" [(ngModel)]="includeEpicChildren" (change)="plotIssuesOnStoryboard()">
-                    <b class="badge badge-success ml-1">{{storyboardItem.epicChildren.length}}</b> issues in this epic
+                    <b class="badge badge-success ml-1">{{storyboardItem.epicChildren.length}}</b> issues in this
+                    epic
                 </div>
                 <div *ngIf="storyboardItem.relatedLinks && storyboardItem.relatedLinks.length > 0">
                     <input type="checkbox" [(ngModel)]="includeRelatedIssues" (change)="plotIssuesOnStoryboard()">
@@ -50,5 +51,4 @@
             [componentStats]="storyboardItem.statistics.components">
         </app-statistics>
     </p-dialog>
-
 </div>

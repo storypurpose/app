@@ -14,7 +14,11 @@ export function searchReducer(state: Search, action: any): Search {
             return { ...state, issuelist: action.payload };
         }
 
-        case ActionTypes.SetSavedSearchlist: {
+        case ActionTypes.LoadSavedSearchlist: {
+            return { ...state, savedSearchlist: [] };
+        }
+
+        case ActionTypes.LoadSavedSearchlistSuccess: {
             return { ...state, savedSearchlist: action.payload };
         }
 

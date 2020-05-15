@@ -1,45 +1,42 @@
-<div class="pt-0 pr-3 pb-2 pl-3">
+<div class="container-fluid">
     <div class="pb-3" *ngIf="selectedIssue">
-        <div class="">
-            <div>
-                <div class="float-right small mt-1"
-                    *ngIf="selectedIssue.fixVersions && selectedIssue.fixVersions.length > 0">
-                    <span class="small text-muted">FIX VERSION: </span>
-                    <span class="badge badge-light ml-1" *ngFor="let fv of selectedIssue.fixVersions">{{fv}}</span>
-                </div>
-                <sub class="text-uppercase mr-2">
-                    {{selectedIssue.issueType}}: {{selectedIssue.key}}
-                </sub>
-
-                <app-issue-navigation-menu icon="ellipsis-h" placement="bottom-left" [issueKey]="selectedIssue.key">
-                </app-issue-navigation-menu>
+        <div>
+            <div class="float-right small mt-1"
+                *ngIf="selectedIssue.fixVersions && selectedIssue.fixVersions.length > 0">
+                <span class="small text-muted">FIX VERSION: </span>
+                <span class="badge badge-light ml-1" *ngFor="let fv of selectedIssue.fixVersions">{{fv}}</span>
             </div>
-            <h2 class="font-weight-light">
-                {{selectedIssue.title}}
-                <sup class="badge badge-light text-uppercase text-muted" style="font-size: small;">
-                    {{selectedIssue.status}}
-                </sup>
-            </h2>
+            <sub class="text-uppercase mr-2">
+                {{selectedIssue.issueType}}: {{selectedIssue.key}}
+            </sub>
 
-            <div class="pb-0">
-                <a class="btn btn-default btn-sm mr-1" [routerLink]="['details']" title="View purpose"
-                    [routerLinkActive]="'active'">
-                    <fa-icon icon="fire" size="sm" class="text-brand"></fa-icon> Purpose
-                </a>
+            <app-issue-navigation-menu icon="ellipsis-h" placement="bottom-left" [issueKey]="selectedIssue.key">
+            </app-issue-navigation-menu>
+        </div>
+        <h2 class="font-weight-light">
+            {{selectedIssue.title}}
+            <sup class="badge badge-light text-uppercase text-muted" style="font-size: small;">
+                {{selectedIssue.status}}
+            </sup>
+        </h2>
 
-                <a class="btn btn-default btn-sm mr-1" routerLink="workbench" [routerLinkActive]="'active'">
-                    <fa-icon [icon]="['far','window-restore']" size="sm"></fa-icon> Workbench
-                </a>
+        <div class="pb-0">
+            <a class="btn btn-default btn-sm mr-1" [routerLink]="['details']" title="View purpose"
+                [routerLinkActive]="'active'">
+                <fa-icon icon="fire" size="sm" class="text-brand"></fa-icon> Purpose
+            </a>
 
-                <a class="btn btn-default btn-sm mr-1" routerLink="storyboard" [routerLinkActive]="'active'"
-                    *ngIf="canNavigateToStoryboard()">
-                    <fa-icon icon="map" size="sm"></fa-icon> Storyboard
-                </a>
-            </div>
+            <a class="btn btn-default btn-sm mr-1" routerLink="workbench" [routerLinkActive]="'active'">
+                <fa-icon [icon]="['far','window-restore']" size="sm"></fa-icon> Workbench
+            </a>
+
+            <a class="btn btn-default btn-sm mr-1" routerLink="storyboard" [routerLinkActive]="'active'"
+                *ngIf="canNavigateToStoryboard()">
+                <fa-icon icon="map" size="sm"></fa-icon> Storyboard
+            </a>
         </div>
     </div>
     <!-- <pre>{{selectedIssue | json}}</pre> -->
-
     <div>
         <router-outlet></router-outlet>
     </div>

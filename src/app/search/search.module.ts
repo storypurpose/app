@@ -22,6 +22,8 @@ import { AngularSplitModule } from 'angular-split';
 import { SavedSearchesComponent } from './components/saved-searches.component';
 import { FavouriteSearchesComponent } from './components/favourite-searches.component';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { EffectsModule } from '@ngrx/effects';
+import { SearchEffects } from './+state/search.effects';
 
 const routes: Route[] = [
   {
@@ -56,6 +58,7 @@ const routes: Route[] = [
     CommonComponentsModule,
 
     StoreModule.forFeature("search", searchReducer, { initialState: searchInitialState }),
+    EffectsModule.forFeature([SearchEffects]),
 
     RouterModule.forChild(routes)
   ]

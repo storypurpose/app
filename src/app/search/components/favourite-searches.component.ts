@@ -6,14 +6,14 @@ import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { JiraService } from '../../lib/jira.service';
 import { AppState } from 'src/app/+state/app.state';
-import { SetSavedSearchlistAction } from '../+state/search.actions';
+import { LoadSavedSearchlistAction } from '../+state/search.actions';
 import { SearchState } from '../+state/search.state';
 
 @Component({
     selector: 'app-favourite-searches',
     templateUrl: './favourite-searches.component.html'
 })
-export class FavouriteSearchesComponent implements OnInit, OnDestroy {    
+export class FavouriteSearchesComponent implements OnInit, OnDestroy {
     searchlist: any;
     searchlist$: Subscription;
 
@@ -26,12 +26,13 @@ export class FavouriteSearchesComponent implements OnInit, OnDestroy {
         this.searchlist$ = this.store$.select(p => p.search.savedSearchlist).pipe(filter(p => p))
             .subscribe(list => this.searchlist = list);
 
-        this.jiraService.favouriteSearches('favourite-search.json')
-            .pipe(
-                filter((list: any) => list && list.length > 0),
-                map(list => _.map(list, item => _.pick(item, ['id', 'name', 'jql'])))
-            )
-            .subscribe(list => this.store$.dispatch(new SetSavedSearchlistAction(list)));
+        this.store$.dispatch(new LoadSavedSearchlistAction(null));
+        // this.jiraService.favouriteSearches('favourite-search.json')
+        //     .pipe(
+        //         filter((list: any) => list && list.length > 0),
+        //         map(list => _.map(list, item => _.pick(item, ['id', 'name', 'jql'])))
+        //     )
+        //     .subscribe(list => this.store$.dispatch(new LoadSavedSearchlistAction(list)));
     }
     ngOnDestroy(): void {
         this.searchlist$ ? this.searchlist$.unsubscribe : null;

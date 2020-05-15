@@ -94,4 +94,21 @@ export class SearchResultContainerComponent implements OnInit, OnDestroy {
     onPageChange() {
         this.executeQuery();
     }
+
+    //#region toggle fullscreen
+    leftPaneSize = 20;
+    public columns: any = [{ visible: true, size: 20 }, { visible: true, size: 80 }];
+    dragEnd(e: { gutterNum: number; sizes: Array<number> }) {
+        this.adjustPaneSize(e.sizes[0]);
+    }
+    public adjustPaneSize(sizeOfLeftPane) {
+        this.leftPaneSize = sizeOfLeftPane;
+        this.columns[0].size = sizeOfLeftPane;
+        this.columns[1].size = 100 - sizeOfLeftPane;
+    }
+    toggleFullscreen() {
+        this.adjustPaneSize(this.leftPaneSize === 0 ? 20 : 0);
+    }
+    //#endregion
+
 }

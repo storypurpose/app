@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { JiraService } from '../../lib/jira.service';
 import { AppState } from 'src/app/+state/app.state';
-import { SetSavedSearchlistAction } from '../+state/search.actions';
+import { LoadSavedSearchlistAction } from '../+state/search.actions';
 import { SearchState } from '../+state/search.state';
 
 @Component({
@@ -31,7 +31,7 @@ export class SavedSearchesComponent implements OnInit, OnDestroy {
                 filter((list: any) => list && list.length > 0),
                 map(list => _.map(list, item => _.pick(item, ['id', 'name', 'jql'])))
             )
-            .subscribe(list => this.store$.dispatch(new SetSavedSearchlistAction(list)));
+            .subscribe(list => this.store$.dispatch(new LoadSavedSearchlistAction(list)));
     }
     ngOnDestroy(): void {
         this.searchlist$ ? this.searchlist$.unsubscribe : null;

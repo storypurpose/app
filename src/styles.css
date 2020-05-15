@@ -35,9 +35,9 @@ h5 {
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
-  /* border-top: 1px solid #eee;
+  border-top: 1px solid #eee;
   border-left: 1px solid #eee;
-  background-color: #fafafa; */
+  background-color: #fafafa;
 }
 
 label {
@@ -387,6 +387,10 @@ ngx-md h3,
   height: 24pt;
   padding: 12pt;
   margin: 0 8pt 8pt 0;
+}
+
+.body-container .zoom-slider {
+  bottom: 32pt !important;
 }
 
 body .ui-multiselect,

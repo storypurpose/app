@@ -10,7 +10,9 @@ export const ActionTypes = {
     SetQueryContext: type('[SetQueryContext]'),
     SetIssuelist: type("[SetIssuelist]"),
 
-    SetSavedSearchlist: type("[SetSavedSearchlist]")
+    LoadSavedSearchlist: type("[LoadSavedSearchlist]"),
+    LoadSavedSearchlistFailed: type("[LoadSavedSearchlist] Failed"),
+    LoadSavedSearchlistSuccess: type("[LoadSavedSearchlist] Success")
 
 }
 
@@ -27,8 +29,8 @@ export class SetIssuelistAction implements Action {
     constructor(public payload: any) { }
 }
 
-export class SetSavedSearchlistAction implements Action {
-    type = ActionTypes.SetSavedSearchlist;
+export class LoadSavedSearchlistAction implements Action {
+    type = ActionTypes.LoadSavedSearchlist;
     constructor(public payload: any) { }
 }
 
@@ -36,5 +38,5 @@ export type Actions =
     SwitchSearchresultViewmodeAction
     | SetQueryContextAction
     | SetIssuelistAction
-    | SetSavedSearchlistAction
+    | LoadSavedSearchlistAction
     ;

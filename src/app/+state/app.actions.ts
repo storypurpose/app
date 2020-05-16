@@ -5,13 +5,13 @@ export const ActionTypes = {
     BootstrapApp: type("[BootstrapApp]"),
     BootstrapAppSuccess: type("[BootstrapApp] Success"),
 
+    SetReturnUrl: type("[SetReturnUrl]"),
+    VerifyCurrentSession: type("[VerifyCurrentSession]"),
+    VerifyCurrentSessionComplete: type("[VerifyCurrentSession] Success"),
+
     ToggleQueryEditorVisibility: type("[ToggleQueryEditorVisibility]"),
 
     ShowConnectionEditor: type("[ShowConnectionDetails]"),
-
-    SetCurrentIssueKeyObsolete: type("[SetCurrentIssueKeyObsolete]"),
-    SetHierarchicalIssue: type("[SetHierarchicalIssue]"),
-    EpicChildrenLoaded: type('[EpicChildrenLoaded]'),
 
     SetMode: type("[SetMode]"),
     SetModeSuccess: type("[SetMode] Success"),
@@ -21,7 +21,7 @@ export const ActionTypes = {
 
     VerifyConnectionDetails: type('[VerifyConnectionDetails] '),
     VerifyConnectionDetailsFailed: type('[VerifyConnectionDetails] Failed'),
-    VerifyConnectionDetailsSuccess: type('[VerifyConnectionDetails] Success'),
+    VerifyConnectionDetailsComplete: type('[VerifyConnectionDetails] Success'),
 
     SetOrganization: type("[SetOrganization]"),
     SetOrganizationSuccess: type("[SetOrganization] Success"),
@@ -52,6 +52,16 @@ export class BootstrapAppAction implements Action {
     type = ActionTypes.BootstrapApp;
     constructor(public payload: any) { }
 }
+
+export class SetReturnUrlAction implements Action {
+    type = ActionTypes.SetReturnUrl;
+    constructor(public payload: any) { }
+}
+export class VerifyCurrentSessionAction implements Action {
+    type = ActionTypes.VerifyCurrentSession;
+    constructor(public payload: any) { }
+}
+
 export class ToggleQueryEditorVisibilityAction implements Action {
     type = ActionTypes.ToggleQueryEditorVisibility;
     constructor(public payload: any) { }
@@ -65,18 +75,6 @@ export class ConfigureProjectAction implements Action {
     type = ActionTypes.ConfigureProject;
     constructor(public payload: any) { }
 }
-export class SetCurrentIssueKeyObsoleteAction implements Action {
-    type = ActionTypes.SetCurrentIssueKeyObsolete;
-    constructor(public payload: any) { }
-}
-export class SetHierarchicalIssueAction implements Action {
-    type = ActionTypes.SetHierarchicalIssue;
-    constructor(public payload: any) { }
-}
-export class EpicChildrenLoadedAction implements Action {
-    type = ActionTypes.EpicChildrenLoaded;
-    constructor(public payload: any) { }
-}
 
 export class SetModeAction implements Action {
     type = ActionTypes.SetMode;
@@ -84,10 +82,10 @@ export class SetModeAction implements Action {
 }
 export class VerifyConnectionDetailsAction implements Action {
     type = ActionTypes.VerifyConnectionDetails;
-    constructor(public payload: any) { }
+    constructor(public payload: any) { console.log(payload) }
 }
 export class ConnectionDetailsVerifiedAction implements Action {
-    type = ActionTypes.VerifyConnectionDetailsSuccess;
+    type = ActionTypes.VerifyConnectionDetailsComplete;
     constructor(public payload: any) { }
 }
 export class SetConnectionDetailsAction implements Action {
@@ -127,14 +125,11 @@ export class DismissProjectSetupAction implements Action {
 
 export type Actions =
     BootstrapAppAction
+    | SetReturnUrlAction
     | ToggleQueryEditorVisibilityAction
 
     | ShowConnectionEditorAction
     | ConfigureProjectAction
-
-    | SetCurrentIssueKeyObsoleteAction
-    | SetHierarchicalIssueAction
-    | EpicChildrenLoadedAction
 
     | SetModeAction
 

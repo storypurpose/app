@@ -1,4 +1,7 @@
 export interface App {
+  currentSessionVerified: boolean;
+  returnUrl: string;
+
   queryEditorVisible: boolean;
 
   mode: string;
@@ -7,8 +10,6 @@ export interface App {
   projectToConfigure: any;
 
   currentIssueKey: string;
-  hierarchicalIssue: any;
-  epicChildrenLoaded: boolean;
 
   connectionDetails: any;
 

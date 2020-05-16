@@ -1,40 +1,39 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Route, Router, RouterStateSnapshot } from '@angular/router';
-import { Observable, of } from 'rxjs';
-import { CachingService } from './caching.service';
-import { JiraService } from './jira.service';
-import { filter, map, catchError } from 'rxjs/operators';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
+import { Observable } from 'rxjs';
+import { filter, tap } from 'rxjs/operators';
+import { AppState } from '../+state/app.state';
+import { Store } from '@ngrx/store';
+import { VerifyCurrentSessionAction } from '../+state/app.actions';
+import { MessageService } from 'primeng/api';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticatedGuard implements CanActivate {
-    constructor(private cachingService: CachingService,
-        private jiraService: JiraService,
-        private router: Router) { }
+    connectionVerified = false;
+    connectionDetails$: Observable<any>;
+
+    constructor(private router: Router, private store$: Store<AppState>,
+        private messageService: MessageService) {
+        this.connectionDetails$ = this.store$.select(p => p.app.currentSessionVerified)
+            .pipe(filter(p => p !== null));
+
+        this.connectionDetails$.subscribe((isValid) => {
+            this.connectionVerified = isValid;
+            if (!isValid) {
+                this.router.navigate(['/setup']);
+            }
+        })
+    }
 
     canActivate = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean => {
-        return this.connectionValidated();
+        if (this.connectionVerified === true) {
+            return true;
+        }
+        this.store$.dispatch(new VerifyCurrentSessionAction(state.url));
+        return this.connectionDetails$;
     }
 
     canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
         return this.canActivate(route, state);
-    }
-
-    connectionValidated() {
-        const conn = this.cachingService.getConnectionDetails();
-        if (!conn || conn.verified) {
-            return true;
-        }
-        const testedOk$ = this.jiraService.testConnection(conn)
-            .pipe(catchError(err => {
-                conn.verified = false;
-                conn.password = null;
-                this.cachingService.setConnectionDetails(conn);
-                return of(null)
-            }))
-            .pipe(map(p => p !== null && p !== undefined));
-
-        testedOk$.subscribe(() => this.router.navigate(["/browse"]));
-        
-        return testedOk$;
     }
 }

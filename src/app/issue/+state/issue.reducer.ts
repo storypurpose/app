@@ -38,6 +38,11 @@ export function issueReducer(state: Issue, action: any): Issue {
                 }
             };
         }
+
+        case ActionTypes.SetHierarchicalIssue: {
+            return { ...state, hierarchicalIssue: action.payload };
+        }
+
         case ActionTypes.LoadProjectDetails: {
             return { ...state, primaryIssue: { ...state.primaryIssue, projectConfigLoading: true } };
         }

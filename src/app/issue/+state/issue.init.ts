@@ -7,6 +7,8 @@ export const issueInitialState: Issue = {
     selectedIssueKey: '',
     selectedIssue: null,
 
+    hierarchicalIssue: null,
+
     subtasks: null,
 
     purpose: [],

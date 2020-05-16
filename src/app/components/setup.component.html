@@ -2,7 +2,7 @@
     class="center-text custom-shadow p-3 bg-light">
     <div class="alert bg-white">
 
-        <div *ngIf="connectionDetails && !connectionDetails.verified">
+        <div *ngIf="connectionDetails && connectionDetails.serverUrl && !connectionDetails.verified">
             <div class="mb-2">
                 <fa-icon icon="exclamation-triangle" class="text-warning"></fa-icon>
                 Connection details are incomplete.
@@ -12,7 +12,7 @@
             </a>
         </div>
 
-        <div *ngIf="!connectionDetails">
+        <div *ngIf="!connectionDetails || !connectionDetails.serverUrl">
             <div class="mb-3 alert-warning p-2 rounded">
                 <fa-icon [icon]="['fab', 'jira']" class="text-primary"></fa-icon>
                 Please provide Jira connection details

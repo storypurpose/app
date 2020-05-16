@@ -28,7 +28,7 @@ export class PurposeDetailsComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
 
         const selectedIssueQuery$ = this.store$.select(p => p.issue.selectedIssue).pipe(filter(p => p));
-        const hierarchicalIssueQuery$ = this.store$.select(p => p.app.hierarchicalIssue).pipe(filter(issue => issue));
+        const hierarchicalIssueQuery$ = this.store$.select(p => p.issue.hierarchicalIssue).pipe(filter(issue => issue));
 
         this.combined$ = combineLatest(selectedIssueQuery$, hierarchicalIssueQuery$)
             .subscribe(([selectedIssue, hierarchicalIssue]) => {

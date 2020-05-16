@@ -64,8 +64,7 @@ export class ImportConfigurationComponent {
                 detail: `Configurations loaded successfully. ${this.selectConnectionDetails ? 'Setup user credentials' : ''}`,
                 life: 5000, closable: true
             });
-
-            this.router.navigate(['browse']);
+            this.router.navigate(['/browse']);
         }
     }
 

@@ -14,6 +14,22 @@ export function appReducer(state: App, action: any): App {
                 mode: payload.mode
             };
         }
+
+        case ActionTypes.SetReturnUrl: {
+            return { ...state, returnUrl: action.payload };
+        }
+        case ActionTypes.VerifyCurrentSession: {
+            return { ...state, currentSessionVerified: null };
+        }
+        case ActionTypes.VerifyCurrentSessionComplete: {
+            return {
+                ...state, currentSessionVerified: action.payload.verified,
+                connectionDetails: !state.connectionDetails ? null : {
+                    ...state.connectionDetails, verified: action.payload.verified
+                }
+            };
+        }
+
         case ActionTypes.ToggleQueryEditorVisibility: {
             return { ...state, queryEditorVisible: action.payload };
         }
@@ -26,16 +42,6 @@ export function appReducer(state: App, action: any): App {
         }
         case ActionTypes.ConfigureProject: {
             return { ...state, projectConfigEditorVisible: action.payload ? true : false, projectToConfigure: action.payload };
-        }
-
-        case ActionTypes.SetCurrentIssueKeyObsolete: {
-            return { ...state, currentIssueKey: action.payload };
-        }
-        case ActionTypes.SetHierarchicalIssue: {
-            return { ...state, hierarchicalIssue: action.payload };
-        }
-        case ActionTypes.EpicChildrenLoaded: {
-            return { ...state, epicChildrenLoaded: action.payload };
         }
 
         case ActionTypes.SetConnectionDetails: {
@@ -54,13 +60,13 @@ export function appReducer(state: App, action: any): App {
             return { ...state, extendedHierarchy: action.payload };
         }
 
-        case ActionTypes.VerifyConnectionDetailsSuccess: {
+        case ActionTypes.VerifyConnectionDetailsComplete: {
             return {
                 ...state, connectionDetails: {
                     ...state.connectionDetails,
                     serverUrl: action.payload.serverUrl,
-                    username: action.payload.verified ? action.payload.username : null,
-                    password: action.payload.verified ? action.payload.password : null,
+                    username: action.payload.username,
+                    password: action.payload.password,
                     verified: action.payload.verified
                 }
             };

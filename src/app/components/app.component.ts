@@ -64,11 +64,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.titleService.setTitle(environment.appTitle);
 
-    this.menulist = [
-      { label: 'Setup connection', icon: 'pi pi-cog', command: () => this.showConnectionEditor = true },
-      { label: 'Custom fields', icon: 'pi pi-sliders-h', command: () => this.showCustomFieldSetup = true },
-    ];
-
     this.connectionEditorVisible$ = this.store$.select(p => p.app.connectionEditorVisible)
       .subscribe(show => this.showConnectionEditor = show);
     this.mode$ = this.store$.select(p => p.app.mode)
@@ -86,19 +81,14 @@ export class AppComponent implements OnInit, OnDestroy {
     this.connectionDetails$ ? this.connectionDetails$.unsubscribe() : null;
   }
 
-  navigateTo(issue) {
-    this.router.navigate([issue]);
-  }
+  navigateTo = (issue) => this.router.navigate([issue]);
 
-  connectionDetailsSetupCompleted() {
-    this.store$.dispatch(new ShowConnectionEditorAction(false));
-  }
+  connectionDetailsSetupCompleted = () => this.store$.dispatch(new ShowConnectionEditorAction(false));
 
   onModeChanged(isOnlineMode) {
     this.store$.dispatch(new SetModeAction(isOnlineMode ? ModeTypes.Online : ModeTypes.Offline));
     window.location.reload();
   }
-
 
   signIn() {
     this.gapiSession.signIn()

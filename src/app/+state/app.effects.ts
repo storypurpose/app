@@ -15,25 +15,15 @@ export class AppEffects {
     private cachingService: CachingService
   ) { }
 
+  @Effect() verifyCurrentSession = this.actions$.pipe(ofType(a.ActionTypes.VerifyCurrentSession),
+    switchMap((action: any) => {
+      const connectionDetails = this.cachingService.getConnectionDetails();
+      return this.testConnection$(connectionDetails, a.ActionTypes.VerifyCurrentSessionComplete);
+    })
+  );
+
   @Effect() verifyConnectionDetails = this.actions$.pipe(ofType(a.ActionTypes.VerifyConnectionDetails),
-    switchMap((action: any) =>
-      this.jiraService.testConnection(action.payload)
-        .pipe(
-          map((user: any) => {
-            const payload = action.payload;
-            payload.verified = true;
-            payload.displayName = user.displayName;
-            this.cachingService.setConnectionDetails(_.clone(payload));
-            return ({ type: a.ActionTypes.VerifyConnectionDetailsSuccess, payload });
-          }),
-          catchError(() => {
-            const payload = action.payload;
-            payload.verified = false;
-            payload.password = null;
-            return of({ type: a.ActionTypes.VerifyConnectionDetailsFailed, payload });
-          })
-        )
-    )
+    switchMap((action: any) => this.testConnection$(action.payload, a.ActionTypes.VerifyConnectionDetailsComplete))
   );
 
   @Effect() upsertProject = this.actions$.pipe(ofType(a.ActionTypes.UpsertProject),
@@ -102,4 +92,24 @@ export class AppEffects {
       return of({ type: a.ActionTypes.SetProjectsSuccess, payload })
     })
   );
+
+  private testConnection$(connectionDetails: any, type) {
+    if (!connectionDetails || !connectionDetails.serverUrl || connectionDetails.serverUrl.trim().length === 0) {
+      return of({ type, payload: { verified: false } });
+    }
+    const payload = connectionDetails;
+
+    return this.jiraService.testConnection(connectionDetails)
+      .pipe(map((user: any) => {
+        payload.verified = true;
+        payload.displayName = user.displayName;
+        this.cachingService.setConnectionDetails(_.clone(payload));
+        return ({ type, payload });
+      }), catchError(() => {
+        payload.verified = false;
+        payload.password = null;
+        this.cachingService.setConnectionDetails(_.clone(payload));
+        return of({ type, payload });
+      }));
+  }
 }

@@ -32,7 +32,7 @@ export class ConnectionDetailsComponent implements OnInit {
                     this.testSuccessful = true;
                     this.onClose(true);
                 } else if (connectionDetails.verified === false && connectionDetails.username) {
-                    this.messageService.add({ severity: 'error', summary: "Failed", detail: "Connection failed", life: 5000, closable: true });
+                    this.messageService.add({ severity: 'error', summary: "Failed", detail: "Failed to establish connection", life: 5000, closable: true });
                 }
             })
     }
@@ -51,7 +51,8 @@ export class ConnectionDetailsComponent implements OnInit {
     }
 
     testConnection() {
-        console.log(this.connectionDetails);
-        this.store$.dispatch(new VerifyConnectionDetailsAction(this.connectionDetails));
+        if (this.canSave()) {
+            this.store$.dispatch(new VerifyConnectionDetailsAction(this.connectionDetails));
+        }
     }
 }

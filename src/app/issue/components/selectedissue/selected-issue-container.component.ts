@@ -61,7 +61,7 @@ export class SelectedIssueContainerComponent implements OnInit, OnDestroy {
             });
 
         const primaryIssueQuery$ = this.store$.select(p => p.issue.primaryIssue).pipe(filter(p => p));
-        const hierarchicalIssueQuery$ = this.store$.select(p => p.app.hierarchicalIssue).pipe(filter(issue => issue));
+        const hierarchicalIssueQuery$ = this.store$.select(p => p.issue.hierarchicalIssue).pipe(filter(issue => issue));
         const paramsQuery$ = this.activatedRoute.params
             .pipe(filter(p => p && p["selected"] && p["selected"].length > 0), map(p => p["selected"]));
 

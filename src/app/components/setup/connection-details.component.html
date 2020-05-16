@@ -85,13 +85,13 @@
 
                 <input type="password" class="form-control form-control-sm" id="password" name="password"
                     placeholder="Password" [(ngModel)]="connectionDetails.password"
-                    (keydown.control.enter)="testConnection()">
+                    (keydown.enter)="testConnection()">
             </div>
         </div>
     </div>
 
     <div class="text-center">
-        <button class="btn btn-outline-primary btn-sm" [disabled]="!canSave()" (click)="testConnection()">
+        <button class="btn btn-primary btn-sm" [disabled]="!canSave()" (click)="testConnection()">
             <fa-icon icon="check-circle"></fa-icon> Verify &amp; Save
         </button>
     </div>

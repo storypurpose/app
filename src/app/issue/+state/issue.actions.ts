@@ -14,6 +14,8 @@ export const ActionTypes = {
     LoadPrimaryIssueRelatedLinksFailed: type("[LoadPrimaryIssueRelatedLinks] Failed"),
     LoadPrimaryIssueRelatedLinksSuccess: type("[LoadPrimaryIssueRelatedLinks] Success"),
 
+    SetHierarchicalIssue: type("[SetHierarchicalIssue]"),
+
     LoadSubtasks: type("[LoadSubtasks]"),
     LoadSubtasksFailed: type("[LoadSubtasks] Failed"),
     LoadSubtasksSuccess: type("[LoadSubtasks] Success"),
@@ -59,6 +61,11 @@ export class LoadPrimaryIssueEpicChildrenAction implements Action {
 }
 export class LoadPrimaryIssueRelatedLinksAction implements Action {
     type = ActionTypes.LoadPrimaryIssueRelatedLinks;
+    constructor(public payload: any) { }
+}
+
+export class SetHierarchicalIssueAction implements Action {
+    type = ActionTypes.SetHierarchicalIssue;
     constructor(public payload: any) { }
 }
 
@@ -124,6 +131,8 @@ export type Actions =
     | SetSelectedIssueAction
     | LoadSelectedIssueEpicChildrenAction
     | LoadSelectedIssueRelatedLinksAction
+
+    | SetHierarchicalIssueAction
 
     | SetPurposeAction
     | UpdateOrganizationPurposeAction

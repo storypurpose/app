@@ -7,16 +7,16 @@ import { Title } from '@angular/platform-browser';
 import { IssueState } from '../+state/issue.state';
 import {
     LoadPrimaryIssueAction, LoadPrimaryIssueEpicChildrenAction, LoadPrimaryIssueRelatedLinksAction,
-    LoadProjectDetailsAction, UpdateOrganizationTitleAction
+    LoadProjectDetailsAction, UpdateOrganizationTitleAction, SetHierarchicalIssueAction
 } from '../+state/issue.actions';
 import { environment } from 'src/environments/environment';
-import { filter, map, tap } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { Subscription, combineLatest } from 'rxjs';
 import {
     createEpicChildrenNode, buildIssueLinkGroups, createOrganizationNode, createProjectNode,
-    CustomNodeTypes, TreeTemplateTypes, isCustomNode, getExtendedFieldValue, getIcon, createHierarchyNode, convertToTree, addToLeafNode
+    CustomNodeTypes, TreeTemplateTypes, isCustomNode, createHierarchyNode, convertToTree, addToLeafNode
 } from 'src/app/lib/jira-tree-utils';
-import { UpsertProjectAction, SetHierarchicalIssueAction } from 'src/app/+state/app.actions';
+import { UpsertProjectAction } from 'src/app/+state/app.actions';
 import { getRoutelet } from 'src/app/lib/route-utils';
 
 @Component({
@@ -47,7 +47,7 @@ export class IssueContainerComponent implements OnInit, OnDestroy {
         public store$: Store<IssueState>) {
     }
     ngOnInit(): void {
-        
+
         this.reloadOnChange();
 
         const paramsQ = this.activatedRoute.params.pipe(filter(p => p && p["issue"] && p["issue"].length > 0), map(p => p["issue"]));

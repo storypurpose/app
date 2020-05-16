@@ -5,6 +5,8 @@ export interface Issue {
   selectedIssueKey: string;
   selectedIssue: any;
 
+  hierarchicalIssue: any;
+
   subtasks: any;
 
   purpose: any;

@@ -172,11 +172,11 @@ function populateProjectDetails(project) {
     currentProject.metadata = {};
     if (project.components) {
         currentProject.metadata.components =
-            _.sortBy(_.map(project.components, (ff) => _.pick(ff, ['id', 'name'])), ['name']);
+            _.sortBy(_.map(project.components, (ff) => _.pick(ff, ['id', 'name', 'description'])), ['name']);
     }
     if (project.versions) {
         currentProject.metadata.versions =
-            _.sortBy(_.map(project.versions, (ff) => _.pick(ff, ['archived', 'id', 'name', 'releaseDate'])), ['name']);
+            _.sortBy(_.map(project.versions, (ff) => _.pick(ff, ['archived', 'id', 'name', 'releaseDate', 'description'])), ['name']);
     }
 
     return currentProject;

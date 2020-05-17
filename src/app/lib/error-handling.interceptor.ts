@@ -23,6 +23,8 @@ export class ErrorHandlingInterceptor implements HttpInterceptor {
                                 severity: 'error', detail: 'Server not reachable.', life: 10000, closable: true,
                                 data: { shouldRetry: true }
                             });
+                        } else if (err.status === 400) {
+                            this.messageService.add({ severity: 'error', summary: 'Bad request', detail: "User entered values are incorrect", life: 5000, closable: true });
                         } else if (err.status === 401) {
                             this.messageService.add({ severity: 'error', summary: 'Access denied', detail: "Invalid credentials", life: 5000, closable: true });
                         } else if (err.status === 404) {

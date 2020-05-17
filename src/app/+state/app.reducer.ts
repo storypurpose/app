@@ -76,9 +76,6 @@ export function appReducer(state: App, action: any): App {
             return { ...state, projects: action.payload };
         }
 
-        case ActionTypes.SetCurrentProject: {
-            return { ...state, currentProject: action.payload };
-        }
         case ActionTypes.UpsertProjectBegin: {
             return { ...state, currentProjectUpdated: false };
         }

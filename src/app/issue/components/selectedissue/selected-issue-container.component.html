@@ -21,16 +21,16 @@
         </h2>
 
         <div class="pb-0">
-            <a class="btn btn-default btn-sm mr-1" [routerLink]="['details']" title="View purpose"
+            <a class="btn btn-default btn-sm mr-1 mb-1" [routerLink]="['details']" title="View purpose"
                 [routerLinkActive]="'active'">
                 <fa-icon icon="fire" size="sm" class="text-brand"></fa-icon> Purpose
             </a>
 
-            <a class="btn btn-default btn-sm mr-1" routerLink="workbench" [routerLinkActive]="'active'">
+            <a class="btn btn-default btn-sm mr-1 mb-1" routerLink="workbench" [routerLinkActive]="'active'">
                 <fa-icon [icon]="['far','window-restore']" size="sm"></fa-icon> Workbench
             </a>
 
-            <a class="btn btn-default btn-sm mr-1" routerLink="storyboard" [routerLinkActive]="'active'"
+            <a class="btn btn-default btn-sm mr-1 mb-1" routerLink="storyboard" [routerLinkActive]="'active'"
                 *ngIf="canNavigateToStoryboard()">
                 <fa-icon icon="map" size="sm"></fa-icon> Storyboard
             </a>

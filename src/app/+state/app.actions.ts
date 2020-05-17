@@ -33,7 +33,6 @@ export const ActionTypes = {
     SetProjectsSuccess: type("[SetProjects] Success"),
 
     ConfigureProject: type('[ConfigureProject]'),
-    SetCurrentProject: type("[SetCurrentProject]"),
 
     UpsertProjectBegin: type("[UpsertProject] Begin"),
 
@@ -82,7 +81,7 @@ export class SetModeAction implements Action {
 }
 export class VerifyConnectionDetailsAction implements Action {
     type = ActionTypes.VerifyConnectionDetails;
-    constructor(public payload: any) { console.log(payload) }
+    constructor(public payload: any) { }
 }
 export class ConnectionDetailsVerifiedAction implements Action {
     type = ActionTypes.VerifyConnectionDetailsComplete;
@@ -104,10 +103,6 @@ export class SetExtendedHierarchyDetailsAction implements Action {
 
 export class SetProjectsAction implements Action {
     type = ActionTypes.SetProjects;
-    constructor(public payload: any) { }
-}
-export class SetCurrentProjectAction implements Action {
-    type = ActionTypes.SetCurrentProject;
     constructor(public payload: any) { }
 }
 export class UpsertProjectBeginAction implements Action {
@@ -140,7 +135,6 @@ export type Actions =
     | SetOrganizationAction
     | SetExtendedHierarchyDetailsAction
 
-    | SetCurrentProjectAction
     | UpsertProjectAction
     | UpsertProjectBeginAction
     | SetProjectsAction

@@ -27,7 +27,7 @@ export class IssueEffects {
     );
     @Effect() loadPrimaryIssueEpicChildren = this.actions$.pipe(ofType(a.ActionTypes.LoadPrimaryIssueEpicChildren),
         switchMap((action: any) =>
-            this.jiraService.executeJql(`'epic Link'=${action.payload}`, 0, 100, detailFields, 'epic-children.json')
+            this.jiraService.executeJql(`('epic Link'=${action.payload} or parent=${action.payload})`, 0, 100, detailFields, 'epic-children.json')
                 .pipe(
                     map(result => ({ type: a.ActionTypes.LoadPrimaryIssueEpicChildrenSuccess, payload: result })),
                     catchError(() => of({ type: a.ActionTypes.LoadPrimaryIssueEpicChildrenFailed }))
@@ -55,7 +55,7 @@ export class IssueEffects {
     );
     @Effect() loadSelectedIssueEpicChildren = this.actions$.pipe(ofType(a.ActionTypes.LoadSelectedIssueEpicChildren),
         switchMap((action: any) =>
-            this.jiraService.executeJql(`'epic Link'=${action.payload}`, 0, 100, detailFields, 'epic-children.json')
+            this.jiraService.executeJql(`('epic Link'=${action.payload} or parent=${action.payload})`, 0, 100, detailFields, 'epic-children.json')
                 .pipe(
                     map(result => ({ type: a.ActionTypes.LoadSelectedIssueEpicChildrenSuccess, payload: result })),
                     catchError(() => of({ type: a.ActionTypes.LoadSelectedIssueEpicChildrenFailed }))

@@ -28,7 +28,7 @@ export class ConnectionDetailsComponent implements OnInit {
             .subscribe(connectionDetails => {
                 if (connectionDetails.verified) {
                     this.messageService.clear();
-                    this.messageService.add({ severity: "success", summary: "Success", detail: "Connection established successfully", life: 5000, closable: true });
+                    this.messageService.add({ severity: "success", summary: "Success", detail: "Jira Connection established successfully", life: 5000, closable: true });
                     this.testSuccessful = true;
                     this.onClose(true);
                 } else if (connectionDetails.verified === false && connectionDetails.username) {

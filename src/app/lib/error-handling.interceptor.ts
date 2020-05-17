@@ -26,9 +26,9 @@ export class ErrorHandlingInterceptor implements HttpInterceptor {
                         } else if (err.status === 400) {
                             this.messageService.add({ severity: 'error', summary: 'Bad request', detail: "User entered values are incorrect", life: 5000, closable: true });
                         } else if (err.status === 401) {
-                            this.messageService.add({ severity: 'error', summary: 'Access denied', detail: "Invalid credentials", life: 5000, closable: true });
+                            this.messageService.add({ severity: 'error', summary: 'Requires authorization', detail: "Enter valid credentials to access module", life: 5000, closable: true });
                         } else if (err.status === 404) {
-                            this.messageService.add({ severity: 'error', summary: 'Not found', detail: "Record does not exist", life: 5000, closable: true });
+                            this.messageService.add({ severity: 'error', summary: 'Not found', detail: "Jira issue does not exist", life: 5000, closable: true });
                         } else if (err.status >= 500) {
                             this.messageService.add({
                                 severity: 'error', summary: "Something's not right", detail: err.statusText, life: 5000, closable: true

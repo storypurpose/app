@@ -6,6 +6,7 @@ import * as CryptoJS from 'crypto-js';
 const DataTypes = {
     Mode: "Mode",
     ConnectionDetails: "ConnectionDetails",
+    Credentials: "Credentials",
     Organization: "Organization",
     // FieldMapping: "FieldMapping",
     Projects: "Projects",
@@ -24,25 +25,40 @@ export class CachingService {
 
     //#region Connectiondetails
     getConnectionDetails() {
+
+        const persistedCredentials = sessionStorage.getItem(DataTypes.Credentials);
+        const credentials = JSON.parse(persistedCredentials);
+
         const payload = localStorage.getItem(DataTypes.ConnectionDetails);
         const connectionDetails = JSON.parse(payload);
+        if(connectionDetails && credentials){
+            connectionDetails.username = credentials.username;
+            connectionDetails.password = credentials.password;
+        }
 
         if (connectionDetails && connectionDetails.password && connectionDetails.password.length > 0) {
             connectionDetails.password = this.decrypt(connectionDetails.password);
         }
         return connectionDetails;
     }
-    // encodeCredentials(username, password): any {
-    //     return btoa(`${username}:${password}`)
-    // }
+
     setConnectionDetails(payload) {
-        if (payload && payload.password && payload.password.length > 0) {
-            payload.password = this.encrypt(payload.password);
+        const credentials = _.pick(payload, ['username', 'password']);
+
+        if (credentials && credentials.password && credentials.password.length > 0) {
+            credentials.password = this.encrypt(credentials.password);
+            sessionStorage.setItem(DataTypes.Credentials, JSON.stringify(credentials))
+        }
+
+        if (payload) {
+            payload.username = undefined;
+            payload.password = undefined;
         }
         localStorage.setItem(DataTypes.ConnectionDetails, JSON.stringify(payload))
     }
     resetConnectionDetails() {
         localStorage.removeItem(DataTypes.ConnectionDetails);
+        sessionStorage.removeItem(DataTypes.Credentials);
     }
     //#endregion
 

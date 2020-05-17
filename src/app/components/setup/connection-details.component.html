@@ -84,8 +84,7 @@
                 </label>
 
                 <input type="password" class="form-control form-control-sm" id="password" name="password"
-                    placeholder="Password" [(ngModel)]="connectionDetails.password"
-                    (keydown.enter)="testConnection()">
+                    placeholder="Password" [(ngModel)]="connectionDetails.password" (keydown.enter)="testConnection()">
             </div>
         </div>
     </div>
@@ -98,23 +97,15 @@
 
 
 
-    <div class="mt-3 mb-5">
+    <div class="mt-3 mb-4">
         <i class="text-muted small">
-            <b>NOTE:</b>
-            <ul>
-                <li>
-                    The user credentials are only cached locally on your
-                    <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage">
-                        browser's localStorage <fa-icon class="ml-1" icon="external-link-alt"></fa-icon>
-                    </a>
-                </li>
-                <li>
-                    Credentials are not stored nor transmitted to any server.
-                </li>
-            </ul>
+            The user credentials are locally cached only for current session.
+            <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage">
+                learn more
+            </a>
         </i>
     </div>
 </div>
 
-<app-button-panel [showSave]="false" (close)="onClose(false)" >
+<app-button-panel [showSave]="false" (close)="onClose(false)">
 </app-button-panel>

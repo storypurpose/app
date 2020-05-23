@@ -1,0 +1,36 @@
+<div #content class="pl-3">
+    <p-treeTable *ngIf="roadmap && roadmap.metadata" [columns]="roadmap.metadata.timespan"
+        [frozenColumns]="roadmap.metadata.fixedColumns" [scrollable]="true" frozenWidth="300px"
+        [scrollHeight]="contentHeight + 'px'" [value]="roadmap.data" [resizableColumns]="true"
+        columnResizeMode="expand">
+        <ng-template pTemplate="colgroup" let-columns>
+            <colgroup>
+                <col *ngFor="let col of columns" style="width:100px">
+            </colgroup>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngFor="let col of columns">
+                    {{col.title}}
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="frozenbody" let-rowNode let-rowData="rowData">
+            <tr>
+                <td class="bg-light">
+                    <div style="white-space: nowrap;overflow:hidden; text-overflow: ellipsis;">
+                        <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+                        {{rowData.title}}
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData="rowData" let-columns="columns">
+            <tr>
+                <td *ngFor="let col of columns">
+                    {{col.idx}}
+                </td>
+            </tr>
+        </ng-template>
+    </p-treeTable>
+</div>

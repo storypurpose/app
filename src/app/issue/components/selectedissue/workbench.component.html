@@ -1,4 +1,4 @@
-<div #content [style.height.px]="contentHeight">
+<div #content class="pl-3" [style.height.px]="contentHeight">
     <as-split direction="horizontal" *ngIf="issue" (gutterDblClick)="toggleFullscreen()" (dragEnd)="dragEnd($event)">
         <as-split-area [size]="columns[0].size">
             <div class="mr-3 alert bg-light" style="overflow: auto;">

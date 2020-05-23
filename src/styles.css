@@ -403,3 +403,8 @@ body .ui-multiselect .ui-multiselect-trigger {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+body .ui-treetable .ui-treetable-thead > tr > th {
+  font-weight: normal;
+  border-width: 0;
+  padding: 1rem;
+}

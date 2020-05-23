@@ -21,7 +21,7 @@ export class JiraService {
     proxyurl = environment.proxyurl;
     baseUrl = "";
     restVersionEndpoint = "/rest/api/latest";
-    fieldList = ['project', 'reporter', 'assignee', 'status', 'summary', 'key', 'issuelinks', 'issuetype', 'parent', 'duedate'];
+    fieldList = ['project', 'reporter', 'assignee', 'status', 'summary', 'key', 'issuelinks', 'issuetype', 'parent', 'created', 'updated', 'duedate'];
     detailFields = ['description', 'components', 'labels', 'fixVersions'];
     httpOptions: any;
 

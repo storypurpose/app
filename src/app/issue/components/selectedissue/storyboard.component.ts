@@ -36,8 +36,6 @@ export class StoryboardComponent implements OnInit, OnDestroy {
             .pipe(filter(p => p))
             .subscribe(selectedIssue => {
                 this.storyboardItem = _.pick(selectedIssue, _.union(populatedFieldList, ['relatedLinks', 'epicChildren']));
-                this.storyboardItem.children = []
-                this.storyboardItem.metadata = initializeMetadata();
 
                 if (selectedIssue.issueType === CustomNodeTypes.Epic) {
                     this.includeEpicChildren = true;

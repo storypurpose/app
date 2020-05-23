@@ -14,12 +14,10 @@
             "subtask": false,
             "avatarId": 16827
         },
-        "customfield_12922": {
-            "self": "https://jira.mediaocean.com/rest/api/2/customFieldOption/31953",
-            "value": "GBP",
-            "id": "31953"
-        },
+        "components": [],
+        "created": "2019-10-09T21:02:11.000-0400",
         "description": "This is Epic to work on all tests that are not yet documented or documented incorrectly.\r\n\r\nExpected outcomes: \r\n Manual test cases created to cover Ignitia regression testing. \r\n All test cases must be reused as much as possible in future (existing test cases updated with new changes, not new test cases created for every story) \r\n Easy to find test cases for any functionality \r\n Easy knowledge transfer: Anyone can pick up and execute when needed\r\n More bugs uncovered: As some functionalities don’t have manual or automation coverage, there will be more bugs found.\r\n\r\nAll test cases must sit in respective test suites and confluence page updated with all of those suites: [https://confluence.mediaocean.com/display/GBP/Test+Suites+and+Test+Cases]\r\n\r\n \r\n\r\nTRACK - [https://jira.mediaocean.com/issues/?filter=75474]",
+        "customfield_15621": null,
         "project": {
             "self": "https://jira.mediaocean.com/rest/api/2/project/16293",
             "id": "16293",
@@ -38,7 +36,129 @@
                 "name": "Prisma"
             }
         },
+        "reporter": {
+            "self": "https://jira.mediaocean.com/rest/api/2/user?username=jsemeniuk",
+            "name": "jsemeniuk",
+            "key": "jsemeniuk",
+            "emailAddress": "jsemeniuk@mediaocean.com",
+            "avatarUrls": {
+                "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=jsemeniuk&avatarId=18025",
+                "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=jsemeniuk&avatarId=18025",
+                "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=jsemeniuk&avatarId=18025",
+                "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=jsemeniuk&avatarId=18025"
+            },
+            "displayName": "Julie Semeniuk",
+            "active": false,
+            "timeZone": "America/New_York"
+        },
+        "fixVersions": [
+            {
+                "self": "https://jira.mediaocean.com/rest/api/2/version/37066",
+                "id": "37066",
+                "description": "",
+                "name": "Backlog",
+                "archived": false,
+                "released": false
+            }
+        ],
+        "labels": [],
+        "duedate": null,
         "issuelinks": [
+            {
+                "id": "995943",
+                "self": "https://jira.mediaocean.com/rest/api/2/issueLink/995943",
+                "type": {
+                    "id": "10360",
+                    "name": "Issue split",
+                    "inward": "split from",
+                    "outward": "split to",
+                    "self": "https://jira.mediaocean.com/rest/api/2/issueLinkType/10360"
+                },
+                "outwardIssue": {
+                    "id": "1897214",
+                    "key": "GBP-38913",
+                    "self": "https://jira.mediaocean.com/rest/api/2/issue/1897214",
+                    "fields": {
+                        "summary": "Create manual regression test cases. Schedule/Booking/payment schedule (includes contracts, FX rates, taxes) - Part 2",
+                        "status": {
+                            "self": "https://jira.mediaocean.com/rest/api/2/status/6",
+                            "description": "The issue is considered finished, the resolution is correct. Issues which are closed can be reopened.",
+                            "iconUrl": "https://jira.mediaocean.com/images/icons/statuses/closed.png",
+                            "name": "Closed",
+                            "id": "6",
+                            "statusCategory": {
+                                "self": "https://jira.mediaocean.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "green",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.mediaocean.com/rest/api/2/priority/3",
+                            "iconUrl": "https://jira.mediaocean.com/images/icons/priorities/major.svg",
+                            "name": "Medium - 3",
+                            "id": "3"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.mediaocean.com/rest/api/2/issuetype/108",
+                            "id": "108",
+                            "description": "Created by Jira Software - do not edit or delete. Issue type for a user story.",
+                            "iconUrl": "https://jira.mediaocean.com/secure/viewavatar?size=xsmall&avatarId=16835&avatarType=issuetype",
+                            "name": "Story",
+                            "subtask": false,
+                            "avatarId": 16835
+                        }
+                    }
+                }
+            },
+            {
+                "id": "978846",
+                "self": "https://jira.mediaocean.com/rest/api/2/issueLink/978846",
+                "type": {
+                    "id": "10060",
+                    "name": "Related",
+                    "inward": "is related to",
+                    "outward": "is related to",
+                    "self": "https://jira.mediaocean.com/rest/api/2/issueLinkType/10060"
+                },
+                "outwardIssue": {
+                    "id": "1908332",
+                    "key": "GBP-39734",
+                    "self": "https://jira.mediaocean.com/rest/api/2/issue/1908332",
+                    "fields": {
+                        "summary": "Test Suite-Client Profitability report",
+                        "status": {
+                            "self": "https://jira.mediaocean.com/rest/api/2/status/1",
+                            "description": "The issue is open and ready for the assignee to start work on it.",
+                            "iconUrl": "https://jira.mediaocean.com/images/icons/statuses/open.png",
+                            "name": "Open",
+                            "id": "1",
+                            "statusCategory": {
+                                "self": "https://jira.mediaocean.com/rest/api/2/statuscategory/2",
+                                "id": 2,
+                                "key": "new",
+                                "colorName": "blue-gray",
+                                "name": "To Do"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.mediaocean.com/rest/api/2/priority/3",
+                            "iconUrl": "https://jira.mediaocean.com/images/icons/priorities/major.svg",
+                            "name": "Medium - 3",
+                            "id": "3"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.mediaocean.com/rest/api/2/issuetype/99",
+                            "id": "99",
+                            "description": "",
+                            "iconUrl": "https://jira.mediaocean.com/images2/icons/labs.png",
+                            "name": "Test Suite",
+                            "subtask": false
+                        }
+                    }
+                }
+            },
             {
                 "id": "947391",
                 "self": "https://jira.mediaocean.com/rest/api/2/issueLink/947391",
@@ -151,6 +271,148 @@
                     "fields": {
                         "summary": "Automation: Standard Cash receipt - Offset of Advanced cash receipt",
                         "status": {
+                            "self": "https://jira.mediaocean.com/rest/api/2/status/6",
+                            "description": "The issue is considered finished, the resolution is correct. Issues which are closed can be reopened.",
+                            "iconUrl": "https://jira.mediaocean.com/images/icons/statuses/closed.png",
+                            "name": "Closed",
+                            "id": "6",
+                            "statusCategory": {
+                                "self": "https://jira.mediaocean.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "green",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.mediaocean.com/rest/api/2/priority/5",
+                            "iconUrl": "https://jira.mediaocean.com/images/icons/priorities/trivial.svg",
+                            "name": "Low - 4",
+                            "id": "5"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.mediaocean.com/rest/api/2/issuetype/3",
+                            "id": "3",
+                            "description": "A task that needs to be done.",
+                            "iconUrl": "https://jira.mediaocean.com/secure/viewavatar?size=xsmall&avatarId=16838&avatarType=issuetype",
+                            "name": "Task",
+                            "subtask": false,
+                            "avatarId": 16838
+                        }
+                    }
+                }
+            },
+            {
+                "id": "985359",
+                "self": "https://jira.mediaocean.com/rest/api/2/issueLink/985359",
+                "type": {
+                    "id": "10060",
+                    "name": "Related",
+                    "inward": "is related to",
+                    "outward": "is related to",
+                    "self": "https://jira.mediaocean.com/rest/api/2/issueLinkType/10060"
+                },
+                "inwardIssue": {
+                    "id": "1511581",
+                    "key": "GBP-32303",
+                    "self": "https://jira.mediaocean.com/rest/api/2/issue/1511581",
+                    "fields": {
+                        "summary": "Ignitia - Client Invoice",
+                        "status": {
+                            "self": "https://jira.mediaocean.com/rest/api/2/status/1",
+                            "description": "The issue is open and ready for the assignee to start work on it.",
+                            "iconUrl": "https://jira.mediaocean.com/images/icons/statuses/open.png",
+                            "name": "Open",
+                            "id": "1",
+                            "statusCategory": {
+                                "self": "https://jira.mediaocean.com/rest/api/2/statuscategory/2",
+                                "id": 2,
+                                "key": "new",
+                                "colorName": "blue-gray",
+                                "name": "To Do"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.mediaocean.com/rest/api/2/priority/3",
+                            "iconUrl": "https://jira.mediaocean.com/images/icons/priorities/major.svg",
+                            "name": "Medium - 3",
+                            "id": "3"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.mediaocean.com/rest/api/2/issuetype/99",
+                            "id": "99",
+                            "description": "",
+                            "iconUrl": "https://jira.mediaocean.com/images2/icons/labs.png",
+                            "name": "Test Suite",
+                            "subtask": false
+                        }
+                    }
+                }
+            },
+            {
+                "id": "978843",
+                "self": "https://jira.mediaocean.com/rest/api/2/issueLink/978843",
+                "type": {
+                    "id": "10060",
+                    "name": "Related",
+                    "inward": "is related to",
+                    "outward": "is related to",
+                    "self": "https://jira.mediaocean.com/rest/api/2/issueLinkType/10060"
+                },
+                "inwardIssue": {
+                    "id": "1899587",
+                    "key": "GBP-39100",
+                    "self": "https://jira.mediaocean.com/rest/api/2/issue/1899587",
+                    "fields": {
+                        "summary": "Media estimates management",
+                        "status": {
+                            "self": "https://jira.mediaocean.com/rest/api/2/status/1",
+                            "description": "The issue is open and ready for the assignee to start work on it.",
+                            "iconUrl": "https://jira.mediaocean.com/images/icons/statuses/open.png",
+                            "name": "Open",
+                            "id": "1",
+                            "statusCategory": {
+                                "self": "https://jira.mediaocean.com/rest/api/2/statuscategory/2",
+                                "id": 2,
+                                "key": "new",
+                                "colorName": "blue-gray",
+                                "name": "To Do"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.mediaocean.com/rest/api/2/priority/3",
+                            "iconUrl": "https://jira.mediaocean.com/images/icons/priorities/major.svg",
+                            "name": "Medium - 3",
+                            "id": "3"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.mediaocean.com/rest/api/2/issuetype/99",
+                            "id": "99",
+                            "description": "",
+                            "iconUrl": "https://jira.mediaocean.com/images2/icons/labs.png",
+                            "name": "Test Suite",
+                            "subtask": false
+                        }
+                    }
+                }
+            },
+            {
+                "id": "985349",
+                "self": "https://jira.mediaocean.com/rest/api/2/issueLink/985349",
+                "type": {
+                    "id": "10060",
+                    "name": "Related",
+                    "inward": "is related to",
+                    "outward": "is related to",
+                    "self": "https://jira.mediaocean.com/rest/api/2/issueLinkType/10060"
+                },
+                "inwardIssue": {
+                    "id": "1840551",
+                    "key": "GBP-37570",
+                    "self": "https://jira.mediaocean.com/rest/api/2/issue/1840551",
+                    "fields": {
+                        "summary": "Ignitia - Receivables - Due for billing",
+                        "status": {
                             "self": "https://jira.mediaocean.com/rest/api/2/status/1",
                             "description": "The issue is open and ready for the assignee to start work on it.",
                             "iconUrl": "https://jira.mediaocean.com/images/icons/statuses/open.png",
@@ -171,13 +433,106 @@
                             "id": "5"
                         },
                         "issuetype": {
-                            "self": "https://jira.mediaocean.com/rest/api/2/issuetype/3",
-                            "id": "3",
-                            "description": "A task that needs to be done.",
-                            "iconUrl": "https://jira.mediaocean.com/secure/viewavatar?size=xsmall&avatarId=16838&avatarType=issuetype",
-                            "name": "Task",
-                            "subtask": false,
-                            "avatarId": 16838
+                            "self": "https://jira.mediaocean.com/rest/api/2/issuetype/99",
+                            "id": "99",
+                            "description": "",
+                            "iconUrl": "https://jira.mediaocean.com/images2/icons/labs.png",
+                            "name": "Test Suite",
+                            "subtask": false
+                        }
+                    }
+                }
+            },
+            {
+                "id": "985353",
+                "self": "https://jira.mediaocean.com/rest/api/2/issueLink/985353",
+                "type": {
+                    "id": "10060",
+                    "name": "Related",
+                    "inward": "is related to",
+                    "outward": "is related to",
+                    "self": "https://jira.mediaocean.com/rest/api/2/issueLinkType/10060"
+                },
+                "inwardIssue": {
+                    "id": "1846124",
+                    "key": "GBP-37644",
+                    "self": "https://jira.mediaocean.com/rest/api/2/issue/1846124",
+                    "fields": {
+                        "summary": "Test suite for Receivables - Due for payment",
+                        "status": {
+                            "self": "https://jira.mediaocean.com/rest/api/2/status/1",
+                            "description": "The issue is open and ready for the assignee to start work on it.",
+                            "iconUrl": "https://jira.mediaocean.com/images/icons/statuses/open.png",
+                            "name": "Open",
+                            "id": "1",
+                            "statusCategory": {
+                                "self": "https://jira.mediaocean.com/rest/api/2/statuscategory/2",
+                                "id": 2,
+                                "key": "new",
+                                "colorName": "blue-gray",
+                                "name": "To Do"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.mediaocean.com/rest/api/2/priority/5",
+                            "iconUrl": "https://jira.mediaocean.com/images/icons/priorities/trivial.svg",
+                            "name": "Low - 4",
+                            "id": "5"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.mediaocean.com/rest/api/2/issuetype/99",
+                            "id": "99",
+                            "description": "",
+                            "iconUrl": "https://jira.mediaocean.com/images2/icons/labs.png",
+                            "name": "Test Suite",
+                            "subtask": false
+                        }
+                    }
+                }
+            },
+            {
+                "id": "985348",
+                "self": "https://jira.mediaocean.com/rest/api/2/issueLink/985348",
+                "type": {
+                    "id": "10060",
+                    "name": "Related",
+                    "inward": "is related to",
+                    "outward": "is related to",
+                    "self": "https://jira.mediaocean.com/rest/api/2/issueLinkType/10060"
+                },
+                "inwardIssue": {
+                    "id": "1848834",
+                    "key": "GBP-37692",
+                    "self": "https://jira.mediaocean.com/rest/api/2/issue/1848834",
+                    "fields": {
+                        "summary": "Test suite for Receivables - All client invoices",
+                        "status": {
+                            "self": "https://jira.mediaocean.com/rest/api/2/status/1",
+                            "description": "The issue is open and ready for the assignee to start work on it.",
+                            "iconUrl": "https://jira.mediaocean.com/images/icons/statuses/open.png",
+                            "name": "Open",
+                            "id": "1",
+                            "statusCategory": {
+                                "self": "https://jira.mediaocean.com/rest/api/2/statuscategory/2",
+                                "id": 2,
+                                "key": "new",
+                                "colorName": "blue-gray",
+                                "name": "To Do"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.mediaocean.com/rest/api/2/priority/5",
+                            "iconUrl": "https://jira.mediaocean.com/images/icons/priorities/trivial.svg",
+                            "name": "Low - 4",
+                            "id": "5"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.mediaocean.com/rest/api/2/issuetype/99",
+                            "id": "99",
+                            "description": "",
+                            "iconUrl": "https://jira.mediaocean.com/images2/icons/labs.png",
+                            "name": "Test Suite",
+                            "subtask": false
                         }
                     }
                 }
@@ -217,6 +572,53 @@
                             "iconUrl": "https://jira.mediaocean.com/images/icons/priorities/trivial.svg",
                             "name": "Low - 4",
                             "id": "5"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.mediaocean.com/rest/api/2/issuetype/99",
+                            "id": "99",
+                            "description": "",
+                            "iconUrl": "https://jira.mediaocean.com/images2/icons/labs.png",
+                            "name": "Test Suite",
+                            "subtask": false
+                        }
+                    }
+                }
+            },
+            {
+                "id": "978886",
+                "self": "https://jira.mediaocean.com/rest/api/2/issueLink/978886",
+                "type": {
+                    "id": "10060",
+                    "name": "Related",
+                    "inward": "is related to",
+                    "outward": "is related to",
+                    "self": "https://jira.mediaocean.com/rest/api/2/issueLinkType/10060"
+                },
+                "inwardIssue": {
+                    "id": "1899594",
+                    "key": "GBP-39106",
+                    "self": "https://jira.mediaocean.com/rest/api/2/issue/1899594",
+                    "fields": {
+                        "summary": "Prisma integration",
+                        "status": {
+                            "self": "https://jira.mediaocean.com/rest/api/2/status/3",
+                            "description": "This issue is being actively worked on at the moment by the assignee.",
+                            "iconUrl": "https://jira.mediaocean.com/images/icons/statuses/inprogress.png",
+                            "name": "In Progress",
+                            "id": "3",
+                            "statusCategory": {
+                                "self": "https://jira.mediaocean.com/rest/api/2/statuscategory/4",
+                                "id": 4,
+                                "key": "indeterminate",
+                                "colorName": "yellow",
+                                "name": "In Progress"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.mediaocean.com/rest/api/2/priority/3",
+                            "iconUrl": "https://jira.mediaocean.com/images/icons/priorities/major.svg",
+                            "name": "Medium - 3",
+                            "id": "3"
                         },
                         "issuetype": {
                             "self": "https://jira.mediaocean.com/rest/api/2/issuetype/99",
@@ -277,6 +679,53 @@
                 }
             },
             {
+                "id": "978728",
+                "self": "https://jira.mediaocean.com/rest/api/2/issueLink/978728",
+                "type": {
+                    "id": "10060",
+                    "name": "Related",
+                    "inward": "is related to",
+                    "outward": "is related to",
+                    "self": "https://jira.mediaocean.com/rest/api/2/issueLinkType/10060"
+                },
+                "inwardIssue": {
+                    "id": "1803991",
+                    "key": "GBP-36920",
+                    "self": "https://jira.mediaocean.com/rest/api/2/issue/1803991",
+                    "fields": {
+                        "summary": "Standard payment Cash receipt",
+                        "status": {
+                            "self": "https://jira.mediaocean.com/rest/api/2/status/10046",
+                            "description": "Executed",
+                            "iconUrl": "https://jira.mediaocean.com/images/icons/statuses/closed.png",
+                            "name": "Executed",
+                            "id": "10046",
+                            "statusCategory": {
+                                "self": "https://jira.mediaocean.com/rest/api/2/statuscategory/4",
+                                "id": 4,
+                                "key": "indeterminate",
+                                "colorName": "yellow",
+                                "name": "In Progress"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.mediaocean.com/rest/api/2/priority/5",
+                            "iconUrl": "https://jira.mediaocean.com/images/icons/priorities/trivial.svg",
+                            "name": "Low - 4",
+                            "id": "5"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.mediaocean.com/rest/api/2/issuetype/99",
+                            "id": "99",
+                            "description": "",
+                            "iconUrl": "https://jira.mediaocean.com/images2/icons/labs.png",
+                            "name": "Test Suite",
+                            "subtask": false
+                        }
+                    }
+                }
+            },
+            {
                 "id": "944907",
                 "self": "https://jira.mediaocean.com/rest/api/2/issueLink/944907",
                 "type": {
@@ -322,29 +771,57 @@
                         }
                     }
                 }
+            },
+            {
+                "id": "978842",
+                "self": "https://jira.mediaocean.com/rest/api/2/issueLink/978842",
+                "type": {
+                    "id": "10060",
+                    "name": "Related",
+                    "inward": "is related to",
+                    "outward": "is related to",
+                    "self": "https://jira.mediaocean.com/rest/api/2/issueLinkType/10060"
+                },
+                "inwardIssue": {
+                    "id": "1900609",
+                    "key": "GBP-39186",
+                    "self": "https://jira.mediaocean.com/rest/api/2/issue/1900609",
+                    "fields": {
+                        "summary": "Transaction type and invoice line items",
+                        "status": {
+                            "self": "https://jira.mediaocean.com/rest/api/2/status/10046",
+                            "description": "Executed",
+                            "iconUrl": "https://jira.mediaocean.com/images/icons/statuses/closed.png",
+                            "name": "Executed",
+                            "id": "10046",
+                            "statusCategory": {
+                                "self": "https://jira.mediaocean.com/rest/api/2/statuscategory/4",
+                                "id": 4,
+                                "key": "indeterminate",
+                                "colorName": "yellow",
+                                "name": "In Progress"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.mediaocean.com/rest/api/2/priority/5",
+                            "iconUrl": "https://jira.mediaocean.com/images/icons/priorities/trivial.svg",
+                            "name": "Low - 4",
+                            "id": "5"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.mediaocean.com/rest/api/2/issuetype/99",
+                            "id": "99",
+                            "description": "",
+                            "iconUrl": "https://jira.mediaocean.com/images2/icons/labs.png",
+                            "name": "Test Suite",
+                            "subtask": false
+                        }
+                    }
+                }
             }
         ],
-        "reporter": {
-            "self": "https://jira.mediaocean.com/rest/api/2/user?username=jsemeniuk",
-            "name": "jsemeniuk",
-            "key": "jsemeniuk",
-            "emailAddress": "jsemeniuk@mediaocean.com",
-            "avatarUrls": {
-                "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=jsemeniuk&avatarId=18025",
-                "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=jsemeniuk&avatarId=18025",
-                "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=jsemeniuk&avatarId=18025",
-                "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=jsemeniuk&avatarId=18025"
-            },
-            "displayName": "Julie Semeniuk",
-            "active": false,
-            "timeZone": "America/New_York"
-        },
         "assignee": null,
-        "customfield_16932": {
-            "self": "https://jira.mediaocean.com/rest/api/2/customFieldOption/29815",
-            "value": "Global Bill/Pay",
-            "id": "29815"
-        },
+        "updated": "2020-05-08T00:08:59.000-0400",
         "status": {
             "self": "https://jira.mediaocean.com/rest/api/2/status/1",
             "description": "The issue is open and ready for the assignee to start work on it.",

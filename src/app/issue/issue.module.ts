@@ -30,6 +30,8 @@ import { IssueNotEnteredComponent } from './components/issue-not-entered.compone
 import { SelectedIssueHomeComponent } from './components/selectedissue/home.component';
 import { GroupedIssuelistComponent } from './components/selectedissue/grouped-issue-list.component';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { RoadmapComponent } from './components/selectedissue/roadmap.component';
+import { TreeTableModule } from 'primeng/treetable';
 
 const routes: Route[] = [
   {
@@ -43,6 +45,7 @@ const routes: Route[] = [
                   { path: 'details', component: PurposeDetailsComponent },
                   { path: 'workbench', component: WorkbenchComponent },
                   { path: 'storyboard', component: StoryboardComponent },
+                  { path: 'roadmap', component: RoadmapComponent },
                   { path: '', redirectTo: "details", pathMatch: "full" }
                 ]
               }
@@ -61,7 +64,7 @@ const routes: Route[] = [
 
     SelectedIssueHomeComponent,
     SelectedIssueContainerComponent, WorkbenchComponent, RecentlyViewedComponent,
-    PurposeDetailsComponent, ExtendedFieldsComponent, StoryboardComponent,
+    PurposeDetailsComponent, ExtendedFieldsComponent, StoryboardComponent, RoadmapComponent,
     TasklistComponent, GroupedIssuelistComponent
   ],
   imports: [
@@ -71,6 +74,7 @@ const routes: Route[] = [
     NgxMdModule,
 
     TreeModule,
+    TreeTableModule,
     ContextMenuModule,
     DialogModule,
     SidebarModule,

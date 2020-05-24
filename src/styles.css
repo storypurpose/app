@@ -403,8 +403,19 @@ body .ui-multiselect .ui-multiselect-trigger {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-body .ui-treetable .ui-treetable-thead > tr > th {
+.roadmap .ui-treetable .ui-treetable-thead > tr > th {
   font-weight: normal;
-  border-width: 0;
-  padding: 1rem;
+  border-width: 0 0 2px 0;
+  text-align: center;
+}
+.roadmap .ui-treetable .ui-treetable-tbody > tr > td {
+  border-width: 0 1px 0 0;
+  border-color: #f0f0f0;
+}
+
+.treetable-data > td {
+  padding: 11pt 0 !important;
+}
+.bg-progress {
+  background-color: #999;
 }

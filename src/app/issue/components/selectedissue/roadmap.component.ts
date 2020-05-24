@@ -58,30 +58,75 @@ export class RoadmapComponent implements OnInit, OnDestroy {
     }
 
     ngAfterViewInit(): void {
-        this.contentHeight = this.elementView.nativeElement.offsetParent.clientHeight - 180;
+        this.contentHeight = this.elementView.nativeElement.offsetParent.clientHeight - 160;
         this.cdRef.detectChanges();
     }
 
     plotIssuesOnRoadmap() {
-        this.roadmap.metadata = initRoadmapMetadata();
+        const minStartDateRecord: any = _.minBy(_.union(this.roadmap.epicChildren || [], this.roadmap.relatedLinks || []), 'created');
+        const minStartDate = minStartDateRecord && minStartDateRecord.created ? new Date(minStartDateRecord.created) : new Date();
+        const maxDueDateRecord: any = _.maxBy(_.union(this.roadmap.epicChildren || [], this.roadmap.relatedLinks || []), 'duedate');
+        const maxDueDate = maxDueDateRecord && maxDueDateRecord.duedate ? new Date(maxDueDateRecord.duedate) : new Date();
+
+        this.roadmap.metadata = initRoadmapMetadata(minStartDate, maxDueDate);
+
         this.roadmap.data = [
             {
-                data: { title: this.roadmap.title },
-                children: _.map(this.roadmap.epicChildren, (ec) => {
-                    return { data: { title: ec.title } }
-                }),
+                data: this.createParentNode(this.roadmap, this.roadmap.epicChildren),
+                children: this.transformToTreeChildren(_.orderBy(this.roadmap.epicChildren, 'created'), this.roadmap.metadata.timespan),
                 leaf: false,
                 expanded: true
 
             },
             {
-                data: { title: 'Related stories' },
-                children: _.map(this.roadmap.relatedLinks, (ec) => {
-                    return { data: { title: ec.title } }
-                }),
+                data: this.createParentNode({ title: 'Related stories' }, this.roadmap.relatedLinks),
+                children: this.transformToTreeChildren(_.orderBy(this.roadmap.relatedLinks, 'created'), this.roadmap.metadata.timespan),
                 leaf: false,
                 expanded: true
             },
         ]
     }
+
+    private createParentNode(node, children) {
+        const record = {
+            label: node.title,
+            title: this.prepareTitle(node),
+            created: _.minBy(children, 'created'),
+            duedate: _.maxBy(children, 'updated'),
+            isHeading: true
+        };
+        return record;
+    }
+
+    private transformToTreeChildren(children, timespanLookup) {
+        return _.map(children, (ec) => {
+            const record = _.pick(ec, ['label', 'title', 'icon', 'key', 'issueType', 'status', 'timespan', 'created', 'duedate']);
+            record.label = record.title;
+            record.title = this.prepareTitle(record);
+            const duedate = ec.duedate ? new Date(ec.duedate) : new Date();
+            const created = ec.created ? new Date(ec.created) : new Date();
+            record.timespan = _.map(timespanLookup, (ts) => {
+                return {
+                    idx: ts.idx,
+                    isInTimespan:
+                        created <= ts.lastDate &&
+                        ((duedate >= ts.firstDate && duedate <= ts.lastDate) || duedate > ts.lastDate)
+                };
+            });
+            return { data: record };
+        });
+    }
+
+    private prepareTitle(node: any) {
+        const created = node.created ? this.toShortDate(new Date(node.created)) + ' -> ' : ''
+        const duedate = node.updated ? this.toShortDate(new Date(node.duedate)) : ''
+        const key = node.key ? node.key + ": " : '';
+        const status = node.status ? `[${node.status}]` : '';
+        return `${key} ${node.title} ${status} ${created} ${duedate}`;
+    }
+
+    toShortDate(date) {
+        return date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate();
+    }
 }
+

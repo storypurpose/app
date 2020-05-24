@@ -1,4 +1,4 @@
-<div #content class="pl-3">
+<div #content class="roadmap pl-3">
     <p-treeTable *ngIf="roadmap && roadmap.metadata" [columns]="roadmap.metadata.timespan"
         [frozenColumns]="roadmap.metadata.fixedColumns" [scrollable]="true" frozenWidth="300px"
         [scrollHeight]="contentHeight + 'px'" [value]="roadmap.data" [resizableColumns]="true"
@@ -16,19 +16,24 @@
             </tr>
         </ng-template>
         <ng-template pTemplate="frozenbody" let-rowNode let-rowData="rowData">
-            <tr>
-                <td class="bg-light">
+            <tr class="border-right bg-light" [ngClass]="{'border-bottom': rowData.isHeading}">
+                <td>
                     <div style="white-space: nowrap;overflow:hidden; text-overflow: ellipsis;">
                         <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
-                        {{rowData.title}}
+                        <i class="{{rowData.icon}}"></i>
+                        <span [title]="rowData.title" class="ml-2">{{rowData.label}}</span>
                     </div>
                 </td>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-rowData="rowData" let-columns="columns">
-            <tr>
+            <tr class="treetable-data" [ngClass]="{'bg-light border-bottom': rowData.isHeading}"
+                [title]="rowData.title">
                 <td *ngFor="let col of columns">
-                    {{col.idx}}
+                    <div style="height: 5pt;"
+                        [ngClass]="{'bg-progress': rowData.timespan && rowData.timespan[col.idx].isInTimespan}">
+                        &nbsp;
+                    </div>
                 </td>
             </tr>
         </ng-template>

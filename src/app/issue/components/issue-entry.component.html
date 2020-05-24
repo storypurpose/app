@@ -1,17 +1,21 @@
-<div class=" input-group" style="min-width: 200px;">
+<div class=" input-group" [ngClass]="{'input-group-sm': size === 'sm'}">
   <div class="input-group-prepend" *ngIf="!hideIssuelistNavigator">
-    <button class="btn btn-light rounded-0 border text-primary" (click)="onShowEpiclist()">
-      <fa-icon icon="bars"></fa-icon>
+    <button class="btn btn-primary" (click)="onShowEpiclist()">
+      <fa-icon icon="search"></fa-icon>
     </button>
   </div>
 
-  <input type="text" class="form-control rounded-0 bg-light" name="issueByKeyId" [(ngModel)]="issue"
-    placeholder="Jira issue key" id="typeahead-focus" type="text" [ngbTypeahead]="search"
+  <input type="text" class="form-control" name="issueByKeyId" [(ngModel)]="issue" placeholder="Jira issue key"
+    id="typeahead-focus" type="text" [ngbTypeahead]="search" [appAutofocus]="true"
     (focus)="focus$.next($any($event).target.value)" (click)="click$.next($any($event).target.value)"
-    #instance="ngbTypeahead" (keydown.enter)="selectTo(issue)" (keydown.control.enter)="navigateTo(issue)" />
+    #instance="ngbTypeahead" (keydown.enter)="selectTo(issue)" (keydown.escape)="onCancel()"
+    (keydown.control.enter)="navigateTo(issue)" />
   <div class="input-group-append" *ngIf="canNavigate()">
-    <button class="btn btn-light rounded-0 border border-left-0 text-primary" type="button" (click)="navigateTo(issue)">
+    <button class="btn btn-light border border-left-0 text-primary" type="button" (click)="navigateTo(issue)">
       <fa-icon icon="chevron-right" [fixedWidth]="true"></fa-icon>
+    </button>
+    <button class="btn btn-link text-muted" type="button" *ngIf="showCancel" (click)="onCancel()">
+      <fa-icon icon="times" [fixedWidth]="true"></fa-icon>
     </button>
   </div>
 </div>

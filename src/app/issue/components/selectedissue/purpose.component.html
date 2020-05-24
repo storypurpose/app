@@ -1,7 +1,10 @@
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-10">
-            <div *ngIf="purpose && purpose.length > 0" [ngClass]="{'small': fontSizeSmall}">
+        <div class="col-md-3" style="overflow: auto;">
+            <app-issue-treeview [rootNode]="hierarchicalNode" [issueKey]="selectedIssueKey"></app-issue-treeview>
+        </div>
+        <div class="col-md-9">
+            <div class="mt-2" *ngIf="purpose && purpose.length > 0">
                 <div class="border-0 pb-0 mb-2 float-left">
                     <a (click)="showHideAllPurposes(!showAll)" class="btn btn-light btn-sm text-muted mr-2 "
                         title="Show/hide details">
@@ -30,18 +33,13 @@
                 </div>
 
                 <div class="clearfix">&nbsp;</div>
-                <a class="btn btn-light btn-sm text-primary mt-3" routerLink="../workbench">
-                    Proceed to workbench
-                    <fa-icon icon="chevron-right" size="sm"></fa-icon>
-                </a>
+                <div class="text-right mt-3 mb-3">
+                    <a class="btn btn-sm btn-primary" routerLink="../workbench">
+                        Proceed to workbench
+                        <fa-icon icon="chevron-right" size="sm"></fa-icon>
+                    </a>
+                </div>
             </div>
-        </div>
-        <div class="col-md-2">
-            <!-- <div class="sticky-title text-right">
-            <button class="btn btn-light btn-sm mr-2" [disabled]="fontSizeSmall"
-                (click)="fontSizeSmall = true">A</button>
-            <button class="btn btn-light" [disabled]="!fontSizeSmall" (click)="fontSizeSmall = false">A</button>
-        </div> -->
         </div>
     </div>
 </div>

@@ -13,11 +13,13 @@ import { IssueState } from '../+state/issue.state';
     templateUrl: './issue-entry.component.html'
 })
 export class IssueEntryComponent implements OnInit, OnDestroy {
+    @Input() showCancel = false;
+    @Input() size: string;
     @Input() issueLookup: any;
     @Input() hideIssuelistNavigator = true;
 
     @Output() showIssuelist = new EventEmitter<any>();
-
+    @Output() cancel = new EventEmitter<any>();
     issue: string;
     subscription: Subscription;
     constructor(public router: Router,
@@ -71,5 +73,8 @@ export class IssueEntryComponent implements OnInit, OnDestroy {
 
     onShowEpiclist() {
         this.showIssuelist.emit(true);
+    }
+    onCancel() {
+        this.cancel.emit(true);
     }
 }

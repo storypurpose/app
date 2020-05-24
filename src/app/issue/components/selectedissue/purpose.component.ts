@@ -20,8 +20,8 @@ export class PurposeDetailsComponent implements OnInit, OnDestroy {
     public purpose: any;
 
     public hierarchySetupVisibility$: Subscription;
-
-    public fontSizeSmall = false;
+    public hierarchicalNode: any;
+    public selectedIssueKey: string;
 
     constructor(public store$: Store<IssueState>) { }
 
@@ -32,10 +32,12 @@ export class PurposeDetailsComponent implements OnInit, OnDestroy {
 
         this.combined$ = combineLatest(selectedIssueQuery$, hierarchicalIssueQuery$)
             .subscribe(([selectedIssue, hierarchicalIssue]) => {
-                const hierarchicalNode = searchTreeByKey(hierarchicalIssue, selectedIssue.key);
-                if (hierarchicalNode) {
-                    copyFieldValues(selectedIssue, hierarchicalNode);
-                    this.purpose = this.expandPurpose(hierarchicalNode);
+                this.selectedIssueKey = selectedIssue.key;
+                this.hierarchicalNode = hierarchicalIssue;
+                const selectedNode = searchTreeByKey(hierarchicalIssue, selectedIssue.key);
+                if (selectedNode) {
+                    copyFieldValues(selectedIssue, selectedNode);
+                    this.purpose = this.expandPurpose(selectedNode);
                 }
             });
     }

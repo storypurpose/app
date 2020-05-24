@@ -1,0 +1,40 @@
+<div *ngIf="rootNode" class="pb-5">
+    <p-tree [value]="[rootNode]" selectionMode="single" [(selection)]="selectedNode"
+        (onNodeSelect)="nodeSelected($event)">
+        <ng-template let-node pTemplate="default">
+            <div style="font-size: 90%;" [ngClass]="{
+                        'small text-muted text-uppercase font-italic': checkIfCustomNode(node),
+                        'font-weight-bold': node.key === issueKey
+                }" [title]="getIssueTitle(node)">
+                {{node.label}}</div>
+        </ng-template>
+        <ng-template let-node pTemplate="Heading">
+            <div [title]="getHeaderTitle(node)">
+                {{node.label}}
+            </div>
+        </ng-template>
+        <ng-template let-node pTemplate="Editable">
+            <i class="editable-node">
+                {{node.label}}
+                <fa-icon size="sm" class="text-muted ml-1" icon="pencil-alt" *ngIf="node.editable">
+                </fa-icon>
+            </i>
+        </ng-template>
+        <!-- <ng-template let-node pTemplate="Editing">
+            <div class="input-group input-group-sm" style="width:200px">
+                <input type="text" class="form-control" [appAutofocus]="node.type === 'Editing'"
+                    [(ngModel)]="node.title" (keydown.enter)="updateNodeTitleOnEnter($event, node)"
+                    (keydown.escape)="cancelNodeEditingOnEscape($event, node)">
+                <div class="input-group-append">
+                    <button class="btn btn-link border" [disabled]="!canUpdateTitle(node)"
+                        (click)="updateNodeTitle(node)">
+                        <fa-icon icon="check"></fa-icon>
+                    </button>
+                    <button class="btn btn-link text-danger border" (click)="cancelNodeEditing(node)">
+                        <fa-icon icon="times"></fa-icon>
+                    </button>
+                </div>
+            </div>
+        </ng-template> -->
+    </p-tree>
+</div>

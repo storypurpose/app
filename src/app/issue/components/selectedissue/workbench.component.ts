@@ -65,7 +65,7 @@ export class WorkbenchComponent implements AfterViewInit, OnInit, OnDestroy {
     }
 
     ngAfterViewInit(): void {
-        this.contentHeight = this.elementView.nativeElement.offsetParent.clientHeight - 134;
+        this.contentHeight = this.elementView.nativeElement.offsetParent.clientHeight - 124;
         this.cdRef.detectChanges();
     }
 

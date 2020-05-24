@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import * as _ from "lodash";
 import { Subscription, combineLatest } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -15,7 +15,7 @@ import { IssueState } from '../../+state/issue.state';
     selector: 'app-selected-issue-container',
     templateUrl: './selected-issue-container.component.html'
 })
-export class SelectedIssueContainerComponent implements OnInit, OnDestroy {
+export class SelectedIssueContainerComponent implements AfterViewInit, OnInit, OnDestroy {
     combined$: Subscription;
 
     updatedField$: Subscription;
@@ -29,7 +29,8 @@ export class SelectedIssueContainerComponent implements OnInit, OnDestroy {
     primaryIssue: any;
 
     localNodeType: any;
-    constructor(public router: Router,
+    constructor(public cdRef: ChangeDetectorRef,
+        public router: Router,
         public activatedRoute: ActivatedRoute,
         public store$: Store<IssueState>
     ) {
@@ -102,4 +103,24 @@ export class SelectedIssueContainerComponent implements OnInit, OnDestroy {
     canNavigateToStoryboard = () =>
         this.selectedIssue && this.primaryIssue &&
         (this.selectedIssue.issueType === 'Epic' || this.primaryIssue.key.toLowerCase() === this.selectedIssue.key.toLowerCase());
+
+    onShowIssuelist() {
+        this.router.navigate(['/search/list']);
+    }
+
+    showIssueEntry = false;
+    onShowIssueEntry() {
+        this.showIssueEntry = true;
+    }
+    onCancelIssueEntry() {
+        this.showIssueEntry = false;
+    }
+
+    contentHeight = 0;
+    @ViewChild('content') elementView: ElementRef;
+    ngAfterViewInit(): void {
+        this.contentHeight = this.elementView.nativeElement.offsetParent.clientHeight - 118;
+        this.cdRef.detectChanges();
+    }
+
 }

@@ -1,4 +1,4 @@
-<div #content class="roadmap pl-3">
+<div #content class="roadmap">
     <p-treeTable *ngIf="roadmap && roadmap.metadata" [columns]="roadmap.metadata.timespan"
         [frozenColumns]="roadmap.metadata.fixedColumns" [scrollable]="true" frozenWidth="300px"
         [scrollHeight]="contentHeight + 'px'" [value]="roadmap.data" [resizableColumns]="true"

@@ -1,15 +1,22 @@
-<div class="container-fluid pb-3" *ngIf="selectedIssue">
-    <div>
+<div class="bg-light container-fluid pb-2 border-bottom" *ngIf="selectedIssue">
+    <div class=" clearfix">
         <div class="float-right small mt-1" *ngIf="selectedIssue.fixVersions && selectedIssue.fixVersions.length > 0">
             <span class="small text-muted">FIX VERSION: </span>
             <span class="badge badge-light ml-1" *ngFor="let fv of selectedIssue.fixVersions">{{fv}}</span>
         </div>
-        <sub class="text-uppercase mr-2">
-            {{selectedIssue.issueType}}: {{selectedIssue.key}}
-        </sub>
-
-        <app-issue-navigation-menu icon="ellipsis-h" placement="bottom-left" [issueKey]="selectedIssue.key">
-        </app-issue-navigation-menu>
+        <div class="float-left" style="width:225px">
+            <div *ngIf="!showIssueEntry">
+                <a class="text-dark text-uppercase font-weight-bold small mr-3" (click)="onShowIssueEntry()">
+                    {{selectedIssue.issueType}}: {{selectedIssue.key}}
+                    <fa-icon class="ml-1" icon="pencil-alt"></fa-icon>
+                </a>
+                <app-issue-navigation-menu icon="ellipsis-h" placement="bottom-left" [issueKey]="selectedIssue.key">
+                </app-issue-navigation-menu>
+            </div>
+            <app-issue-entry *ngIf="showIssueEntry" [hideIssuelistNavigator]="false" size="sm" [showCancel]="true"
+                (cancel)="onCancelIssueEntry()" (showIssuelist)="onShowIssuelist()">
+            </app-issue-entry>
+        </div>
     </div>
     <h2 class="font-weight-light">
         {{selectedIssue.title}}
@@ -40,6 +47,6 @@
     </div>
 </div>
 <!-- <pre>{{selectedIssue | json}}</pre> -->
-<div>
+<div style="overflow: auto;width:100%;" #content [style.height.px]="contentHeight">
     <router-outlet></router-outlet>
 </div>

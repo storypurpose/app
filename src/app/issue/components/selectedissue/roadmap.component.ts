@@ -58,7 +58,7 @@ export class RoadmapComponent implements OnInit, OnDestroy {
     }
 
     ngAfterViewInit(): void {
-        this.contentHeight = this.elementView.nativeElement.offsetParent.clientHeight - 160;
+        this.contentHeight = this.elementView.nativeElement.offsetParent.clientHeight - 165;
         this.cdRef.detectChanges();
     }
 

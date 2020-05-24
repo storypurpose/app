@@ -1,46 +1,47 @@
-<div class="pl-3" *ngIf="storyboardItem">
-    <div class="row small">
-        <div class="col-md-4 mb-3">
-            <ng-container
-                *ngIf="(storyboardItem.epicChildren && storyboardItem.epicChildren.length > 0) || (storyboardItem.relatedLinks && storyboardItem.relatedLinks.length > 0)">
-                <div *ngIf="storyboardItem.epicChildren && storyboardItem.epicChildren.length > 0">
-                    <input type="checkbox" [(ngModel)]="includeEpicChildren" (change)="plotIssuesOnStoryboard()">
-                    <b class="badge badge-success ml-1">{{storyboardItem.epicChildren.length}}</b> issues in this
-                    epic
-                </div>
-                <div *ngIf="storyboardItem.relatedLinks && storyboardItem.relatedLinks.length > 0">
-                    <input type="checkbox" [(ngModel)]="includeRelatedIssues" (change)="plotIssuesOnStoryboard()">
-                    <b class="badge badge-success ml-1">{{storyboardItem.relatedLinks.length}}</b> related issues
-                </div>
-            </ng-container>
-        </div>
-        <div class="col-md-4 mb-3">
-            <ng-container
-                *ngIf="storyboardItem.metadata && (storyboardItem.metadata.backlogCount > 0 || storyboardItem.metadata.noComponentCount > 0)">
-                <div *ngIf="storyboardItem.metadata.backlogCount > 0" class="mr-4">
-                    <span class="badge badge-warning">{{storyboardItem.metadata.backlogCount}}</span>
-                    unplanned issues.
-                </div>
-                <div *ngIf="storyboardItem.metadata.noComponentCount > 0">
-                    <span class="badge badge-warning">{{storyboardItem.metadata.noComponentCount}}</span>
-                    issues in unknown functional areas.
-                </div>
-            </ng-container>
-        </div>
-        <div class="col-md-3">
-            <p-multiSelect styleClass="w-100" defaultLabel="Filter" *ngIf="statusLookup && statusLookup.length > 0"
-                [options]="statusLookup" [(ngModel)]="selectedStatuses" (onChange)="onSelectedStatusChange($event)"
-                optionLabel="key">
-            </p-multiSelect>
-        </div>
-        <div class="col-md-1">
-            <button class="btn btn-link" (click)="showStatistics = true"
-                *ngIf="(storyboardItem.epicChildren && storyboardItem.epicChildren.length > 0) || (storyboardItem.relatedLinks && storyboardItem.relatedLinks.length > 0)">
-                <fa-icon [icon]="['far', 'chart-bar']" size="lg"></fa-icon>
-            </button>
+<div *ngIf="storyboardItem">
+    <div class="alert mb-0">
+        <div class="row small">
+            <div class="col-md-3">
+                <ng-container
+                    *ngIf="(storyboardItem.epicChildren && storyboardItem.epicChildren.length > 0) || (storyboardItem.relatedLinks && storyboardItem.relatedLinks.length > 0)">
+                    <div *ngIf="storyboardItem.epicChildren && storyboardItem.epicChildren.length > 0">
+                        <input type="checkbox" [(ngModel)]="includeEpicChildren" (change)="plotIssuesOnStoryboard()">
+                        <b class="badge badge-success ml-1">{{storyboardItem.epicChildren.length}}</b> issues in this
+                        epic
+                    </div>
+                    <div *ngIf="storyboardItem.relatedLinks && storyboardItem.relatedLinks.length > 0">
+                        <input type="checkbox" [(ngModel)]="includeRelatedIssues" (change)="plotIssuesOnStoryboard()">
+                        <b class="badge badge-success ml-1">{{storyboardItem.relatedLinks.length}}</b> related issues
+                    </div>
+                </ng-container>
+            </div>
+            <div class="col-md-5">
+                <ng-container
+                    *ngIf="storyboardItem.metadata && (storyboardItem.metadata.backlogCount > 0 || storyboardItem.metadata.noComponentCount > 0)">
+                    <div *ngIf="storyboardItem.metadata.backlogCount > 0" class="mr-4">
+                        <span class="badge badge-warning">{{storyboardItem.metadata.backlogCount}}</span>
+                        unplanned issues.
+                    </div>
+                    <div *ngIf="storyboardItem.metadata.noComponentCount > 0">
+                        <span class="badge badge-warning">{{storyboardItem.metadata.noComponentCount}}</span>
+                        issues in unknown functional areas.
+                    </div>
+                </ng-container>
+            </div>
+            <div class="col-md-3">
+                <p-multiSelect styleClass="w-100" defaultLabel="Filter" *ngIf="statusLookup && statusLookup.length > 0"
+                    [options]="statusLookup" [(ngModel)]="selectedStatuses" (onChange)="onSelectedStatusChange($event)"
+                    optionLabel="key">
+                </p-multiSelect>
+            </div>
+            <div class="col-md-1 text-right">
+                <button class="btn btn-link pr-0" (click)="showStatistics = true"
+                    *ngIf="(storyboardItem.epicChildren && storyboardItem.epicChildren.length > 0) || (storyboardItem.relatedLinks && storyboardItem.relatedLinks.length > 0)">
+                    <fa-icon [icon]="['far', 'chart-bar']" size="lg"></fa-icon>
+                </button>
+            </div>
         </div>
     </div>
-
     <app-storyboard-renderer [storyboardItem]="storyboardItem" (fieldValueChange)="onFieldValueChanged($event)">
     </app-storyboard-renderer>
 

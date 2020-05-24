@@ -32,6 +32,7 @@ import { GroupedIssuelistComponent } from './components/selectedissue/grouped-is
 import { MultiSelectModule } from 'primeng/multiselect';
 import { RoadmapComponent } from './components/selectedissue/roadmap.component';
 import { TreeTableModule } from 'primeng/treetable';
+import { IssueTreeviewComponent } from './components/issue-treeview.component';
 
 const routes: Route[] = [
   {
@@ -60,7 +61,7 @@ const routes: Route[] = [
 
 @NgModule({
   declarations: [
-    IssueHomeComponent, IssueContainerComponent, IssueNotEnteredComponent, IssueEntryComponent,
+    IssueHomeComponent, IssueContainerComponent, IssueTreeviewComponent, IssueNotEnteredComponent, IssueEntryComponent,
 
     SelectedIssueHomeComponent,
     SelectedIssueContainerComponent, WorkbenchComponent, RecentlyViewedComponent,

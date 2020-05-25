@@ -1,4 +1,4 @@
-<div #content [style.height.px]="contentHeight">
+<div >
     <as-split direction="horizontal" *ngIf="issue" (gutterDblClick)="toggleFullscreen()" (dragEnd)="dragEnd($event)">
         <as-split-area [size]="columns[0].size">
             <div class="alert" style="overflow: auto;">

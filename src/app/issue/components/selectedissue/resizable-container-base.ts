@@ -11,7 +11,7 @@ export class ResizableContainerBase {
     @ViewChild('content') elementView: ElementRef;
 
     isSelectedIssueViewCompact$: Subscription;
-    isSelectedIssueViewCompact = false;
+    compactView = false;
 
     constructor(public cdRef: ChangeDetectorRef, public store$: Store<IssueState>) { }
 
@@ -19,6 +19,7 @@ export class ResizableContainerBase {
         this.containerSize = containerSize;
         this.isSelectedIssueViewCompact$ = this.store$.select(p => p.issue.isSelectedIssueViewCompact)
             .subscribe(isCompactView => {
+                this.compactView = isCompactView;
                 this.containerSize += isCompactView ? -1 * this.expandableSize : this.expandableSize;
                 this.onResize();
             });

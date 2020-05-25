@@ -34,11 +34,13 @@ export class PurposeDetailsComponent implements OnInit, OnDestroy {
             .subscribe(([selectedIssue, hierarchicalIssue]) => {
                 this.selectedIssueKey = selectedIssue.key;
                 this.hierarchicalNode = hierarchicalIssue;
-                const selectedNode = searchTreeByKey(hierarchicalIssue, selectedIssue.key);
-                if (selectedNode) {
-                    copyFieldValues(selectedIssue, selectedNode);
-                    this.purpose = this.expandPurpose(selectedNode);
-                }
+                setTimeout(() => {
+                    const selectedNode = searchTreeByKey(hierarchicalIssue, selectedIssue.key);
+                    if (selectedNode) {
+                        copyFieldValues(selectedIssue, selectedNode);
+                        this.purpose = this.expandPurpose(selectedNode);
+                    }
+                }, 200);
             });
     }
 
@@ -80,4 +82,21 @@ export class PurposeDetailsComponent implements OnInit, OnDestroy {
             }
         }
     }
+
+    //#region toggle fullscreen
+    leftPaneSize = 20;
+    public columns: any = [{ visible: true, size: 20 }, { visible: true, size: 80 }];
+    dragEnd(e: { gutterNum: number; sizes: Array<number> }) {
+        this.adjustPaneSize(e.sizes[0]);
+    }
+    public adjustPaneSize(sizeOfLeftPane) {
+        this.leftPaneSize = sizeOfLeftPane;
+        this.columns[0].size = sizeOfLeftPane;
+        this.columns[1].size = 100 - sizeOfLeftPane;
+    }
+    toggleFullscreen() {
+        this.adjustPaneSize(this.leftPaneSize === 0 ? 20 : 0);
+    }
+    //#endregion
+
 }

@@ -10,12 +10,13 @@ import {
 } from '../../+state/issue.actions';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IssueState } from '../../+state/issue.state';
+import { ResizableContainerBase } from './resizable-container-base';
 
 @Component({
     selector: 'app-selected-issue-container',
     templateUrl: './selected-issue-container.component.html'
 })
-export class SelectedIssueContainerComponent implements AfterViewInit, OnInit, OnDestroy {
+export class SelectedIssueContainerComponent extends ResizableContainerBase implements AfterViewInit, OnInit, OnDestroy {
     combined$: Subscription;
 
     updatedField$: Subscription;
@@ -30,22 +31,15 @@ export class SelectedIssueContainerComponent implements AfterViewInit, OnInit, O
 
     localNodeType: any;
 
-    isSelectedIssueViewCompact$: Subscription;
-    isSelectedIssueViewCompact = false;
-
     constructor(public cdRef: ChangeDetectorRef,
         public router: Router,
         public activatedRoute: ActivatedRoute,
         public store$: Store<IssueState>
     ) {
+        super(cdRef, store$);
     }
     ngOnInit(): void {
-
-        this.isSelectedIssueViewCompact$ = this.store$.select(p => p.issue.isSelectedIssueViewCompact)
-            .subscribe(isCompactView => {
-                this.isSelectedIssueViewCompact = isCompactView;
-            });
-
+        this.init(55);
         this.localNodeType = CustomNodeTypes;
 
         this.updatedField$ = this.store$.select(p => p.issue.updatedField).pipe(filter(p => p && this.selectedIssue))
@@ -104,6 +98,7 @@ export class SelectedIssueContainerComponent implements AfterViewInit, OnInit, O
     }
 
     ngOnDestroy(): void {
+        this.destroy()
         this.updatedField$ ? this.updatedField$.unsubscribe() : null;
         this.organization$ ? this.organization$.unsubscribe() : null;
         this.combined$ ? this.combined$.unsubscribe() : null;
@@ -118,26 +113,11 @@ export class SelectedIssueContainerComponent implements AfterViewInit, OnInit, O
         this.router.navigate(['/search/list']);
     }
 
-    contentHeight = 0;
-    @ViewChild('content') elementView: ElementRef;
     ngAfterViewInit(): void {
-        this.onResize(null);
+        this.afterViewInit();
     }
-
-    @HostListener('window:resize', ['$event'])
-    onResize(event) {
-        if (this.elementView) {
-            console.log('onResize');
-            this.contentHeight = this.elementView.nativeElement.offsetParent.clientHeight - (!this.isSelectedIssueViewCompact ? 112 : 55);
-            this.cdRef.detectChanges();
-        }
-    }
-
-    compactView = false;
     toggleView() {
-        this.compactView = !this.compactView;
-        this.store$.dispatch(new ChangeSelectedIssueViewAction(this.compactView));
-        this.onResize(null);
+        this.store$.dispatch(new ChangeSelectedIssueViewAction(!this.compactView));
     }
 
     showIssueEntry = false;

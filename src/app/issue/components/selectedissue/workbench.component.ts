@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ChangeDetectorRef, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as _ from 'lodash';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/+state/app.state';
@@ -6,7 +6,6 @@ import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { CustomNodeTypes } from 'src/app/lib/jira-tree-utils';
 import { groupChildren } from 'src/app/lib/utils';
-import { ResizableContainerBase } from './resizable-container-base';
 
 const LEFT_PANE_WIDTH = 60;
 
@@ -14,7 +13,7 @@ const LEFT_PANE_WIDTH = 60;
     selector: 'app-workbench',
     templateUrl: './workbench.component.html'
 })
-export class WorkbenchComponent extends ResizableContainerBase implements AfterViewInit, OnInit, OnDestroy {
+export class WorkbenchComponent implements OnInit, OnDestroy {
     selectedIssue$: Subscription;
     public issue: any;
     selectedIssue: any;
@@ -32,13 +31,11 @@ export class WorkbenchComponent extends ResizableContainerBase implements AfterV
     selectedRelatedIssue: any;
     selectedEpicIssue: any;
 
-    constructor(public cdRef: ChangeDetectorRef, public store$: Store<AppState>) {
-        super(cdRef, store$);
+    constructor(public store$: Store<AppState>) {
         this.localNodeType = CustomNodeTypes;
     }
 
     ngOnInit(): void {
-        this.init(60);
         this.selectedIssue$ = this.store$.select(p => p.issue.selectedIssue).pipe(filter(p => p))
             .subscribe(issue => {
                 this.issue = issue;
@@ -60,25 +57,9 @@ export class WorkbenchComponent extends ResizableContainerBase implements AfterV
     }
 
     ngOnDestroy(): void {
-        this.destroy();
         this.epicChildrenLoaded$ ? this.epicChildrenLoaded$.unsubscribe() : null;
         this.selectedIssue$ ? this.selectedIssue$.unsubscribe() : null;
     }
-
-    ngAfterViewInit() {
-        this.afterViewInit();
-    }
-    // contentHeight = 0;
-    // @ViewChild('content') elementView: ElementRef;
-    // ngAfterViewInit(): void {
-    //     this.onResize(null);
-    // }
-
-    // @HostListener('window:resize', ['$event'])
-    // onResize(event) {
-    //     this.contentHeight = this.elementView.nativeElement.offsetParent.clientHeight - 120;
-    //     this.cdRef.detectChanges();
-    // }
 
     leftPaneSize = LEFT_PANE_WIDTH;
     public columns: any = [{ visible: true, size: LEFT_PANE_WIDTH }, { visible: true, size: 40 }];

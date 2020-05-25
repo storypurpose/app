@@ -1,4 +1,59 @@
-<div class="container-fluid">
+<as-split direction="horizontal" (gutterDblClick)="toggleFullscreen()" (dragEnd)="dragEnd($event)"
+    *ngIf="purpose && purpose.length > 0">
+    <as-split-area [size]="columns[0].size">
+        <div *ngIf="leftPaneSize > 0">
+            <app-issue-treeview [rootNode]="hierarchicalNode" [issueKey]="selectedIssueKey"></app-issue-treeview>
+        </div>
+    </as-split-area>
+
+    <as-split-area [size]="columns[1].size">
+        <!-- <button class="btn btn-sm btn-link text-muted float-right" title="expand/collapse pane"
+            (click)="toggleFullscreen()">
+            <fa-icon [icon]="columns[0].size === 0 ? 'compress-arrows-alt' : 'expand-arrows-alt'" [fixedWidth]="true">
+            </fa-icon>
+        </button> -->
+
+        <div class="alert">
+            <div class="border-0 pb-0 mb-2 float-left">
+                <a (click)="showHideAllPurposes(!showAll)" class="btn btn-light btn-sm text-muted mr-2 "
+                    title="Show/hide details">
+                    <fa-icon size="fw" [icon]="showAll ? 'angle-double-down' : 'angle-double-right'">
+                    </fa-icon>
+                </a>
+            </div>
+
+            <div [ngClass]="{'float-left': !item.show}" *ngFor="let item of purpose">
+                <div class="clearfix"></div>
+                <div class="text-uppercase text-muted">
+                    <a (click)="item.show = !item.show" class="btn btn-light btn-sm text-muted mr-2"
+                        title="Show/hide details">
+                        <fa-icon size="fw" [icon]="item.show ? 'chevron-down' : 'chevron-right'"></fa-icon>
+                        <span class="small">{{item.issueType}} purpose</span>
+                    </a>
+                </div>
+
+                <div *ngIf="item.show" class="ml-3 pl-3 pr-3 border-left" style="overflow:auto">
+                    <h5 class=" text-dark font-weight-normal mt-1">
+                        {{item.title}}
+                    </h5>
+
+                    <ngx-md [data]="item.purpose"> </ngx-md>
+                </div>
+            </div>
+
+            <div class="clearfix">&nbsp;</div>
+            <div class="text-right mt-3 mb-3">
+                <a class="btn btn-sm btn-primary" routerLink="../workbench">
+                    Proceed to workbench
+                    <fa-icon icon="chevron-right" size="sm"></fa-icon>
+                </a>
+            </div>
+        </div>
+    </as-split-area>
+</as-split>
+
+
+<!-- <div class="container-fluid">
     <div class="row">
         <div class="col-md-3" style="overflow: auto;">
             <app-issue-treeview [rootNode]="hierarchicalNode" [issueKey]="selectedIssueKey"></app-issue-treeview>
@@ -42,4 +97,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->

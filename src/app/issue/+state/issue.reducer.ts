@@ -74,6 +74,10 @@ export function issueReducer(state: Issue, action: any): Issue {
         case ActionTypes.LoadSelectedIssueSuccess: {
             return { ...state, selectedIssue: populateIssueDetails(action.payload) };
         }
+        case ActionTypes.ChangeSelectedIssueView: {
+            return { ...state, isSelectedIssueViewCompact: action.payload };
+        }
+
         case ActionTypes.LoadSelectedIssueEpicChildren: {
             return { ...state, selectedIssue: { ...state.selectedIssue, epicChildrenLoading: true, epicChildrenLoaded: false } };
         }

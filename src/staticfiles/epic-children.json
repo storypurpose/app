@@ -163,7 +163,7 @@
                     }
                 ],
                 "labels": [],
-                "duedate": "2020-10-06T02:27:24.000-0400",
+                "duedate": "2020-04-25T02:27:24.000-0400",
                 "issuelinks": [],
                 "assignee": {
                     "self": "https://jira.mediaocean.com/rest/api/2/user?username=npatil",

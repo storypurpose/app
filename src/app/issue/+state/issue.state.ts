@@ -5,6 +5,8 @@ export interface Issue {
   selectedIssueKey: string;
   selectedIssue: any;
 
+  isSelectedIssueViewCompact: boolean;
+  
   hierarchicalIssue: any;
 
   subtasks: any;

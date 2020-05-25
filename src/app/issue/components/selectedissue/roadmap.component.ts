@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, ViewChild, ElementRef, HostListener } from '@angular/core';
 import * as _ from 'lodash';
 import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -6,13 +6,14 @@ import { CustomNodeTypes, populatedFieldList } from 'src/app/lib/jira-tree-utils
 import { filter } from 'rxjs/operators';
 import { IssueState } from '../../+state/issue.state';
 import { initRoadmapMetadata } from 'src/app/lib/roadmap-utils';
+import { ResizableContainerBase } from './resizable-container-base';
 
 @Component({
     selector: 'app-roadmap',
     templateUrl: './roadmap.component.html'
 })
 
-export class RoadmapComponent implements OnInit, OnDestroy {
+export class RoadmapComponent extends ResizableContainerBase implements OnInit, OnDestroy {
 
     roadmap: any;
     timespan: any;
@@ -31,12 +32,13 @@ export class RoadmapComponent implements OnInit, OnDestroy {
     selectedIssue$: Subscription;
     selectedItem: any;
 
-    contentHeight = 0;
-    @ViewChild('content') elementView: ElementRef;
-
-    constructor(public cdRef: ChangeDetectorRef, public store$: Store<IssueState>) { }
+    constructor(public cdRef: ChangeDetectorRef, public store$: Store<IssueState>) {
+        super(cdRef, store$);
+    }
 
     ngOnInit(): void {
+        this.init(92);
+
         this.selectedIssue$ = this.store$.select(p => p.issue.selectedIssue)
             .pipe(filter(p => p))
             .subscribe(selectedIssue => {
@@ -48,18 +50,16 @@ export class RoadmapComponent implements OnInit, OnDestroy {
                     this.includeRelatedIssues = true;
                 }
                 this.plotIssuesOnRoadmap()
-
-                console.log(this.roadmap);
             })
     }
 
     ngOnDestroy(): void {
+        this.destroy();
         this.selectedIssue$ ? this.selectedIssue$.unsubscribe() : null;
     }
 
     ngAfterViewInit(): void {
-        this.contentHeight = this.elementView.nativeElement.offsetParent.clientHeight - 165;
-        this.cdRef.detectChanges();
+        this.afterViewInit();
     }
 
     plotIssuesOnRoadmap() {
@@ -100,14 +100,23 @@ export class RoadmapComponent implements OnInit, OnDestroy {
 
     private transformToTreeChildren(children, timespanLookup) {
         return _.map(children, (ec) => {
-            const record = _.pick(ec, ['label', 'title', 'icon', 'key', 'issueType', 'status', 'timespan', 'created', 'duedate']);
+            const record = _.pick(ec, ['label', 'title', 'icon', 'key', 'issueType', 'status', 'timespan', 'created', 'duedate', 'resolution']);
             record.label = record.title;
             record.title = this.prepareTitle(record);
-            const duedate = ec.duedate ? new Date(ec.duedate) : new Date();
             const created = ec.created ? new Date(ec.created) : new Date();
+            let duedate = created;
+            let missingDuedate = true;
+            let duedatePassed = false;
+            if (ec.duedate) {
+                duedate = new Date(ec.duedate);
+                missingDuedate = false;
+                duedatePassed = !ec.resolution && duedate <= new Date();
+            }
             record.timespan = _.map(timespanLookup, (ts) => {
                 return {
                     idx: ts.idx,
+                    missingDuedate,
+                    duedatePassed,
                     isInTimespan:
                         created <= ts.lastDate &&
                         ((duedate >= ts.firstDate && duedate <= ts.lastDate) || duedate > ts.lastDate)
@@ -118,15 +127,30 @@ export class RoadmapComponent implements OnInit, OnDestroy {
     }
 
     private prepareTitle(node: any) {
-        const created = node.created ? this.toShortDate(new Date(node.created)) + ' -> ' : ''
-        const duedate = node.updated ? this.toShortDate(new Date(node.duedate)) : ''
+        const created = node.created ? this.toShortDate(new Date(node.created)) + ' -> ' : 'Missing created date'
+        const duedate = node.updated ? this.toShortDate(new Date(node.duedate)) : ' Missing duedate'
         const key = node.key ? node.key + ": " : '';
         const status = node.status ? `[${node.status}]` : '';
-        return `${key} ${node.title} ${status} ${created} ${duedate}`;
+        const resolution = node.resolution ? `[${node.resolution}]` : 'UNRESOLVED';
+        return `${key} ${node.title} ${status} ${created} ${duedate} ${resolution}`;
     }
 
     toShortDate(date) {
         return date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate();
+    }
+
+    getTimelineTypeClass(timespan, idx) {
+        if (timespan && timespan[idx].isInTimespan) {
+            const col = timespan[idx];
+            if (!col.missingDuedate && !col.duedatePassed) {
+                return 'bg-primary';
+            } else if (col.missingDuedate && !col.duedatePassed) {
+                return 'bg-timeline';
+            } else if (col.duedatePassed) {
+                return 'bg-warning';
+            }
+        }
+        return '';
     }
 }
 

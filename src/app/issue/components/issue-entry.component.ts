@@ -39,12 +39,15 @@ export class IssueEntryComponent implements OnInit, OnDestroy {
 
     navigateTo(issue) {
         if (this.canNavigate()) {
+            this.cancel.emit(true);
             this.router.navigate(['/browse', issue.trim()]);
         }
     }
     selectTo(issue) {
         if (this.canNavigate()) {
             const issueToNavigate = issue.trim();
+
+            this.cancel.emit(true);
 
             _.find(this.issueLookup, (i) => i === issueToNavigate)
                 ? this.router.navigate(['purpose', issueToNavigate, 'details'], { relativeTo: this.activatedRoute })

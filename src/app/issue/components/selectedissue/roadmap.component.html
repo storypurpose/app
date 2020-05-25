@@ -30,8 +30,7 @@
             <tr class="treetable-data" [ngClass]="{'bg-light border-bottom': rowData.isHeading}"
                 [title]="rowData.title">
                 <td *ngFor="let col of columns">
-                    <div style="height: 5pt;"
-                        [ngClass]="{'bg-progress': rowData.timespan && rowData.timespan[col.idx].isInTimespan}">
+                    <div class="timeline-height {{getTimelineTypeClass(rowData.timespan, col.idx)}}">
                         &nbsp;
                     </div>
                 </td>

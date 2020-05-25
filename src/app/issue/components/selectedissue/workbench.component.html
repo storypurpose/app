@@ -4,6 +4,11 @@
             <div class="alert" style="overflow: auto;">
                 <ngx-md [data]="issue.description"></ngx-md>
 
+                <div class="alert bg-light small mt-3 mb-3" *ngIf="issue.fixVersions && issue.fixVersions.length > 0">
+                    <span class="text-muted">FIX VERSION: </span>
+                    <span class="ml-1" *ngFor="let fv of issue.fixVersions">{{fv}}</span>
+                </div>
+
                 <app-extended-fields [issue]="issue" *ngIf="leftPaneSize > 0"></app-extended-fields>
             </div>
         </as-split-area>
@@ -45,9 +50,14 @@
                                                 *ngFor="let i of child.children">
                                                 <app-issue-navigation-menu class="float-right" [issueKey]="i.key">
                                                 </app-issue-navigation-menu>
-                                                <div
-                                                    class="badge badge-light font-weight-normal text-uppercase float-right mt-1">
-                                                    {{i.duedate}}
+                                                <div class="text-uppercase float-right mt-1">
+                                                    <div class="badge badge-light ml-2 font-weight-normal "
+                                                        title="status">
+                                                        {{i.status}}
+                                                    </div>
+                                                    <div class="badge badge-light font-weight-normal " title="Due date">
+                                                        {{i.duedate | date:'mediumDate'}}
+                                                    </div>
                                                 </div>
                                                 <i [class]="i.icon" class="mr-1"></i>
                                                 <a (click)="selectEpicIssue(i)" class="text-primary mr-2">{{i.key}}</a>

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit, ChangeDetectorRef, HostListener } from '@angular/core';
 import * as _ from "lodash";
 import { Subscription, combineLatest } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import { CustomNodeTypes, searchTreeByKey } from 'src/app/lib/jira-tree-utils';
 import {
     UpdateOrganizationPurposeAction, SetSelectedIssueAction,
-    LoadSelectedIssueAction, LoadSelectedIssueEpicChildrenAction, LoadSelectedIssueRelatedLinksAction
+    LoadSelectedIssueAction, LoadSelectedIssueEpicChildrenAction, LoadSelectedIssueRelatedLinksAction, ChangeSelectedIssueViewAction
 } from '../../+state/issue.actions';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IssueState } from '../../+state/issue.state';
@@ -29,6 +29,10 @@ export class SelectedIssueContainerComponent implements AfterViewInit, OnInit, O
     primaryIssue: any;
 
     localNodeType: any;
+
+    isSelectedIssueViewCompact$: Subscription;
+    isSelectedIssueViewCompact = false;
+
     constructor(public cdRef: ChangeDetectorRef,
         public router: Router,
         public activatedRoute: ActivatedRoute,
@@ -36,6 +40,12 @@ export class SelectedIssueContainerComponent implements AfterViewInit, OnInit, O
     ) {
     }
     ngOnInit(): void {
+
+        this.isSelectedIssueViewCompact$ = this.store$.select(p => p.issue.isSelectedIssueViewCompact)
+            .subscribe(isCompactView => {
+                this.isSelectedIssueViewCompact = isCompactView;
+            });
+
         this.localNodeType = CustomNodeTypes;
 
         this.updatedField$ = this.store$.select(p => p.issue.updatedField).pipe(filter(p => p && this.selectedIssue))
@@ -108,19 +118,30 @@ export class SelectedIssueContainerComponent implements AfterViewInit, OnInit, O
         this.router.navigate(['/search/list']);
     }
 
-    showIssueEntry = false;
-    onShowIssueEntry() {
-        this.showIssueEntry = true;
-    }
-    onCancelIssueEntry() {
-        this.showIssueEntry = false;
-    }
-
     contentHeight = 0;
     @ViewChild('content') elementView: ElementRef;
     ngAfterViewInit(): void {
-        this.contentHeight = this.elementView.nativeElement.offsetParent.clientHeight - 118;
-        this.cdRef.detectChanges();
+        this.onResize(null);
     }
 
+    @HostListener('window:resize', ['$event'])
+    onResize(event) {
+        if (this.elementView) {
+            console.log('onResize');
+            this.contentHeight = this.elementView.nativeElement.offsetParent.clientHeight - (!this.isSelectedIssueViewCompact ? 112 : 55);
+            this.cdRef.detectChanges();
+        }
+    }
+
+    compactView = false;
+    toggleView() {
+        this.compactView = !this.compactView;
+        this.store$.dispatch(new ChangeSelectedIssueViewAction(this.compactView));
+        this.onResize(null);
+    }
+
+    showIssueEntry = false;
+    onCancelIssueEntry(args) {
+        this.showIssueEntry = false
+    }
 }

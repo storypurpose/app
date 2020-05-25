@@ -7,9 +7,8 @@ export const TreeTemplateTypes = {
     Editing: 'Editing',
 };
 
-// export const fieldList = ['project', 'reporter', 'assignee', 'status', 'summary', 'key', 'issuelinks', 'issuetype', 'duedate','created', 'updated'];
 export const populatedFieldList = ['project', 'issueParent', 'issueType', 'assignee', 'status', 'summary', 'label', 'title', 'key',
-    'icon', 'duedate', 'created', 'updated', 'description', 'components', 'labels', 'fixVersions', 'linkType'];
+    'icon', 'duedate', 'created', 'updated', 'resolution', 'description', 'components', 'labels', 'fixVersions', 'linkType'];
 export const detailFields = ['description', 'components', 'labels', 'fixVersions'];
 
 export const ORG_PLACEHOLDER = "my_org";
@@ -78,8 +77,9 @@ export function populateFieldValuesCompact(node) {
             duedate: node.fields.duedate,
             created: node.fields.created,
             updated: node.fields.updated,
+            resolution: node.fields.resolution ? node.fields.resolution.name : null,
             assignee: _.pick(node.fields.assignee, ['key', 'name', 'displayName']),
-            priority: node.fields.priority ? node.fields.priority.name : 'unknown',
+            priority: node.fields.priority ? node.fields.priority.name : null,
 
             description: node.fields.description,
             labels: node.fields.labels,
@@ -101,8 +101,10 @@ export function populateFieldValues(node) {
         node.duedate = node.fields.duedate;
         node.created = node.fields.created;
         node.updated = node.fields.updated;
+        node.resolution = node.fields.resolution ? node.fields.resolution.name : null;
+
         node.assignee = _.pick(node.fields.assignee, ['key', 'name', 'displayName']);
-        node.priority = node.fields.priority ? node.fields.priority.name : 'unknown';
+        node.priority = node.fields.priority ? node.fields.priority.name : null;
 
         node.description = node.fields.description;
         node.labels = node.fields.labels;
@@ -129,6 +131,7 @@ export function copyFieldValues(src, dest) {
     dest.duedate = src.duedate;
     dest.created = src.created;
     dest.updated = src.updated;
+    dest.resolution = src.resolution;
 
     dest.assignee = src.assignee;
 

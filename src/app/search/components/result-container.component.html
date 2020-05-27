@@ -20,45 +20,56 @@
         </as-split-area>
 
         <as-split-area [size]="columns[1].size">
-            <div class="body-container">
-                <div class="container-fluid">
-                    <button class="btn btn-link text-muted float-left pl-0" title="expand/collapse pane"
-                        (click)="toggleFullscreen()">
-                        <fa-icon [icon]="columns[0].size === 0 ? 'angle-double-right' : 'angle-double-left'"
-                            [fixedWidth]="true"></fa-icon>
-                    </button>
+            <div class="bg-light pb-1 border-bottom" *ngIf="issuelist && issuelist.total > 0">
 
-
-                    <router-outlet></router-outlet>
-                    <div class="center-text custom-shadow alert-warning p-4" *ngIf="issuelist && issuelist.total === 0">
-                        No Records found.
-                    </div>
-                </div>
-            </div>
-            <div class="footer-container bg-light" *ngIf="issuelist && issuelist.total > 0">
-                <div class="float-right pt-1 ml-2"
-                    *ngIf="issuelist && issuelist.results && issuelist.results.length > 1">
-                    <a class="btn btn-brand btn-sm" routerLink="storyboard" queryParamsHandling="merge"
-                        *ngIf="searchViewmode === localViewmode.LIST">
-                        <fa-icon icon="map" [fixedWidth]="true"></fa-icon>
-                        Storyboard view
-                    </a>
-                    <a class="btn btn-secondary btn-sm" routerLink="list" queryParamsHandling="merge"
-                        *ngIf="searchViewmode === localViewmode.STORYBOARD">
-                        <fa-icon icon="chevron-left" [fixedWidth]="true"></fa-icon>
-                        Back to list view
-                    </a>
-                </div>
-
-                <div class="float-right mt-1 mb-0" *ngIf="issuelist.total > issuelist.pageSize">
+                <div class="float-right mb-0 mt-0 mr-3" *ngIf="issuelist.total > issuelist.pageSize">
                     <ngb-pagination [maxSize]="3" [(page)]="currentPageIndex" [boundaryLinks]="true"
                         [pageSize]="issuelist.pageSize" size="sm" (pageChange)="onPageChange()"
                         [collectionSize]="issuelist.total">
                     </ngb-pagination>
                 </div>
-
-                <div class="pt-2 small clearfix">
+                <div class="float-right small mt-2 mr-3">
                     {{issuelist.startAt + 1}} - {{issuelist.endAt}} / <b>{{issuelist.total}}</b>
+                </div>
+
+                <div class="clearfix">
+
+                    <button class="btn btn-link btn-sm text-muted mr-2" title="expand/collapse pane"
+                        (click)="toggleFullscreen()">
+                        <fa-icon [icon]="columns[0].size === 0 ? 'angle-double-right' : 'angle-double-left'"
+                            [fixedWidth]="true"></fa-icon>
+                    </button>
+
+                    <div class="btn-group btn-group-sm mr-2"
+                        *ngIf="issuelist && issuelist.results && issuelist.results.length > 1">
+                        <a class="btn btn-default border text-nowrap" routerLink="list" routerLinkActive="active"
+                            queryParamsHandling="preserve">
+                            <fa-icon icon="list" [fixedWidth]="true"></fa-icon>
+                            List
+                        </a>
+
+                        <a class="btn btn-default border text-nowrap" routerLink="storyboard"
+                            [routerLinkActive]="'active'" queryParamsHandling="preserve">
+                            <fa-icon icon="map" [fixedWidth]="true"></fa-icon>
+                            Storyboard
+                        </a>
+
+                        <a class="btn btn-default border text-nowrap" routerLink="roadmap" [routerLinkActive]="'active'"
+                            queryParamsHandling="preserve">
+                            <fa-icon icon="map-signs" size="sm"></fa-icon>
+                            <span class=" ml-1">Roadmap</span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="body-container">
+                <div class="w-100">
+                    <router-outlet></router-outlet>
+                    <div class="center-text custom-shadow alert-warning p-4" *ngIf="issuelist && issuelist.total === 0">
+                        No Records found.
+                    </div>
                 </div>
             </div>
         </as-split-area>

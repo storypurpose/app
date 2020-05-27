@@ -1,4 +1,4 @@
-<p-treeTable *ngIf="roadmapItems && metadata" [columns]="metadata.timespan"
+<p-treeTable *ngIf="roadmapItems && metadata" [columns]="metadata.timespan" class="roadmap"
     [frozenColumns]="metadata.fixedColumns" [scrollable]="true" frozenWidth="300px"
     [scrollHeight]="contentHeight + 'px'" [value]="roadmapItems" [resizableColumns]="true" columnResizeMode="expand">
     <ng-template pTemplate="colgroup" let-columns>

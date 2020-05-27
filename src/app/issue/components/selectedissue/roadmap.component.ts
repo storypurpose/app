@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef, ViewChild, ElementRef, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, ViewChild, ElementRef, HostListener, AfterViewInit } from '@angular/core';
 import * as _ from 'lodash';
 import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -13,7 +13,7 @@ import { ResizableContainerBase } from './resizable-container-base';
     templateUrl: './roadmap.component.html'
 })
 
-export class RoadmapComponent extends ResizableContainerBase implements OnInit, OnDestroy {
+export class RoadmapComponent extends ResizableContainerBase implements OnInit, OnDestroy, AfterViewInit {
 
     roadmap: any;
     timespan: any;

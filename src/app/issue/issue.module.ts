@@ -33,7 +33,6 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { RoadmapComponent } from './components/selectedissue/roadmap.component';
 import { TreeTableModule } from 'primeng/treetable';
 import { IssueTreeviewComponent } from './components/issue-treeview.component';
-import { RoadmapRendererComponent } from './components/selectedissue/roadmap-renderer.component';
 
 const routes: Route[] = [
   {
@@ -66,8 +65,7 @@ const routes: Route[] = [
 
     SelectedIssueHomeComponent,
     SelectedIssueContainerComponent, WorkbenchComponent, RecentlyViewedComponent,
-    PurposeDetailsComponent, ExtendedFieldsComponent, StoryboardComponent,
-    RoadmapComponent, RoadmapRendererComponent,
+    PurposeDetailsComponent, ExtendedFieldsComponent, StoryboardComponent, RoadmapComponent,
     TasklistComponent, GroupedIssuelistComponent
   ],
   imports: [

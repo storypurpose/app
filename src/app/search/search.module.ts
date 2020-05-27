@@ -24,19 +24,21 @@ import { FavouriteSearchesComponent } from './components/favourite-searches.comp
 import { MultiSelectModule } from 'primeng/multiselect';
 import { EffectsModule } from '@ngrx/effects';
 import { SearchEffects } from './+state/search.effects';
+import { SearchRoadmapViewComponent } from './components/roadmap-view.component';
 
 const routes: Route[] = [
   {
     path: '', component: SearchResultContainerComponent, children: [
       { path: 'list', component: SearchListViewComponent },
-      { path: 'storyboard', component: SearchStoryboardViewComponent }
+      { path: 'storyboard', component: SearchStoryboardViewComponent },
+      { path: 'roadmap', component: SearchRoadmapViewComponent }
     ]
   },
 ];
 
 @NgModule({
   declarations: [
-    SearchResultContainerComponent, SearchListViewComponent, SearchStoryboardViewComponent, 
+    SearchResultContainerComponent, SearchListViewComponent, SearchStoryboardViewComponent, SearchRoadmapViewComponent,
     SavedSearchesComponent, FavouriteSearchesComponent
   ],
   imports: [

@@ -6,7 +6,7 @@ import * as a from './search.actions';
 import { of } from 'rxjs';
 import { JiraService } from '../../lib/jira.service';
 import { CachingService } from 'src/app/lib/caching.service';
-import { populateFieldValuesCompact, detailFields } from 'src/app/lib/jira-tree-utils';
+import { populateFieldValuesCompact, detailFields, populatedFieldList } from 'src/app/lib/jira-tree-utils';
 
 @Injectable()
 export class SearchEffects {
@@ -17,7 +17,7 @@ export class SearchEffects {
     @Effect() loadSearchlist = this.actions$.pipe(ofType(a.ActionTypes.LoadSearchResults),
         switchMap((action: any) =>
             this.jiraService.executeJql(action.payload.query, action.payload.currentPageIndex - 1, 50,
-                detailFields, 'issuelist.json')
+                populatedFieldList, 'issuelist.json')
                 .pipe(map((p: any) => {
                     return {
                         total: p.total,

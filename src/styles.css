@@ -29,7 +29,7 @@ h5 {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #ddd;
+  background-color: #aaa;
   border-radius: 4pt;
 }
 ::-webkit-scrollbar {
@@ -389,9 +389,9 @@ ngx-md h3,
   margin: 0 8pt 8pt 0;
 }
 
-.body-container .zoom-slider {
+/* .body-container .zoom-slider {
   bottom: 32pt !important;
-}
+} */
 
 body .ui-multiselect,
 body .ui-multiselect .ui-multiselect-trigger {
@@ -409,7 +409,8 @@ body .ui-multiselect .ui-multiselect-trigger {
   text-align: center;
 }
 .roadmap .ui-treetable .ui-treetable-tbody > tr > td {
-  border-width: 0;
+  border-width: 0 1px 0 0;
+  border-color: #f8f8f8;
 }
 
 .treetable-data > td {

@@ -10,15 +10,15 @@ import * as _ from 'lodash';
 export class RoadmapRendererComponent {
     @Input() contentHeight: number;
 
-    private _selectedIssue: any;
-    @Input() set selectedIssue(value: any) {
-        this._selectedIssue = value;
+    private _records: any;
+    @Input() set records(value: any) {
+        this._records = value;
         if (value) {
             this.plotIssuesOnRoadmap();
         }
     }
-    get selectedIssue() {
-        return this._selectedIssue;
+    get records() {
+        return this._records;
     }
 
     public metadata: any;
@@ -26,11 +26,11 @@ export class RoadmapRendererComponent {
 
     plotIssuesOnRoadmap() {
         this.populateMetadata();
-        this.roadmapItems = this.transformToTreeChildren(this.selectedIssue.children, this.metadata.timespan)
+        this.roadmapItems = this.transformToTreeChildren(this.records, this.metadata.timespan)
     }
 
     private populateMetadata() {
-        const withDates = _.map(this.selectedIssue.children, (record) => {
+        const withDates = _.map(this.records, (record) => {
             if (!record.created) {
                 const minCreated: any = _.minBy(_.union(record.children || []), 'created');
                 if (minCreated) {
@@ -50,17 +50,6 @@ export class RoadmapRendererComponent {
         const maxDueDateRecord: any = _.maxBy(_.union(withDates || []), 'duedate');
         const maxDueDate = maxDueDateRecord && maxDueDateRecord.duedate ? new Date(maxDueDateRecord.duedate) : new Date();
         this.metadata = initRoadmapMetadata(minStartDate, maxDueDate);
-    }
-
-    private createParentNode(node, children) {
-        const record = {
-            label: node.title,
-            title: this.prepareTitle(node),
-            created: _.minBy(children, 'created'),
-            duedate: _.maxBy(children, 'updated'),
-            isHeading: true
-        };
-        return record;
     }
 
     private transformToTreeChildren(children, timespanLookup) {

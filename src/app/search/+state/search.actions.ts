@@ -3,7 +3,8 @@ import { type } from 'src/app/lib/utils';
 
 export const SearchresultViewMode = {
     LIST: 'LIST',
-    STORYBOARD: 'STORYBOARD'
+    STORYBOARD: 'STORYBOARD',
+    ROADMAP: 'ROADMAP'
 }
 export const ActionTypes = {
     SwitchViewmode: type('[SwitchViewmode]'),

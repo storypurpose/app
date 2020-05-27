@@ -13,10 +13,12 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { MultilistSelectorComponent } from './components/multilist-selector.component';
 import { IssueNavigationMenuComponent } from './components/issue-navigation-menu.component';
 import { SliderModule } from 'primeng/slider';
+import { RoadmapRendererComponent } from './components/roadmap-renderer.component';
+import { TreeTableModule } from 'primeng/treetable';
 
 const components = [
   ButtonPanelComponent, StoryboardRendererComponent, StatisticsComponent, AutofocusDirective,
-  MultilistSelectorComponent, IssueNavigationMenuComponent
+  MultilistSelectorComponent, IssueNavigationMenuComponent, RoadmapRendererComponent
 ];
 @NgModule({
   exports: components,
@@ -27,6 +29,7 @@ const components = [
     RouterModule,
     ChartsModule,
 
+    TreeTableModule,
     SliderModule,
 
     NgbDropdownModule,

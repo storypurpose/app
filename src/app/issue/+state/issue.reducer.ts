@@ -31,7 +31,7 @@ export function issueReducer(state: Issue, action: any): Issue {
             return { ...state, primaryIssue: { ...state.primaryIssue, relatedLinksLoading: true } };
         }
         case ActionTypes.LoadPrimaryIssueRelatedLinksSuccess: {
-            const relatedLinks = populateRelatedLinks(state, action);
+            const relatedLinks = populatePrimaryIssueRelatedLinks(state, action);
             return {
                 ...state, primaryIssue: {
                     ...state.primaryIssue, relatedLinksLoading: false, relatedLinksLoaded: true, relatedLinks
@@ -192,23 +192,41 @@ function getIssueTypes(list, isSubTask): any {
     });
 }
 
-function populateRelatedLinks(state: Issue, action: any) {
+function populatePrimaryIssueRelatedLinks(state: Issue, action: any) {
     if (!state.primaryIssue) {
         return null;
     }
+
     const relatedLinks = state.primaryIssue.relatedLinks;
-    if (action.payload && action.payload.issues && relatedLinks) {
-        const records = _.map(action.payload.issues, (item) => _.pick(populateFieldValuesCompact(item), populatedFieldList));
-        relatedLinks.forEach(u => {
-            const found = _.find(records, { key: u.key });
-            if (found) {
-                u.project = found.project;
-                u.labels = found.labels;
-                u.fixVersions = found.fixVersions;
-                u.components = found.components;
-            }
-        });
+    if (action.payload && action.payload.issues) {
+
+        // const groupedIssueLinks = _.filter(state.primaryIssue.children, { issueType: CustomNodeTypes.RelatedLink });
+        // groupedIssueLinks.forEach(gil => {
+        //     gil.children.forEach(c => {
+
+        //     })
+        // })
+
+
+        if (relatedLinks) {
+            const records = _.map(action.payload.issues, (item) => _.pick(populateFieldValuesCompact(item), populatedFieldList));
+            relatedLinks.forEach(u => {
+                const found = _.find(records, { key: u.key });
+                if (found) {
+                    u.created = found.created;
+                    u.duedate = found.duedate;
+                    u.updated = found.updated;
+                    u.resolution = found.resolution;
+
+                    u.project = found.project;
+                    u.labels = found.labels;
+                    u.fixVersions = found.fixVersions;
+                    u.components = found.components;
+                }
+            });
+        }
     }
+
     return relatedLinks;
 }
 

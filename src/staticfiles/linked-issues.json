@@ -34,7 +34,8 @@
                         "description": "Cash Receipt "
                     }
                 ],
-                "duedate": null,
+                "created": "2020-03-30T07:56:16.000-0400",
+                "description": "*Precondition:*\r\n * Advanced cash receipt must be created and processed\r\n * Once the advance cash receipt is processed, add bookings to the estimate created in pre-requisite. Save it.\r\n * Create a client invoice with media item ( created in step1). Refer https://jira.mediaocean.com/browse/GBP-38406.\r\n Also, go to Advance payment and add the advance cash receipt as some payment is already done.\r\n\r\n*Testcase Steps:*\r\n\r\n1. Go to Finance-> Cash receipt.\r\n 2. Create a standard cash receipt and add the client invoice created in precondition.\r\n\r\n ",
                 "project": {
                     "self": "https://jira.mediaocean.com/rest/api/2/project/16293",
                     "id": "16293",
@@ -53,6 +54,40 @@
                         "name": "Prisma"
                     }
                 },
+                "reporter": {
+                    "self": "https://jira.mediaocean.com/rest/api/2/user?username=sparab",
+                    "name": "sparab",
+                    "key": "sparab",
+                    "emailAddress": "sparab@mediaocean.com",
+                    "avatarUrls": {
+                        "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=sparab&avatarId=28422",
+                        "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=sparab&avatarId=28422",
+                        "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=sparab&avatarId=28422",
+                        "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=sparab&avatarId=28422"
+                    },
+                    "displayName": "Shubham Parab",
+                    "active": true,
+                    "timeZone": "Asia/Kolkata"
+                },
+                "fixVersions": [
+                    {
+                        "self": "https://jira.mediaocean.com/rest/api/2/version/54068",
+                        "id": "54068",
+                        "description": "2020.4",
+                        "name": "2020.4",
+                        "archived": false,
+                        "released": false,
+                        "releaseDate": "2020-07-10"
+                    }
+                ],
+                "resolution": {
+                    "self": "https://jira.mediaocean.com/rest/api/2/resolution/1",
+                    "id": "1",
+                    "description": "A fix for this issue is checked into the tree and tested.",
+                    "name": "Fixed"
+                },
+                "labels": [],
+                "duedate": null,
                 "issuelinks": [
                     {
                         "id": "974862",
@@ -291,32 +326,6 @@
                         }
                     }
                 ],
-                "reporter": {
-                    "self": "https://jira.mediaocean.com/rest/api/2/user?username=sparab",
-                    "name": "sparab",
-                    "key": "sparab",
-                    "emailAddress": "sparab@mediaocean.com",
-                    "avatarUrls": {
-                        "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=sparab&avatarId=28422",
-                        "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=sparab&avatarId=28422",
-                        "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=sparab&avatarId=28422",
-                        "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=sparab&avatarId=28422"
-                    },
-                    "displayName": "Shubham Parab",
-                    "active": true,
-                    "timeZone": "Asia/Kolkata"
-                },
-                "fixVersions": [
-                    {
-                        "self": "https://jira.mediaocean.com/rest/api/2/version/54068",
-                        "id": "54068",
-                        "description": "2020.4",
-                        "name": "2020.4",
-                        "archived": false,
-                        "released": false,
-                        "releaseDate": "2020-07-10"
-                    }
-                ],
                 "assignee": {
                     "self": "https://jira.mediaocean.com/rest/api/2/user?username=sparab",
                     "name": "sparab",
@@ -332,7 +341,7 @@
                     "active": true,
                     "timeZone": "Asia/Kolkata"
                 },
-                "labels": [],
+                "updated": "2020-05-04T03:31:03.000-0400",
                 "status": {
                     "self": "https://jira.mediaocean.com/rest/api/2/status/6",
                     "description": "The issue is considered finished, the resolution is correct. Issues which are closed can be reopened.",
@@ -371,7 +380,8 @@
                         "name": "Domain report"
                     }
                 ],
-                "duedate": null,
+                "created": "2020-03-04T01:41:43.000-0500",
+                "description": "Manual regression test suite for Client profitability report",
                 "project": {
                     "self": "https://jira.mediaocean.com/rest/api/2/project/16293",
                     "id": "16293",
@@ -390,6 +400,39 @@
                         "name": "Prisma"
                     }
                 },
+                "reporter": {
+                    "self": "https://jira.mediaocean.com/rest/api/2/user?username=aojha",
+                    "name": "aojha",
+                    "key": "aojha",
+                    "emailAddress": "aojha@mediaocean.com",
+                    "avatarUrls": {
+                        "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=aojha&avatarId=28720",
+                        "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=aojha&avatarId=28720",
+                        "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=aojha&avatarId=28720",
+                        "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=aojha&avatarId=28720"
+                    },
+                    "displayName": "Ankit Ojha",
+                    "active": true,
+                    "timeZone": "Asia/Kolkata"
+                },
+                "fixVersions": [
+                    {
+                        "self": "https://jira.mediaocean.com/rest/api/2/version/37066",
+                        "id": "37066",
+                        "description": "",
+                        "name": "Backlog",
+                        "archived": false,
+                        "released": false
+                    }
+                ],
+                "resolution": {
+                    "self": "https://jira.mediaocean.com/rest/api/2/resolution/7",
+                    "id": "7",
+                    "description": "Completed",
+                    "name": "Completed"
+                },
+                "labels": [],
+                "duedate": null,
                 "issuelinks": [
                     {
                         "id": "978846",
@@ -488,31 +531,6 @@
                         }
                     }
                 ],
-                "reporter": {
-                    "self": "https://jira.mediaocean.com/rest/api/2/user?username=aojha",
-                    "name": "aojha",
-                    "key": "aojha",
-                    "emailAddress": "aojha@mediaocean.com",
-                    "avatarUrls": {
-                        "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=aojha&avatarId=28720",
-                        "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=aojha&avatarId=28720",
-                        "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=aojha&avatarId=28720",
-                        "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=aojha&avatarId=28720"
-                    },
-                    "displayName": "Ankit Ojha",
-                    "active": true,
-                    "timeZone": "Asia/Kolkata"
-                },
-                "fixVersions": [
-                    {
-                        "self": "https://jira.mediaocean.com/rest/api/2/version/37066",
-                        "id": "37066",
-                        "description": "",
-                        "name": "Backlog",
-                        "archived": false,
-                        "released": false
-                    }
-                ],
                 "assignee": {
                     "self": "https://jira.mediaocean.com/rest/api/2/user?username=npatil",
                     "name": "npatil",
@@ -528,7 +546,7 @@
                     "active": true,
                     "timeZone": "Asia/Kolkata"
                 },
-                "labels": [],
+                "updated": "2020-04-06T02:24:13.000-0400",
                 "status": {
                     "self": "https://jira.mediaocean.com/rest/api/2/status/1",
                     "description": "The issue is open and ready for the assignee to start work on it.",
@@ -579,7 +597,8 @@
                         "description": "Schedule"
                     }
                 ],
-                "duedate": null,
+                "created": "2020-02-17T00:08:03.000-0500",
+                "description": "This test suite is a collection of test cases to validate below functionality:\r\n * The insertion type drives the financials on the booking so that the client or vendor financials are calculated by the system.\r\n * The insertion type attributes drive the booking financials. Your selection impacts the values calculated on the cost breakdown, payment schedule, client billing accruals, and vendor invoice reconciliation.\r\n * The five common insertion type attributes are outlined below: Bill client, Pay vendor, Agency commission only, Media commission only, and Reconcile only.",
                 "project": {
                     "self": "https://jira.mediaocean.com/rest/api/2/project/16293",
                     "id": "16293",
@@ -598,6 +617,40 @@
                         "name": "Prisma"
                     }
                 },
+                "reporter": {
+                    "self": "https://jira.mediaocean.com/rest/api/2/user?username=pparekh",
+                    "name": "pparekh",
+                    "key": "pparekh",
+                    "emailAddress": "pparekh@mediaocean.com",
+                    "avatarUrls": {
+                        "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=pparekh&avatarId=27720",
+                        "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=pparekh&avatarId=27720",
+                        "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=pparekh&avatarId=27720",
+                        "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=pparekh&avatarId=27720"
+                    },
+                    "displayName": "Prachi Parekh",
+                    "active": true,
+                    "timeZone": "Asia/Kolkata"
+                },
+                "fixVersions": [
+                    {
+                        "self": "https://jira.mediaocean.com/rest/api/2/version/54066",
+                        "id": "54066",
+                        "description": "2020.2",
+                        "name": "2020.2",
+                        "archived": false,
+                        "released": false,
+                        "releaseDate": "2020-03-20"
+                    }
+                ],
+                "resolution": {
+                    "self": "https://jira.mediaocean.com/rest/api/2/resolution/7",
+                    "id": "7",
+                    "description": "Completed",
+                    "name": "Completed"
+                },
+                "labels": [],
+                "duedate": null,
                 "issuelinks": [
                     {
                         "id": "978842",
@@ -1313,34 +1366,8 @@
                         }
                     }
                 ],
-                "reporter": {
-                    "self": "https://jira.mediaocean.com/rest/api/2/user?username=pparekh",
-                    "name": "pparekh",
-                    "key": "pparekh",
-                    "emailAddress": "pparekh@mediaocean.com",
-                    "avatarUrls": {
-                        "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=pparekh&avatarId=27720",
-                        "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=pparekh&avatarId=27720",
-                        "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=pparekh&avatarId=27720",
-                        "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=pparekh&avatarId=27720"
-                    },
-                    "displayName": "Prachi Parekh",
-                    "active": true,
-                    "timeZone": "Asia/Kolkata"
-                },
-                "fixVersions": [
-                    {
-                        "self": "https://jira.mediaocean.com/rest/api/2/version/54066",
-                        "id": "54066",
-                        "description": "2020.2",
-                        "name": "2020.2",
-                        "archived": false,
-                        "released": false,
-                        "releaseDate": "2020-03-20"
-                    }
-                ],
                 "assignee": null,
-                "labels": [],
+                "updated": "2020-04-08T06:21:41.000-0400",
                 "status": {
                     "self": "https://jira.mediaocean.com/rest/api/2/status/10046",
                     "description": "Executed",
@@ -1379,7 +1406,8 @@
                         "name": "Prisma Sync"
                     }
                 ],
-                "duedate": null,
+                "created": "2020-02-13T05:29:01.000-0500",
+                "description": "Prisma integration",
                 "project": {
                     "self": "https://jira.mediaocean.com/rest/api/2/project/16293",
                     "id": "16293",
@@ -1398,6 +1426,40 @@
                         "name": "Prisma"
                     }
                 },
+                "reporter": {
+                    "self": "https://jira.mediaocean.com/rest/api/2/user?username=adhamankar",
+                    "name": "adhamankar",
+                    "key": "adhamankar",
+                    "emailAddress": "adhamankar@mediaocean.com",
+                    "avatarUrls": {
+                        "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=adhamankar&avatarId=27432",
+                        "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=adhamankar&avatarId=27432",
+                        "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=adhamankar&avatarId=27432",
+                        "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=adhamankar&avatarId=27432"
+                    },
+                    "displayName": "Abhijeet Dhamankar",
+                    "active": true,
+                    "timeZone": "Asia/Kolkata"
+                },
+                "fixVersions": [
+                    {
+                        "self": "https://jira.mediaocean.com/rest/api/2/version/54067",
+                        "id": "54067",
+                        "description": "2020.3",
+                        "name": "2020.3",
+                        "archived": false,
+                        "released": false,
+                        "releaseDate": "2020-05-15"
+                    }
+                ],
+                "resolution": {
+                    "self": "https://jira.mediaocean.com/rest/api/2/resolution/7",
+                    "id": "7",
+                    "description": "Completed",
+                    "name": "Completed"
+                },
+                "labels": [],
+                "duedate": null,
                 "issuelinks": [
                     {
                         "id": "978886",
@@ -1778,32 +1840,6 @@
                         }
                     }
                 ],
-                "reporter": {
-                    "self": "https://jira.mediaocean.com/rest/api/2/user?username=adhamankar",
-                    "name": "adhamankar",
-                    "key": "adhamankar",
-                    "emailAddress": "adhamankar@mediaocean.com",
-                    "avatarUrls": {
-                        "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=adhamankar&avatarId=27432",
-                        "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=adhamankar&avatarId=27432",
-                        "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=adhamankar&avatarId=27432",
-                        "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=adhamankar&avatarId=27432"
-                    },
-                    "displayName": "Abhijeet Dhamankar",
-                    "active": true,
-                    "timeZone": "Asia/Kolkata"
-                },
-                "fixVersions": [
-                    {
-                        "self": "https://jira.mediaocean.com/rest/api/2/version/54067",
-                        "id": "54067",
-                        "description": "2020.3",
-                        "name": "2020.3",
-                        "archived": false,
-                        "released": false,
-                        "releaseDate": "2020-05-15"
-                    }
-                ],
                 "assignee": {
                     "self": "https://jira.mediaocean.com/rest/api/2/user?username=jmehta",
                     "name": "jmehta",
@@ -1819,7 +1855,7 @@
                     "active": true,
                     "timeZone": "America/New_York"
                 },
-                "labels": [],
+                "updated": "2020-04-06T23:54:41.000-0400",
                 "status": {
                     "self": "https://jira.mediaocean.com/rest/api/2/status/3",
                     "description": "This issue is being actively worked on at the moment by the assignee.",
@@ -1859,7 +1895,8 @@
                         "description": "Schedule"
                     }
                 ],
-                "duedate": null,
+                "created": "2020-02-13T05:20:57.000-0500",
+                "description": "This test suite is a collection of test cases to validate below functionality:\r\n * The estimate page displays active and closed estimates ( estimates) that you have permission to view. The page default view displays open / active estimates.\r\n * You can filter the estimate list by: Booking client, Brand, Campaign, Client brief number, Created before, Created after, Modified before, and Modified after dates.\r\n * To successfully manage a estimate you use data from various master data files held within Client organization, Vendor organization, Job/media type, Spot attributes, and Foreign currency groups.\r\n * The estimate is a single or a collection of media bookings for a one—client, brand, and campaign.\r\n * The estimate can comprise multiple media outlets, and vendors.",
                 "project": {
                     "self": "https://jira.mediaocean.com/rest/api/2/project/16293",
                     "id": "16293",
@@ -1878,6 +1915,35 @@
                         "name": "Prisma"
                     }
                 },
+                "reporter": {
+                    "self": "https://jira.mediaocean.com/rest/api/2/user?username=adhamankar",
+                    "name": "adhamankar",
+                    "key": "adhamankar",
+                    "emailAddress": "adhamankar@mediaocean.com",
+                    "avatarUrls": {
+                        "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=adhamankar&avatarId=27432",
+                        "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=adhamankar&avatarId=27432",
+                        "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=adhamankar&avatarId=27432",
+                        "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=adhamankar&avatarId=27432"
+                    },
+                    "displayName": "Abhijeet Dhamankar",
+                    "active": true,
+                    "timeZone": "Asia/Kolkata"
+                },
+                "fixVersions": [
+                    {
+                        "self": "https://jira.mediaocean.com/rest/api/2/version/54067",
+                        "id": "54067",
+                        "description": "2020.3",
+                        "name": "2020.3",
+                        "archived": false,
+                        "released": false,
+                        "releaseDate": "2020-05-15"
+                    }
+                ],
+                "resolution": null,
+                "labels": [],
+                "duedate": null,
                 "issuelinks": [
                     {
                         "id": "978843",
@@ -2083,7 +2149,7 @@
                             "key": "GBP-41487",
                             "self": "https://jira.mediaocean.com/rest/api/2/issue/1930870",
                             "fields": {
-                                "summary": "Bill/ Pay tab management",
+                                "summary": "Accrued bookings",
                                 "status": {
                                     "self": "https://jira.mediaocean.com/rest/api/2/status/1",
                                     "description": "The issue is open and ready for the assignee to start work on it.",
@@ -2304,34 +2370,8 @@
                         }
                     }
                 ],
-                "reporter": {
-                    "self": "https://jira.mediaocean.com/rest/api/2/user?username=adhamankar",
-                    "name": "adhamankar",
-                    "key": "adhamankar",
-                    "emailAddress": "adhamankar@mediaocean.com",
-                    "avatarUrls": {
-                        "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=adhamankar&avatarId=27432",
-                        "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=adhamankar&avatarId=27432",
-                        "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=adhamankar&avatarId=27432",
-                        "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=adhamankar&avatarId=27432"
-                    },
-                    "displayName": "Abhijeet Dhamankar",
-                    "active": true,
-                    "timeZone": "Asia/Kolkata"
-                },
-                "fixVersions": [
-                    {
-                        "self": "https://jira.mediaocean.com/rest/api/2/version/54067",
-                        "id": "54067",
-                        "description": "2020.3",
-                        "name": "2020.3",
-                        "archived": false,
-                        "released": false,
-                        "releaseDate": "2020-05-15"
-                    }
-                ],
                 "assignee": null,
-                "labels": [],
+                "updated": "2020-05-08T00:09:59.000-0400",
                 "status": {
                     "self": "https://jira.mediaocean.com/rest/api/2/status/1",
                     "description": "The issue is open and ready for the assignee to start work on it.",
@@ -2365,7 +2405,8 @@
                     "avatarId": 16835
                 },
                 "components": [],
-                "duedate": null,
+                "created": "2020-02-07T06:57:30.000-0500",
+                "description": "As a Tester I want to easily find all necessary test cases so that I can plan and execute regression testing.\r\n\r\nProblem statement: Some test cases don't exist, some are out of date, some are duplicated, there are too many of test cases and hard to find what we have/don't have and what needs to be tested per given story/sprint/release.\r\n\r\nOutcomes: \r\n Manual test cases created to cover Ignitia regression testing. \r\n Corresponding priorities are set on test cases. So that in future, if we don't have much time to execute all tests, we focus only critical and high. \r\nIf automation test case exist ->link to manual test.\r\n Find all other test cases related to this functionality > Retire (where applicable), or mark them \"Regression = No\"\r\n Place all test cases \"Regression = Yes\" in corresponding test suite or under filter (if you want to bring few test suites under one roof) \r\n Update confluence with link to test suite: [https://confluence.mediaocean.com/display/GBP/Test+Suites+and+Test+Cases] \r\n Refer to this page for more guidelines (in some cases) [https://confluence.mediaocean.com/display/GBP/Automation+Coverage+for+Critical+Functionality] \r\n All bugs found on the way to be logged (functional, performance, UX etc)",
                 "project": {
                     "self": "https://jira.mediaocean.com/rest/api/2/project/16293",
                     "id": "16293",
@@ -2384,6 +2425,43 @@
                         "name": "Prisma"
                     }
                 },
+                "reporter": {
+                    "self": "https://jira.mediaocean.com/rest/api/2/user?username=pparekh",
+                    "name": "pparekh",
+                    "key": "pparekh",
+                    "emailAddress": "pparekh@mediaocean.com",
+                    "avatarUrls": {
+                        "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=pparekh&avatarId=27720",
+                        "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=pparekh&avatarId=27720",
+                        "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=pparekh&avatarId=27720",
+                        "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=pparekh&avatarId=27720"
+                    },
+                    "displayName": "Prachi Parekh",
+                    "active": true,
+                    "timeZone": "Asia/Kolkata"
+                },
+                "fixVersions": [
+                    {
+                        "self": "https://jira.mediaocean.com/rest/api/2/version/54066",
+                        "id": "54066",
+                        "description": "2020.2",
+                        "name": "2020.2",
+                        "archived": false,
+                        "released": false,
+                        "releaseDate": "2020-03-20"
+                    }
+                ],
+                "resolution": {
+                    "self": "https://jira.mediaocean.com/rest/api/2/resolution/1",
+                    "id": "1",
+                    "description": "A fix for this issue is checked into the tree and tested.",
+                    "name": "Fixed"
+                },
+                "labels": [
+                    "China",
+                    "Technical"
+                ],
+                "duedate": null,
                 "issuelinks": [
                     {
                         "id": "995943",
@@ -2812,32 +2890,6 @@
                         }
                     }
                 ],
-                "reporter": {
-                    "self": "https://jira.mediaocean.com/rest/api/2/user?username=pparekh",
-                    "name": "pparekh",
-                    "key": "pparekh",
-                    "emailAddress": "pparekh@mediaocean.com",
-                    "avatarUrls": {
-                        "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=pparekh&avatarId=27720",
-                        "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=pparekh&avatarId=27720",
-                        "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=pparekh&avatarId=27720",
-                        "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=pparekh&avatarId=27720"
-                    },
-                    "displayName": "Prachi Parekh",
-                    "active": true,
-                    "timeZone": "Asia/Kolkata"
-                },
-                "fixVersions": [
-                    {
-                        "self": "https://jira.mediaocean.com/rest/api/2/version/54066",
-                        "id": "54066",
-                        "description": "2020.2",
-                        "name": "2020.2",
-                        "archived": false,
-                        "released": false,
-                        "releaseDate": "2020-03-20"
-                    }
-                ],
                 "assignee": {
                     "self": "https://jira.mediaocean.com/rest/api/2/user?username=pparekh",
                     "name": "pparekh",
@@ -2853,10 +2905,7 @@
                     "active": true,
                     "timeZone": "Asia/Kolkata"
                 },
-                "labels": [
-                    "China",
-                    "Technical"
-                ],
+                "updated": "2020-05-08T00:08:59.000-0400",
                 "status": {
                     "self": "https://jira.mediaocean.com/rest/api/2/status/6",
                     "description": "The issue is considered finished, the resolution is correct. Issues which are closed can be reopened.",
@@ -2895,7 +2944,8 @@
                         "name": "Finance"
                     }
                 ],
-                "duedate": null,
+                "created": "2020-01-27T02:16:15.000-0500",
+                "description": "This suite contains the test documentations for all the pre-requisites that a test case can have",
                 "project": {
                     "self": "https://jira.mediaocean.com/rest/api/2/project/16293",
                     "id": "16293",
@@ -2914,6 +2964,34 @@
                         "name": "Prisma"
                     }
                 },
+                "reporter": {
+                    "self": "https://jira.mediaocean.com/rest/api/2/user?username=praagarwal",
+                    "name": "praagarwal",
+                    "key": "praagarwal",
+                    "emailAddress": "praagarwal@mediaocean.com",
+                    "avatarUrls": {
+                        "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=praagarwal&avatarId=28125",
+                        "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=praagarwal&avatarId=28125",
+                        "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=praagarwal&avatarId=28125",
+                        "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=praagarwal&avatarId=28125"
+                    },
+                    "displayName": "Prakrati Agarwal",
+                    "active": true,
+                    "timeZone": "America/New_York"
+                },
+                "fixVersions": [
+                    {
+                        "self": "https://jira.mediaocean.com/rest/api/2/version/37066",
+                        "id": "37066",
+                        "description": "",
+                        "name": "Backlog",
+                        "archived": false,
+                        "released": false
+                    }
+                ],
+                "resolution": null,
+                "labels": [],
+                "duedate": null,
                 "issuelinks": [
                     {
                         "id": "945586",
@@ -2964,31 +3042,6 @@
                         }
                     }
                 ],
-                "reporter": {
-                    "self": "https://jira.mediaocean.com/rest/api/2/user?username=praagarwal",
-                    "name": "praagarwal",
-                    "key": "praagarwal",
-                    "emailAddress": "praagarwal@mediaocean.com",
-                    "avatarUrls": {
-                        "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=praagarwal&avatarId=28125",
-                        "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=praagarwal&avatarId=28125",
-                        "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=praagarwal&avatarId=28125",
-                        "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=praagarwal&avatarId=28125"
-                    },
-                    "displayName": "Prakrati Agarwal",
-                    "active": true,
-                    "timeZone": "America/New_York"
-                },
-                "fixVersions": [
-                    {
-                        "self": "https://jira.mediaocean.com/rest/api/2/version/37066",
-                        "id": "37066",
-                        "description": "",
-                        "name": "Backlog",
-                        "archived": false,
-                        "released": false
-                    }
-                ],
                 "assignee": {
                     "self": "https://jira.mediaocean.com/rest/api/2/user?username=praagarwal",
                     "name": "praagarwal",
@@ -3004,7 +3057,7 @@
                     "active": true,
                     "timeZone": "America/New_York"
                 },
-                "labels": [],
+                "updated": "2020-03-04T07:23:28.000-0500",
                 "status": {
                     "self": "https://jira.mediaocean.com/rest/api/2/status/1",
                     "description": "The issue is open and ready for the assignee to start work on it.",
@@ -3038,7 +3091,8 @@
                     "avatarId": 16835
                 },
                 "components": [],
-                "duedate": null,
+                "created": "2020-01-23T06:11:39.000-0500",
+                "description": "Detailed completion of regression test cases : Cash Receipt",
                 "project": {
                     "self": "https://jira.mediaocean.com/rest/api/2/project/16293",
                     "id": "16293",
@@ -3057,6 +3111,40 @@
                         "name": "Prisma"
                     }
                 },
+                "reporter": {
+                    "self": "https://jira.mediaocean.com/rest/api/2/user?username=praagarwal",
+                    "name": "praagarwal",
+                    "key": "praagarwal",
+                    "emailAddress": "praagarwal@mediaocean.com",
+                    "avatarUrls": {
+                        "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=praagarwal&avatarId=28125",
+                        "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=praagarwal&avatarId=28125",
+                        "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=praagarwal&avatarId=28125",
+                        "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=praagarwal&avatarId=28125"
+                    },
+                    "displayName": "Prakrati Agarwal",
+                    "active": true,
+                    "timeZone": "America/New_York"
+                },
+                "fixVersions": [
+                    {
+                        "self": "https://jira.mediaocean.com/rest/api/2/version/54066",
+                        "id": "54066",
+                        "description": "2020.2",
+                        "name": "2020.2",
+                        "archived": false,
+                        "released": false,
+                        "releaseDate": "2020-03-20"
+                    }
+                ],
+                "resolution": {
+                    "self": "https://jira.mediaocean.com/rest/api/2/resolution/1",
+                    "id": "1",
+                    "description": "A fix for this issue is checked into the tree and tested.",
+                    "name": "Fixed"
+                },
+                "labels": [],
+                "duedate": null,
                 "issuelinks": [
                     {
                         "id": "945564",
@@ -3107,32 +3195,6 @@
                         }
                     }
                 ],
-                "reporter": {
-                    "self": "https://jira.mediaocean.com/rest/api/2/user?username=praagarwal",
-                    "name": "praagarwal",
-                    "key": "praagarwal",
-                    "emailAddress": "praagarwal@mediaocean.com",
-                    "avatarUrls": {
-                        "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=praagarwal&avatarId=28125",
-                        "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=praagarwal&avatarId=28125",
-                        "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=praagarwal&avatarId=28125",
-                        "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=praagarwal&avatarId=28125"
-                    },
-                    "displayName": "Prakrati Agarwal",
-                    "active": true,
-                    "timeZone": "America/New_York"
-                },
-                "fixVersions": [
-                    {
-                        "self": "https://jira.mediaocean.com/rest/api/2/version/54066",
-                        "id": "54066",
-                        "description": "2020.2",
-                        "name": "2020.2",
-                        "archived": false,
-                        "released": false,
-                        "releaseDate": "2020-03-20"
-                    }
-                ],
                 "assignee": {
                     "self": "https://jira.mediaocean.com/rest/api/2/user?username=praagarwal",
                     "name": "praagarwal",
@@ -3148,7 +3210,7 @@
                     "active": true,
                     "timeZone": "America/New_York"
                 },
-                "labels": [],
+                "updated": "2020-04-01T11:07:05.000-0400",
                 "status": {
                     "self": "https://jira.mediaocean.com/rest/api/2/status/5",
                     "description": "A resolution has been taken, and it is awaiting verification by reporter. From here issues are either reopened, or are closed.",
@@ -3188,7 +3250,8 @@
                         "description": "Receivables"
                     }
                 ],
-                "duedate": null,
+                "created": "2020-01-01T18:18:52.000-0500",
+                "description": "Test suite for Receivables - All client invoices",
                 "project": {
                     "self": "https://jira.mediaocean.com/rest/api/2/project/16293",
                     "id": "16293",
@@ -3207,6 +3270,37 @@
                         "name": "Prisma"
                     }
                 },
+                "reporter": {
+                    "self": "https://jira.mediaocean.com/rest/api/2/user?username=tatar",
+                    "name": "tatar",
+                    "key": "tatar",
+                    "emailAddress": "tatar@mediaocean.com",
+                    "avatarUrls": {
+                        "48x48": "https://jira.mediaocean.com/secure/useravatar?avatarId=16856",
+                        "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&avatarId=16856",
+                        "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&avatarId=16856",
+                        "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&avatarId=16856"
+                    },
+                    "displayName": "Timna Atar",
+                    "active": true,
+                    "timeZone": "Australia/Melbourne"
+                },
+                "fixVersions": [
+                    {
+                        "self": "https://jira.mediaocean.com/rest/api/2/version/53031",
+                        "id": "53031",
+                        "description": "2020.1",
+                        "name": "2020.1",
+                        "archived": false,
+                        "released": true,
+                        "releaseDate": "2020-02-07"
+                    }
+                ],
+                "resolution": null,
+                "labels": [
+                    "AllClientInvoices"
+                ],
+                "duedate": null,
                 "issuelinks": [
                     {
                         "id": "985348",
@@ -3257,36 +3351,8 @@
                         }
                     }
                 ],
-                "reporter": {
-                    "self": "https://jira.mediaocean.com/rest/api/2/user?username=tatar",
-                    "name": "tatar",
-                    "key": "tatar",
-                    "emailAddress": "tatar@mediaocean.com",
-                    "avatarUrls": {
-                        "48x48": "https://jira.mediaocean.com/secure/useravatar?avatarId=16856",
-                        "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&avatarId=16856",
-                        "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&avatarId=16856",
-                        "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&avatarId=16856"
-                    },
-                    "displayName": "Timna Atar",
-                    "active": true,
-                    "timeZone": "Australia/Melbourne"
-                },
-                "fixVersions": [
-                    {
-                        "self": "https://jira.mediaocean.com/rest/api/2/version/53031",
-                        "id": "53031",
-                        "description": "2020.1",
-                        "name": "2020.1",
-                        "archived": false,
-                        "released": true,
-                        "releaseDate": "2020-02-07"
-                    }
-                ],
                 "assignee": null,
-                "labels": [
-                    "AllClientInvoices"
-                ],
+                "updated": "2020-04-17T02:37:53.000-0400",
                 "status": {
                     "self": "https://jira.mediaocean.com/rest/api/2/status/1",
                     "description": "The issue is open and ready for the assignee to start work on it.",
@@ -3326,7 +3392,8 @@
                         "description": "Receivables"
                     }
                 ],
-                "duedate": null,
+                "created": "2019-12-30T18:16:08.000-0500",
+                "description": "Test suite for Receivables - Due for payment",
                 "project": {
                     "self": "https://jira.mediaocean.com/rest/api/2/project/16293",
                     "id": "16293",
@@ -3345,6 +3412,37 @@
                         "name": "Prisma"
                     }
                 },
+                "reporter": {
+                    "self": "https://jira.mediaocean.com/rest/api/2/user?username=tatar",
+                    "name": "tatar",
+                    "key": "tatar",
+                    "emailAddress": "tatar@mediaocean.com",
+                    "avatarUrls": {
+                        "48x48": "https://jira.mediaocean.com/secure/useravatar?avatarId=16856",
+                        "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&avatarId=16856",
+                        "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&avatarId=16856",
+                        "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&avatarId=16856"
+                    },
+                    "displayName": "Timna Atar",
+                    "active": true,
+                    "timeZone": "Australia/Melbourne"
+                },
+                "fixVersions": [
+                    {
+                        "self": "https://jira.mediaocean.com/rest/api/2/version/53031",
+                        "id": "53031",
+                        "description": "2020.1",
+                        "name": "2020.1",
+                        "archived": false,
+                        "released": true,
+                        "releaseDate": "2020-02-07"
+                    }
+                ],
+                "resolution": null,
+                "labels": [
+                    "DueForPayment"
+                ],
+                "duedate": null,
                 "issuelinks": [
                     {
                         "id": "985353",
@@ -3395,36 +3493,8 @@
                         }
                     }
                 ],
-                "reporter": {
-                    "self": "https://jira.mediaocean.com/rest/api/2/user?username=tatar",
-                    "name": "tatar",
-                    "key": "tatar",
-                    "emailAddress": "tatar@mediaocean.com",
-                    "avatarUrls": {
-                        "48x48": "https://jira.mediaocean.com/secure/useravatar?avatarId=16856",
-                        "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&avatarId=16856",
-                        "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&avatarId=16856",
-                        "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&avatarId=16856"
-                    },
-                    "displayName": "Timna Atar",
-                    "active": true,
-                    "timeZone": "Australia/Melbourne"
-                },
-                "fixVersions": [
-                    {
-                        "self": "https://jira.mediaocean.com/rest/api/2/version/53031",
-                        "id": "53031",
-                        "description": "2020.1",
-                        "name": "2020.1",
-                        "archived": false,
-                        "released": true,
-                        "releaseDate": "2020-02-07"
-                    }
-                ],
                 "assignee": null,
-                "labels": [
-                    "DueForPayment"
-                ],
+                "updated": "2020-04-17T02:38:28.000-0400",
                 "status": {
                     "self": "https://jira.mediaocean.com/rest/api/2/status/1",
                     "description": "The issue is open and ready for the assignee to start work on it.",
@@ -3464,7 +3534,8 @@
                         "description": "Receivables"
                     }
                 ],
-                "duedate": null,
+                "created": "2019-12-26T19:01:50.000-0500",
+                "description": "Test suite for Receivables - Due for billing",
                 "project": {
                     "self": "https://jira.mediaocean.com/rest/api/2/project/16293",
                     "id": "16293",
@@ -3483,6 +3554,35 @@
                         "name": "Prisma"
                     }
                 },
+                "reporter": {
+                    "self": "https://jira.mediaocean.com/rest/api/2/user?username=tatar",
+                    "name": "tatar",
+                    "key": "tatar",
+                    "emailAddress": "tatar@mediaocean.com",
+                    "avatarUrls": {
+                        "48x48": "https://jira.mediaocean.com/secure/useravatar?avatarId=16856",
+                        "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&avatarId=16856",
+                        "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&avatarId=16856",
+                        "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&avatarId=16856"
+                    },
+                    "displayName": "Timna Atar",
+                    "active": true,
+                    "timeZone": "Australia/Melbourne"
+                },
+                "fixVersions": [
+                    {
+                        "self": "https://jira.mediaocean.com/rest/api/2/version/53031",
+                        "id": "53031",
+                        "description": "2020.1",
+                        "name": "2020.1",
+                        "archived": false,
+                        "released": true,
+                        "releaseDate": "2020-02-07"
+                    }
+                ],
+                "resolution": null,
+                "labels": [],
+                "duedate": null,
                 "issuelinks": [
                     {
                         "id": "985349",
@@ -3533,34 +3633,8 @@
                         }
                     }
                 ],
-                "reporter": {
-                    "self": "https://jira.mediaocean.com/rest/api/2/user?username=tatar",
-                    "name": "tatar",
-                    "key": "tatar",
-                    "emailAddress": "tatar@mediaocean.com",
-                    "avatarUrls": {
-                        "48x48": "https://jira.mediaocean.com/secure/useravatar?avatarId=16856",
-                        "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&avatarId=16856",
-                        "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&avatarId=16856",
-                        "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&avatarId=16856"
-                    },
-                    "displayName": "Timna Atar",
-                    "active": true,
-                    "timeZone": "Australia/Melbourne"
-                },
-                "fixVersions": [
-                    {
-                        "self": "https://jira.mediaocean.com/rest/api/2/version/53031",
-                        "id": "53031",
-                        "description": "2020.1",
-                        "name": "2020.1",
-                        "archived": false,
-                        "released": true,
-                        "releaseDate": "2020-02-07"
-                    }
-                ],
                 "assignee": null,
-                "labels": [],
+                "updated": "2020-04-17T02:38:04.000-0400",
                 "status": {
                     "self": "https://jira.mediaocean.com/rest/api/2/status/1",
                     "description": "The issue is open and ready for the assignee to start work on it.",
@@ -3600,7 +3674,8 @@
                         "description": "Cash Receipt "
                     }
                 ],
-                "duedate": null,
+                "created": "2019-12-05T00:20:48.000-0500",
+                "description": "Ability to create the cash receipts in advance",
                 "project": {
                     "self": "https://jira.mediaocean.com/rest/api/2/project/16293",
                     "id": "16293",
@@ -3619,6 +3694,40 @@
                         "name": "Prisma"
                     }
                 },
+                "reporter": {
+                    "self": "https://jira.mediaocean.com/rest/api/2/user?username=praagarwal",
+                    "name": "praagarwal",
+                    "key": "praagarwal",
+                    "emailAddress": "praagarwal@mediaocean.com",
+                    "avatarUrls": {
+                        "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=praagarwal&avatarId=28125",
+                        "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=praagarwal&avatarId=28125",
+                        "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=praagarwal&avatarId=28125",
+                        "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=praagarwal&avatarId=28125"
+                    },
+                    "displayName": "Prakrati Agarwal",
+                    "active": true,
+                    "timeZone": "America/New_York"
+                },
+                "fixVersions": [
+                    {
+                        "self": "https://jira.mediaocean.com/rest/api/2/version/54066",
+                        "id": "54066",
+                        "description": "2020.2",
+                        "name": "2020.2",
+                        "archived": false,
+                        "released": false,
+                        "releaseDate": "2020-03-20"
+                    }
+                ],
+                "resolution": {
+                    "self": "https://jira.mediaocean.com/rest/api/2/resolution/7",
+                    "id": "7",
+                    "description": "Completed",
+                    "name": "Completed"
+                },
+                "labels": [],
+                "duedate": null,
                 "issuelinks": [
                     {
                         "id": "944907",
@@ -3812,32 +3921,6 @@
                         }
                     }
                 ],
-                "reporter": {
-                    "self": "https://jira.mediaocean.com/rest/api/2/user?username=praagarwal",
-                    "name": "praagarwal",
-                    "key": "praagarwal",
-                    "emailAddress": "praagarwal@mediaocean.com",
-                    "avatarUrls": {
-                        "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=praagarwal&avatarId=28125",
-                        "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=praagarwal&avatarId=28125",
-                        "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=praagarwal&avatarId=28125",
-                        "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=praagarwal&avatarId=28125"
-                    },
-                    "displayName": "Prakrati Agarwal",
-                    "active": true,
-                    "timeZone": "America/New_York"
-                },
-                "fixVersions": [
-                    {
-                        "self": "https://jira.mediaocean.com/rest/api/2/version/54066",
-                        "id": "54066",
-                        "description": "2020.2",
-                        "name": "2020.2",
-                        "archived": false,
-                        "released": false,
-                        "releaseDate": "2020-03-20"
-                    }
-                ],
                 "assignee": {
                     "self": "https://jira.mediaocean.com/rest/api/2/user?username=praagarwal",
                     "name": "praagarwal",
@@ -3853,7 +3936,7 @@
                     "active": true,
                     "timeZone": "America/New_York"
                 },
-                "labels": [],
+                "updated": "2020-04-06T22:25:39.000-0400",
                 "status": {
                     "self": "https://jira.mediaocean.com/rest/api/2/status/10046",
                     "description": "Executed",
@@ -3893,7 +3976,8 @@
                         "description": "Cash Receipt "
                     }
                 ],
-                "duedate": null,
+                "created": "2019-12-04T04:27:57.000-0500",
+                "description": "Ability to allocate the client invoice items fully\r\n\r\n*Implementation:* [CashReceipt_Standard.feature|https://stash.mediaocean.com/projects/GLOB/repos/advantage-automation/browse/BCCAdDataCheck/PlatformSecurity/FinancePS/CashReceiptPS/CashReceipt_Standard.feature]",
                 "project": {
                     "self": "https://jira.mediaocean.com/rest/api/2/project/16293",
                     "id": "16293",
@@ -3912,6 +3996,40 @@
                         "name": "Prisma"
                     }
                 },
+                "reporter": {
+                    "self": "https://jira.mediaocean.com/rest/api/2/user?username=praagarwal",
+                    "name": "praagarwal",
+                    "key": "praagarwal",
+                    "emailAddress": "praagarwal@mediaocean.com",
+                    "avatarUrls": {
+                        "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=praagarwal&avatarId=28125",
+                        "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=praagarwal&avatarId=28125",
+                        "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=praagarwal&avatarId=28125",
+                        "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=praagarwal&avatarId=28125"
+                    },
+                    "displayName": "Prakrati Agarwal",
+                    "active": true,
+                    "timeZone": "America/New_York"
+                },
+                "fixVersions": [
+                    {
+                        "self": "https://jira.mediaocean.com/rest/api/2/version/54066",
+                        "id": "54066",
+                        "description": "2020.2",
+                        "name": "2020.2",
+                        "archived": false,
+                        "released": false,
+                        "releaseDate": "2020-03-20"
+                    }
+                ],
+                "resolution": {
+                    "self": "https://jira.mediaocean.com/rest/api/2/resolution/7",
+                    "id": "7",
+                    "description": "Completed",
+                    "name": "Completed"
+                },
+                "labels": [],
+                "duedate": null,
                 "issuelinks": [
                     {
                         "id": "978728",
@@ -4201,32 +4319,6 @@
                         }
                     }
                 ],
-                "reporter": {
-                    "self": "https://jira.mediaocean.com/rest/api/2/user?username=praagarwal",
-                    "name": "praagarwal",
-                    "key": "praagarwal",
-                    "emailAddress": "praagarwal@mediaocean.com",
-                    "avatarUrls": {
-                        "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=praagarwal&avatarId=28125",
-                        "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=praagarwal&avatarId=28125",
-                        "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=praagarwal&avatarId=28125",
-                        "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=praagarwal&avatarId=28125"
-                    },
-                    "displayName": "Prakrati Agarwal",
-                    "active": true,
-                    "timeZone": "America/New_York"
-                },
-                "fixVersions": [
-                    {
-                        "self": "https://jira.mediaocean.com/rest/api/2/version/54066",
-                        "id": "54066",
-                        "description": "2020.2",
-                        "name": "2020.2",
-                        "archived": false,
-                        "released": false,
-                        "releaseDate": "2020-03-20"
-                    }
-                ],
                 "assignee": {
                     "self": "https://jira.mediaocean.com/rest/api/2/user?username=praagarwal",
                     "name": "praagarwal",
@@ -4242,7 +4334,7 @@
                     "active": true,
                     "timeZone": "America/New_York"
                 },
-                "labels": [],
+                "updated": "2020-04-23T07:46:16.000-0400",
                 "status": {
                     "self": "https://jira.mediaocean.com/rest/api/2/status/10046",
                     "description": "Executed",
@@ -4282,7 +4374,8 @@
                         "description": "Vendor Invoice"
                     }
                 ],
-                "duedate": null,
+                "created": "2019-11-25T04:03:44.000-0500",
+                "description": "Manual test case for Vendor Invoice",
                 "project": {
                     "self": "https://jira.mediaocean.com/rest/api/2/project/16293",
                     "id": "16293",
@@ -4301,6 +4394,35 @@
                         "name": "Prisma"
                     }
                 },
+                "reporter": {
+                    "self": "https://jira.mediaocean.com/rest/api/2/user?username=dharkawat",
+                    "name": "dharkawat",
+                    "key": "dharkawat",
+                    "emailAddress": "dharkawat@mediaocean.com",
+                    "avatarUrls": {
+                        "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=dharkawat&avatarId=23620",
+                        "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=dharkawat&avatarId=23620",
+                        "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=dharkawat&avatarId=23620",
+                        "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=dharkawat&avatarId=23620"
+                    },
+                    "displayName": "Disha Harkawat",
+                    "active": true,
+                    "timeZone": "America/New_York"
+                },
+                "fixVersions": [
+                    {
+                        "self": "https://jira.mediaocean.com/rest/api/2/version/53031",
+                        "id": "53031",
+                        "description": "2020.1",
+                        "name": "2020.1",
+                        "archived": false,
+                        "released": true,
+                        "releaseDate": "2020-02-07"
+                    }
+                ],
+                "resolution": null,
+                "labels": [],
+                "duedate": null,
                 "issuelinks": [
                     {
                         "id": "947392",
@@ -5010,34 +5132,8 @@
                         }
                     }
                 ],
-                "reporter": {
-                    "self": "https://jira.mediaocean.com/rest/api/2/user?username=dharkawat",
-                    "name": "dharkawat",
-                    "key": "dharkawat",
-                    "emailAddress": "dharkawat@mediaocean.com",
-                    "avatarUrls": {
-                        "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=dharkawat&avatarId=23620",
-                        "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=dharkawat&avatarId=23620",
-                        "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=dharkawat&avatarId=23620",
-                        "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=dharkawat&avatarId=23620"
-                    },
-                    "displayName": "Disha Harkawat",
-                    "active": true,
-                    "timeZone": "America/New_York"
-                },
-                "fixVersions": [
-                    {
-                        "self": "https://jira.mediaocean.com/rest/api/2/version/53031",
-                        "id": "53031",
-                        "description": "2020.1",
-                        "name": "2020.1",
-                        "archived": false,
-                        "released": true,
-                        "releaseDate": "2020-02-07"
-                    }
-                ],
                 "assignee": null,
-                "labels": [],
+                "updated": "2020-04-06T22:25:40.000-0400",
                 "status": {
                     "self": "https://jira.mediaocean.com/rest/api/2/status/1",
                     "description": "The issue is open and ready for the assignee to start work on it.",
@@ -5077,7 +5173,8 @@
                         "description": "Cash Receipt "
                     }
                 ],
-                "duedate": null,
+                "created": "2019-10-09T21:13:36.000-0400",
+                "description": "As a Tester I want to easily find all necessary test cases so that I can plan and execute regression testing.\r\n\r\nProblem statement: Some test cases don't exist, some are out of date, some are duplicated, there are too many of test cases and hard to find what we have/don't have and what needs to be tested per given story/sprint/release.\r\n\r\nOutcomes: \r\n Manual test cases created to cover Ignitia regression testing. \r\n Corresponding priorities are set on test cases. So that in future, if we don't have much time to execute all tests, we focus only critical and high. \r\nIf automation test case exist ->link to manual test.\r\n Find all other test cases related to this functionality > Retire (where applicable), or mark them \"Regression = No\"\r\n Place all test cases \"Regression = Yes\" in corresponding test suite or under filter (if you want to bring few test suites under one roof) \r\n Update confluence with link to test suite: [https://confluence.mediaocean.com/display/GBP/Test+Suites+and+Test+Cases] \r\n Refer to this page for more guidelines (in some cases) [https://confluence.mediaocean.com/display/GBP/Automation+Coverage+for+Critical+Functionality] \r\n All bugs found on the way to be logged (functional, performance, UX etc)",
                 "project": {
                     "self": "https://jira.mediaocean.com/rest/api/2/project/16293",
                     "id": "16293",
@@ -5096,6 +5193,40 @@
                         "name": "Prisma"
                     }
                 },
+                "reporter": {
+                    "self": "https://jira.mediaocean.com/rest/api/2/user?username=jsemeniuk",
+                    "name": "jsemeniuk",
+                    "key": "jsemeniuk",
+                    "emailAddress": "jsemeniuk@mediaocean.com",
+                    "avatarUrls": {
+                        "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=jsemeniuk&avatarId=18025",
+                        "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=jsemeniuk&avatarId=18025",
+                        "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=jsemeniuk&avatarId=18025",
+                        "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=jsemeniuk&avatarId=18025"
+                    },
+                    "displayName": "Julie Semeniuk",
+                    "active": false,
+                    "timeZone": "America/New_York"
+                },
+                "fixVersions": [
+                    {
+                        "self": "https://jira.mediaocean.com/rest/api/2/version/53031",
+                        "id": "53031",
+                        "description": "2020.1",
+                        "name": "2020.1",
+                        "archived": false,
+                        "released": true,
+                        "releaseDate": "2020-02-07"
+                    }
+                ],
+                "resolution": {
+                    "self": "https://jira.mediaocean.com/rest/api/2/resolution/1",
+                    "id": "1",
+                    "description": "A fix for this issue is checked into the tree and tested.",
+                    "name": "Fixed"
+                },
+                "labels": [],
+                "duedate": null,
                 "issuelinks": [
                     {
                         "id": "964158",
@@ -5240,32 +5371,6 @@
                         }
                     }
                 ],
-                "reporter": {
-                    "self": "https://jira.mediaocean.com/rest/api/2/user?username=jsemeniuk",
-                    "name": "jsemeniuk",
-                    "key": "jsemeniuk",
-                    "emailAddress": "jsemeniuk@mediaocean.com",
-                    "avatarUrls": {
-                        "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=jsemeniuk&avatarId=18025",
-                        "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=jsemeniuk&avatarId=18025",
-                        "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=jsemeniuk&avatarId=18025",
-                        "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=jsemeniuk&avatarId=18025"
-                    },
-                    "displayName": "Julie Semeniuk",
-                    "active": false,
-                    "timeZone": "America/New_York"
-                },
-                "fixVersions": [
-                    {
-                        "self": "https://jira.mediaocean.com/rest/api/2/version/53031",
-                        "id": "53031",
-                        "description": "2020.1",
-                        "name": "2020.1",
-                        "archived": false,
-                        "released": true,
-                        "releaseDate": "2020-02-07"
-                    }
-                ],
                 "assignee": {
                     "self": "https://jira.mediaocean.com/rest/api/2/user?username=praagarwal",
                     "name": "praagarwal",
@@ -5281,7 +5386,7 @@
                     "active": true,
                     "timeZone": "America/New_York"
                 },
-                "labels": [],
+                "updated": "2020-03-09T02:13:48.000-0400",
                 "status": {
                     "self": "https://jira.mediaocean.com/rest/api/2/status/5",
                     "description": "A resolution has been taken, and it is awaiting verification by reporter. From here issues are either reopened, or are closed.",
@@ -5337,7 +5442,8 @@
                         "name": "Credit Note"
                     }
                 ],
-                "duedate": null,
+                "created": "2019-07-22T02:22:34.000-0400",
+                "description": "Hold all for Ignitia Client invoice Test Cases",
                 "project": {
                     "self": "https://jira.mediaocean.com/rest/api/2/project/16293",
                     "id": "16293",
@@ -5356,6 +5462,37 @@
                         "name": "Prisma"
                     }
                 },
+                "reporter": {
+                    "self": "https://jira.mediaocean.com/rest/api/2/user?username=etanner",
+                    "name": "etanner",
+                    "key": "etanner",
+                    "emailAddress": "etanner@mediaocean.com",
+                    "avatarUrls": {
+                        "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=etanner&avatarId=17555",
+                        "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=etanner&avatarId=17555",
+                        "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=etanner&avatarId=17555",
+                        "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=etanner&avatarId=17555"
+                    },
+                    "displayName": "Elissa Tanner",
+                    "active": true,
+                    "timeZone": "Australia/Melbourne"
+                },
+                "fixVersions": [
+                    {
+                        "self": "https://jira.mediaocean.com/rest/api/2/version/51832",
+                        "id": "51832",
+                        "name": "2019.5",
+                        "archived": true,
+                        "released": false
+                    }
+                ],
+                "resolution": null,
+                "labels": [
+                    "Client_Invoice",
+                    "Ignitia",
+                    "Media"
+                ],
+                "duedate": null,
                 "issuelinks": [
                     {
                         "id": "985359",
@@ -5406,36 +5543,8 @@
                         }
                     }
                 ],
-                "reporter": {
-                    "self": "https://jira.mediaocean.com/rest/api/2/user?username=etanner",
-                    "name": "etanner",
-                    "key": "etanner",
-                    "emailAddress": "etanner@mediaocean.com",
-                    "avatarUrls": {
-                        "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=etanner&avatarId=17555",
-                        "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=etanner&avatarId=17555",
-                        "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=etanner&avatarId=17555",
-                        "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=etanner&avatarId=17555"
-                    },
-                    "displayName": "Elissa Tanner",
-                    "active": true,
-                    "timeZone": "Australia/Melbourne"
-                },
-                "fixVersions": [
-                    {
-                        "self": "https://jira.mediaocean.com/rest/api/2/version/51832",
-                        "id": "51832",
-                        "name": "2019.5",
-                        "archived": true,
-                        "released": false
-                    }
-                ],
                 "assignee": null,
-                "labels": [
-                    "Client_Invoice",
-                    "Ignitia",
-                    "Media"
-                ],
+                "updated": "2020-04-17T02:42:27.000-0400",
                 "status": {
                     "self": "https://jira.mediaocean.com/rest/api/2/status/1",
                     "description": "The issue is open and ready for the assignee to start work on it.",

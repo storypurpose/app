@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { initRoadmapMetadata } from 'src/app/lib/roadmap-utils';
 import * as _ from 'lodash';
+import { CustomNodeTypes } from 'src/app/lib/jira-tree-utils';
 
 @Component({
     selector: 'app-roadmap-renderer',
@@ -53,6 +54,9 @@ export class RoadmapRendererComponent {
     }
 
     private transformToTreeChildren(children, timespanLookup) {
+        if (!children) {
+            return [];
+        }
         children = _.orderBy(children, 'created');
         return _.map(children, (ec) => {
             const record: any = _.pick(ec, ['label', 'title', 'icon', 'key', 'issueType', 'status', 'timespan', 'created', 'duedate', 'resolution']);
@@ -83,7 +87,9 @@ export class RoadmapRendererComponent {
                 result.expanded = true;
                 result.leaf = false;
             }
-
+            if (ec.issueType === CustomNodeTypes.Epic) {
+                result.leaf = false;
+            }
             return result;
         });
     }

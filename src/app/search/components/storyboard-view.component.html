@@ -1,18 +1,13 @@
 <div *ngIf="storyboardItem">
+    <button class="btn btn-link float-right" (click)="showStatistics = true">
+        <fa-icon [icon]="['far', 'chart-bar']" size="lg"></fa-icon>
+    </button>
     <div class="row mt-1">
-        <div class="col-md-8">
-
-        </div>
-        <div class="col-md-3">
+        <div class="offset-md-9 col-md-3">
             <p-multiSelect styleClass="w-100" defaultLabel="Filter" *ngIf="statusLookup && statusLookup.length > 0"
                 [options]="statusLookup" [(ngModel)]="selectedStatuses" (onChange)="onSelectedStatusChange($event)"
                 optionLabel="key">
             </p-multiSelect>
-        </div>
-        <div class="col-md-1">
-            <button class="btn btn-link" (click)="showStatistics = true">
-                <fa-icon [icon]="['far', 'chart-bar']" size="lg"></fa-icon>
-            </button>
         </div>
     </div>
 

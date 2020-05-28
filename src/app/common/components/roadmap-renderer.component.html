@@ -14,7 +14,7 @@
         </tr>
     </ng-template>
     <ng-template pTemplate="frozenbody" let-rowNode let-rowData="rowData">
-        <tr class="border-right bg-light" [ngClass]="{'border-bottom': rowData.isHeading}">
+        <tr [ttRow]="rowNode" class="border-right bg-light" [ngClass]="{'border-bottom': rowData.isHeading}">
             <td>
                 <div class="text-truncate">
                     <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>

@@ -16,7 +16,7 @@
     <ng-template pTemplate="frozenbody" let-rowNode let-rowData="rowData">
         <tr class="border-right bg-light" [ngClass]="{'border-bottom': rowData.isHeading}">
             <td>
-                <div style="white-space: nowrap;overflow:hidden; text-overflow: ellipsis;">
+                <div class="text-truncate">
                     <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
                     <i class="{{rowData.icon}}"></i>
                     <span [title]="rowData.title" class="ml-2">{{rowData.label}}</span>

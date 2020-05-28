@@ -51,7 +51,8 @@ const routes: Route[] = [
                 ]
               }
             ]
-          }
+          },
+          { path: '', redirectTo: 'purpose', pathMatch: 'full' }
         ]
       },
       { path: '', component: IssueNotEnteredComponent }
@@ -62,7 +63,6 @@ const routes: Route[] = [
 @NgModule({
   declarations: [
     IssueHomeComponent, IssueContainerComponent, IssueTreeviewComponent, IssueNotEnteredComponent, IssueEntryComponent,
-
     SelectedIssueHomeComponent,
     SelectedIssueContainerComponent, WorkbenchComponent, RecentlyViewedComponent,
     PurposeDetailsComponent, ExtendedFieldsComponent, StoryboardComponent, RoadmapComponent,

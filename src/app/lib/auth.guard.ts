@@ -26,12 +26,12 @@ export class AuthenticatedGuard implements CanActivate {
     }
 
     canActivate = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean => {
-        return true;
-        // if (this.connectionVerified === true) {
-        //     return true;
-        // }
-        // this.store$.dispatch(new VerifyCurrentSessionAction(state.url));
-        // return this.connectionDetails$;
+        //return true;
+        if (this.connectionVerified === true) {
+            return true;
+        }
+        this.store$.dispatch(new VerifyCurrentSessionAction(state.url));
+        return this.connectionDetails$;
     }
 
     canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {

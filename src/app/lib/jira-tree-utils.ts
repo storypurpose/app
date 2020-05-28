@@ -170,6 +170,10 @@ export function flattenNodes(issues) {
             issueType: item.issueType,
             status: item.status,
             project: item.project,
+            created: item.created,
+            updated: item.updated,
+            duedate: item.duedate,
+            resolution: item.resolution,
             issueParent: item.issueParent,
             issue: item
         };

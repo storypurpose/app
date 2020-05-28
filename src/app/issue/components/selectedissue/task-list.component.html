@@ -7,7 +7,7 @@
             <fa-icon icon="chevron-left" size="lg"></fa-icon>
         </button>
         <span class="pt-2">
-            <span class="mr-1">{{issue.key}}:</span>
+            <span class="mr-1" [ngClass]="{'issue-resolved': issue.resolution}">{{issue.key}}:</span>
             {{issue.title}}
         </span>
         <button class="btn btn-link btn-sm" *ngIf="issue.description && issue.description.length > 0"
@@ -74,7 +74,8 @@
                 </button>
                 <small class="float-right badge badge-light font-weight-light text-uppercase">{{record.status}}</small>
                 <small class="text-muted">
-                    <span class="text-uppercase">{{record.issueType}}</span>: {{record.key}}
+                    <span class="text-uppercase">{{record.issueType}}</span>:
+                    <span [ngClass]="{'issue-resolved': record.resolution}">{{record.key}}</span>
                 </small>
 
                 <div [ngClass]="{'ml-4': hasExtendedFields}">

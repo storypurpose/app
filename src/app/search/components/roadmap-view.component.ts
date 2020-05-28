@@ -29,10 +29,7 @@ export class SearchRoadmapViewComponent implements OnInit, OnDestroy, AfterViewI
 
         this.issuelist$ = this.store$.select(p => p.search.issuelist)
             .pipe(filter(p => p))
-            .subscribe(list => {
-                this.issuelist = list;
-                console.log(this.issuelist);
-            });
+            .subscribe(list => this.issuelist = list);
     }
 
     ngOnDestroy(): void {

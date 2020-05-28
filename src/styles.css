@@ -422,3 +422,7 @@ body .ui-multiselect .ui-multiselect-trigger {
 .bg-timeline {
   background-color: #ddd;
 }
+
+.issue-resolved {
+  text-decoration: line-through;
+}

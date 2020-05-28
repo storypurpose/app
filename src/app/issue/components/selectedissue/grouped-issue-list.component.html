@@ -24,7 +24,9 @@
                             {{i.status}}
                         </div>
                         <i [class]="i.icon" class="mr-1"></i>
-                        <a (click)="selectIssue(i)" class="text-primary mr-2">{{i.key}}</a>
+                        <a (click)="selectIssue(i)" class="text-primary mr-2"
+                        [ngClass]="{'issue-resolved': i.resolution}"
+                        >{{i.key}}</a>
                         {{i.title}}
                     </div>
                 </div>

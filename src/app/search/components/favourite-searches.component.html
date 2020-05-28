@@ -1,8 +1,7 @@
 <h6>Favourite</h6>
 <div *ngIf="searchlist" class="list-group list-group-flush list-group-flush-compact">
     <div *ngFor="let search of searchlist" class="list-group-item border-0 pl-0">
-        <a class="text-muted" [routerLink]="['/search/list']" [queryParams]="{query:search.jql}"
-            style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+        <a class="text-muted text-nowrap" [routerLink]="['/search/list']" [queryParams]="{query:search.jql}">
             {{search.name}}
         </a>
     </div>

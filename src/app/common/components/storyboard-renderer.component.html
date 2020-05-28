@@ -1,4 +1,4 @@
-<div *ngIf="storyboardItem && storyboardItem.metadata && storyboardItem.children && storyboardItem.children.length > 0">
+<div class="storyboard" *ngIf="storyboardItem && storyboardItem.metadata && storyboardItem.children && storyboardItem.children.length > 0">
 
     <div class="zoom-slider">
         <p-slider [(ngModel)]="zoom" [min]="50" [max]="100" [step]="10"></p-slider>
@@ -8,7 +8,7 @@
         <table class="table table-bordered mr-3">
             <thead>
                 <tr class="bg-light">
-                    <td style="width: 100px;">
+                    <th style="width: 100px;">
                         <button class="btn btn-link text-dark p-0" style="white-space: nowrap;"
                             (click)="expandCollapseAll()">
                             <fa-icon [icon]="expandedAll ? 'angle-double-down' : 'angle-double-right'"
@@ -17,12 +17,12 @@
                             <!-- Total: <span class="badge badge-white"
                             *ngIf="storyboardItem.count > 0">{{storyboardItem.count}}</span> -->
                         </button>
-                    </td>
-                    <td *ngFor="let c of storyboardItem.metadata.components"
+                    </th>
+                    <th *ngFor="let c of storyboardItem.metadata.components"
                         [ngClass]="{'bg-light-warning': c.title === 'No component'}">
                         {{c.title}}
                         <span class="badge badge-white" *ngIf="c.count > 0">{{c.count}}</span>
-                    </td>
+                    </th>
                 </tr>
             </thead>
             <tbody>

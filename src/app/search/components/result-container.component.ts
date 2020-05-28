@@ -26,6 +26,7 @@ export class SearchResultContainerComponent implements OnInit, OnDestroy {
     localViewmode: any;
 
     public currentPageIndex = 1;
+    showSavedSearches = false;
 
     constructor(public router: Router,
         public activatedRoute: ActivatedRoute,
@@ -75,27 +76,13 @@ export class SearchResultContainerComponent implements OnInit, OnDestroy {
     canExecuteQuery = () => this.query && this.query.trim().length > 0;
     executeQuery() {
         if (this.canExecuteQuery()) {
+            this.showSavedSearches = false;
             this.store$.dispatch(new LoadSearchResultsAction({ query: this.query, currentPageIndex: this.currentPageIndex }));
         }
     }
+
     onPageChange() {
         this.executeQuery();
     }
-
-    //#region toggle fullscreen
-    leftPaneSize = 20;
-    public columns: any = [{ visible: true, size: 20 }, { visible: true, size: 80 }];
-    dragEnd(e: { gutterNum: number; sizes: Array<number> }) {
-        this.adjustPaneSize(e.sizes[0]);
-    }
-    public adjustPaneSize(sizeOfLeftPane) {
-        this.leftPaneSize = sizeOfLeftPane;
-        this.columns[0].size = sizeOfLeftPane;
-        this.columns[1].size = 100 - sizeOfLeftPane;
-    }
-    toggleFullscreen() {
-        this.adjustPaneSize(this.leftPaneSize === 0 ? 20 : 0);
-    }
-    //#endregion
 
 }

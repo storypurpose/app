@@ -1,5 +1,5 @@
 <div *ngIf="storyboardItem">
-    <div class="alert mb-0">
+    <div class="pl-3 pt-2 pb-2 pr-2">
         <div class="row small">
             <div class="col-md-3 col-lg-2">
                 <ng-container
@@ -28,7 +28,7 @@
                     </div>
                 </ng-container>
             </div>
-            <div class="col-md-3 col-lg-2">
+            <div class="col-md-3 col-lg-2 pt-1">
                 <p-multiSelect styleClass="w-100" defaultLabel="Filter" *ngIf="statusLookup && statusLookup.length > 0"
                     [options]="statusLookup" [(ngModel)]="selectedStatuses" (onChange)="onSelectedStatusChange($event)"
                     optionLabel="key">

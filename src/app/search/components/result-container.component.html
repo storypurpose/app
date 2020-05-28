@@ -1,77 +1,59 @@
 <div class="main-container">
-    <as-split direction="horizontal">
-        <as-split-area [size]="columns[0].size" class="small pt-2 pl-3">
-            <div *ngIf="leftPaneSize > 0">
-                <!-- <ul ngbNav #nav="ngbNav" class="nav-tabs" [(activeId)]="selectedTab" [destroyOnHide]="false">
-                <li [ngbNavItem]="1">
-                    <a ngbNavLink>Favourite</a>
-                    <ng-template ngbNavContent> -->
-                <app-favourite-searches></app-favourite-searches>
-                <!-- </ng-template>
-                </li>
-                <li [ngbNavItem]="2">
-                    <a ngbNavLink>All</a>
-                    <ng-template ngbNavContent>
-                        <app-saved-searches></app-saved-searches>
-                    </ng-template>
-                </li>
-            </ul> -->
+    <div class="bg-light pb-1 border-bottom">
+
+        <div class="float-right mb-0 mt-0 mr-3" *ngIf="issuelist.total > issuelist.pageSize">
+            <ngb-pagination [maxSize]="3" [(page)]="currentPageIndex" [boundaryLinks]="true"
+                [pageSize]="issuelist.pageSize" size="sm" (pageChange)="onPageChange()"
+                [collectionSize]="issuelist.total">
+            </ngb-pagination>
+        </div>
+        <div class="float-right small mt-2 mr-3" *ngIf="issuelist.total > issuelist.pageSize">
+            {{issuelist.startAt + 1}} - {{issuelist.endAt}} / <b>{{issuelist.total}}</b>
+        </div>
+
+        <div class="clearfix">
+
+            <button class="btn btn-link mr-1" title="Show/hide saved searches"
+                (click)="showSavedSearches = !showSavedSearches">
+                <fa-icon icon="bars" [fixedWidth]="true">
+                </fa-icon>
+            </button>
+
+            <div class="btn-group btn-group-sm mr-2"
+                *ngIf="issuelist && issuelist.results && issuelist.results.length > 1">
+                <a class="btn btn-default border text-nowrap" routerLink="list" routerLinkActive="active"
+                    queryParamsHandling="preserve">
+                    <fa-icon icon="list" [fixedWidth]="true"></fa-icon>
+                    List
+                </a>
+
+                <a class="btn btn-default border text-nowrap" routerLink="storyboard" [routerLinkActive]="'active'"
+                    queryParamsHandling="preserve">
+                    <fa-icon icon="map" [fixedWidth]="true"></fa-icon>
+                    Storyboard
+                </a>
+
+                <a class="btn btn-default border text-nowrap" routerLink="roadmap" [routerLinkActive]="'active'"
+                    queryParamsHandling="preserve">
+                    <fa-icon icon="map-signs" size="sm"></fa-icon>
+                    <span class=" ml-1">Roadmap</span>
+                </a>
             </div>
-        </as-split-area>
+        </div>
 
-        <as-split-area [size]="columns[1].size">
-            <div class="bg-light pb-1 border-bottom" *ngIf="issuelist && issuelist.total > 0">
+    </div>
 
-                <div class="float-right mb-0 mt-0 mr-3" *ngIf="issuelist.total > issuelist.pageSize">
-                    <ngb-pagination [maxSize]="3" [(page)]="currentPageIndex" [boundaryLinks]="true"
-                        [pageSize]="issuelist.pageSize" size="sm" (pageChange)="onPageChange()"
-                        [collectionSize]="issuelist.total">
-                    </ngb-pagination>
-                </div>
-                <div class="float-right small mt-2 mr-3">
-                    {{issuelist.startAt + 1}} - {{issuelist.endAt}} / <b>{{issuelist.total}}</b>
-                </div>
-
-                <div class="clearfix">
-
-                    <button class="btn btn-link btn-sm text-muted mr-2" title="expand/collapse pane"
-                        (click)="toggleFullscreen()">
-                        <fa-icon [icon]="columns[0].size === 0 ? 'angle-double-right' : 'angle-double-left'"
-                            [fixedWidth]="true"></fa-icon>
-                    </button>
-
-                    <div class="btn-group btn-group-sm mr-2"
-                        *ngIf="issuelist && issuelist.results && issuelist.results.length > 1">
-                        <a class="btn btn-default border text-nowrap" routerLink="list" routerLinkActive="active"
-                            queryParamsHandling="preserve">
-                            <fa-icon icon="list" [fixedWidth]="true"></fa-icon>
-                            List
-                        </a>
-
-                        <a class="btn btn-default border text-nowrap" routerLink="storyboard"
-                            [routerLinkActive]="'active'" queryParamsHandling="preserve">
-                            <fa-icon icon="map" [fixedWidth]="true"></fa-icon>
-                            Storyboard
-                        </a>
-
-                        <a class="btn btn-default border text-nowrap" routerLink="roadmap" [routerLinkActive]="'active'"
-                            queryParamsHandling="preserve">
-                            <fa-icon icon="map-signs" size="sm"></fa-icon>
-                            <span class=" ml-1">Roadmap</span>
-                        </a>
-                    </div>
-                </div>
-
+    <div class="body-container">
+        <div class="w-100">
+            <router-outlet></router-outlet>
+            <div class="center-text custom-shadow alert-warning p-4" *ngIf="issuelist && issuelist.total === 0">
+                No Records found.
             </div>
-
-            <div class="body-container">
-                <div class="w-100">
-                    <router-outlet></router-outlet>
-                    <div class="center-text custom-shadow alert-warning p-4" *ngIf="issuelist && issuelist.total === 0">
-                        No Records found.
-                    </div>
-                </div>
-            </div>
-        </as-split-area>
-    </as-split>
+        </div>
+    </div>
 </div>
+
+<p-sidebar [(visible)]="showSavedSearches" styleClass="ui-sidebar-sm" position="left"
+    (onHide)="showSavedSearches = false">
+    <app-favourite-searches (close)="showSavedSearches = false"></app-favourite-searches>
+</p-sidebar>

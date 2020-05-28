@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import * as _ from 'lodash';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
@@ -11,6 +11,7 @@ import { SearchState } from '../+state/search.state';
     templateUrl: './favourite-searches.component.html'
 })
 export class FavouriteSearchesComponent implements OnInit, OnDestroy {
+    @Output() close = new EventEmitter<any>();
     searchlist: any;
     searchlist$: Subscription;
 
@@ -24,5 +25,9 @@ export class FavouriteSearchesComponent implements OnInit, OnDestroy {
     }
     ngOnDestroy(): void {
         this.searchlist$ ? this.searchlist$.unsubscribe : null;
+    }
+
+    onClose() {
+        this.close.emit(null);
     }
 }

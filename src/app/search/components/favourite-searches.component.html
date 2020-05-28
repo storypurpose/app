@@ -1,8 +1,22 @@
-<h6>Favourite</h6>
-<div *ngIf="searchlist" class="list-group list-group-flush list-group-flush-compact">
-    <div *ngFor="let search of searchlist" class="list-group-item border-0 pl-0">
-        <a class="text-muted text-nowrap" [routerLink]="['/search/list']" [queryParams]="{query:search.jql}">
-            {{search.name}}
-        </a>
+<div class="pane">
+    <div class="pane-header">
+        <h4>Favorite</h4>
+    </div>
+
+    <div class="pane-body pl-4 pr-4">
+        <div *ngIf="searchlist" class="list-group list-group-flush list-group-flush-compact">
+            <div *ngFor="let search of searchlist" class="list-group-item border-0 pl-0">
+                <a class="text-muted text-nowrap" [routerLink]="['/search/list']" [queryParams]="{query:search.jql}">
+                    {{search.name}}
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="pane-footer text-right">
+        <button class="btn btn-default btn-sm" (click)="onClose()">
+            <fa-icon class="mr-1" icon="times"></fa-icon>
+            Close
+        </button>
     </div>
 </div>

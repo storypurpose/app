@@ -2,7 +2,7 @@
     <thead>
         <tr>
             <th width="1%">&nbsp;</th>
-            <th width="10%">Key</th>
+            <th width="5%">Key</th>
             <th>Summary</th>
             <th width="10%">Duedate</th>
             <th width="10%">Status</th>
@@ -11,8 +11,8 @@
 
     <tr *ngFor="let issue of issuelist.results">
         <td><i class="{{issue.icon}}" [title]=issue.issueType></i></td>
-        <td width="10%">
-            <a class="text-primary" [ngClass]="{'issue-resolved': issue.resolution}"
+        <td>
+            <a class="text-primary text-nowrap" [ngClass]="{'issue-resolved': issue.resolution}"
                 [routerLink]="['/browse', issue.key, 'purpose', issue.key]">
                 {{issue.key}}
             </a>

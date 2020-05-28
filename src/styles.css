@@ -426,3 +426,9 @@ body .ui-multiselect .ui-multiselect-trigger {
 .issue-resolved {
   text-decoration: line-through;
 }
+
+.storyboard th {
+  padding: 0.25rem 0.75rem 0.40rem 0.75rem;
+  font-weight: normal;
+  background-color: #eee;
+}

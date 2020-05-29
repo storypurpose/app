@@ -1,13 +1,13 @@
 <div class="main-container">
     <div class="bg-light pb-1 border-bottom">
 
-        <div class="float-right mb-0 mt-1 mr-3" *ngIf="issuelist.total > issuelist.pageSize">
+        <div class="float-right mb-0 mt-1 mr-3" *ngIf="issuelist && issuelist.total > issuelist.pageSize">
             <ngb-pagination [maxSize]="3" [(page)]="currentPageIndex" [boundaryLinks]="true"
                 [pageSize]="issuelist.pageSize" size="sm" (pageChange)="onPageChange()"
                 [collectionSize]="issuelist.total">
             </ngb-pagination>
         </div>
-        <div class="float-right small mt-2 mr-3" *ngIf="issuelist">
+        <div class="float-right small mt-2 mr-3" *ngIf="issuelist && issuelist.total">
             {{issuelist.startAt + 1}} - {{issuelist.endAt}} / <b>{{issuelist.total}}</b>
         </div>
 

@@ -2,9 +2,10 @@ import * as _ from 'lodash';
 import { Issue } from './issue.state';
 import { ActionTypes } from './issue.actions';
 import {
-    CustomNodeTypes, searchTreeByKey, populateFieldValuesCompact,
-    getIssueLinks, populatedFieldList, getExtendedFieldValue, flattenNodes, appendExtendedFields, populateFieldValues
+    CustomNodeTypes, populateFieldValuesCompact,
+    getIssueLinks, populatedFieldList, getExtendedFieldValue, flattenNodes, appendExtendedFields
 } from 'src/app/lib/jira-tree-utils';
+import * as roadmapUtil from 'src/app/lib/roadmap-utils'
 
 export function issueReducer(state: Issue, action: any): Issue {
     switch (action.type) {
@@ -74,6 +75,10 @@ export function issueReducer(state: Issue, action: any): Issue {
         case ActionTypes.LoadSelectedIssueSuccess: {
             return { ...state, selectedIssue: populateIssueDetails(action.payload) };
         }
+        case ActionTypes.PopulateIssueRoadmapView: {
+            return { ...state, roadmapView: prepareRoadmapView(action.payload) };
+        }
+
         case ActionTypes.ChangeSelectedIssueView: {
             return { ...state, isSelectedIssueViewCompact: action.payload };
         }
@@ -143,6 +148,12 @@ export function issueReducer(state: Issue, action: any): Issue {
 
         default: return state;
     }
+}
+
+function prepareRoadmapView(payload) {
+    const metadata = roadmapUtil.populateMetadata(payload);
+    const records = roadmapUtil.transformToTreeChildren(payload, metadata.timespan);
+    return { metadata, records }
 }
 
 function populateIssueDetails(payload: any) {

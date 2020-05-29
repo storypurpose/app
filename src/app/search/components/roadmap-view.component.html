@@ -1,3 +1,3 @@
 <div #content class="issuelist">
-    <app-roadmap-renderer [records]="issuelist.results" [contentHeight]="contentHeight"></app-roadmap-renderer>
+    <app-roadmap-renderer *ngIf="roadmap" [roadmap]="roadmap" (nodeExpand)="onNodeExpand($event)" [contentHeight]="contentHeight"></app-roadmap-renderer>
 </div>

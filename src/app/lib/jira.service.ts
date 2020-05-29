@@ -21,8 +21,8 @@ export class JiraService {
     proxyurl = environment.proxyurl;
     baseUrl = "";
     restVersionEndpoint = "/rest/api/latest";
-    fieldList = ['project', 'reporter', 'assignee', 'status', 'summary', 'key', 'issuelinks', 'issuetype', 'parent', 
-    'created', 'updated', 'duedate', 'resolution'];
+    fieldList = ['project', 'reporter', 'assignee', 'status', 'summary', 'key', 'issuelinks', 'issuetype', 'parent',
+        'created', 'updated', 'duedate', 'resolution'];
     detailFields = ['description', 'components', 'labels', 'fixVersions'];
     httpOptions: any;
 
@@ -80,6 +80,9 @@ export class JiraService {
         return combineLatest(projectUrl$, fieldsUrl$);
     }
 
+    loadEpicChildren$(key, pageIndex = 0, pageSize = 10, extendedFields = [], srcJson = 'epic-children.json') {
+        return this.executeJql(`('epic Link'=${key} or parent=${key})`, pageIndex, pageSize, extendedFields, srcJson);
+    }
     executeJql(jql, pageIndex = 0, pageSize = 10, extendedFields = [], srcJson = null) {
         if (this.isOnlineMode === false && srcJson && srcJson.length > 0) {
             return this.httpClient.get(`${this.staticFileLocation}/${srcJson}`, this.httpOptions)

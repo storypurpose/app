@@ -1,12 +1,12 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef, ViewChild, ElementRef, HostListener, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, AfterViewInit } from '@angular/core';
 import * as _ from 'lodash';
 import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { CustomNodeTypes, populatedFieldList } from 'src/app/lib/jira-tree-utils';
+import { populatedFieldList } from 'src/app/lib/jira-tree-utils';
 import { filter } from 'rxjs/operators';
 import { IssueState } from '../../+state/issue.state';
-import { initRoadmapMetadata } from 'src/app/lib/roadmap-utils';
 import { ResizableContainerBase } from './resizable-container-base';
+import { PopulateIssueRoadmapViewAction } from '../../+state/issue.actions';
 
 @Component({
     selector: 'app-roadmap',
@@ -15,11 +15,12 @@ import { ResizableContainerBase } from './resizable-container-base';
 
 export class RoadmapComponent extends ResizableContainerBase implements OnInit, OnDestroy, AfterViewInit {
 
-    roadmap: any;
     timespan: any;
 
     selectedIssue$: Subscription;
     selectedIssue: any;
+    roadmap$: Subscription;
+    roadmap: any;
 
     constructor(public cdRef: ChangeDetectorRef, public store$: Store<IssueState>) {
         super(cdRef, store$);
@@ -32,12 +33,18 @@ export class RoadmapComponent extends ResizableContainerBase implements OnInit, 
             .pipe(filter(p => p))
             .subscribe(selectedIssue => {
                 this.selectedIssue = _.pick(selectedIssue, _.union(populatedFieldList, ['children']));
-            })
+                this.store$.dispatch(new PopulateIssueRoadmapViewAction(this.selectedIssue.children));
+            });
+
+        this.roadmap$ = this.store$.select(p => p.issue.roadmapView)
+            .pipe(filter(p => p))
+            .subscribe(p => this.roadmap = p);
     }
 
     ngOnDestroy(): void {
         this.destroy();
         this.selectedIssue$ ? this.selectedIssue$.unsubscribe() : null;
+        this.roadmap$ ? this.roadmap$.unsubscribe() : null;
     }
 
     ngAfterViewInit(): void {

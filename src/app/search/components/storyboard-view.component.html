@@ -5,7 +5,7 @@
     <div class="row mt-1">
         <div class="offset-md-9 col-md-3">
             <p-multiSelect styleClass="w-100" defaultLabel="Filter" *ngIf="statusLookup && statusLookup.length > 0"
-                [options]="statusLookup" [(ngModel)]="selectedStatuses" (onChange)="onSelectedStatusChange($event)"
+                [options]="statusLookup" [(ngModel)]="selectedStatuses" (onChange)="onSelectedStatusChange()"
                 optionLabel="key">
             </p-multiSelect>
         </div>

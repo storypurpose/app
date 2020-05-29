@@ -1,9 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as _ from 'lodash';
 import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/+state/app.state';
 import { Subscription } from 'rxjs';
-import { filter, map, tap } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { initializeMetadata, mergeMetadata, extractMetadata, populateStatistics } from 'src/app/lib/storyboard-utils';
 import { SwitchSearchresultViewmodeAction, SearchresultViewMode } from '../+state/search.actions';
@@ -63,7 +62,7 @@ export class SearchStoryboardViewComponent implements OnInit, OnDestroy {
             ? _.filter(list, (r) => _.find(filters, f => f === r.status) !== undefined)
             : list;
 
-    onSelectedStatusChange(eventArgs) {
+    onSelectedStatusChange() {
         this.plotStoryboard()
     }
 }

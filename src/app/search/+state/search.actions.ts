@@ -16,8 +16,23 @@ export const ActionTypes = {
 
     LoadSavedSearchlist: type("[LoadSavedSearchlist]"),
     LoadSavedSearchlistFailed: type("[LoadSavedSearchlist] Failed"),
-    LoadSavedSearchlistSuccess: type("[LoadSavedSearchlist] Success")
+    LoadSavedSearchlistSuccess: type("[LoadSavedSearchlist] Success"),
 
+    PopulateSearchResultRoadmapView: type("[PopulateSearchResultRoadmapView]"),
+    
+    LoadSearchResultRoadmapNode: type("[LoadSearchResultRoadmapNode]"),
+    LoadSearchResultRoadmapNodeFailed: type("[LoadSearchResultRoadmapNode] Failed"),
+    LoadSearchResultRoadmapNodeSuccess: type("[LoadSearchResultRoadmapNode] Success")
+
+}
+
+export class PopulateSearchResultRoadmapViewAction implements Action {
+    type = ActionTypes.PopulateSearchResultRoadmapView;
+    constructor(public payload: any) { }
+}
+export class LoadSearchResultRoadmapNodeAction implements Action {
+    type = ActionTypes.LoadSearchResultRoadmapNode;
+    constructor(public payload: any) { }
 }
 
 export class SwitchSearchresultViewmodeAction implements Action {
@@ -40,6 +55,10 @@ export class LoadSavedSearchlistAction implements Action {
 
 export type Actions =
     SwitchSearchresultViewmodeAction
+
+    | PopulateSearchResultRoadmapViewAction
+    | LoadSearchResultRoadmapNodeAction
+
     | SetQueryContextAction
     | LoadSearchResultsAction
     | LoadSavedSearchlistAction

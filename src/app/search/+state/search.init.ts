@@ -5,6 +5,6 @@ export const searchInitialState: Search = {
     queryContext: null,
     issuelist: null,
     viewmode: SearchresultViewMode.LIST,
-
+    roadmapView: null,
     savedSearchlist: null
 };

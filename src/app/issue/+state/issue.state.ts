@@ -4,7 +4,8 @@ export interface Issue {
 
   selectedIssueKey: string;
   selectedIssue: any;
-
+  roadmapView: any;
+  
   isSelectedIssueViewCompact: boolean;
   
   hierarchicalIssue: any;

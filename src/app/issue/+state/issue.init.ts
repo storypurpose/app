@@ -6,6 +6,8 @@ export const issueInitialState: Issue = {
 
     selectedIssueKey: '',
     selectedIssue: null,
+    roadmapView: null,
+    
     isSelectedIssueViewCompact: false,
     hierarchicalIssue: null,
 

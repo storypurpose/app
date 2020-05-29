@@ -1,6 +1,7 @@
 <p-treeTable *ngIf="roadmapItems && metadata" [columns]="metadata.timespan" class="roadmap"
-    [frozenColumns]="metadata.fixedColumns" [scrollable]="true" frozenWidth="300px"
-    [scrollHeight]="contentHeight + 'px'" [value]="roadmapItems" [resizableColumns]="true" columnResizeMode="expand">
+    [frozenColumns]="metadata.fixedColumns" [scrollable]="true" frozenWidth="400px"
+    [scrollHeight]="contentHeight + 'px'" [value]="roadmapItems" [resizableColumns]="true" columnResizeMode="expand"
+    (onNodeExpand)="onNodeExpand($event)" [lazy]="true">
     <ng-template pTemplate="colgroup" let-columns>
         <colgroup>
             <col *ngFor="let col of columns" style="width:100px">
@@ -14,12 +15,14 @@
         </tr>
     </ng-template>
     <ng-template pTemplate="frozenbody" let-rowNode let-rowData="rowData">
-        <tr [ttRow]="rowNode" class="border-right bg-light" [ngClass]="{'border-bottom': rowData.isHeading}">
-            <td>
+        <tr [ttRow]="rowNode" class="border-right" [ngClass]="{'bg-light border-bottom': rowData.isHeading}">
+            <td [title]="rowData.title">
                 <div class="text-truncate">
                     <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
-                    <i class="{{rowData.icon}}"></i>
-                    <span [title]="rowData.title" class="ml-2">{{rowData.label}}</span>
+                    <i class="{{rowData.icon}} text-muted"></i>
+                    <a [routerLink]="['/browse', rowData.key]" [ngClass]="{'issue-resolved': rowData.resolution}"
+                        class="ml-1">{{rowData.key}}</a>
+                    <span class="ml-1">{{rowData.label}}</span>
                 </div>
             </td>
         </tr>

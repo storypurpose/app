@@ -1,13 +1,7 @@
 import { Action } from '@ngrx/store';
 import { type } from 'src/app/lib/utils';
 
-export const SearchresultViewMode = {
-    LIST: 'LIST',
-    STORYBOARD: 'STORYBOARD',
-    ROADMAP: 'ROADMAP'
-}
 export const ActionTypes = {
-    SwitchViewmode: type('[SwitchViewmode]'),
     SetQueryContext: type('[SetQueryContext]'),
 
     LoadSearchResults: type("[LoadSearchResults]"),
@@ -19,7 +13,7 @@ export const ActionTypes = {
     LoadSavedSearchlistSuccess: type("[LoadSavedSearchlist] Success"),
 
     PopulateSearchResultRoadmapView: type("[PopulateSearchResultRoadmapView]"),
-    
+
     LoadSearchResultRoadmapNode: type("[LoadSearchResultRoadmapNode]"),
     LoadSearchResultRoadmapNodeFailed: type("[LoadSearchResultRoadmapNode] Failed"),
     LoadSearchResultRoadmapNodeSuccess: type("[LoadSearchResultRoadmapNode] Success")
@@ -35,10 +29,6 @@ export class LoadSearchResultRoadmapNodeAction implements Action {
     constructor(public payload: any) { }
 }
 
-export class SwitchSearchresultViewmodeAction implements Action {
-    type = ActionTypes.SwitchViewmode;
-    constructor(public payload: any) { }
-}
 export class SetQueryContextAction implements Action {
     type = ActionTypes.SetQueryContext;
     constructor(public payload: any) { }
@@ -54,9 +44,7 @@ export class LoadSavedSearchlistAction implements Action {
 }
 
 export type Actions =
-    SwitchSearchresultViewmodeAction
-
-    | PopulateSearchResultRoadmapViewAction
+    PopulateSearchResultRoadmapViewAction
     | LoadSearchResultRoadmapNodeAction
 
     | SetQueryContextAction

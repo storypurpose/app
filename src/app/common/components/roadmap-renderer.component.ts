@@ -25,15 +25,26 @@ export class RoadmapRendererComponent {
     public metadata: any;
     public roadmapItems: any;
 
+    showStatistics = false;
+    statistics: any;
+
+    onShowStatistics(statistics) {
+        this.statistics = statistics;
+        this.showStatistics = true;
+    }
     getTimelineTypeClass(rowData, idx) {
         const timespan = rowData.timespan;
         if (timespan && timespan[idx] && timespan[idx].isInTimespan) {
-            if (!rowData.missingDuedate && !rowData.duedatePassed) {
+            if (rowData.resolution) {
+                return 'bg-success';
+            } else if (!rowData.missingDuedate && !rowData.duedatePassed) {
                 return 'bg-primary';
             } else if (rowData.missingDuedate && !rowData.duedatePassed) {
                 return 'bg-timeline';
             } else if (rowData.duedatePassed) {
                 return 'bg-warning';
+            } else {
+                return 'bg-timeline';
             }
         }
         return '';
@@ -46,7 +57,7 @@ export class RoadmapRendererComponent {
     }
 
     hasMiscInfo(rowData) {
-        return !isCustomNode(rowData) && (rowData.missingDuedate || rowData.duedatePassed);
+        return !rowData.statistics && !isCustomNode(rowData) && !rowData.resolution && (rowData.missingDuedate || rowData.duedatePassed);
     }
     getMiscInfo(rowData) {
         return `${(rowData.missingDuedate ? 'Duedate is missing' : '')} ${(rowData.duedatePassed ? 'Duedate elapsed' : '')}`

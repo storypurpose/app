@@ -3,12 +3,10 @@ import { Search } from './search.state';
 import { ActionTypes } from './search.actions';
 import * as roadmapUtil from 'src/app/lib/roadmap-utils'
 import { populateFieldValuesCompact } from 'src/app/lib/jira-tree-utils';
+import { populateStatistics, extractMetadata } from 'src/app/lib/statistics-utils';
 
 export function searchReducer(state: Search, action: any): Search {
     switch (action.type) {
-        case ActionTypes.SwitchViewmode: {
-            return { ...state, viewmode: action.payload };
-        }
         case ActionTypes.SetQueryContext: {
             return { ...state, queryContext: action.payload };
         }
@@ -29,19 +27,28 @@ export function searchReducer(state: Search, action: any): Search {
         }
 
         case ActionTypes.PopulateSearchResultRoadmapView: {
-            return { ...state, roadmapView: prepareRoadmapView(action.payload) };
+            const metadata = roadmapUtil.populateMetadata(action.payload);
+            const records = roadmapUtil.transformToTreeChildren(action.payload, metadata.timespan);
+            return { ...state, roadmapView: { metadata, records } };
         }
+        
         case ActionTypes.LoadSearchResultRoadmapNodeSuccess: {
             const issueKey = action.payload.issueKey;
             const issues = action.payload.payload && action.payload.payload.issues
                 ? _.map(action.payload.payload.issues, p => populateFieldValuesCompact(p))
                 : [];
-            const children = roadmapUtil.transformToTreeChildren(issues, state.roadmapView.metadata);
+            const children = roadmapUtil.transformToTreeChildren(issues, state.roadmapView.metadata.timespan);
             return {
                 ...state, roadmapView: {
                     ...state.roadmapView, records: state.roadmapView.records.map(node => {
                         return (node && node.data && node.data.key === issueKey)
-                            ? { ...node, children, data: { ...node.data, isHeading: children && children.length > 0 } }
+                            ? {
+                                ...node, children, data: {
+                                    ...node.data,
+                                    isHeading: children && children.length > 0,
+                                    statistics: populateStatistics(extractMetadata(issues), issues, node.data.label)
+                                }
+                            }
                             : node;
                     })
                 }
@@ -50,9 +57,4 @@ export function searchReducer(state: Search, action: any): Search {
 
         default: return state;
     }
-}
-function prepareRoadmapView(payload) {
-    const metadata = roadmapUtil.populateMetadata(payload);
-    const records = roadmapUtil.transformToTreeChildren(payload, metadata.timespan);
-    return { metadata, records }
 }

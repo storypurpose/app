@@ -88,7 +88,7 @@ export class JiraService {
             return this.httpClient.get(`${this.staticFileLocation}/${srcJson}`, this.httpOptions)
         }
         const startAt = pageIndex * pageSize;
-        const fieldCodes = _.join(_.concat(this.fieldList, extendedFields));
+        const fieldCodes = _.join(_.concat(this.fieldList, this.detailFields, extendedFields));
         const url = `search?jql=${jql}&fields=${fieldCodes}&startAt=${startAt}&maxResult=${pageSize}`;
         return this.httpClient.get(`${this.proxyurl}/${this.baseUrl}/${url}`, this.httpOptions);
     }

@@ -20,8 +20,9 @@
         </tr>
     </ng-template>
     <ng-template pTemplate="frozenbody" let-rowNode let-rowData="rowData">
-        <tr [ttRow]="rowNode" class="border-right bg-light" [ngClass]="{'border-bottom': rowData.isHeading}">
-            <td [title]="rowData.title">
+        <tr [ttRow]="rowNode" [title]="rowData.title" class="border-right bg-light"
+            [ngClass]="{'border-bottom': rowData.isHeading}">
+            <td>
                 <div class="text-truncate">
                     <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
                     <i class="{{rowData.icon}} text-muted"></i>
@@ -33,8 +34,12 @@
                 {{rowData.label}}
             </td>
             <td width="40px">
-                <fa-icon icon="exclamation-circle" *ngIf="hasMiscInfo(rowData)" [title]="getMiscInfo(rowData)" size="sm"
-                    [ngClass]="{'text-info': rowData.missingDuedate, 'text-warning': rowData.duedatePassed}"></fa-icon>
+                <a *ngIf="rowData.statistics" class="text-primary" (click)="onShowStatistics(rowData.statistics)">
+                    <fa-icon icon="chart-bar" title="show statistics"></fa-icon>
+                </a>
+                <fa-icon icon="exclamation-circle" *ngIf="hasMiscInfo(rowData)"
+                    [title]="getMiscInfo(rowData)" size="sm"
+                    [ngClass]="{'text-muted': rowData.missingDuedate, 'text-warning': rowData.duedatePassed}"></fa-icon>
             </td>
         </tr>
     </ng-template>
@@ -48,3 +53,8 @@
         </tr>
     </ng-template>
 </p-treeTable>
+
+<p-dialog [header]="statistics.title" *ngIf="statistics" [(visible)]="showStatistics" [dismissableMask]="true"
+    [modal]=true styleClass="custom-dialog bg-light">
+    <app-statistics [statistics]="statistics"></app-statistics>
+</p-dialog>

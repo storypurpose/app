@@ -76,7 +76,10 @@ export function issueReducer(state: Issue, action: any): Issue {
             return { ...state, selectedIssue: populateIssueDetails(action.payload) };
         }
         case ActionTypes.PopulateIssueRoadmapView: {
-            return { ...state, roadmapView: prepareRoadmapView(action.payload) };
+            const metadata = roadmapUtil.populateMetadata(action.payload);
+            const records = roadmapUtil.transformToTreeChildren(action.payload, metadata.timespan);
+            // const statistics = roadmapUtil.populateStatistics(action.payload);
+            return { ...state, roadmapView: { metadata, records } };
         }
 
         case ActionTypes.ChangeSelectedIssueView: {
@@ -148,12 +151,6 @@ export function issueReducer(state: Issue, action: any): Issue {
 
         default: return state;
     }
-}
-
-function prepareRoadmapView(payload) {
-    const metadata = roadmapUtil.populateMetadata(payload);
-    const records = roadmapUtil.transformToTreeChildren(payload, metadata.timespan);
-    return { metadata, records }
 }
 
 function populateIssueDetails(payload: any) {

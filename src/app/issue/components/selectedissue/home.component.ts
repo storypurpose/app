@@ -12,7 +12,6 @@ export class SelectedIssueHomeComponent implements OnInit {
     ngOnInit(): void {
         var activeChildren = this.activatedRoute.children.length;
         if (activeChildren === 0) {
-            console.log('redirecting', activeChildren);
             const issue = this.activatedRoute.parent.snapshot.params.issue;
             this.router.navigate([issue], { relativeTo: this.activatedRoute });
         }

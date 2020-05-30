@@ -441,3 +441,13 @@ body .ui-multiselect .ui-multiselect-trigger {
   background-color: #eee;
   border-bottom-width: 1px;
 }
+
+.custom-dialog {
+  width: 50vw;
+}
+
+@media screen and (max-width: 40em) {
+  .custom-dialog {
+    width: 75vw;
+  }
+}

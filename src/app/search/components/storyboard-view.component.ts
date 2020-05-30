@@ -4,8 +4,7 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
-import { initializeMetadata, mergeMetadata, extractMetadata, populateStatistics } from 'src/app/lib/storyboard-utils';
-import { SwitchSearchresultViewmodeAction, SearchresultViewMode } from '../+state/search.actions';
+import { initializeMetadata, mergeMetadata, extractMetadata, populateStatistics } from 'src/app/lib/statistics-utils';
 import { SearchState } from '../+state/search.state';
 
 @Component({
@@ -28,8 +27,6 @@ export class SearchStoryboardViewComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.store$.dispatch(new SwitchSearchresultViewmodeAction(SearchresultViewMode.STORYBOARD));
-
         this.storyboardItem = { query: null, children: [] };
 
         this.issuelist$ = this.store$.select(p => p.search.issuelist)
@@ -50,7 +47,7 @@ export class SearchStoryboardViewComponent implements OnInit, OnDestroy {
         this.storyboardItem.metadata = initializeMetadata();
         this.storyboardItem.children = this.filterByStatus(this.issuelist.results, filters);
         mergeMetadata(this.storyboardItem.metadata, extractMetadata(this.storyboardItem.children));
-        this.storyboardItem.statistics = populateStatistics(this.storyboardItem);
+        this.storyboardItem.statistics = populateStatistics(this.storyboardItem.metadata, this.storyboardItem.children);
 
         if (this.storyboardItem.statistics && this.statusLookup && this.statusLookup.length === 0) {
             this.statusLookup = this.storyboardItem.statistics.status;

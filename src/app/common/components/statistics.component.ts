@@ -7,14 +7,17 @@ import { ChartOptions } from 'chart.js';
     templateUrl: './statistics.component.html'
 })
 export class StatisticsComponent {
-    @Input() set statusStats(value: any) {
-        this.initStatusCharts(value);
+    private _statistics: any;
+    @Input() set statistics(value: any) {
+        this._statistics = value;
+        if (value) {
+            this.initStatusCharts(value.status);
+            this.initIssueTypeCharts(value.issueTypes);
+            this.initComponentCharts(value.components);
+        }
     }
-    @Input() set issueTypeStats(value: any) {
-        this.initIssueTypeCharts(value);
-    }
-    @Input() set componentStats(value: any) {
-        this.initComponentCharts(value);
+    get statistics() {
+        return this._statistics;
     }
 
     public componentChartLabels: any;

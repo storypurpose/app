@@ -64,14 +64,31 @@ export function extractMetadata(records) {
     return record;
 }
 
-export function populateStatistics(record) {
-    const statusResultSet = _.mapValues(_.groupBy(_.map(record.children, 'status')), (s) => s.length);
-    const issueTypeResultSet = _.mapValues(_.groupBy(_.map(record.children, 'issueType')), (s) => s.length);
+export function populateStatistics(metadata, records, title = "Statistics") {
+    const statusResultSet = _.mapValues(_.groupBy(_.map(records, 'status')), (s) => s.length);
+    const issueTypeResultSet = _.mapValues(_.groupBy(_.map(records, 'issueType')), (s) => s.length);
+    const resolutionResultSet = _.mapValues(_.groupBy(_.map(records, 'resolution')), (s) => s.length);
+    const total = records ? records.length : 0;
+    const unresolved = _.filter(records, r => !r.resolution).length;
 
     return {
-        components: _.map(record.metadata.components, c => { return { key: c.title, count: c.count } }),
-        status: Object.keys(statusResultSet).map((key) => { return { key, count: statusResultSet[key] }; }),
-        issueTypes: Object.keys(issueTypeResultSet).map((key) => { return { key, count: issueTypeResultSet[key] }; })
+        title: `${title} (${unresolved} unresolved of ${total})`,
+        total,
+        unresolved,
+        components: _.map(metadata.components, c => {
+            return { key: c.title, count: c.count }
+        }),
+        status: Object.keys(statusResultSet).map((key) => {
+            return { key, count: statusResultSet[key] };
+        }),
+        issueTypes: Object.keys(issueTypeResultSet).map((key) => {
+            return { key, count: issueTypeResultSet[key] };
+        }),
+        resolutions: Object.keys(resolutionResultSet).map((key) => {
+            return { key: key === "null" ? 'Unresolved' : key, count: resolutionResultSet[key] };
+        }),
+        missingDueDates: _.filter(records, (c) => !c.duedate).length,
+        duedatePassed: _.filter(records, (c) => !c.resolution && c.duedate && (new Date(c.duedate)) < (new Date())).length
     };
 }
 

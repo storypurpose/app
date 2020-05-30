@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { CustomNodeTypes, populatedFieldList } from 'src/app/lib/jira-tree-utils';
 import { filter } from 'rxjs/operators';
-import { initializeMetadata, mergeMetadata, extractMetadata, populateStatistics } from 'src/app/lib/storyboard-utils';
+import { initializeMetadata, mergeMetadata, extractMetadata, populateStatistics } from 'src/app/lib/statistics-utils';
 import { IssueState } from '../../+state/issue.state';
 import { UpdateFieldValueAction } from '../../+state/issue.actions';
 
@@ -70,7 +70,7 @@ export class StoryboardComponent implements OnInit, OnDestroy {
             this.storyboardItem.children = _.union(this.storyboardItem.children, relatedLinks)
             mergeMetadata(this.storyboardItem.metadata, extractMetadata(relatedLinks))
         }
-        this.storyboardItem.statistics = populateStatistics(this.storyboardItem);
+        this.storyboardItem.statistics = populateStatistics(this.storyboardItem.metadata, this.storyboardItem.children);
         if (this.storyboardItem.statistics && this.statusLookup && this.statusLookup.length === 0) {
             this.statusLookup = this.storyboardItem.statistics.status;
         }

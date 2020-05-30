@@ -4,7 +4,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { SwitchSearchresultViewmodeAction, SearchresultViewMode } from '../+state/search.actions';
 import { SearchState } from '../+state/search.state';
 
 @Component({
@@ -26,8 +25,6 @@ export class SearchListViewComponent implements OnInit, OnDestroy {
         public store$: Store<SearchState>) {
     }
     ngOnInit(): void {
-        this.store$.dispatch(new SwitchSearchresultViewmodeAction(SearchresultViewMode.LIST));
-
         this.issuelist$ = this.store$.select(p => p.search.issuelist)
             .pipe(filter(p => p))
             .subscribe(key => this.issuelist = key);

@@ -1,7 +1,6 @@
 export interface Search {
   queryContext: any;
   issuelist: any;
-  viewmode: string;
   roadmapView: any;
   savedSearchlist: any;
 }

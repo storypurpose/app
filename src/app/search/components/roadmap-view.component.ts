@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
-import { SwitchSearchresultViewmodeAction, SearchresultViewMode, PopulateSearchResultRoadmapViewAction, LoadSearchResultRoadmapNodeAction } from '../+state/search.actions';
+import { PopulateSearchResultRoadmapViewAction, LoadSearchResultRoadmapNodeAction } from '../+state/search.actions';
 import { SearchState } from '../+state/search.state';
 
 @Component({
@@ -27,8 +27,6 @@ export class SearchRoadmapViewComponent implements OnInit, OnDestroy, AfterViewI
     }
 
     ngOnInit(): void {
-        this.store$.dispatch(new SwitchSearchresultViewmodeAction(SearchresultViewMode.STORYBOARD));
-
         this.issuelist$ = this.store$.select(p => p.search.issuelist)
             .pipe(filter(list => list && list.results), map(p => p.results))
             .subscribe(results => {

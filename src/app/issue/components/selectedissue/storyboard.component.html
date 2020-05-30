@@ -45,11 +45,8 @@
     <app-storyboard-renderer [storyboardItem]="storyboardItem" (fieldValueChange)="onFieldValueChanged($event)">
     </app-storyboard-renderer>
 
-    <p-dialog header="Statistics" *ngIf="storyboardItem && storyboardItem.statistics" position="right" class="bg-light"
-        [(visible)]="showStatistics">
-        <app-statistics [statusStats]="storyboardItem.statistics.status"
-            [issueTypeStats]="storyboardItem.statistics.issueTypes"
-            [componentStats]="storyboardItem.statistics.components">
-        </app-statistics>
+    <p-dialog [header]="storyboardItem.statistics.title" *ngIf="storyboardItem && storyboardItem.statistics" position="right" class="bg-light"
+        [dismissableMask]="true" [modal]=true [(visible)]="showStatistics">
+        <app-statistics [statistics]="storyboardItem.statistics"></app-statistics>
     </p-dialog>
 </div>

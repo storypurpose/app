@@ -13,11 +13,8 @@
 
     <app-storyboard-renderer [storyboardItem]="storyboardItem"></app-storyboard-renderer>
 
-    <p-dialog header="Statistics" *ngIf="storyboardItem.statistics" position="topright" class="bg-light"
-        [(visible)]="showStatistics">
-        <app-statistics [statusStats]="storyboardItem.statistics.status"
-            [issueTypeStats]="storyboardItem.statistics.issueTypes"
-            [componentStats]="storyboardItem.statistics.components">
-        </app-statistics>
+    <p-dialog [header]="storyboardItem.statistics.title" *ngIf="storyboardItem.statistics" position="topright"
+        class="bg-light" [dismissableMask]="true" [modal]=true [(visible)]="showStatistics">
+        <app-statistics [statistics]="storyboardItem.statistics"></app-statistics>
     </p-dialog>
 </div>

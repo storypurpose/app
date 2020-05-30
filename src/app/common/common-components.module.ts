@@ -15,6 +15,7 @@ import { IssueNavigationMenuComponent } from './components/issue-navigation-menu
 import { SliderModule } from 'primeng/slider';
 import { RoadmapRendererComponent } from './components/roadmap-renderer.component';
 import { TreeTableModule } from 'primeng/treetable';
+import { DialogModule } from 'primeng/dialog';
 
 const components = [
   ButtonPanelComponent, StoryboardRendererComponent, StatisticsComponent, AutofocusDirective,
@@ -29,6 +30,7 @@ const components = [
     RouterModule,
     ChartsModule,
 
+    DialogModule,
     TreeTableModule,
     SliderModule,
 

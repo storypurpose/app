@@ -1,10 +1,10 @@
 import * as _ from 'lodash';
 import { CustomNodeTypes, isCustomNode } from './jira-tree-utils';
+import { extractMetadata, populateStatistics } from './statistics-utils';
 
 export function populateMetadata(records) {
     const withDates = _.map(records, (record) => {
-        //record.statistics = populateStatistics(record)
-        const dateRange: any = {};
+        const dateRange: any = { created: record.created, duedate: record.duedate };
         if (record) {
             if (!record.created) {
                 const minCreated: any = _.minBy(_.union(record.children || []), 'created');
@@ -21,6 +21,7 @@ export function populateMetadata(records) {
         }
         return dateRange;
     });
+
     const minStartDateRecord: any = _.minBy(_.union(withDates || []), 'created');
     const minStartDate = minStartDateRecord && minStartDateRecord.created ? new Date(minStartDateRecord.created) : new Date();
     const maxDueDateRecord: any = _.maxBy(_.union(withDates || []), 'duedate');
@@ -46,7 +47,7 @@ export function transformToTreeChildren(children, timespanLookup) {
         if (ec && ec.duedate) {
             duedate = new Date(ec.duedate);
             record.missingDuedate = false;
-            record.duedatePassed = !ec.resolution && duedate <= new Date();
+            record.duedatePassed = duedate < new Date();
         }
         record.timespan = _.map(timespanLookup, (ts) => {
             return {
@@ -61,6 +62,7 @@ export function transformToTreeChildren(children, timespanLookup) {
             result.children = transformToTreeChildren(ec.children, timespanLookup);
             if (result.data) {
                 result.data.isHeading = true;
+                result.data.statistics = populateStatistics(extractMetadata(ec.children), ec.children, record.label);
             }
             result.expanded = true;
             result.leaf = false;
@@ -73,12 +75,12 @@ export function transformToTreeChildren(children, timespanLookup) {
 }
 
 function prepareTitle(node: any) {
-    const created = node.created ? toShortDate(new Date(node.created)) + ' -> ' : 'Missing created date'
-    const duedate = node.updated ? toShortDate(new Date(node.duedate)) : ' Missing duedate'
+    const created = node.created ? toShortDate(new Date(node.created)) : 'Missing created date'
+    const duedate = node.duedate ? toShortDate(new Date(node.duedate)) : ' Missing duedate'
     const key = node.key ? node.key + ": " : '';
     const status = node.status ? `[${node.status}]` : '';
     const resolution = node.resolution ? `[${node.resolution}]` : 'UNRESOLVED';
-    return `${key} ${node.title} ${status} ${created} ${duedate} ${resolution}`;
+    return `${key} ${node.title} ${status} [${created} / ${duedate}] ${resolution}`;
 }
 
 function toShortDate(date) {
@@ -107,7 +109,6 @@ function initMetadata(startdate, enddate) {
     return {
         fixedColumns: [{ title: 'key' }, { title: 'Issues' }, {}],
         timespan: getMonthwiseRange(startdate, isWideRange ? 50 : noOfMonths),
-        isWideRange,
-        statistics: { missingDuedates: 0, duedatePassed: 0, unresolved: 0 }
+        isWideRange
     }
 }

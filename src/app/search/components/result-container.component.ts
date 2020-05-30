@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { LoadSearchResultsAction, SearchresultViewMode } from '../+state/search.actions';
+import { LoadSearchResultsAction } from '../+state/search.actions';
 import { CustomNodeTypes } from '../../lib/jira-tree-utils';
 import { ToggleQueryEditorVisibilityAction } from 'src/app/+state/app.actions';
 import { SearchState } from '../+state/search.state';
@@ -21,9 +21,6 @@ export class SearchResultContainerComponent implements OnInit, OnDestroy {
     issuelist$: Subscription;
     query$: Subscription;
     queryParams$: Subscription;
-    searchViewmode$: Subscription;
-    searchViewmode: string;
-    localViewmode: any;
 
     public currentPageIndex = 1;
     showSavedSearches = false;
@@ -34,11 +31,6 @@ export class SearchResultContainerComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.localViewmode = SearchresultViewMode;
-
-        this.searchViewmode$ = this.store$.select(p => p.search.viewmode)
-            .subscribe(viewmode => this.searchViewmode = viewmode);
-
         this.store$.dispatch(new ToggleQueryEditorVisibilityAction(true));
 
         this.queryParams$ = this.activatedRoute.queryParams

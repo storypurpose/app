@@ -1,6 +1,6 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
 import * as _ from 'lodash';
-import { JiraService } from 'src/app/lib/jira.service';
+import { isCustomNode } from 'src/app/lib/jira-tree-utils';
 
 @Component({
     selector: 'app-roadmap-renderer',
@@ -25,18 +25,14 @@ export class RoadmapRendererComponent {
     public metadata: any;
     public roadmapItems: any;
 
-    constructor(public jiraService: JiraService) {
-
-    }
-
-    getTimelineTypeClass(timespan, idx) {
+    getTimelineTypeClass(rowData, idx) {
+        const timespan = rowData.timespan;
         if (timespan && timespan[idx] && timespan[idx].isInTimespan) {
-            const col = timespan[idx];
-            if (!col.missingDuedate && !col.duedatePassed) {
+            if (!rowData.missingDuedate && !rowData.duedatePassed) {
                 return 'bg-primary';
-            } else if (col.missingDuedate && !col.duedatePassed) {
+            } else if (rowData.missingDuedate && !rowData.duedatePassed) {
                 return 'bg-timeline';
-            } else if (col.duedatePassed) {
+            } else if (rowData.duedatePassed) {
                 return 'bg-warning';
             }
         }
@@ -48,4 +44,13 @@ export class RoadmapRendererComponent {
             this.nodeExpand.emit(args.node.data.key);
         }
     }
+
+    hasMiscInfo(rowData) {
+        return !isCustomNode(rowData) && (rowData.missingDuedate || rowData.duedatePassed);
+    }
+    getMiscInfo(rowData) {
+        return `${(rowData.missingDuedate ? 'Duedate is missing' : '')} ${(rowData.duedatePassed ? 'Duedate elapsed' : '')}`
+    }
+
+    isCustomTypeNode = rowData => isCustomNode(rowData);
 }

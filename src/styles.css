@@ -403,10 +403,14 @@ body .ui-multiselect .ui-multiselect-trigger {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.roadmap .ui-treetable {
+  border-bottom: 1px solid #eee;
+}
 .roadmap .ui-treetable .ui-treetable-thead > tr > th {
   font-weight: normal;
-  border-width: 0 0 2px 0;
+  border-width: 0 0 1px 0;
   text-align: center;
+  background-color: #eee;
 }
 .roadmap .ui-treetable .ui-treetable-tbody > tr > td {
   border-width: 0 1px 0 0;
@@ -428,7 +432,12 @@ body .ui-multiselect .ui-multiselect-trigger {
 }
 
 .storyboard th {
-  padding: 0.25rem 0.75rem 0.40rem 0.75rem;
+  padding: 0.25rem 0.75rem 0.4rem 0.75rem;
   font-weight: normal;
   background-color: #eee;
+}
+
+.issuelist .table thead tr > td {
+  background-color: #eee;
+  border-bottom-width: 1px;
 }

@@ -1,36 +1,47 @@
 <p-treeTable *ngIf="roadmapItems && metadata" [columns]="metadata.timespan" class="roadmap"
-    [frozenColumns]="metadata.fixedColumns" [scrollable]="true" frozenWidth="400px"
-    [scrollHeight]="contentHeight + 'px'" [value]="roadmapItems" [resizableColumns]="true" columnResizeMode="expand"
+    [frozenColumns]="metadata.fixedColumns" [scrollable]="true" frozenWidth="500px" columnResizeMode="expand"
+    [resizableColumns]="true" [scrollHeight]="contentHeight + 'px'" [value]="roadmapItems"
     (onNodeExpand)="onNodeExpand($event)" [lazy]="true">
     <ng-template pTemplate="colgroup" let-columns>
         <colgroup>
-            <col *ngFor="let col of columns" style="width:100px">
+            <col *ngFor="let col of columns" width="90px">
+        </colgroup>
+    </ng-template>
+    <ng-template pTemplate="frozencolgroup" let-columns>
+        <colgroup>
+            <col *ngFor="let col of columns">
         </colgroup>
     </ng-template>
     <ng-template pTemplate="header" let-columns>
         <tr>
-            <th *ngFor="let col of columns">
+            <th *ngFor="let col of columns" class="text-truncate" [title]="col.title">
                 {{col.title}}
             </th>
         </tr>
     </ng-template>
     <ng-template pTemplate="frozenbody" let-rowNode let-rowData="rowData">
-        <tr [ttRow]="rowNode" class="border-right" [ngClass]="{'bg-light border-bottom': rowData.isHeading}">
+        <tr [ttRow]="rowNode" class="border-right bg-light" [ngClass]="{'border-bottom': rowData.isHeading}">
             <td [title]="rowData.title">
                 <div class="text-truncate">
                     <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
                     <i class="{{rowData.icon}} text-muted"></i>
                     <a [routerLink]="['/browse', rowData.key]" [ngClass]="{'issue-resolved': rowData.resolution}"
-                        class="ml-1">{{rowData.key}}</a>
-                    <span class="ml-1">{{rowData.label}}</span>
+                        class="ml-1" *ngIf="!isCustomTypeNode(rowData)">{{rowData.key}}</a>
                 </div>
+            </td>
+            <td class="text-truncate" width="300px">
+                {{rowData.label}}
+            </td>
+            <td width="40px">
+                <fa-icon icon="exclamation-circle" *ngIf="hasMiscInfo(rowData)" [title]="getMiscInfo(rowData)" size="sm"
+                    [ngClass]="{'text-info': rowData.missingDuedate, 'text-warning': rowData.duedatePassed}"></fa-icon>
             </td>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowData="rowData" let-columns="columns">
         <tr class="treetable-data" [ngClass]="{'bg-light border-bottom': rowData.isHeading}" [title]="rowData.title">
             <td *ngFor="let col of columns">
-                <div class="timeline-height {{getTimelineTypeClass(rowData.timespan, col.idx)}}">
+                <div class="timeline-height {{getTimelineTypeClass(rowData, col.idx)}}">
                     &nbsp;
                 </div>
             </td>

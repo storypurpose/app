@@ -8,9 +8,7 @@ const DataTypes = {
     ConnectionDetails: "ConnectionDetails",
     Credentials: "Credentials",
     Organization: "Organization",
-    // FieldMapping: "FieldMapping",
     Projects: "Projects",
-    Initiatives: "Initiatives",
     ExtendedHierarchy: "ExtendedHierarchy"
 }
 
@@ -92,37 +90,6 @@ export class CachingService {
     }
     //#endregion 
 
-    //#region FieldMapping
-    // getFieldMapping() {
-    //     const payload = localStorage.getItem(DataTypes.FieldMapping);
-    //     const fieldMapping = JSON.parse(payload) || {
-    //         epicLink: { support: false, name: 'Epic Link', value: '' }
-    //     };
-
-    //     fieldMapping.hierarchy = fieldMapping.hierarchy || { support: false, name: CustomNodeTypes.Hierarchy, list: [] };
-    //     fieldMapping.issueTypes = fieldMapping.issueTypes || [];
-    //     return fieldMapping;
-
-    // }
-    // setFieldMapping(payload) {
-    //     localStorage.setItem(DataTypes.FieldMapping, JSON.stringify(payload))
-    // }
-    // resetFieldMapping() {
-    //     localStorage.removeItem(DataTypes.FieldMapping);
-    // }
-
-    // getExtendedFieldByIssueType(issueType) {
-    //     const customFields = this.getFieldMapping();
-    //     if (customFields && customFields.issueTypes && customFields.issueTypes.length > 0) {
-    //         const node = _.find(customFields.issueTypes, { name: issueType });
-    //         if (node && node.list && node.list.length > 0) {
-    //             return node.list;
-    //         }
-    //     }
-    //     return [];
-    // }
-    //#endregion
-
     //#region Projects
     getProjects() {
         const payload = localStorage.getItem(DataTypes.Projects);
@@ -141,7 +108,6 @@ export class CachingService {
     setProjectDetails(payload) {
         const projects = this.getProjects();
         _.remove(projects, { key: payload.key });
-
         projects.push(payload);
         localStorage.setItem(DataTypes.Projects, JSON.stringify(projects))
     }

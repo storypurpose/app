@@ -62,7 +62,6 @@ export class JiraService {
             });
     }
     getIssueDetails(keyId, extendedFields = []) {
-        extendedFields.push('description');
         if (this.isOnlineMode === false) {
             return this.httpClient.get(`${this.staticFileLocation}/${keyId.toLowerCase()}.json`, this.httpOptions)
         }

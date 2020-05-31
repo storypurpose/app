@@ -12,7 +12,6 @@ import { UpsertProjectAction, UpsertProjectBeginAction, DismissProjectSetupActio
     templateUrl: './project-config.component.html'
 })
 export class ProjectConfigComponent {
-
     @Output() close = new EventEmitter<any>();
     @Input() project: any;
 

@@ -17,6 +17,7 @@ import { ResizableContainerBase } from './resizable-container-base';
     templateUrl: './selected-issue-container.component.html'
 })
 export class SelectedIssueContainerComponent extends ResizableContainerBase implements AfterViewInit, OnInit, OnDestroy {
+    canNavigateToStoryboard = false;
     combined$: Subscription;
 
     updatedField$: Subscription;
@@ -43,7 +44,7 @@ export class SelectedIssueContainerComponent extends ResizableContainerBase impl
         this.localNodeType = CustomNodeTypes;
 
         this.updatedField$ = this.store$.select(p => p.issue.updatedField).pipe(filter(p => p && this.selectedIssue))
-            .subscribe(p => {
+            .subscribe(() => {
                 this.store$.dispatch(
                     new LoadSelectedIssueAction({ issue: this.selectedIssue.key, extendedFields: this.extendedFields }));
             });
@@ -54,6 +55,7 @@ export class SelectedIssueContainerComponent extends ResizableContainerBase impl
         this.selectedIssue$ = this.store$.select(p => p.issue.selectedIssue).pipe(filter(p => p))
             .subscribe(selectedIssue => {
                 this.selectedIssue = selectedIssue;
+                this.canNavigateToStoryboard = this.checkIfCanNavigateToStoryboard();
                 if (!this.selectedIssue.relatedLinksLoaded && !this.selectedIssue.relatedLinksLoading) {
                     if (this.selectedIssue.relatedLinks && this.selectedIssue.relatedLinks.length > 0) {
                         this.store$.dispatch(new LoadSelectedIssueRelatedLinksAction(_.map(this.selectedIssue.relatedLinks, 'key')));
@@ -74,7 +76,7 @@ export class SelectedIssueContainerComponent extends ResizableContainerBase impl
             .subscribe(([primaryIssue, hierarchicalIssue, selectedIssueKey]) => {
                 this.primaryIssue = primaryIssue;
 
-                if (selectedIssueKey.toLowerCase() === this.primaryIssue.key.toLowerCase()) {
+                if (this.primaryIssue.key && selectedIssueKey.toLowerCase() === this.primaryIssue.key.toLowerCase()) {
                     this.store$.dispatch(new SetSelectedIssueAction(primaryIssue));
                 } else {
                     if (!this.selectedIssue || this.selectedIssue.key.toLowerCase() !== selectedIssueKey.toLowerCase()) {
@@ -82,7 +84,7 @@ export class SelectedIssueContainerComponent extends ResizableContainerBase impl
                         this.extendedFields = hierarchicalNode
                             ? this.populateExtendedFields(primaryIssue.projectConfig, hierarchicalNode.issueType)
                             : [];
-
+                        console.log('LoadSelectedIssueAction', selectedIssueKey, this.extendedFields);
                         this.store$.dispatch(new LoadSelectedIssueAction({ issue: selectedIssueKey, extendedFields: this.extendedFields }));
                     }
                 }
@@ -90,11 +92,21 @@ export class SelectedIssueContainerComponent extends ResizableContainerBase impl
     }
 
     private populateExtendedFields(projectConfig, issueType: any) {
-        if (projectConfig && projectConfig.standardIssueTypes) {
-            const issueTypeConfig = _.find(projectConfig.standardIssueTypes, { name: issueType });
-            return (issueTypeConfig) ? issueTypeConfig.list : [];
+        let extendedFieldList = [];
+        if (projectConfig) {
+            if (projectConfig.standardIssueTypes) {
+                const issueTypeConfig = _.find(projectConfig.standardIssueTypes, { name: issueType });
+                if (issueTypeConfig) {
+                    extendedFieldList = _.union(extendedFieldList, issueTypeConfig.list)
+                }
+                //return (issueTypeConfig) ? issueTypeConfig.list : [];
+            }
+            if (projectConfig.startdate) {
+                extendedFieldList.push(projectConfig.startdate);
+            }
         }
-        return [];
+        console.log(extendedFieldList);
+        return extendedFieldList;
     }
 
     ngOnDestroy(): void {
@@ -105,9 +117,11 @@ export class SelectedIssueContainerComponent extends ResizableContainerBase impl
         this.selectedIssue$ ? this.selectedIssue$.unsubscribe() : null;
     }
 
-    canNavigateToStoryboard = () =>
-        this.selectedIssue && this.primaryIssue &&
-        (this.selectedIssue.issueType === 'Epic' || this.primaryIssue.key.toLowerCase() === this.selectedIssue.key.toLowerCase());
+    checkIfCanNavigateToStoryboard = () => {
+        return this.selectedIssue && this.selectedIssue.key &&
+            this.primaryIssue && this.primaryIssue.key &&
+            (this.selectedIssue.issueType === 'Epic' || this.primaryIssue.key.toLowerCase() === this.selectedIssue.key.toLowerCase());
+    }
 
     onShowIssuelist() {
         this.router.navigate(['/search/list']);

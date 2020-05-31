@@ -31,7 +31,7 @@ export function populateMetadata(records) {
     return metadata;
 }
 
-export function transformToTreeChildren(children, timespanLookup) {
+export function transformToTreeChildren(children, timespanLookup, expandEpic = false) {
     if (!children) {
         return [];
     }
@@ -59,7 +59,7 @@ export function transformToTreeChildren(children, timespanLookup) {
         });
         const result: any = { data: record };
         if (ec && ec.children && ec.children.length > 0) {
-            result.children = transformToTreeChildren(ec.children, timespanLookup);
+            result.children = transformToTreeChildren(ec.children, timespanLookup, expandEpic);
             if (result.data) {
                 result.data.isHeading = true;
                 result.data.statistics = populateStatistics(extractMetadata(ec.children), ec.children, record.label);
@@ -67,7 +67,7 @@ export function transformToTreeChildren(children, timespanLookup) {
             result.expanded = true;
             result.leaf = false;
         }
-        if (ec && ec.issueType === CustomNodeTypes.Epic) {
+        if (ec && ec.issueType === CustomNodeTypes.Epic && expandEpic) {
             result.leaf = false;
         }
         return result;

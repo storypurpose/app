@@ -81,6 +81,8 @@ export function appReducer(state: App, action: any): App {
         }
 
         case ActionTypes.UpsertProject: {
+            action.payload.startdate = action.payload.startdate || { id: 'created', name: 'created' };
+
             const list = state.projects || [];
             let currentProject = state.currentProject;
             if (action.payload) {

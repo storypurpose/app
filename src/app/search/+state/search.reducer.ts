@@ -28,7 +28,7 @@ export function searchReducer(state: Search, action: any): Search {
 
         case ActionTypes.PopulateSearchResultRoadmapView: {
             const metadata = roadmapUtil.populateMetadata(action.payload);
-            const records = roadmapUtil.transformToTreeChildren(action.payload, metadata.timespan);
+            const records = roadmapUtil.transformToTreeChildren(action.payload, metadata.timespan, true);
             return { ...state, roadmapView: { metadata, records } };
         }
         
@@ -37,7 +37,7 @@ export function searchReducer(state: Search, action: any): Search {
             const issues = action.payload.payload && action.payload.payload.issues
                 ? _.map(action.payload.payload.issues, p => populateFieldValuesCompact(p))
                 : [];
-            const children = roadmapUtil.transformToTreeChildren(issues, state.roadmapView.metadata.timespan);
+            const children = roadmapUtil.transformToTreeChildren(issues, state.roadmapView.metadata.timespan, false);
             return {
                 ...state, roadmapView: {
                     ...state.roadmapView, records: state.roadmapView.records.map(node => {

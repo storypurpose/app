@@ -114,15 +114,6 @@ export class IssueEffects {
     @Effect() updateOrganizationTitle = this.actions$.pipe(ofType(a.ActionTypes.UpdateOrganizationTitle),
         tap((action: any) => this.cachingService.setOrganization(action.payload)),
         switchMap((action: any) => of({ type: a.ActionTypes.UpdateOrganizationTitleSuccess, payload: action.payload }))
-
-        // switchMap((action: any) =>
-        //     this.jiraService.executeJql(`issuetype in (${action.payload.subTaskIssueTypes}) AND parent=${action.payload.issueKey}`,
-        //         0, 100, _.map(action.payload.extendedFields, 'id'), 'test-cases.json')
-        //         .pipe(
-        //             map(() => of({ type: a.ActionTypes.UpdateOrganizationTitleSuccess})),
-        //             catchError(() => of({ type: a.ActionTypes.UpdateOrganizationTitleFailed }))
-        //         )
-        // )
     );
 
 

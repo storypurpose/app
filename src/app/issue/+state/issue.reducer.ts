@@ -77,7 +77,7 @@ export function issueReducer(state: Issue, action: any): Issue {
         }
         case ActionTypes.PopulateIssueRoadmapView: {
             const metadata = roadmapUtil.populateMetadata(action.payload);
-            const records = roadmapUtil.transformToTreeChildren(action.payload, metadata.timespan);
+            const records = roadmapUtil.transformToTreeChildren(action.payload, metadata.timespan, false);
             // const statistics = roadmapUtil.populateStatistics(action.payload);
             return { ...state, roadmapView: { metadata, records } };
         }
@@ -175,7 +175,7 @@ function populateIssueDetails(payload: any) {
 }
 
 function populateProjectDetails(project) {
-    const currentProject: any = _.pick(project, ['id', 'key', 'description', 'name', 'customFields']);
+    const currentProject: any = _.pick(project, ['id', 'key', 'description', 'name', 'customFields', 'startdate']);
     currentProject.hierarchy = [];
     if (project.issueTypes) {
         currentProject.standardIssueTypes = getIssueTypes(project.issueTypes, false);

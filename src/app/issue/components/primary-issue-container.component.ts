@@ -7,24 +7,23 @@ import { Title } from '@angular/platform-browser';
 import { IssueState } from '../+state/issue.state';
 import {
     LoadPrimaryIssueAction, LoadPrimaryIssueEpicChildrenAction, LoadPrimaryIssueRelatedLinksAction,
-    LoadProjectDetailsAction, UpdateOrganizationTitleAction, SetHierarchicalIssueAction
+    LoadProjectDetailsAction, SetHierarchicalIssueAction
 } from '../+state/issue.actions';
 import { environment } from 'src/environments/environment';
 import { filter, map } from 'rxjs/operators';
 import { Subscription, combineLatest } from 'rxjs';
 import {
     createEpicChildrenNode, buildIssueLinkGroups, createOrganizationNode, createProjectNode,
-    CustomNodeTypes, TreeTemplateTypes, isCustomNode, createHierarchyNode, convertToTree, addToLeafNode
+    CustomNodeTypes, createHierarchyNode, convertToTree, addToLeafNode
 } from 'src/app/lib/jira-tree-utils';
 import { UpsertProjectAction } from 'src/app/+state/app.actions';
-import { getRoutelet } from 'src/app/lib/route-utils';
 
 @Component({
     selector: 'app-primary-issue-container',
     templateUrl: './primary-issue-container.component.html'
 })
 export class IssueContainerComponent implements OnInit, OnDestroy {
-    currentProjectUpdated$: Subscription;
+    currentProject$: Subscription;
     updatedField$: Subscription;
     combined$: Subscription;
     issueKey: string;
@@ -56,10 +55,11 @@ export class IssueContainerComponent implements OnInit, OnDestroy {
             .subscribe(([issue, projects]) => {
                 this.titleService.setTitle(`${environment.appTitle}: ${issue}`);
                 if (projects) {
-                    this.extendedFields = _.union(
+                    this.extendedFields = _.uniqBy(_.union(
                         _.flatten(_.map(projects, 'hierarchy')),
+                        _.map(projects, 'startdate') || [],
                         _.filter(_.flatten(_.map(projects, 'customFields')), { name: "Epic Link" })
-                    );
+                    ), 'id');
                 }
                 this.store$.dispatch(new LoadPrimaryIssueAction({ issue, extendedFields: this.extendedFields }));
             });
@@ -77,18 +77,36 @@ export class IssueContainerComponent implements OnInit, OnDestroy {
     }
 
     private reloadOnChange() {
-        this.currentProjectUpdated$ = this.store$.select(p => p.app.currentProjectUpdated).pipe(filter(projectUpdated => projectUpdated === true && this.primaryIssue))
-            .subscribe(() => {
-                this.store$.dispatch(new LoadPrimaryIssueAction({ issue: this.primaryIssue.key, extendedFields: this.extendedFields }));
+        this.currentProject$ = this.store$.select(p => p.app.currentProject)
+            .pipe(filter(() => this.primaryIssue))
+            .subscribe((updatedProject) => {
+                if (this.primaryIssue && updatedProject) {
+                    const found = _.find(updatedProject.standardIssueTypes, { name: this.primaryIssue.issueType });
+                    if (found) {
+                        const projectFields = _.union(found.list, _.filter(updatedProject.customFields, { name: 'Epic Link' }));
+                        if (updatedProject.startdate) {
+                            projectFields.push(updatedProject.startdate);
+                        }
+                        const diff = [];
+                        projectFields.forEach(pf => {
+                            !_.find(this.extendedFields, { id: pf.id }) ? diff.push(pf) : null;
+                        })
+
+                        if (diff.length > 0) {
+                            this.extendedFields = _.clone(projectFields);
+                            this.store$.dispatch(new LoadPrimaryIssueAction({ issue: this.primaryIssue.key, extendedFields: this.extendedFields }));
+                        }
+                    }
+                }
             });
         this.updatedField$ = this.store$.select(p => p.issue.updatedField).pipe(filter(fieldUpdated => fieldUpdated && this.primaryIssue))
-            .subscribe(() => {
+            .subscribe((fu) => {
                 this.store$.dispatch(new LoadPrimaryIssueAction({ issue: this.primaryIssue.key, extendedFields: this.extendedFields }));
             });
     }
 
     ngOnDestroy() {
-        this.currentProjectUpdated$ ? this.currentProjectUpdated$.unsubscribe() : null;
+        this.currentProject$ ? this.currentProject$.unsubscribe() : null;
         this.updatedField$ ? this.updatedField$.unsubscribe() : null;
         this.combined$ ? this.combined$.unsubscribe() : null;
         this.primaryIssue$ ? this.primaryIssue$.unsubscribe() : null;
@@ -171,71 +189,15 @@ export class IssueContainerComponent implements OnInit, OnDestroy {
             if (this.primaryIssue.projectConfig) {
                 this.store$.dispatch(new UpsertProjectAction(this.primaryIssue.projectConfig));
             }
-        }
-        else if (this.primaryIssue.project && this.primaryIssue.project.key && this.primaryIssue.project.key.length > 0
+        } else if (this.primaryIssue.project && this.primaryIssue.project.key && this.primaryIssue.project.key.length > 0
             && !this.primaryIssue.projectConfigLoading) {
             this.store$.dispatch(new LoadProjectDetailsAction(this.primaryIssue.project.key));
         }
     }
 
-    // onShowIssuelist() {
-    //     this.router.navigate(['/search/list']);
-    // }
-
-    //#region node functions
-    // nodeSelected(event) {
-    //     if (event.node.editable) {
-    //         event.node.memento = { type: event.node.type, selectable: event.node.selectable };
-    //         event.node.type = TreeTemplateTypes.Editing;
-    //         event.node.selectable = false;
-    //     }
-    //     else {
-    //         let routelet = getRoutelet(this.router, 'details');
-    //         this.router.navigate(['purpose', event.node.key, routelet], { relativeTo: this.activatedRoute });
-    //     }
-    // }
     nodeContextMenuSelect(node) {
         console.log(node);
     }
-
-    // cancelNodeEditingOnEscape = (eventArgs, node) => {
-    //     eventArgs.stopPropagation();
-    //     eventArgs.preventDefault();
-    //     this.cancelNodeEditing(node);
-    // }
-
-    // public cancelNodeEditing(node) {
-    //     if (node.memento) {
-    //         node.title = '';
-    //         node.type = node.memento.type;
-    //         setTimeout(() => node.selectable = node.memento.selectable, 200);
-    //     }
-    // }
-
-    // public canUpdateTitle = (node) => node && node.title && node.title.trim().length > 0;
-
-    // updateNodeTitleOnEnter = (eventArgs, node) => {
-    //     eventArgs.stopPropagation();
-    //     eventArgs.preventDefault();
-    //     this.updateNodeTitle(node);
-    // }
-    // public updateNodeTitle(node) {
-    //     if (node.title && node.title.length > 0) {
-    //         node.type = TreeTemplateTypes.Heading;
-    //         node.selectable = false;
-    //         node.key = node.title;
-    //         const payload = { name: node.title };
-    //         this.store$.dispatch(new UpdateOrganizationTitleAction(payload));
-    //     }
-    // }
-
-    // getIssueTitle = (node) =>
-    //     isCustomNode(node) ? node.title : `[${node.issueType}] ${node.linkType || ''} ${node.key} | ${node.title}`;
-
-    // getHeaderTitle = (node) => `[${node.issueType}] ${node.title}`;
-
-    // checkIfCustomNode = (node) => isCustomNode(node)
-
     //#endregion
 
     //#region toggle fullscreen

@@ -6,11 +6,19 @@
 </div>
 <div [ngClass]="{'p-2': formMode}">
 
-    <div class="pt-0 pb-1 text-muted" *ngFor="let ff of list;let i = index">
-        <a (click)="remove(i)" class="text-muted float-right mr-2">
+    <div class="pt-0 pb-1 text-muted" *ngIf="record && selectionMode === 'single'">
+        <a (click)="resetRecord()" class="text-muted float-right mr-2">
             <fa-icon [icon]="['far', 'times-circle']"></fa-icon>
         </a>
-        {{ff.name}}
+        {{record.name}}
+    </div>
+    <div *ngIf="selectionMode !== 'single'">
+        <div class="pt-0 pb-1 text-muted" *ngFor="let ff of list;let i = index">
+            <a (click)="remove(i)" class="text-muted float-right mr-2">
+                <fa-icon [icon]="['far', 'times-circle']"></fa-icon>
+            </a>
+            {{ff.name}}
+        </div>
     </div>
     <div class="input-group input-group-sm pt-1" *ngIf="lookupList && lookupList.length > 0"
         title="Press Ctrl+Enter to add selected item">
@@ -26,12 +34,11 @@
             </button>
         </div>
     </div>
-
+    <i class="small" *ngIf="showHelp">Use Ctrl + Enter to select</i>
     <div class="text-right pt-2" *ngIf="formMode">
         <button class="btn btn-default btn-sm" (click)="save()">
             <fa-icon icon="check" [fixedWidth]="true" size="sm" class="text-primary"></fa-icon>
             Done
         </button>
     </div>
-
 </div>

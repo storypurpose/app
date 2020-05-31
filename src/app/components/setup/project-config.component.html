@@ -1,86 +1,129 @@
 <div class="pane" *ngIf="project">
     <div class="pane-header">
-        <h4>{{project.name}}</h4>
+        <h4>{{project.name}} customization</h4>
     </div>
 
     <div class="pane-body">
         <div class="container pt-3">
-            <h6>
-                <button class="btn btn-sm btn-link text-muted" (click)="project.showHierarchy = !project.showHierarchy">
-                    <fa-icon [icon]="project.showHierarchy ? 'chevron-down' : 'chevron-right'">
-                    </fa-icon>
-                </button>
-
-                Extend Hierarchy
-            </h6>
-            <div class="alert bg-light mb-4" *ngIf="project.showHierarchy">
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class="ml-3">
-                            <app-multilist-selector [lookupList]="project.customFields" [(list)]="project.hierarchy">
-                            </app-multilist-selector>
+            <ul ngbNav #nav="ngbNav" class="nav-tabs">
+                <li ngbNavItem>
+                    <a ngbNavLink>Workbench fields</a>
+                    <ng-template ngbNavContent>
+                        <div class="alert bg-light small text-muted">
+                            Customize Workbench view to display additional information about the issue by selecting
+                            issuetype specific custom fields.
+                            <br>
+                            <i>e.g. Acceptance criteria for stories, Test steps for testcases, etc.</i>
                         </div>
-                    </div>
-                </div>
-            </div>
 
-            <h6>
-                <button class="btn btn-sm btn-link text-muted"
-                    (click)="project.showStandardIssueTypes = !project.showStandardIssueTypes">
-                    <fa-icon [icon]="project.showStandardIssueTypes ? 'chevron-down' : 'chevron-right'">
-                    </fa-icon>
-                </button>
+                        <h6>
+                            <button class="btn btn-sm btn-link text-muted"
+                                (click)="project.showStandardIssueTypes = !project.showStandardIssueTypes">
+                                <fa-icon [icon]="project.showStandardIssueTypes ? 'chevron-down' : 'chevron-right'">
+                                </fa-icon>
+                            </button>
 
-                Standard Issue types
-            </h6>
-            <div class="bg-light p-2 mb-4" *ngIf="project.showStandardIssueTypes">
-                <div class="row" *ngFor="let issuetype of project.standardIssueTypes;let i = index">
-                    <div class="col-md-8">
-                        <button class="btn btn-sm btn-link text-muted" (click)="issuetype.show = !issuetype.show">
-                            <fa-icon [icon]="issuetype.show ? 'angle-down' : 'angle-right'"></fa-icon>
+                            Standard Issue types
+                        </h6>
+                        <div class="bg-light p-2 mb-4" *ngIf="project.showStandardIssueTypes">
+                            <div class="row" *ngFor="let issuetype of project.standardIssueTypes;let i = index">
+                                <div class="col-md-8">
+                                    <button class="btn btn-sm btn-link text-muted"
+                                        (click)="issuetype.show = !issuetype.show">
+                                        <fa-icon [icon]="issuetype.show ? 'angle-down' : 'angle-right'"></fa-icon>
 
-                            <span
-                                [ngClass]="{'font-weight-bold':!issuetype.show && issuetype.list && issuetype.list.length > 0}">
-                                {{issuetype.name}}
-                            </span>
+                                        <span
+                                            [ngClass]="{'font-weight-bold':!issuetype.show && issuetype.list && issuetype.list.length > 0}">
+                                            {{issuetype.name}}
+                                        </span>
 
-                        </button>
+                                    </button>
 
-                        <div class="ml-5" *ngIf="issuetype.show">
-                            <app-multilist-selector [lookupList]="project.customFields" [(list)]="issuetype.list">
-                            </app-multilist-selector>
+                                    <div class="ml-5" *ngIf="issuetype.show">
+                                        <app-multilist-selector [lookupList]="project.customFields"
+                                            [(list)]="issuetype.list">
+                                        </app-multilist-selector>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            </div>
 
-            <h6>
-                <button class="btn btn-sm btn-link text-muted"
-                    (click)="project.showSubTaskIssueTypes = !project.showSubTaskIssueTypes">
-                    <fa-icon [icon]="project.showSubTaskIssueTypes ? 'chevron-down' : 'chevron-right'">
-                    </fa-icon>
-                </button>
-                Sub-Task Issue types
-            </h6>
-            <div class="bg-light p-2 mb-4" *ngIf="project.showSubTaskIssueTypes">
-                <div class="row" *ngFor="let issuetype of project.subTaskIssueTypes;let i = index">
-                    <div class="col-md-8">
-                        <button class="btn btn-sm btn-link text-muted" (click)="issuetype.show = !issuetype.show">
-                            <fa-icon [icon]="issuetype.show ? 'angle-down' : 'angle-right'"></fa-icon>
+                        <h6>
+                            <button class="btn btn-sm btn-link text-muted"
+                                (click)="project.showSubTaskIssueTypes = !project.showSubTaskIssueTypes">
+                                <fa-icon [icon]="project.showSubTaskIssueTypes ? 'chevron-down' : 'chevron-right'">
+                                </fa-icon>
+                            </button>
+                            Sub-Task Issue types
+                        </h6>
+                        <div class="bg-light p-2 mb-4" *ngIf="project.showSubTaskIssueTypes">
+                            <div class="row" *ngFor="let issuetype of project.subTaskIssueTypes;let i = index">
+                                <div class="col-md-8">
+                                    <button class="btn btn-sm btn-link text-muted"
+                                        (click)="issuetype.show = !issuetype.show">
+                                        <fa-icon [icon]="issuetype.show ? 'angle-down' : 'angle-right'"></fa-icon>
 
-                            <span
-                                [ngClass]="{'font-weight-bold':!issuetype.show && issuetype.list && issuetype.list.length > 0}">
-                                {{issuetype.name}}
-                            </span>
-                        </button>
+                                        <span
+                                            [ngClass]="{'font-weight-bold':!issuetype.show && issuetype.list && issuetype.list.length > 0}">
+                                            {{issuetype.name}}
+                                        </span>
+                                    </button>
 
-                        <div class="ml-5" *ngIf="issuetype.show">
-                            <app-multilist-selector [lookupList]="project.customFields" [(list)]="issuetype.list">
-                            </app-multilist-selector>
+                                    <div class="ml-5" *ngIf="issuetype.show">
+                                        <app-multilist-selector [lookupList]="project.customFields"
+                                            [(list)]="issuetype.list">
+                                        </app-multilist-selector>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            </div>
+
+                    </ng-template>
+                </li>
+                <li ngbNavItem>
+                    <a ngbNavLink>Purpose hierarchy</a>
+                    <ng-template ngbNavContent>
+                        <div class="alert bg-light small text-muted">
+                            Customize purpose view to extend the hierarchy of the story -
+                            such that it provides detailed alignment to organization purpose.
+                            <br>
+                            <i>e.g. Theme, Initiative, Team, etc.</i>
+                        </div>
+                        <div class="alert">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <app-multilist-selector [lookupList]="project.customFields"
+                                        [(list)]="project.hierarchy">
+                                    </app-multilist-selector>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </li>
+                <li ngbNavItem>
+                    <a ngbNavLink>Roadmap</a>
+                    <ng-template ngbNavContent>
+                        <div class="alert bg-light small text-muted">
+                            Customize roadmap view by selecting custom start date field, instead of default created
+                            date.
+                            <br>
+                            <i>e.g. Start date.</i>
+                        </div>
+                        <div class="alert">
+                            <div class="row">
+                                <div class="col-lg-8">
+                                    <app-multilist-selector selectionMode="single" [lookupList]="project.customFields"
+                                        [(record)]="project.startdate" [showHelp]="true">
+                                    </app-multilist-selector>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </li>
+            </ul>
+
+            <div class="mt-3" [ngbNavOutlet]="nav"></div>
+
         </div>
     </div>
 

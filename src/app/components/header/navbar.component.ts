@@ -4,7 +4,7 @@ import { AppState } from '../../+state/app.state';
 import { ToggleQueryEditorVisibilityAction, ConfigureProjectAction } from '../../+state/app.actions';
 import { Subscription } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { filter } from 'rxjs/operators';
+import { filter, tap } from 'rxjs/operators';
 
 @Component({
     selector: 'app-navbar',

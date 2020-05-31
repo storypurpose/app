@@ -10,6 +10,8 @@ import { Store } from '@ngrx/store';
 import { SetModeAction, ModeTypes, ShowConnectionEditorAction, BootstrapAppAction } from '../+state/app.actions';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { GapiSession } from '../googledrive/gapi.session';
+import { MessageService } from 'primeng/api';
+import { filter } from 'rxjs/operators';
 
 declare let gtag: Function;
 
@@ -26,6 +28,8 @@ export class AppComponent implements OnInit, OnDestroy {
   issue: string;
 
   connectionDetails: any;
+
+  messageObserver$: Subscription;
 
   connectionEditorVisible$: Subscription;
   projectConfigSubscription: Subscription;
@@ -47,7 +51,8 @@ export class AppComponent implements OnInit, OnDestroy {
     public titleService: Title,
     public sanitizer: DomSanitizer,
     public store$: Store<AppState>,
-    public gapiSession: GapiSession
+    public gapiSession: GapiSession,
+    private messageService: MessageService
   ) {
 
     if (environment.production) {
@@ -64,6 +69,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.titleService.setTitle(environment.appTitle);
 
+    this.messageObserver$ = this.messageService.messageObserver
+      .pipe(filter((p: any) => p && p.data && p.data.showAuth))
+      .subscribe(() => this.store$.dispatch(new ShowConnectionEditorAction(true)));
+
     this.connectionEditorVisible$ = this.store$.select(p => p.app.connectionEditorVisible)
       .subscribe(show => this.showConnectionEditor = show);
     this.mode$ = this.store$.select(p => p.app.mode)
@@ -75,6 +84,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.messageObserver$ ? this.messageObserver$.unsubscribe() : null;
     this.connectionEditorVisible$ ? this.connectionEditorVisible$.unsubscribe() : null;
     this.mode$ ? this.mode$.unsubscribe() : null;
 

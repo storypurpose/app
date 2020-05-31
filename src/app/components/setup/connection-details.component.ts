@@ -24,7 +24,8 @@ export class ConnectionDetailsComponent implements OnInit {
 
     ngOnInit() {
         this.connectionDetails = this.connectionDetails || {};
-        this.store$.select(p => p.app.connectionDetails).pipe(filter(p => p))
+        this.store$.select(p => p.app.connectionDetails)
+            .pipe(filter(p => p && p.username))
             .subscribe(connectionDetails => {
                 if (connectionDetails.verified) {
                     this.messageService.clear();

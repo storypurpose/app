@@ -31,9 +31,11 @@ export class CachingService {
 
         const payload = localStorage.getItem(DataTypes.ConnectionDetails);
         const connectionDetails = JSON.parse(payload);
-        if(connectionDetails && credentials){
+        if (connectionDetails && credentials) {
             connectionDetails.username = credentials.username;
             connectionDetails.password = credentials.password;
+            connectionDetails.verified = credentials.verified;
+            connectionDetails.displayName = credentials.displayName;
         }
 
         if (connectionDetails && connectionDetails.password && connectionDetails.password.length > 0) {
@@ -43,7 +45,7 @@ export class CachingService {
     }
 
     setConnectionDetails(payload) {
-        const credentials = _.pick(payload, ['username', 'password']);
+        const credentials = _.pick(payload, ['username', 'password', 'verified', 'displayName']);
 
         if (credentials && credentials.password && credentials.password.length > 0) {
             credentials.password = this.encrypt(credentials.password);
@@ -53,6 +55,8 @@ export class CachingService {
         if (payload) {
             payload.username = undefined;
             payload.password = undefined;
+            payload.verified = undefined;
+            payload.displayName = undefined;
         }
         localStorage.setItem(DataTypes.ConnectionDetails, JSON.stringify(payload))
     }

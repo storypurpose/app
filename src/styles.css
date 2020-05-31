@@ -249,7 +249,11 @@ body .ui-toast .ui-toast-message.ui-toast-message-success {
   border-left: 10px solid #64bd63;
   color: #000;
 }
-
+body .ui-toast .ui-toast-message.ui-toast-message-info {
+  background-color: #fff;
+  border-left: 10px solid #038FF8;
+  color: #000;
+}
 ngx-md p {
   margin-bottom: 0;
 }

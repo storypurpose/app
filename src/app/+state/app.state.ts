@@ -19,6 +19,7 @@ export interface App {
   projects: any;
   currentProject: any;
   currentProjectUpdated: any;
+  allExtendedFields: any;
 }
 
 export interface AppState {

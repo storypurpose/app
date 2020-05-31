@@ -50,18 +50,16 @@ export class IssueContainerComponent implements OnInit, OnDestroy {
         this.reloadOnChange();
 
         const paramsQ = this.activatedRoute.params.pipe(filter(p => p && p["issue"] && p["issue"].length > 0), map(p => p["issue"]));
-        const projectsQ = this.store$.select(p => p.app.projects);
-        this.combined$ = combineLatest(paramsQ, projectsQ)
-            .subscribe(([issue, projects]) => {
+        const allExtendedFieldsQ = this.store$.select(p => p.app.allExtendedFields);
+        
+        this.combined$ = combineLatest(paramsQ, allExtendedFieldsQ)
+            .subscribe(([issue, allExtendedFields]) => {
                 this.titleService.setTitle(`${environment.appTitle}: ${issue}`);
-                if (projects) {
-                    this.extendedFields = _.uniqBy(_.union(
-                        _.flatten(_.map(projects, 'hierarchy')),
-                        _.map(projects, 'startdate') || [],
-                        _.filter(_.flatten(_.map(projects, 'customFields')), { name: "Epic Link" })
-                    ), 'id');
+                const diff = _.xorBy(this.extendedFields, allExtendedFields, 'id');
+                if (diff.length > 0 || allExtendedFields.length === 0) {
+                    this.extendedFields = allExtendedFields;
+                    this.store$.dispatch(new LoadPrimaryIssueAction({ issue, extendedFields: this.extendedFields }));
                 }
-                this.store$.dispatch(new LoadPrimaryIssueAction({ issue, extendedFields: this.extendedFields }));
             });
 
         this.primaryIssue$ = this.store$.select(p => p.issue.primaryIssue)

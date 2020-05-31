@@ -56,14 +56,18 @@ export class SelectedIssueContainerComponent extends ResizableContainerBase impl
             .subscribe(selectedIssue => {
                 this.selectedIssue = selectedIssue;
                 this.canNavigateToStoryboard = this.checkIfCanNavigateToStoryboard();
-                if (!this.selectedIssue.relatedLinksLoaded && !this.selectedIssue.relatedLinksLoading) {
-                    if (this.selectedIssue.relatedLinks && this.selectedIssue.relatedLinks.length > 0) {
-                        this.store$.dispatch(new LoadSelectedIssueRelatedLinksAction(_.map(this.selectedIssue.relatedLinks, 'key')));
+
+                if (!this.primaryIssue || !this.primaryIssue.key ||
+                    this.selectedIssue.key.toLowerCase() !== this.primaryIssue.key.toLowerCase()) {
+                    if (!this.selectedIssue.relatedLinksLoaded && !this.selectedIssue.relatedLinksLoading) {
+                        if (this.selectedIssue.relatedLinks && this.selectedIssue.relatedLinks.length > 0) {
+                            this.store$.dispatch(new LoadSelectedIssueRelatedLinksAction(_.map(this.selectedIssue.relatedLinks, 'key')));
+                        }
                     }
-                }
-                if (this.selectedIssue.issueType === CustomNodeTypes.Epic &&
-                    !this.selectedIssue.epicChildrenLoaded && !this.selectedIssue.epicChildrenLoading) {
-                    this.store$.dispatch(new LoadSelectedIssueEpicChildrenAction(this.selectedIssue.key));
+                    if (this.selectedIssue.issueType === CustomNodeTypes.Epic &&
+                        !this.selectedIssue.epicChildrenLoaded && !this.selectedIssue.epicChildrenLoading) {
+                        this.store$.dispatch(new LoadSelectedIssueEpicChildrenAction(this.selectedIssue.key));
+                    }
                 }
             });
 
@@ -84,7 +88,7 @@ export class SelectedIssueContainerComponent extends ResizableContainerBase impl
                         this.extendedFields = hierarchicalNode
                             ? this.populateExtendedFields(primaryIssue.projectConfig, hierarchicalNode.issueType)
                             : [];
-                        console.log('LoadSelectedIssueAction', selectedIssueKey, this.extendedFields);
+
                         this.store$.dispatch(new LoadSelectedIssueAction({ issue: selectedIssueKey, extendedFields: this.extendedFields }));
                     }
                 }
@@ -99,13 +103,11 @@ export class SelectedIssueContainerComponent extends ResizableContainerBase impl
                 if (issueTypeConfig) {
                     extendedFieldList = _.union(extendedFieldList, issueTypeConfig.list)
                 }
-                //return (issueTypeConfig) ? issueTypeConfig.list : [];
             }
             if (projectConfig.startdate) {
                 extendedFieldList.push(projectConfig.startdate);
             }
         }
-        console.log(extendedFieldList);
         return extendedFieldList;
     }
 

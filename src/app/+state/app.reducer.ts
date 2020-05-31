@@ -6,9 +6,12 @@ export function appReducer(state: App, action: any): App {
     switch (action.type) {
         case ActionTypes.BootstrapAppSuccess: {
             const payload = action.payload;
+            const allExtendedFields = populateAllExtendedFields(payload.projects);
             return {
-                ...state, connectionDetails: payload.connectionDetails || {},
+                ...state,
+                connectionDetails: payload.connectionDetails || {},
                 projects: payload.projects,
+                allExtendedFields,
                 organization: payload.organization || {},
                 extendedHierarchy: payload.extendedHierarchy,
                 mode: payload.mode
@@ -73,7 +76,8 @@ export function appReducer(state: App, action: any): App {
         }
 
         case ActionTypes.SetProjects: {
-            return { ...state, projects: action.payload };
+            const allExtendedFields = populateAllExtendedFields(action.payload);
+            return { ...state, projects: action.payload, allExtendedFields };
         }
 
         case ActionTypes.UpsertProjectBegin: {
@@ -94,7 +98,8 @@ export function appReducer(state: App, action: any): App {
                 }
                 currentProject.current = true;
             }
-            return { ...state, projects: list, currentProject, currentProjectUpdated: true };
+            const allExtendedFields = populateAllExtendedFields(list);
+            return { ...state, projects: list, allExtendedFields, currentProject, currentProjectUpdated: true };
         }
 
         case ActionTypes.DismissProjectSetup: {
@@ -104,3 +109,11 @@ export function appReducer(state: App, action: any): App {
         default: return state;
     }
 }
+function populateAllExtendedFields(projects: any) {
+    return _.uniqBy(_.union(
+        _.flatten(_.map(projects, 'hierarchy')),
+        _.map(projects, 'startdate') || [],
+        _.filter(_.flatten(_.map(projects, 'customFields')), { name: "Epic Link" })
+    ), 'id');
+}
+

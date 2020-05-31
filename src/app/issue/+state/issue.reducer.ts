@@ -76,6 +76,7 @@ export function issueReducer(state: Issue, action: any): Issue {
             return { ...state, selectedIssue: populateIssueDetails(action.payload) };
         }
         case ActionTypes.PopulateIssueRoadmapView: {
+            //console.log('PopulateIssueRoadmapView', state.selectedIssue, action.payload);
             const metadata = roadmapUtil.populateMetadata(action.payload);
             const records = roadmapUtil.transformToTreeChildren(action.payload, metadata.timespan, false);
             // const statistics = roadmapUtil.populateStatistics(action.payload);

@@ -19,5 +19,6 @@ export const appInitialState: App = {
 
     projects: null,
     currentProject: null,
-    currentProjectUpdated: false
+    currentProjectUpdated: false,
+    allExtendedFields: []
 };

@@ -1,12 +1,14 @@
 import * as _ from 'lodash';
 import { CustomNodeTypes, isCustomNode } from './jira-tree-utils';
-import { extractMetadata, populateStatistics } from './statistics-utils';
+import * as statsUtil from './statistics-utils';
 
-export function populateMetadata(records) {
+export function populateMetadata(records, startdateCode) {
+    startdateCode = startdateCode || 'created';
     const withDates = _.map(records, (record) => {
-        const dateRange: any = { created: record.created, duedate: record.duedate };
+        const createdValue = record[startdateCode] || record.created;
+        const dateRange: any = { created: createdValue, duedate: record.duedate };
         if (record) {
-            if (!record.created) {
+            if (!createdValue) {
                 const minCreated: any = _.minBy(_.union(record.children || []), 'created');
                 if (minCreated) {
                     dateRange.created = minCreated.created;
@@ -31,16 +33,19 @@ export function populateMetadata(records) {
     return metadata;
 }
 
-export function transformToTreeChildren(children, timespanLookup, expandEpic = false) {
+export function transformToTreeChildren(children, timespanLookup, startdateCode, expandEpic = false) {
     if (!children) {
         return [];
     }
-    children = _.orderBy(children, 'created');
+    startdateCode = startdateCode || 'created';
+    children = _.orderBy(children, startdateCode);
     return _.map(children, (ec) => {
-        const record: any = _.pick(ec, ['label', 'title', 'icon', 'key', 'issueType', 'status', 'timespan', 'created', 'duedate', 'resolution']);
+        const record: any = _.pick(ec, ['label', 'title', 'icon', 'key', 'issueType', 'status', 'timespan', 'created', 'duedate', 'resolution', startdateCode]);
         record.label = record.title;
+        record.missingStartdate = startdateCode !== 'created' && !ec[startdateCode];
         record.title = prepareTitle(record);
-        const created = ec && ec.created ? new Date(ec.created) : new Date();
+        const createdValue = ec[startdateCode] || ec.created;
+        const created = ec && createdValue ? new Date(createdValue) : new Date();
         let duedate = created;
         record.missingDuedate = true;
         record.duedatePassed = false;
@@ -59,10 +64,11 @@ export function transformToTreeChildren(children, timespanLookup, expandEpic = f
         });
         const result: any = { data: record };
         if (ec && ec.children && ec.children.length > 0) {
-            result.children = transformToTreeChildren(ec.children, timespanLookup, expandEpic);
+            result.children = transformToTreeChildren(ec.children, timespanLookup, startdateCode, expandEpic);
             if (result.data) {
                 result.data.isHeading = true;
-                result.data.statistics = populateStatistics(extractMetadata(ec.children), ec.children, record.label);
+                result.data.statistics = statsUtil.populateStatistics(statsUtil.extractMetadata(ec.children), ec.children, record.label);
+                result.data.statistics.extended = populateExtendedStats(result.children);
             }
             result.expanded = true;
             result.leaf = false;
@@ -75,16 +81,17 @@ export function transformToTreeChildren(children, timespanLookup, expandEpic = f
 }
 
 function prepareTitle(node: any) {
-    const created = node.created ? toShortDate(new Date(node.created)) : 'Missing created date'
-    const duedate = node.duedate ? toShortDate(new Date(node.duedate)) : ' Missing duedate'
-    const key = node.key ? node.key + ": " : '';
+    const datePrefix = node.missingStartdate ? 'CD:' : ''
+    const created = node.created ? toShortDate(new Date(node.created)) : 'No created date';
+    const duedate = node.duedate ? toShortDate(new Date(node.duedate)) : ' No duedate'
+    const key = node.key ? node.key + ":" : '';
     const status = node.status ? `[${node.status}]` : '';
     const resolution = node.resolution ? `[${node.resolution}]` : 'UNRESOLVED';
-    return `${key} ${node.title} ${status} [${created} / ${duedate}] ${resolution}`;
+    return `${key} ${node.title} ${status} [${datePrefix}${created} - ${duedate}] ${resolution}`;
 }
 
 function toShortDate(date) {
-    return date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate();
+    return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
 }
 
 function monthDiff(dateFrom, dateTo) {
@@ -111,4 +118,21 @@ function initMetadata(startdate, enddate) {
         timespan: getMonthwiseRange(startdate, isWideRange ? 50 : noOfMonths),
         isWideRange
     }
+}
+
+function populateExtendedStats(records) {
+
+    const stats = { missingStartdates: 0, missingDuedates: 0, duedatePassed: 0 };
+
+    _.map(_.map(records, 'data'), d => {
+        stats.missingStartdates += d.missingStartdate ? 1 : 0;
+        stats.missingDuedates += d.missingDuedate ? 1 : 0;
+        stats.duedatePassed += !d.resolution && !d.duedatePassed ? 1 : 0;
+        return d;
+    })
+    return [
+        { title: "Missing startdates", value: stats.missingStartdates },
+        { title: "Missing duedates", value: stats.missingDuedates },
+        { title: "Duedate elapsed", value: stats.duedatePassed }
+    ]
 }

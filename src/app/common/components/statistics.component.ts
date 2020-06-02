@@ -11,6 +11,7 @@ export class StatisticsComponent {
     @Input() set statistics(value: any) {
         this._statistics = value;
         if (value) {
+            this.initExtendedStats(value.extended);
             this.initStatusCharts(value.status);
             this.initIssueTypeCharts(value.issueTypes);
             this.initComponentCharts(value.components);
@@ -20,6 +21,7 @@ export class StatisticsComponent {
         return this._statistics;
     }
 
+    public extendedStats: any;
     public componentChartLabels: any;
     public componentChartData: any;
     public statusChartLabels: any;
@@ -50,5 +52,8 @@ export class StatisticsComponent {
     initIssueTypeCharts(stats) {
         this.issueTypeChartLabels = _.map(stats, s => `${s.key} / ${s.count}`);
         this.issueTypeChartData = _.map(stats, 'count');
+    }
+    initExtendedStats(extended) {
+        this.extendedStats = (extended) ? _.filter(extended, ex => ex.value > 0) : [];
     }
 }

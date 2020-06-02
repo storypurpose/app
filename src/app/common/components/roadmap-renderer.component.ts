@@ -39,8 +39,6 @@ export class RoadmapRendererComponent {
                 return 'bg-success';
             } else if (!rowData.missingDuedate && !rowData.duedatePassed) {
                 return 'bg-primary';
-            } else if (rowData.missingDuedate && !rowData.duedatePassed) {
-                return 'bg-timeline';
             } else if (rowData.duedatePassed) {
                 return 'bg-warning';
             } else {
@@ -57,10 +55,10 @@ export class RoadmapRendererComponent {
     }
 
     hasMiscInfo(rowData) {
-        return !rowData.statistics && !isCustomNode(rowData) && !rowData.resolution && (rowData.missingDuedate || rowData.duedatePassed);
+        return !rowData.statistics && !isCustomNode(rowData) && !rowData.resolution && (rowData.missingStartdate || rowData.missingDuedate || rowData.duedatePassed);
     }
     getMiscInfo(rowData) {
-        return `${(rowData.missingDuedate ? 'Duedate is missing' : '')} ${(rowData.duedatePassed ? 'Duedate elapsed' : '')}`
+        return `${(rowData.missingStartdate ? 'No startdate.' : '')} ${(rowData.missingDuedate ? 'No duedate.' : '')} ${(rowData.duedatePassed ? 'Duedate elapsed' : '')}`
     }
 
     isCustomTypeNode = rowData => isCustomNode(rowData);

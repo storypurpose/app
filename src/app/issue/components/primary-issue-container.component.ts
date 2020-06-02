@@ -51,12 +51,12 @@ export class IssueContainerComponent implements OnInit, OnDestroy {
 
         const paramsQ = this.activatedRoute.params.pipe(filter(p => p && p["issue"] && p["issue"].length > 0), map(p => p["issue"]));
         const allExtendedFieldsQ = this.store$.select(p => p.app.allExtendedFields);
-        
+
         this.combined$ = combineLatest(paramsQ, allExtendedFieldsQ)
             .subscribe(([issue, allExtendedFields]) => {
                 this.titleService.setTitle(`${environment.appTitle}: ${issue}`);
                 const diff = _.xorBy(this.extendedFields, allExtendedFields, 'id');
-                if (diff.length > 0 || allExtendedFields.length === 0) {
+                if (diff.length > 0 || allExtendedFields.length === 0 || !this.primaryIssue || this.primaryIssue.key !== issue) {
                     this.extendedFields = allExtendedFields;
                     this.store$.dispatch(new LoadPrimaryIssueAction({ issue, extendedFields: this.extendedFields }));
                 }

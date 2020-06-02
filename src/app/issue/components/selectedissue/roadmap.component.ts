@@ -32,6 +32,10 @@ export class RoadmapComponent extends ResizableContainerBase implements OnInit, 
         this.selectedIssue$ = this.store$.select(p => p.issue.selectedIssue)
             .pipe(filter(p => p))
             .subscribe(selectedIssue => {
+                if (selectedIssue.projectConfig && selectedIssue.projectConfig.startdate &&
+                    !_.find(populatedFieldList, selectedIssue.projectConfig.startdate.id)) {
+                    populatedFieldList.push(selectedIssue.projectConfig.startdate.id);
+                }
                 this.selectedIssue = _.pick(selectedIssue, _.union(populatedFieldList, ['children']));
                 this.store$.dispatch(new PopulateIssueRoadmapViewAction(this.selectedIssue.children));
             });

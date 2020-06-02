@@ -72,7 +72,7 @@ export function populateStatistics(metadata, records, title = "Statistics") {
     const unresolved = _.filter(records, r => !r.resolution).length;
 
     return {
-        title: `${title} (${unresolved} unresolved of ${total})`,
+        title: `${title} / ${total - unresolved} Resolved`,
         total,
         unresolved,
         components: _.map(metadata.components, c => {

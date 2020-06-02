@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 
 @Component({
     selector: 'app-selected-issue-home',
@@ -7,11 +7,20 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class SelectedIssueHomeComponent implements OnInit {
 
-    constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+    constructor(private router: Router, private activatedRoute: ActivatedRoute) {
+        this.router.events.subscribe(event => {
+            if (event instanceof NavigationEnd) {
+                this.autoRedirect();
+            }
+        })
+    }
 
     ngOnInit(): void {
-        var activeChildren = this.activatedRoute.children.length;
-        if (activeChildren === 0) {
+        this.autoRedirect();
+    }
+
+    private autoRedirect() {
+        if (this.activatedRoute.children.length === 0) {
             const issue = this.activatedRoute.parent.snapshot.params.issue;
             this.router.navigate([issue], { relativeTo: this.activatedRoute });
         }

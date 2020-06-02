@@ -260,7 +260,7 @@ export function createEpicChildrenNode(node: any): any {
 
     const children = node.epicChildren && node.epicChildren.length > 0 ? [] : null;
     node.epicChildren.forEach(u => children.push(u));
-    const label = 'Epic Children' + (children ? ` (${children.length})` : '');
+    const label = `${children ? children.length : ''} Epic children`;
     return {
         label, title: label, key: 'E_' + node.key, parentId: node.key, selectable: false,
         issueType: CustomNodeTypes.EpicChildren, leaf: false, children

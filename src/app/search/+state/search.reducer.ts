@@ -27,17 +27,19 @@ export function searchReducer(state: Search, action: any): Search {
         }
 
         case ActionTypes.PopulateSearchResultRoadmapView: {
-            const metadata = roadmapUtil.populateMetadata(action.payload);
-            const records = roadmapUtil.transformToTreeChildren(action.payload, metadata.timespan, true);
+            const startdateCode = 'created';    // TODO: populate startdatefrom projectconfig
+            const metadata = roadmapUtil.populateMetadata(action.payload, startdateCode);
+            const records = roadmapUtil.transformToTreeChildren(action.payload, metadata.timespan, startdateCode, true);
             return { ...state, roadmapView: { metadata, records } };
         }
-        
+
         case ActionTypes.LoadSearchResultRoadmapNodeSuccess: {
+            const startdateCode = 'created';    // TODO: populate startdatefrom projectconfig
             const issueKey = action.payload.issueKey;
             const issues = action.payload.payload && action.payload.payload.issues
                 ? _.map(action.payload.payload.issues, p => populateFieldValuesCompact(p))
                 : [];
-            const children = roadmapUtil.transformToTreeChildren(issues, state.roadmapView.metadata.timespan, false);
+            const children = roadmapUtil.transformToTreeChildren(issues, state.roadmapView.metadata.timespan, startdateCode, false);
             return {
                 ...state, roadmapView: {
                     ...state.roadmapView, records: state.roadmapView.records.map(node => {

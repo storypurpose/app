@@ -39,4 +39,13 @@ export class SearchListViewComponent implements OnInit, OnDestroy {
             this.router.navigate(['/browse', issue.trim()]);
         }
     }
+
+    printExtendedValue(value) {
+        console.log(Date.parse(value));
+        if (!value) return '';
+        if (!isNaN(Date.parse(value))) {
+            return new Date(value).toDateString();
+        }
+        return value;
+    }
 }

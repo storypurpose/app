@@ -1,5 +1,5 @@
 <div class="btn-group btn-group-sm" 
-    *ngIf="projects && projects.length > 0 && currentProject && currentProject.isConfigured === true">
+    *ngIf="projects && projects.length > 0 && (!currentProject || currentProject.isConfigured === true)">
     <div ngbDropdown display="dynamic">
         <a class="btn btn-light" id="dropdownBasic1" ngbDropdownToggle title="Configure project">
             <fa-icon [icon]="['far', 'bookmark']" size="sm"></fa-icon>

@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef, ViewChild, ElementRef, HostListener, AfterViewInit } from '@angular/core';
 import * as _ from 'lodash';
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+import { Subscription, combineLatest } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { PopulateSearchResultRoadmapViewAction, LoadSearchResultRoadmapNodeAction } from '../+state/search.actions';
@@ -12,7 +12,7 @@ import { SearchState } from '../+state/search.state';
     templateUrl: './roadmap-view.component.html'
 })
 export class SearchRoadmapViewComponent implements OnInit, OnDestroy, AfterViewInit {
-    issuelist$: Subscription;
+    combined$: Subscription;
 
     roadmap$: Subscription;
     roadmap: any;
@@ -21,16 +21,24 @@ export class SearchRoadmapViewComponent implements OnInit, OnDestroy, AfterViewI
     contentHeight = 0;
     @ViewChild('content') elementView: ElementRef;
 
+    startdateField = 'created';
+
     public constructor(public cdRef: ChangeDetectorRef,
         public activatedRoute: ActivatedRoute,
         public store$: Store<SearchState>) {
     }
 
     ngOnInit(): void {
-        this.issuelist$ = this.store$.select(p => p.search.issuelist)
-            .pipe(filter(list => list && list.results), map(p => p.results))
-            .subscribe(results => {
-                this.store$.dispatch(new PopulateSearchResultRoadmapViewAction(results));
+        const issuelistQ = this.store$.select(p => p.search.issuelist).pipe(filter(list => list && list.results), map(p => p.results));
+        const projectsQ = this.store$.select(p => p.app.projects);
+        this.combined$ = combineLatest(issuelistQ, projectsQ)
+            .subscribe(([results, projects]) => {
+                console.log('projects', projects);
+                if (projects) {
+                    const firstProject: any = _.head(projects); //hack take startdate field from first project
+                    this.startdateField = firstProject && firstProject.startdate ? firstProject.startdate.id : 'created';
+                }
+                this.store$.dispatch(new PopulateSearchResultRoadmapViewAction({results, startdateField: this.startdateField}));
             });
 
         this.roadmap$ = this.store$.select(p => p.search.roadmapView)
@@ -40,7 +48,7 @@ export class SearchRoadmapViewComponent implements OnInit, OnDestroy, AfterViewI
     }
 
     ngOnDestroy(): void {
-        this.issuelist$ ? this.issuelist$.unsubscribe() : null;
+        this.combined$ ? this.combined$.unsubscribe() : null;
         this.roadmap$ ? this.roadmap$.unsubscribe() : null;
     }
 

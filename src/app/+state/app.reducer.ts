@@ -2,10 +2,13 @@ import * as _ from 'lodash';
 import { App } from './app.state';
 import { ActionTypes } from './app.actions';
 
+const DEFAULT_STARTDATE_FIELD = { id: 'created', name: 'created' };
+
 export function appReducer(state: App, action: any): App {
     switch (action.type) {
         case ActionTypes.BootstrapAppSuccess: {
             const payload = action.payload;
+            initStartdateField(payload.projects);
             const allExtendedFields = populateAllExtendedFields(payload.projects);
             return {
                 ...state,
@@ -76,6 +79,7 @@ export function appReducer(state: App, action: any): App {
         }
 
         case ActionTypes.SetProjects: {
+            initStartdateField(action.payload)
             const allExtendedFields = populateAllExtendedFields(action.payload);
             return { ...state, projects: action.payload, allExtendedFields };
         }
@@ -85,7 +89,7 @@ export function appReducer(state: App, action: any): App {
         }
 
         case ActionTypes.UpsertProject: {
-            action.payload.startdate = action.payload.startdate || { id: 'created', name: 'created' };
+            action.payload.startdate = action.payload.startdate || DEFAULT_STARTDATE_FIELD;
 
             const list = state.projects || [];
             let currentProject = state.currentProject;
@@ -116,4 +120,10 @@ function populateAllExtendedFields(projects: any) {
         _.filter(_.flatten(_.map(projects, 'customFields')), { name: "Epic Link" })
     ), 'id');
 }
+function initStartdateField(projects) {
+    if (projects) {
+        projects.forEach(project => project.startdate = project.startdate || DEFAULT_STARTDATE_FIELD)
+    }
+}
+
 

@@ -7,7 +7,7 @@
     <div style="width:225px" *ngIf="!compactView">
         <div *ngIf="!showIssueEntry">
             <a class="text-dark text-uppercase font-weight-bold small mr-3" (click)="showIssueEntry = true">
-                {{selectedIssue.issueType}}: {{selectedIssue.key}}
+                <span [title]="selectedIssue.issueType">{{selectedIssue.issueType | slice:0:6}}</span>: {{selectedIssue.key}}
                 <fa-icon class="ml-1" icon="pencil-alt"></fa-icon>
             </a>
             <app-issue-navigation-menu icon="ellipsis-h" placement="bottom-left" [issueKey]="selectedIssue.key">

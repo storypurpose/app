@@ -63,6 +63,18 @@ export function isCustomMenuType(args) {
         args.menuType === CustomNodeTypes.Epic;
 }
 
+export function populateFieldValuesCompactWithExtendedFields(node, extendedFields) {
+    const issueDetails: any = populateFieldValuesCompact(node);
+    if (extendedFields && extendedFields.length > 0) {
+        issueDetails.extendedFields = [];
+        extendedFields.forEach(field => {
+            field.extendedValue = getExtendedFieldValue(node, field.id);
+            issueDetails.extendedFields.push(field);
+        });
+    }
+    return issueDetails;
+}
+
 export function populateFieldValuesCompact(node) {
     if (node && node.fields) {
         const issueType = node.fields.issuetype ? node.fields.issuetype.name : 'unknown';
@@ -89,6 +101,9 @@ export function populateFieldValuesCompact(node) {
     }
     return null;
 }
+
+
+
 export function populateFieldValues(node) {
     if (node && node.fields) {
         node.project = _.pick(node.fields.project, ['id', 'key', 'name']);
@@ -231,12 +246,12 @@ export function createOrganizationNode(organization) {
             title: '',
             label: 'Organization',
             description: '',
-            type: TreeTemplateTypes.Editable,
+            type: TreeTemplateTypes.Heading,
             menuType: CustomNodeTypes.Organization,
             issueType: CustomNodeTypes.Organization,
             expanded: true,
-            editable: true,
-            selectable: true
+            editable: false,
+            selectable: false
         }
     }
 }

@@ -7,4 +7,5 @@ export interface Search {
 
 export interface SearchState {
   readonly search: Search;
+  readonly app: any;
 }

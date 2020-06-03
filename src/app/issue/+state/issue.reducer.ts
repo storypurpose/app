@@ -3,7 +3,7 @@ import { Issue } from './issue.state';
 import { ActionTypes } from './issue.actions';
 import {
     CustomNodeTypes, populateFieldValuesCompact,
-    getIssueLinks, populatedFieldList, getExtendedFieldValue, flattenNodes, appendExtendedFields
+    getIssueLinks, populatedFieldList, getExtendedFieldValue, flattenNodes, appendExtendedFields, populateFieldValuesCompactWithExtendedFields
 } from 'src/app/lib/jira-tree-utils';
 import * as roadmapUtil from 'src/app/lib/roadmap-utils'
 
@@ -154,14 +154,15 @@ export function issueReducer(state: Issue, action: any): Issue {
 }
 
 function populateIssueDetails(payload: any) {
-    const issueDetails: any = populateFieldValuesCompact(payload.issue);
-    if (payload.extendedFields && payload.extendedFields.length > 0) {
-        issueDetails.extendedFields = [];
-        payload.extendedFields.forEach(field => {
-            field.extendedValue = getExtendedFieldValue(payload.issue, field.id);
-            issueDetails.extendedFields.push(field);
-        });
-    }
+    // const issueDetails: any = populateFieldValuesCompact(payload.issue);
+    // if (payload.extendedFields && payload.extendedFields.length > 0) {
+    //     issueDetails.extendedFields = [];
+    //     payload.extendedFields.forEach(field => {
+    //         field.extendedValue = getExtendedFieldValue(payload.issue, field.id);
+    //         issueDetails.extendedFields.push(field);
+    //     });
+    // }
+    const issueDetails: any = populateFieldValuesCompactWithExtendedFields(payload.issue, payload.extendedFields);
     if (issueDetails) {
         issueDetails.organization = payload.organization;
         issueDetails.projectConfig = payload.projectConfig;

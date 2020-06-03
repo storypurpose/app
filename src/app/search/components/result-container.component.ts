@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as _ from 'lodash';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+import { Subscription, combineLatest } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { LoadSearchResultsAction } from '../+state/search.actions';
 import { CustomNodeTypes } from '../../lib/jira-tree-utils';
@@ -17,10 +17,13 @@ export class SearchResultContainerComponent implements OnInit, OnDestroy {
     selectedTab = 1;
 
     query: string;
+    allExtendedFields: any;
+
     issuelist: any;
     issuelist$: Subscription;
     query$: Subscription;
     queryParams$: Subscription;
+    combined$: Subscription;
 
     public currentPageIndex = 1;
     showSavedSearches = false;
@@ -33,17 +36,20 @@ export class SearchResultContainerComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.store$.dispatch(new ToggleQueryEditorVisibilityAction(true));
 
-        this.queryParams$ = this.activatedRoute.queryParams
-            .pipe(filter(p => p && p["query"] && p["query"].length > 0), map(p => p["query"]))
-            .subscribe(query => {
+        const queryParamsQ = this.activatedRoute.queryParams.pipe(filter(p => p && p["query"] && p["query"].length > 0), map(p => p["query"]));
+        const allExtendedFieldsQ = this.store$.select(p => p.app.allExtendedFields);
+
+        this.combined$ = combineLatest(queryParamsQ, allExtendedFieldsQ)
+            .subscribe(([query, allExtendedFields]) => {
                 this.query = query;
+                this.allExtendedFields = allExtendedFields;
                 this.executeQuery();
             });
-
         this.issuelist$ = this.store$.select(p => p.search.issuelist).pipe(filter(p => p))
             .subscribe(key => this.issuelist = key);
     }
     ngOnDestroy(): void {
+        this.combined$ ? this.combined$.unsubscribe() : null;
         this.issuelist$ ? this.issuelist$.unsubscribe : null;
         this.query$ ? this.query$.unsubscribe : null;
         this.queryParams$ ? this.queryParams$.unsubscribe : null;
@@ -69,7 +75,11 @@ export class SearchResultContainerComponent implements OnInit, OnDestroy {
     executeQuery() {
         if (this.canExecuteQuery()) {
             this.showSavedSearches = false;
-            this.store$.dispatch(new LoadSearchResultsAction({ query: this.query, currentPageIndex: this.currentPageIndex }));
+            this.store$.dispatch(new LoadSearchResultsAction({
+                query: this.query,
+                allExtendedFields: this.allExtendedFields,
+                currentPageIndex: this.currentPageIndex
+            }));
         }
     }
 

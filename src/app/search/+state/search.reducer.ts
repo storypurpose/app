@@ -27,9 +27,10 @@ export function searchReducer(state: Search, action: any): Search {
         }
 
         case ActionTypes.PopulateSearchResultRoadmapView: {
-            const startdateCode = 'created';    // TODO: populate startdatefrom projectconfig
-            const metadata = roadmapUtil.populateMetadata(action.payload, startdateCode);
-            const records = roadmapUtil.transformToTreeChildren(action.payload, metadata.timespan, startdateCode, true);
+            const startdateField = action.payload.startdateField;
+            const results = action.payload.results;
+            const metadata = roadmapUtil.populateMetadata(results, startdateField);
+            const records = roadmapUtil.transformToTreeChildren(results, metadata.timespan, startdateField, true);
             return { ...state, roadmapView: { metadata, records } };
         }
 

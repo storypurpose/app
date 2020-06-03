@@ -6,7 +6,7 @@ import * as a from './search.actions';
 import { of } from 'rxjs';
 import { JiraService } from '../../lib/jira.service';
 import { CachingService } from 'src/app/lib/caching.service';
-import { populateFieldValuesCompact, detailFields, populatedFieldList } from 'src/app/lib/jira-tree-utils';
+import { populateFieldValuesCompact, detailFields, populatedFieldList, populateFieldValuesCompactWithExtendedFields } from 'src/app/lib/jira-tree-utils';
 
 @Injectable()
 export class SearchEffects {
@@ -15,23 +15,27 @@ export class SearchEffects {
         private jiraService: JiraService) { }
 
     @Effect() loadSearchlist = this.actions$.pipe(ofType(a.ActionTypes.LoadSearchResults),
-        switchMap((action: any) =>
-            this.jiraService.executeJql(action.payload.query, action.payload.currentPageIndex - 1, 50,
-                populatedFieldList, 'issuelist.json')
+        switchMap((action: any) => {
+            const exFieldIdList = (action.payload.allExtendedFields && action.payload.allExtendedFields.length > 0)
+                ? _.map(action.payload.allExtendedFields, 'id')
+                : [];
+            return this.jiraService.executeJql(action.payload.query, action.payload.currentPageIndex - 1, 50,
+                _.union(populatedFieldList, exFieldIdList), 'issuelist.json')
                 .pipe(map((p: any) => {
                     return {
                         total: p.total,
                         startAt: p.startAt,
                         endAt: ((p.startAt + p.maxResults) < p.total) ? p.startAt + p.maxResults : p.total,
                         pageSize: p.maxResults,
-                        results: _.map(p.issues, p => populateFieldValuesCompact(p))
+                        extendedFields: action.payload.allExtendedFields,
+                        results: _.map(p.issues, p => populateFieldValuesCompactWithExtendedFields(p, action.payload.allExtendedFields))
                     }
                 }))
                 .pipe(
                     map(payload => ({ type: a.ActionTypes.LoadSearchResultsSuccess, payload })),
                     catchError(() => of({ type: a.ActionTypes.LoadSearchResultsFailed }))
                 )
-        )
+        })
     );
 
     @Effect() loadSaveSearchlist = this.actions$.pipe(ofType(a.ActionTypes.LoadSavedSearchlist),

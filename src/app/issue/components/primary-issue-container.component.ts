@@ -7,16 +7,17 @@ import { Title } from '@angular/platform-browser';
 import { IssueState } from '../+state/issue.state';
 import {
     LoadPrimaryIssueAction, LoadPrimaryIssueEpicChildrenAction, LoadPrimaryIssueRelatedLinksAction,
-    LoadProjectDetailsAction, SetHierarchicalIssueAction
+    LoadProjectDetailsAction, SetHierarchicalIssueAction, UpdateOrganizationPurposeAction
 } from '../+state/issue.actions';
 import { environment } from 'src/environments/environment';
-import { filter, map } from 'rxjs/operators';
+import { filter, map, tap } from 'rxjs/operators';
 import { Subscription, combineLatest } from 'rxjs';
 import {
     createEpicChildrenNode, buildIssueLinkGroups, createOrganizationNode, createProjectNode,
     CustomNodeTypes, createHierarchyNode, convertToTree, addToLeafNode
 } from 'src/app/lib/jira-tree-utils';
 import { UpsertProjectAction } from 'src/app/+state/app.actions';
+import { populateAllExtendedFields } from 'src/app/lib/project-config.utils';
 
 @Component({
     selector: 'app-primary-issue-container',
@@ -48,18 +49,18 @@ export class IssueContainerComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
 
         this.reloadOnChange();
+        this.store$.select(p => p.app.organization).pipe(filter(p => p))
+            .subscribe(organization => this.store$.dispatch(new UpdateOrganizationPurposeAction(organization)));
 
         const paramsQ = this.activatedRoute.params.pipe(filter(p => p && p["issue"] && p["issue"].length > 0), map(p => p["issue"]));
-        const allExtendedFieldsQ = this.store$.select(p => p.app.allExtendedFields);
-
-        this.combined$ = combineLatest(paramsQ, allExtendedFieldsQ)
-            .subscribe(([issue, allExtendedFields]) => {
+        const projectsQ = this.store$.select(p => p.app.projects);
+        this.combined$ = combineLatest(paramsQ, projectsQ)
+            .subscribe(([issue, projects]) => {
                 this.titleService.setTitle(`${environment.appTitle}: ${issue}`);
-                const diff = _.xorBy(this.extendedFields, allExtendedFields, 'id');
-                if (diff.length > 0 || allExtendedFields.length === 0 || !this.primaryIssue || this.primaryIssue.key !== issue) {
-                    this.extendedFields = allExtendedFields;
-                    this.store$.dispatch(new LoadPrimaryIssueAction({ issue, extendedFields: this.extendedFields }));
+                if (projects) {
+                    this.extendedFields = populateAllExtendedFields(projects);
                 }
+                this.store$.dispatch(new LoadPrimaryIssueAction({ issue, extendedFields: this.extendedFields }));
             });
 
         this.primaryIssue$ = this.store$.select(p => p.issue.primaryIssue)

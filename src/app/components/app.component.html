@@ -7,6 +7,12 @@
   </app-connection-details>
 </p-dialog>
 
+<p-sidebar [(visible)]="showOrganizationEditor" styleClass="ui-sidebar-md" position="right"
+  (onHide)="organizationSetupCompleted()">
+  <app-organization (close)="organizationSetupCompleted()">
+  </app-organization>
+</p-sidebar>
+
 <ngx-loading-bar color="#FF8000" height="4pt" [includeSpinner]="false"></ngx-loading-bar>
 
 <p-toast position="bottom-right"></p-toast>

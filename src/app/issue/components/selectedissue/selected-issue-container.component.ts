@@ -120,7 +120,6 @@ export class SelectedIssueContainerComponent extends ResizableContainerBase impl
     }
 
     checkIfCanNavigateToStoryboard = () => {
-        console.log(this.selectedIssue, this.primaryIssue);
         return this.selectedIssue && this.selectedIssue.key &&
             this.primaryIssue && this.primaryIssue.key &&
             (this.selectedIssue.issueType === 'Epic' || this.primaryIssue.key.toLowerCase() === this.selectedIssue.key.toLowerCase());

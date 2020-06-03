@@ -13,6 +13,13 @@
                 Connection details
             </a>
 
+            <div class="text-muted small mt-3 ml-2">PURPOSE</div>
+
+            <a ngbDropdownItem (click)="openOrganizationEditor()">
+                <fa-icon icon="fire" size="fw" class="text-muted"></fa-icon>
+                Organization purpose
+            </a>
+
             <div class="text-muted small mt-3 ml-2">CONFIGURATIONS</div>
 
             <a ngbDropdownItem routerLink="configurations" [queryParams]="{ mode: 'import' }"

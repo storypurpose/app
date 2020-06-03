@@ -14,6 +14,8 @@ export const appInitialState: App = {
     currentIssueKey: null,
 
     connectionDetails: null,
+
+    organizationEditorVisible: false,
     organization: null,
     extendedHierarchy: null,
 

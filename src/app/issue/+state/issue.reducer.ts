@@ -1,11 +1,8 @@
-import * as _ from 'lodash';
 import { Issue } from './issue.state';
 import { ActionTypes } from './issue.actions';
-import {
-    CustomNodeTypes, populateFieldValuesCompact,
-    getIssueLinks, populatedFieldList, getExtendedFieldValue, flattenNodes, appendExtendedFields, populateFieldValuesCompactWithExtendedFields
-} from 'src/app/lib/jira-tree-utils';
+import * as jiraTreeUtil from 'src/app/lib/jira-tree-utils';
 import * as roadmapUtil from 'src/app/lib/roadmap-utils'
+import * as _ from 'lodash'
 
 export function issueReducer(state: Issue, action: any): Issue {
     switch (action.type) {
@@ -18,10 +15,10 @@ export function issueReducer(state: Issue, action: any): Issue {
         }
 
         case ActionTypes.LoadPrimaryIssueEpicChildren: {
-            return { ...state, primaryIssue: { ...state.primaryIssue, epicChildrenLoading: true } };
+            return { ...state, primaryIssue: { ...state.primaryIssue, epicChildrenLoading: true, epicChildrenLoaded: false } };
         }
         case ActionTypes.LoadPrimaryIssueEpicChildrenSuccess: {
-            const epicChildren = _.map(action.payload.issues, p => populateFieldValuesCompact(p));
+            const epicChildren = _.map(action.payload.issues, p => jiraTreeUtil.populateFieldValuesCompact(p));
             return {
                 ...state, primaryIssue: {
                     ...state.primaryIssue, epicChildrenLoading: false, epicChildrenLoaded: true, epicChildren
@@ -63,8 +60,8 @@ export function issueReducer(state: Issue, action: any): Issue {
         case ActionTypes.LoadSubtasksSuccess: {
             let subtasks = null;
             if (action.payload && action.payload.result && action.payload.result.issues) {
-                subtasks = flattenNodes(action.payload.result.issues);
-                appendExtendedFields(subtasks, action.payload.extendedFields);
+                subtasks = jiraTreeUtil.flattenNodes(action.payload.result.issues);
+                jiraTreeUtil.appendExtendedFields(subtasks, action.payload.extendedFields);
             }
             return { ...state, subtasks };
         }
@@ -90,7 +87,7 @@ export function issueReducer(state: Issue, action: any): Issue {
             return { ...state, selectedIssue: { ...state.selectedIssue, epicChildrenLoading: true, epicChildrenLoaded: false } };
         }
         case ActionTypes.LoadSelectedIssueEpicChildrenSuccess: {
-            const epicChildren = _.map(action.payload.issues, p => populateFieldValuesCompact(p));
+            const epicChildren = _.map(action.payload.issues, p => jiraTreeUtil.populateFieldValuesCompact(p));
             return {
                 ...state, selectedIssue: {
                     ...state.selectedIssue, epicChildrenLoading: false, epicChildrenLoaded: true, epicChildren
@@ -101,7 +98,7 @@ export function issueReducer(state: Issue, action: any): Issue {
             return { ...state, selectedIssue: { ...state.selectedIssue, relatedLinksLoading: true, relatedLinksLoaded: false } };
         }
         case ActionTypes.LoadSelectedIssueRelatedLinksSuccess: {
-            const relatedLinks = _.map(action.payload.issues, p => populateFieldValuesCompact(p));
+            const relatedLinks = _.map(action.payload.issues, p => jiraTreeUtil.populateFieldValuesCompact(p));
             const cached = state.selectedIssue.relatedLinks;
             relatedLinks.forEach((u: any) => {
                 const found = _.find(cached, { key: u.key });
@@ -123,10 +120,17 @@ export function issueReducer(state: Issue, action: any): Issue {
         }
         case ActionTypes.UpdateOrganizationPurpose: {
             const payload = action.payload || {};
+            const hierarchicalIssue = state.hierarchicalIssue;
+            const treenode = jiraTreeUtil.searchTreeByIssueType(hierarchicalIssue, jiraTreeUtil.CustomNodeTypes.Organization);
+            if (treenode) {
+                treenode.label = payload.name;
+                treenode.title = payload.name;
+                treenode.description = payload.purpose;
+            }
             return {
-                ...state, purpose:
-                    state.purpose.map((record) => record.issueType === CustomNodeTypes.Organization
-                        ? { ...record, key: payload.name, title: payload.name, purpose: payload.purpose }
+                ...state, hierarchicalIssue, purpose:
+                    state.purpose.map((record) => record.issueType === jiraTreeUtil.CustomNodeTypes.Organization
+                        ? { ...record, key: payload.name, label: payload.name, title: payload.name, purpose: payload.purpose }
                         : record)
 
             };
@@ -154,23 +158,18 @@ export function issueReducer(state: Issue, action: any): Issue {
 }
 
 function populateIssueDetails(payload: any) {
-    // const issueDetails: any = populateFieldValuesCompact(payload.issue);
-    // if (payload.extendedFields && payload.extendedFields.length > 0) {
-    //     issueDetails.extendedFields = [];
-    //     payload.extendedFields.forEach(field => {
-    //         field.extendedValue = getExtendedFieldValue(payload.issue, field.id);
-    //         issueDetails.extendedFields.push(field);
-    //     });
-    // }
-    const issueDetails: any = populateFieldValuesCompactWithExtendedFields(payload.issue, payload.extendedFields);
+    const issueDetails: any = jiraTreeUtil.populateFieldValuesCompactWithExtendedFields(payload.issue, payload.extendedFields);
     if (issueDetails) {
         issueDetails.organization = payload.organization;
         issueDetails.projectConfig = payload.projectConfig;
         issueDetails.projectConfigLoaded = payload.projectConfig ? true : false;
-        issueDetails.relatedLinks = getIssueLinks(payload.issue);
+        issueDetails.relatedLinks = jiraTreeUtil.getIssueLinks(payload.issue);
 
         issueDetails.epicChildrenLoading = false;
         issueDetails.epicChildrenLoaded = false;
+
+        issueDetails.relatedLinksLoading = false;
+        issueDetails.relatedLinksLoaded = false;
     }
     return issueDetails;
 }
@@ -218,7 +217,7 @@ function populatePrimaryIssueRelatedLinks(state: Issue, action: any) {
 
 
         if (relatedLinks) {
-            const records = _.map(action.payload.issues, (item) => _.pick(populateFieldValuesCompact(item), populatedFieldList));
+            const records = _.map(action.payload.issues, (item) => _.pick(jiraTreeUtil.populateFieldValuesCompact(item), jiraTreeUtil.populatedFieldList));
             relatedLinks.forEach(u => {
                 const found = _.find(records, { key: u.key });
                 if (found) {

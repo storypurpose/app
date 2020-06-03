@@ -5,6 +5,7 @@ import { filter } from 'rxjs/operators';
 import { IssueState } from '../../+state/issue.state';
 import { Store } from '@ngrx/store';
 import { searchTreeByKey, copyFieldValues, CustomNodeTypes } from 'src/app/lib/jira-tree-utils';
+import { SetPurposeAction } from '../../+state/issue.actions';
 
 @Component({
     selector: 'app-purpose',
@@ -16,10 +17,10 @@ export class PurposeDetailsComponent implements OnInit, OnDestroy {
     public showAll = false;
     hideExtendedFields = false;
 
+    purpose$: Subscription;
     combined$: Subscription;
     public purpose: any;
 
-    public hierarchySetupVisibility$: Subscription;
     public hierarchicalNode: any;
     public selectedIssueKey: string;
 
@@ -27,9 +28,11 @@ export class PurposeDetailsComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
 
+        this.purpose$ = this.store$.select(p => p.issue.purpose)
+            .subscribe(p => this.purpose = p);
+
         const selectedIssueQuery$ = this.store$.select(p => p.issue.selectedIssue).pipe(filter(p => p));
         const hierarchicalIssueQuery$ = this.store$.select(p => p.issue.hierarchicalIssue).pipe(filter(issue => issue));
-
         this.combined$ = combineLatest(selectedIssueQuery$, hierarchicalIssueQuery$)
             .subscribe(([selectedIssue, hierarchicalIssue]) => {
                 this.selectedIssueKey = selectedIssue.key;
@@ -38,14 +41,14 @@ export class PurposeDetailsComponent implements OnInit, OnDestroy {
                     const selectedNode = searchTreeByKey(hierarchicalIssue, selectedIssue.key);
                     if (selectedNode) {
                         copyFieldValues(selectedIssue, selectedNode);
-                        this.purpose = this.expandPurpose(selectedNode);
+                        this.store$.dispatch(new SetPurposeAction(this.expandPurpose(selectedNode)));
                     }
                 }, 200);
             });
     }
 
     ngOnDestroy(): void {
-        this.hierarchySetupVisibility$ ? this.hierarchySetupVisibility$.unsubscribe() : null;
+        this.purpose$ ? this.purpose$.unsubscribe() : null;
         this.combined$ ? this.combined$.unsubscribe() : null;
     }
 

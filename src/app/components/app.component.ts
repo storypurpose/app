@@ -7,7 +7,7 @@ import { DomSanitizer, Title } from '@angular/platform-browser';
 import { environment } from '../../environments/environment';
 import { AppState } from '../+state/app.state';
 import { Store } from '@ngrx/store';
-import { SetModeAction, ModeTypes, ShowConnectionEditorAction, BootstrapAppAction } from '../+state/app.actions';
+import { SetModeAction, ModeTypes, ShowConnectionEditorAction, BootstrapAppAction, ShowOrganizationEditorAction } from '../+state/app.actions';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { GapiSession } from '../googledrive/gapi.session';
 import { MessageService } from 'primeng/api';
@@ -20,6 +20,7 @@ declare let gtag: Function;
   templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit, OnDestroy {
+  showOrganizationEditor = false;
   isNavbarCollapsed = true;
   showConnectionEditor = false;
   showCustomFieldSetup = false;
@@ -32,6 +33,7 @@ export class AppComponent implements OnInit, OnDestroy {
   messageObserver$: Subscription;
 
   connectionEditorVisible$: Subscription;
+  organizationEditorVisible$: Subscription;
   projectConfigSubscription: Subscription;
 
   connectionDetails$: Subscription;
@@ -75,6 +77,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.connectionEditorVisible$ = this.store$.select(p => p.app.connectionEditorVisible)
       .subscribe(show => this.showConnectionEditor = show);
+
+    this.organizationEditorVisible$ = this.store$.select(p => p.app.organizationEditorVisible)
+      .subscribe(show => this.showOrganizationEditor = show);
+
     this.mode$ = this.store$.select(p => p.app.mode)
       .subscribe(p => this.isOnlineMode = p && p === ModeTypes.Online);
     this.connectionDetails$ = this.store$.select(p => p.app.connectionDetails)
@@ -86,6 +92,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.messageObserver$ ? this.messageObserver$.unsubscribe() : null;
     this.connectionEditorVisible$ ? this.connectionEditorVisible$.unsubscribe() : null;
+    this.organizationEditorVisible$ ? this.organizationEditorVisible$.unsubscribe() : null;
     this.mode$ ? this.mode$.unsubscribe() : null;
 
     this.connectionDetails$ ? this.connectionDetails$.unsubscribe() : null;
@@ -94,7 +101,7 @@ export class AppComponent implements OnInit, OnDestroy {
   navigateTo = (issue) => this.router.navigate([issue]);
 
   connectionDetailsSetupCompleted = () => this.store$.dispatch(new ShowConnectionEditorAction(false));
-
+  organizationSetupCompleted = () => this.store$.dispatch(new ShowOrganizationEditorAction(false));
   onModeChanged(isOnlineMode) {
     this.store$.dispatch(new SetModeAction(isOnlineMode ? ModeTypes.Online : ModeTypes.Offline));
     window.location.reload();

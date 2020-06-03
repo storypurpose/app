@@ -13,6 +13,7 @@ export interface App {
 
   connectionDetails: any;
 
+  organizationEditorVisible: boolean
   organization: any;
   extendedHierarchy: any;
 

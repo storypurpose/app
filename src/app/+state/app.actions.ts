@@ -12,6 +12,7 @@ export const ActionTypes = {
     ToggleQueryEditorVisibility: type("[ToggleQueryEditorVisibility]"),
 
     ShowConnectionEditor: type("[ShowConnectionDetails]"),
+    ShowOrganizationEditor: type("[ShowOrganizationEditor]"),
 
     SetMode: type("[SetMode]"),
     SetModeSuccess: type("[SetMode] Success"),
@@ -70,6 +71,10 @@ export class ShowConnectionEditorAction implements Action {
     type = ActionTypes.ShowConnectionEditor;
     constructor(public payload: any) { }
 }
+export class ShowOrganizationEditorAction implements Action {
+    type = ActionTypes.ShowOrganizationEditor;
+    constructor(public payload: any) { }
+}
 export class ConfigureProjectAction implements Action {
     type = ActionTypes.ConfigureProject;
     constructor(public payload: any) { }
@@ -124,6 +129,8 @@ export type Actions =
     | ToggleQueryEditorVisibilityAction
 
     | ShowConnectionEditorAction
+    | ShowOrganizationEditorAction
+
     | ConfigureProjectAction
 
     | SetModeAction

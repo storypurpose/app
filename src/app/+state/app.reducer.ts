@@ -1,8 +1,7 @@
 import * as _ from 'lodash';
 import { App } from './app.state';
 import { ActionTypes } from './app.actions';
-
-const DEFAULT_STARTDATE_FIELD = { id: 'created', name: 'created' };
+import { initStartdateField, populateAllExtendedFields, DEFAULT_STARTDATE_FIELD } from '../lib/project-config.utils';
 
 export function appReducer(state: App, action: any): App {
     switch (action.type) {
@@ -45,6 +44,9 @@ export function appReducer(state: App, action: any): App {
 
         case ActionTypes.ShowConnectionEditor: {
             return { ...state, connectionEditorVisible: action.payload };
+        }
+        case ActionTypes.ShowOrganizationEditor: {
+            return { ...state, organizationEditorVisible: action.payload };
         }
         case ActionTypes.ConfigureProject: {
             return { ...state, projectConfigEditorVisible: action.payload ? true : false, projectToConfigure: action.payload };
@@ -113,17 +115,4 @@ export function appReducer(state: App, action: any): App {
         default: return state;
     }
 }
-function populateAllExtendedFields(projects: any) {
-    return _.uniqBy(_.union(
-        _.flatten(_.map(projects, 'hierarchy')),
-        _.map(projects, 'startdate') || [],
-        _.filter(_.flatten(_.map(projects, 'customFields')), { name: "Epic Link" })
-    ), 'id');
-}
-function initStartdateField(projects) {
-    if (projects) {
-        projects.forEach(project => project.startdate = project.startdate || DEFAULT_STARTDATE_FIELD)
-    }
-}
-
 

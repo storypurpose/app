@@ -57,9 +57,7 @@ export class IssueContainerComponent implements OnInit, OnDestroy {
         this.combined$ = combineLatest(paramsQ, projectsQ)
             .subscribe(([issue, projects]) => {
                 this.titleService.setTitle(`${environment.appTitle}: ${issue}`);
-                if (projects) {
-                    this.extendedFields = populateAllExtendedFields(projects);
-                }
+                this.extendedFields = (projects) ? populateAllExtendedFields(projects) : [];
                 this.store$.dispatch(new LoadPrimaryIssueAction({ issue, extendedFields: this.extendedFields }));
             });
 

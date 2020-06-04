@@ -12,8 +12,8 @@ export function getExtendedFields(projects, projectKey, issueType) {
 
 export function populateAllExtendedFields(projects: any) {
     return _.uniqBy(_.union(
-        _.flatten(_.map(projects, 'hierarchy')),
-        _.map(projects, 'startdate') || [],
+        _.flatten(_.filter(_.map(projects, 'hierarchy'), p => p)),
+        _.filter(_.map(projects, 'startdate'), p => p),
         _.filter(_.flatten(_.map(projects, 'customFields')), { name: "Epic Link" })
     ), 'id');
 }

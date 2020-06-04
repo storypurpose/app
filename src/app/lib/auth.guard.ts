@@ -6,14 +6,14 @@ import { AppState } from '../+state/app.state';
 import { Store } from '@ngrx/store';
 import { VerifyCurrentSessionAction } from '../+state/app.actions';
 import { MessageService } from 'primeng/api';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticatedGuard implements CanActivate {
     connectionVerified = false;
     connectionDetails$: Observable<any>;
 
-    constructor(private router: Router, private store$: Store<AppState>,
-        private messageService: MessageService) {
+    constructor(private router: Router, private store$: Store<AppState>) {
         this.connectionDetails$ = this.store$.select(p => p.app.currentSessionVerified)
             .pipe(filter(p => p !== null));
 
@@ -26,12 +26,16 @@ export class AuthenticatedGuard implements CanActivate {
     }
 
     canActivate = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean => {
-        return true;
-        // if (this.connectionVerified === true) {
-        //     return true;
-        // }
-        // this.store$.dispatch(new VerifyCurrentSessionAction(state.url));
-        // return this.connectionDetails$;
+        if (environment.production) {
+            if (this.connectionVerified === true) {
+                return true;
+            }
+            this.store$.dispatch(new VerifyCurrentSessionAction(state.url));
+            return this.connectionDetails$;
+        } else {
+            return true;
+
+        }
     }
 
     canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {

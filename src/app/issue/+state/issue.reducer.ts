@@ -1,7 +1,7 @@
 import { Issue } from './issue.state';
 import { ActionTypes } from './issue.actions';
 import * as jiraTreeUtil from 'src/app/lib/jira-tree-utils';
-import * as roadmapUtil from 'src/app/lib/roadmap-utils'
+import * as timelineUtil from 'src/app/lib/timeline-utils'
 import * as _ from 'lodash'
 
 export function issueReducer(state: Issue, action: any): Issue {
@@ -72,11 +72,11 @@ export function issueReducer(state: Issue, action: any): Issue {
         case ActionTypes.LoadSelectedIssueSuccess: {
             return { ...state, selectedIssue: populateIssueDetails(action.payload) };
         }
-        case ActionTypes.PopulateIssueRoadmapView: {
+        case ActionTypes.PopulateIssueTimelineView: {
             const startdateCode = state.selectedIssue.projectConfig.startdate.id || 'created';
-            const metadata = roadmapUtil.populateMetadata(action.payload, startdateCode);
-            const records = roadmapUtil.transformToTreeChildren(action.payload, metadata.timespan, startdateCode, false);
-            return { ...state, roadmapView: { metadata, records } };
+            const metadata = timelineUtil.populateMetadata(action.payload, startdateCode);
+            const records = timelineUtil.transformToTreeChildren(action.payload, metadata.timespan, startdateCode, false);
+            return { ...state, timelineView: { metadata, records } };
         }
 
         case ActionTypes.ChangeSelectedIssueView: {

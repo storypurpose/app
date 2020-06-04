@@ -12,20 +12,20 @@ export const ActionTypes = {
     LoadSavedSearchlistFailed: type("[LoadSavedSearchlist] Failed"),
     LoadSavedSearchlistSuccess: type("[LoadSavedSearchlist] Success"),
 
-    PopulateSearchResultRoadmapView: type("[PopulateSearchResultRoadmapView]"),
+    PopulateSearchResultTimelineView: type("[PopulateSearchResultTimelineView]"),
 
-    LoadSearchResultRoadmapNode: type("[LoadSearchResultRoadmapNode]"),
-    LoadSearchResultRoadmapNodeFailed: type("[LoadSearchResultRoadmapNode] Failed"),
-    LoadSearchResultRoadmapNodeSuccess: type("[LoadSearchResultRoadmapNode] Success")
+    LoadSearchResultTimelineNode: type("[LoadSearchResultTimelineNode]"),
+    LoadSearchResultTimelineNodeFailed: type("[LoadSearchResultTimelineNode] Failed"),
+    LoadSearchResultTimelineNodeSuccess: type("[LoadSearchResultTimelineNode] Success")
 
 }
 
-export class PopulateSearchResultRoadmapViewAction implements Action {
-    type = ActionTypes.PopulateSearchResultRoadmapView;
+export class PopulateSearchResultTimelineViewAction implements Action {
+    type = ActionTypes.PopulateSearchResultTimelineView;
     constructor(public payload: any) { }
 }
-export class LoadSearchResultRoadmapNodeAction implements Action {
-    type = ActionTypes.LoadSearchResultRoadmapNode;
+export class LoadSearchResultTimelineNodeAction implements Action {
+    type = ActionTypes.LoadSearchResultTimelineNode;
     constructor(public payload: any) { }
 }
 
@@ -44,8 +44,8 @@ export class LoadSavedSearchlistAction implements Action {
 }
 
 export type Actions =
-    PopulateSearchResultRoadmapViewAction
-    | LoadSearchResultRoadmapNodeAction
+    PopulateSearchResultTimelineViewAction
+    | LoadSearchResultTimelineNodeAction
 
     | SetQueryContextAction
     | LoadSearchResultsAction

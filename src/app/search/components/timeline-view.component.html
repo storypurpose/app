@@ -1,0 +1,5 @@
+<div #content class="issuelist">
+    <app-timeline-renderer *ngIf="timeline" [timeline]="timeline" (nodeExpand)="onNodeExpand($event)"
+        [contentHeight]="contentHeight">
+        </app-timeline-renderer>
+</div>

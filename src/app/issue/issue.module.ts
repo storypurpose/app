@@ -30,7 +30,7 @@ import { IssueNotEnteredComponent } from './components/issue-not-entered.compone
 import { SelectedIssueHomeComponent } from './components/selectedissue/home.component';
 import { GroupedIssuelistComponent } from './components/selectedissue/grouped-issue-list.component';
 import { MultiSelectModule } from 'primeng/multiselect';
-import { RoadmapComponent } from './components/selectedissue/roadmap.component';
+import { TimelineComponent } from './components/selectedissue/timeline.component';
 import { TreeTableModule } from 'primeng/treetable';
 import { IssueTreeviewComponent } from './components/issue-treeview.component';
 
@@ -46,7 +46,7 @@ const routes: Route[] = [
                   { path: 'details', component: PurposeDetailsComponent },
                   { path: 'workbench', component: WorkbenchComponent },
                   { path: 'storyboard', component: StoryboardComponent },
-                  { path: 'roadmap', component: RoadmapComponent },
+                  { path: 'timeline', component: TimelineComponent },
                   { path: '', redirectTo: "details", pathMatch: "full" }
                 ]
               }
@@ -65,7 +65,7 @@ const routes: Route[] = [
     IssueHomeComponent, IssueContainerComponent, IssueTreeviewComponent, IssueNotEnteredComponent, IssueEntryComponent,
     SelectedIssueHomeComponent,
     SelectedIssueContainerComponent, WorkbenchComponent, RecentlyViewedComponent,
-    PurposeDetailsComponent, ExtendedFieldsComponent, StoryboardComponent, RoadmapComponent,
+    PurposeDetailsComponent, ExtendedFieldsComponent, StoryboardComponent, TimelineComponent,
     TasklistComponent, GroupedIssuelistComponent
   ],
   imports: [

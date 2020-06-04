@@ -4,7 +4,7 @@ export interface Issue {
 
   selectedIssueKey: string;
   selectedIssue: any;
-  roadmapView: any;
+  timelineView: any;
   
   isSelectedIssueViewCompact: boolean;
   

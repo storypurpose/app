@@ -39,7 +39,7 @@ export const ActionTypes = {
     LoadSelectedIssueRelatedLinksSuccess: type("[LoadSelectedIssueRelatedLinks] Success"),
 
     SetSelectedIssue: type("[SetSelectedIssue]"),
-    PopulateIssueRoadmapView: type("[PopulateIssueRoadmapView]"),
+    PopulateIssueTimelineView: type("[PopulateIssueTimelineView]"),
 
     SetPurpose: type("[SetPurpose]"),
     UpdateOrganizationPurpose: type("[UpdateOrganizationPurpose]"),
@@ -105,8 +105,8 @@ export class SetSelectedIssueAction implements Action {
     type = ActionTypes.SetSelectedIssue;
     constructor(public payload: any) { }
 }
-export class PopulateIssueRoadmapViewAction implements Action {
-    type = ActionTypes.PopulateIssueRoadmapView;
+export class PopulateIssueTimelineViewAction implements Action {
+    type = ActionTypes.PopulateIssueTimelineView;
     constructor(public payload: any) { }
 }
 
@@ -142,7 +142,7 @@ export type Actions =
     | LoadSelectedIssueAction
     | ChangeSelectedIssueViewAction
     | SetSelectedIssueAction
-    | PopulateIssueRoadmapViewAction
+    | PopulateIssueTimelineViewAction
 
     | LoadSelectedIssueEpicChildrenAction
     | LoadSelectedIssueRelatedLinksAction

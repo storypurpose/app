@@ -48,12 +48,12 @@ export class SearchEffects {
         )
     );
 
-    @Effect() loadSearchResultRoadmapNode = this.actions$.pipe(ofType(a.ActionTypes.LoadSearchResultRoadmapNode),
+    @Effect() loadSearchResultTimelineNode = this.actions$.pipe(ofType(a.ActionTypes.LoadSearchResultTimelineNode),
         switchMap((action: any) =>
             this.jiraService.loadEpicChildren$(action.payload)
                 .pipe(
-                    map(payload => ({ type: a.ActionTypes.LoadSearchResultRoadmapNodeSuccess, payload: { issueKey: action.payload, payload } })),
-                    catchError(() => of({ type: a.ActionTypes.LoadSearchResultRoadmapNodeFailed }))
+                    map(payload => ({ type: a.ActionTypes.LoadSearchResultTimelineNodeSuccess, payload: { issueKey: action.payload, payload } })),
+                    catchError(() => of({ type: a.ActionTypes.LoadSearchResultTimelineNodeFailed }))
                 )
         )
     );

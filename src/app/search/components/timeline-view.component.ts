@@ -4,18 +4,18 @@ import { Store } from '@ngrx/store';
 import { Subscription, combineLatest } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
-import { PopulateSearchResultRoadmapViewAction, LoadSearchResultRoadmapNodeAction } from '../+state/search.actions';
+import { PopulateSearchResultTimelineViewAction, LoadSearchResultTimelineNodeAction } from '../+state/search.actions';
 import { SearchState } from '../+state/search.state';
 
 @Component({
-    selector: 'app-roadmap-view',
-    templateUrl: './roadmap-view.component.html'
+    selector: 'app-timeline-view',
+    templateUrl: './timeline-view.component.html'
 })
-export class SearchRoadmapViewComponent implements OnInit, OnDestroy, AfterViewInit {
+export class SearchTimelineViewComponent implements OnInit, OnDestroy, AfterViewInit {
     combined$: Subscription;
 
-    roadmap$: Subscription;
-    roadmap: any;
+    timeline$: Subscription;
+    timeline: any;
 
     containerSize = 80;
     contentHeight = 0;
@@ -38,18 +38,18 @@ export class SearchRoadmapViewComponent implements OnInit, OnDestroy, AfterViewI
                     const firstProject: any = _.head(projects); //hack take startdate field from first project
                     this.startdateField = firstProject && firstProject.startdate ? firstProject.startdate.id : 'created';
                 }
-                this.store$.dispatch(new PopulateSearchResultRoadmapViewAction({results, startdateField: this.startdateField}));
+                this.store$.dispatch(new PopulateSearchResultTimelineViewAction({results, startdateField: this.startdateField}));
             });
 
-        this.roadmap$ = this.store$.select(p => p.search.roadmapView)
+        this.timeline$ = this.store$.select(p => p.search.timelineView)
             .pipe(filter(p => p))
-            .subscribe(p => this.roadmap = p);
+            .subscribe(p => this.timeline = p);
 
     }
 
     ngOnDestroy(): void {
         this.combined$ ? this.combined$.unsubscribe() : null;
-        this.roadmap$ ? this.roadmap$.unsubscribe() : null;
+        this.timeline$ ? this.timeline$.unsubscribe() : null;
     }
 
     ngAfterViewInit(): void {
@@ -65,6 +65,6 @@ export class SearchRoadmapViewComponent implements OnInit, OnDestroy, AfterViewI
     }
 
     onNodeExpand(issueKey) {
-        this.store$.dispatch(new LoadSearchResultRoadmapNodeAction(issueKey));
+        this.store$.dispatch(new LoadSearchResultTimelineNodeAction(issueKey));
     }
 }

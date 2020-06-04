@@ -3,27 +3,27 @@ import * as _ from 'lodash';
 import { isCustomNode } from 'src/app/lib/jira-tree-utils';
 
 @Component({
-    selector: 'app-roadmap-renderer',
-    templateUrl: './roadmap-renderer.component.html'
+    selector: 'app-timeline-renderer',
+    templateUrl: './timeline-renderer.component.html'
 })
 
-export class RoadmapRendererComponent {
+export class TimelineRendererComponent {
     @Output() nodeExpand = new EventEmitter<any>();
     @Input() contentHeight: number;
 
-    private _roadmap: any;
-    @Input() set roadmap(value: any) {
-        this._roadmap = value;
+    private _timeline: any;
+    @Input() set timeline(value: any) {
+        this._timeline = value;
         if (value) {
             this.metadata = value.metadata;
-            this.roadmapItems = value.records;
+            this.timelineItems = value.records;
         }
     }
-    get roadmap() {
-        return this._roadmap;
+    get timeline() {
+        return this._timeline;
     }
     public metadata: any;
-    public roadmapItems: any;
+    public timelineItems: any;
 
     showStatistics = false;
     statistics: any;

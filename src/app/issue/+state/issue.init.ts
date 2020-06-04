@@ -6,7 +6,7 @@ export const issueInitialState: Issue = {
 
     selectedIssueKey: '',
     selectedIssue: null,
-    roadmapView: null,
+    timelineView: null,
     
     isSelectedIssueViewCompact: false,
     hierarchicalIssue: null,

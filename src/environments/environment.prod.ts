@@ -5,5 +5,6 @@ export const environment = {
   appTitle: 'StoryPurpose',
   VERSION: version,
   gacode: 'UA-160827143-1',
-  proxyurl: 'https://ad-cors.herokuapp.com'
+  proxyurl: 'https://ad-cors.herokuapp.com',
+  helpsite: 'https://blog.storypurpose.info'
 };

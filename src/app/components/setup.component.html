@@ -1,7 +1,6 @@
 <div *ngIf="!(connectionDetails && connectionDetails.verified) && isOnlineMode"
     class="center-text custom-shadow p-3 bg-light">
     <div class="alert bg-white">
-
         <div *ngIf="connectionDetails && connectionDetails.serverUrl && !connectionDetails.verified">
             <div class="mb-2">
                 <fa-icon icon="exclamation-triangle" class="text-warning"></fa-icon>

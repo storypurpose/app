@@ -16,10 +16,11 @@ import { SliderModule } from 'primeng/slider';
 import { TimelineRendererComponent } from './components/timeline-renderer.component';
 import { TreeTableModule } from 'primeng/treetable';
 import { DialogModule } from 'primeng/dialog';
+import { HelpLinkComponent } from './components/help-link.component';
 
 const components = [
   ButtonPanelComponent, StoryboardRendererComponent, StatisticsComponent, AutofocusDirective,
-  MultilistSelectorComponent, IssueNavigationMenuComponent, TimelineRendererComponent
+  MultilistSelectorComponent, IssueNavigationMenuComponent, TimelineRendererComponent, HelpLinkComponent
 ];
 @NgModule({
   exports: components,

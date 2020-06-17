@@ -1,13 +1,13 @@
 import * as _ from 'lodash';
 import { App } from './app.state';
 import { ActionTypes } from './app.actions';
-import { initStartdateField, populateAllExtendedFields, DEFAULT_STARTDATE_FIELD } from '../lib/project-config.utils';
+import { initIncrementallyAddedFields, populateAllExtendedFields, DEFAULT_STARTDATE_FIELD } from '../lib/project-config.utils';
 
 export function appReducer(state: App, action: any): App {
     switch (action.type) {
         case ActionTypes.BootstrapAppSuccess: {
             const payload = action.payload;
-            initStartdateField(payload.projects);
+            initIncrementallyAddedFields(payload.projects);
             const allExtendedFields = populateAllExtendedFields(payload.projects);
             return {
                 ...state,
@@ -81,7 +81,7 @@ export function appReducer(state: App, action: any): App {
         }
 
         case ActionTypes.SetProjects: {
-            initStartdateField(action.payload)
+            initIncrementallyAddedFields(action.payload)
             const allExtendedFields = populateAllExtendedFields(action.payload);
             return { ...state, projects: action.payload, allExtendedFields };
         }

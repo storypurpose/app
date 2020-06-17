@@ -17,9 +17,13 @@ export function populateAllExtendedFields(projects: any) {
         _.filter(_.flatten(_.map(projects, 'customFields')), { name: "Epic Link" })
     ), 'id');
 }
-export function initStartdateField(projects) {
+export function initIncrementallyAddedFields(projects) {
     if (projects) {
-        projects.forEach(project => project.startdate = project.startdate || DEFAULT_STARTDATE_FIELD)
+        projects.forEach(project => {
+            project.startdate = project.startdate || DEFAULT_STARTDATE_FIELD;
+            project.storyboardFields = project.storyboardFields || [];
+        })
     }
 }
+
 

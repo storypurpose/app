@@ -18,8 +18,8 @@
                             *ngIf="storyboardItem.count > 0">{{storyboardItem.count}}</span> -->
                         </button>
                     </th>
-                    <th *ngFor="let c of storyboardItem.metadata.components"
-                        [ngClass]="{'bg-light-warning': c.title === 'No component'}">
+                    <th *ngFor="let c of storyboardItem.metadata[column.metadataField]"
+                        [ngClass]="{'bg-light-warning': c.title === column.noFieldLabel}">
                         {{c.title}}
                         <span class="badge badge-white" *ngIf="c.count > 0">{{c.count}}</span>
                     </th>
@@ -35,12 +35,12 @@
                             <span class="badge badge-white" *ngIf="fv.count > 0">{{fv.count}}</span>
                         </button>
                     </td>
-                    <td *ngFor="let c of storyboardItem.metadata.components" style="min-width: 250px; max-width:550px"
-                        [ngClass]="{'bg-light-warning': c.title === 'No component'}">
+                    <td *ngFor="let field of storyboardItem.metadata[column.metadataField]" style="min-width: 250px; max-width:550px"
+                        [ngClass]="{'bg-light-warning': field.title === column.noFieldLabel}">
                         <div *ngIf="fv.expanded">
                             <div class="custom-shadow small p-2 mb-3 mr-2 bg-white float-left"
                                 [ngClass]="{'linked-issue': item.linkType && item.linkType.length> 0}"
-                                style="width:250px" *ngFor="let item of getItems(fv, c)">
+                                style="width:250px" *ngFor="let item of getItems(fv, field)">
                                 <div class="mb-1">
                                     <div class="float-right">
                                         <app-issue-navigation-menu [parentIssueKey]="storyboardItem.key"

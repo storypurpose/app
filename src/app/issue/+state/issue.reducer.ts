@@ -177,6 +177,8 @@ function populateIssueDetails(payload: any) {
 function populateProjectDetails(project) {
     const currentProject: any = _.pick(project, ['id', 'key', 'description', 'name', 'customFields', 'startdate']);
     currentProject.hierarchy = [];
+    currentProject.storyboardFields = [];
+
     if (project.issueTypes) {
         currentProject.standardIssueTypes = getIssueTypes(project.issueTypes, false);
         currentProject.subTaskIssueTypes = getIssueTypes(project.issueTypes, true);

@@ -19,6 +19,19 @@ export class StoryboardRendererComponent implements OnInit, OnDestroy {
     projects: any;
 
     public zoom = 100;
+    column = {
+        field: 'component',
+        metadataField: 'components',
+        noFieldLabel: 'No component',
+        groupBy: 'componentWise'
+    }
+
+    // column = {
+    //     field: 'label',
+    //     metadataField: 'labels',
+    //     noFieldLabel: 'No label',
+    //     groupBy: 'labelWise'
+    // }
 
     constructor(public store$: Store<AppState>) {
     }
@@ -31,13 +44,13 @@ export class StoryboardRendererComponent implements OnInit, OnDestroy {
         this.projects$ ? this.projects$.unsubscribe() : null;
     }
 
-    getItems(fixVersion, component) {
+    getItems(fixVersion, field) {
         if (!this.storyboardItem || !this.storyboardItem.children)
             return [];
 
         let records = [];
-        if (fixVersion.componentWise) {
-            const found = _.find(fixVersion.componentWise, { component: component.title });
+        if (fixVersion[this.column.groupBy]) {
+            const found = _.find(fixVersion[this.column.groupBy], (p) => p[this.column.field] === field.title);
             if (found) {
                 records = found.values;
             }

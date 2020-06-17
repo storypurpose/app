@@ -29,7 +29,7 @@ export class ProjectConfigComponent {
         this.project.isConfigured = true;
         this.store$.dispatch(new UpsertProjectAction(this.project));
         this.cachingService.setProjectDetails(this.project);
-
+        console.log('this.project', this.project);
         this.onClose(false);
     }
     onClose(reload) {

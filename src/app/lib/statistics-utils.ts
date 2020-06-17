@@ -1,5 +1,6 @@
 import * as _ from 'lodash';
 
+export const NO_LABEL = 'No label';
 export const NO_COMPONENT = 'No component';
 export const BACKLOG_SPRINT = 'Backlog';
 
@@ -7,6 +8,7 @@ export function initializeMetadata() {
     return {
         count: 0,
         noComponentCount: 0,
+        noLabelCount: 0,
         backlogCount: 0,
 
         labels: [],
@@ -18,6 +20,7 @@ export function initializeMetadata() {
 export function mergeMetadata(left: any, right: any) {
     left.count += right.count;
     left.noComponentCount += right.noComponentCount;
+    left.noLabelCount += right.noLabelCount;
     left.backlogCount += right.backlogCount;
 
     left.labels = _.union(left.labels, right.labels);
@@ -28,15 +31,34 @@ export function mergeMetadata(left: any, right: any) {
 export function extractMetadata(records) {
     const record: any = initializeMetadata();
     if (records) {
+        console.log('records', records);
         record.count = records ? records.length : 0;
-        record.labels = _.union(_.flatten(_.map(records, p => p.labels)));
+
+        //record.labels = _.union(_.flatten(_.map(records, p => p.labels)));
+        record.labels = _.orderBy(_.map(_.union(_.flatten(
+            _.map(records, p => p.labels))), (c) => { return { title: c, count: 0 }; }), 'title');
+        record.labels.unshift({ title: NO_LABEL, count: 0 });
+
         record.components = _.orderBy(_.map(_.union(_.flatten(
             _.map(records, p => p.components))), (c) => { return { title: c, count: 0 }; }), 'title');
         record.components.unshift({ title: NO_COMPONENT, count: 0 });
+
         record.fixVersions = _.map(_.union(_.flatten(_.map(records, p => p.fixVersions))), (fv) => {
             const found = _.filter(records, p => _.includes(p.fixVersions, fv));
             return {
                 title: fv, expanded: true, count: found ? found.length : 0,
+
+                labelWise: _.map(record.labels, c => {
+                    const values = _.filter(found, f => (c.title === NO_LABEL)
+                        ? f.labels.length === 0
+                        : _.includes(f.labels, c.title));
+                    c.count += values.length;
+                    return {
+                        label: c.title,
+                        values: values
+                    };
+                }),
+
                 componentWise: _.map(record.components, c => {
                     const values = _.filter(found, f => (c.title === NO_COMPONENT)
                         ? f.components.length === 0
@@ -50,6 +72,14 @@ export function extractMetadata(records) {
             };
         });
         record.fixVersions = _.orderBy(record.fixVersions, ['title'])
+
+        const noLabel = _.find(record.labels, { title: NO_LABEL });
+        if (!noLabel || noLabel.count === 0) {
+            _.remove(record.components, { title: NO_LABEL });
+        } else {
+            record.noLabelCount = noLabel.count;
+        }
+
         const noComponent = _.find(record.components, { title: NO_COMPONENT });
         if (!noComponent || noComponent.count === 0) {
             _.remove(record.components, { title: NO_COMPONENT });

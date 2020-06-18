@@ -7,6 +7,8 @@ import { ChartOptions } from 'chart.js';
     templateUrl: './statistics.component.html'
 })
 export class StatisticsComponent {
+    @Input() groupByColumn: string;
+
     private _statistics: any;
     @Input() set statistics(value: any) {
         this._statistics = value;
@@ -14,7 +16,7 @@ export class StatisticsComponent {
             this.initExtendedStats(value.extended);
             this.initStatusCharts(value.status);
             this.initIssueTypeCharts(value.issueTypes);
-            this.initComponentCharts(value.components);
+            this.initGenericCharts(value[this.groupByColumn]);
         }
     }
     get statistics() {
@@ -22,8 +24,8 @@ export class StatisticsComponent {
     }
 
     public extendedStats: any;
-    public componentChartLabels: any;
-    public componentChartData: any;
+    public genericChartLabels: any;
+    public genericChartData: any;
     public statusChartLabels: any;
     public statusChartData: any;
     public issueTypeChartLabels: any;
@@ -41,9 +43,9 @@ export class StatisticsComponent {
         }
     };
 
-    initComponentCharts(stats) {
-        this.componentChartLabels = _.map(stats, s => `${s.key} / ${s.count}`);
-        this.componentChartData = _.map(stats, 'count');
+    initGenericCharts(stats) {
+        this.genericChartLabels = _.map(stats, s => `${s.key} / ${s.count}`);
+        this.genericChartData = _.map(stats, 'count');
     }
     initStatusCharts(stats) {
         this.statusChartLabels = _.map(stats, s => `${s.key} / ${s.count}`);

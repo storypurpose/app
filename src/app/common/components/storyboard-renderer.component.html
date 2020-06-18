@@ -1,4 +1,5 @@
-<div class="storyboard" *ngIf="storyboardItem && storyboardItem.metadata && storyboardItem.children && storyboardItem.children.length > 0">
+<div class="storyboard"
+    *ngIf="storyboardItem && storyboardItem.metadata && storyboardItem.children && storyboardItem.children.length > 0">
 
     <div class="zoom-slider">
         <p-slider [(ngModel)]="zoom" [min]="50" [max]="100" [step]="10"></p-slider>
@@ -8,7 +9,7 @@
         <table class="table table-bordered mr-3">
             <thead>
                 <tr class="bg-light">
-                    <th style="width: 100px;">
+                    <th style="width: 150px;">
                         <button class="btn btn-link text-dark p-0" style="white-space: nowrap;"
                             (click)="expandCollapseAll()">
                             <fa-icon [icon]="expandedAll ? 'angle-double-down' : 'angle-double-right'"
@@ -18,8 +19,8 @@
                             *ngIf="storyboardItem.count > 0">{{storyboardItem.count}}</span> -->
                         </button>
                     </th>
-                    <th *ngFor="let c of storyboardItem.metadata[column.metadataField]"
-                        [ngClass]="{'bg-light-warning': c.title === column.noFieldLabel}">
+                    <th *ngFor="let c of storyboardItem.metadata[groupByColumn]"
+                        [ngClass]="{'bg-light-warning': c.title === 'Unassigned'}">
                         {{c.title}}
                         <span class="badge badge-white" *ngIf="c.count > 0">{{c.count}}</span>
                     </th>
@@ -35,8 +36,9 @@
                             <span class="badge badge-white" *ngIf="fv.count > 0">{{fv.count}}</span>
                         </button>
                     </td>
-                    <td *ngFor="let field of storyboardItem.metadata[column.metadataField]" style="min-width: 250px; max-width:550px"
-                        [ngClass]="{'bg-light-warning': field.title === column.noFieldLabel}">
+                    <td *ngFor="let field of storyboardItem.metadata[groupByColumn]"
+                        style="min-width: 250px; max-width:550px"
+                        [ngClass]="{'bg-light-warning': field.title === 'Unassigned'}">
                         <div *ngIf="fv.expanded">
                             <div class="custom-shadow small p-2 mb-3 mr-2 bg-white float-left"
                                 [ngClass]="{'linked-issue': item.linkType && item.linkType.length> 0}"

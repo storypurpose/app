@@ -26,6 +26,7 @@ export class TimelineRendererComponent {
     public timelineItems: any;
 
     showStatistics = false;
+    groupByColumn = "components";
     statistics: any;
 
     onShowStatistics(statistics) {

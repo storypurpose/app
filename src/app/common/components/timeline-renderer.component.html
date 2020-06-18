@@ -27,10 +27,10 @@
                     <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
                     <i class="{{rowData.icon}} text-muted"></i>
                     <a [routerLink]="['/browse', rowData.key]" [ngClass]="{'issue-resolved': rowData.resolution}"
-                        class="ml-1" *ngIf="!isCustomTypeNode(rowData)">{{rowData.key}}</a>
+                        class="ml-1 small" *ngIf="!isCustomTypeNode(rowData)">{{rowData.key}}</a>
                 </div>
             </td>
-            <td class="text-truncate" width="300px">
+            <td class="text-truncate small" width="300px">
                 {{rowData.label}}
             </td>
             <td width="40px">
@@ -56,5 +56,5 @@
 
 <p-dialog [header]="statistics.title" *ngIf="statistics" [(visible)]="showStatistics" [dismissableMask]="true"
     [modal]=true styleClass="custom-dialog bg-light">
-    <app-statistics [statistics]="statistics"></app-statistics>
+    <app-statistics [groupByColumn]="groupByColumn" [statistics]="statistics"></app-statistics>
 </p-dialog>

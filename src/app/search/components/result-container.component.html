@@ -46,9 +46,10 @@
     <div class="body-container">
         <div class="w-100">
             <router-outlet></router-outlet>
-            <div class="center-text custom-shadow alert-warning p-4" *ngIf="issuelist && issuelist.total === 0">
+            <h4 class="center-text font-weight-light p-3" *ngIf="issuelist && issuelist.total === 0">
+                <fa-icon icon="exclamation-triangle" class="mr-2 text-muted" size="xs"></fa-icon>
                 No Records found.
-            </div>
+            </h4>
         </div>
     </div>
 </div>

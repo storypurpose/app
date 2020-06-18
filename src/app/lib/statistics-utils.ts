@@ -1,90 +1,63 @@
 import * as _ from 'lodash';
 
-export const NO_LABEL = 'No label';
-export const NO_COMPONENT = 'No component';
+export const EMPTY_RECORD = 'Unassigned';
 export const BACKLOG_SPRINT = 'Backlog';
 
-export function initializeMetadata() {
-    return {
+export function initializeMetadata(groupByColumn) {
+    const metadata = {
         count: 0,
-        noComponentCount: 0,
-        noLabelCount: 0,
+        emptyRecordCount: 0,
         backlogCount: 0,
-
-        labels: [],
-        components: [],
         fixVersions: []
     }
+    metadata[groupByColumn] = [];
+    return metadata;
 }
 
-export function mergeMetadata(left: any, right: any) {
+export function mergeMetadata(left: any, right: any, groupByColumn) {
     left.count += right.count;
-    left.noComponentCount += right.noComponentCount;
-    left.noLabelCount += right.noLabelCount;
+    left.emptyRecordCount += right.emptyRecordCount;
     left.backlogCount += right.backlogCount;
 
-    left.labels = _.union(left.labels, right.labels);
-    left.components = _.union(left.components, right.components);
+    left[groupByColumn] = _.union(left[groupByColumn], right[groupByColumn]);
     left.fixVersions = _.union(left.fixVersions, right.fixVersions);
 }
 
-export function extractMetadata(records) {
-    const record: any = initializeMetadata();
+export function extractMetadata(records, groupByColumn) {
+    const record: any = initializeMetadata(groupByColumn);
     if (records) {
-        console.log('records', records);
         record.count = records ? records.length : 0;
 
-        //record.labels = _.union(_.flatten(_.map(records, p => p.labels)));
-        record.labels = _.orderBy(_.map(_.union(_.flatten(
-            _.map(records, p => p.labels))), (c) => { return { title: c, count: 0 }; }), 'title');
-        record.labels.unshift({ title: NO_LABEL, count: 0 });
+        // record.labels = _.orderBy(_.map(_.union(_.flatten(
+        //     _.map(records, p => p.labels))), (c) => { return { title: c, count: 0 }; }), 'title');
+        // record.labels.unshift({ title: EMPTY_RECORD, count: 0 });
 
-        record.components = _.orderBy(_.map(_.union(_.flatten(
-            _.map(records, p => p.components))), (c) => { return { title: c, count: 0 }; }), 'title');
-        record.components.unshift({ title: NO_COMPONENT, count: 0 });
+        record[groupByColumn] = _.orderBy(_.map(_.union(_.flatten(
+            _.map(records, p => p[groupByColumn]))), (c) => { return { title: c, count: 0 }; }), 'title');
+        record[groupByColumn].unshift({ title: EMPTY_RECORD, count: 0 });
 
         record.fixVersions = _.map(_.union(_.flatten(_.map(records, p => p.fixVersions))), (fv) => {
             const found = _.filter(records, p => _.includes(p.fixVersions, fv));
-            return {
-                title: fv, expanded: true, count: found ? found.length : 0,
 
-                labelWise: _.map(record.labels, c => {
-                    const values = _.filter(found, f => (c.title === NO_LABEL)
-                        ? f.labels.length === 0
-                        : _.includes(f.labels, c.title));
-                    c.count += values.length;
-                    return {
-                        label: c.title,
-                        values: values
-                    };
-                }),
+            let result: any = { title: fv, expanded: true, count: found ? found.length : 0 };
 
-                componentWise: _.map(record.components, c => {
-                    const values = _.filter(found, f => (c.title === NO_COMPONENT)
-                        ? f.components.length === 0
-                        : _.includes(f.components, c.title));
-                    c.count += values.length;
-                    return {
-                        component: c.title,
-                        values: values
-                    };
-                })
-            };
+            result[groupByColumn] = _.map(record[groupByColumn], c => {
+                const values = _.filter(found, f => (c.title === EMPTY_RECORD)
+                    ? f[groupByColumn].length === 0
+                    : _.includes(f[groupByColumn], c.title));
+                c.count += values.length;
+                return { key: c.title, values: values };
+            })
+
+            return result;
         });
         record.fixVersions = _.orderBy(record.fixVersions, ['title'])
 
-        const noLabel = _.find(record.labels, { title: NO_LABEL });
-        if (!noLabel || noLabel.count === 0) {
-            _.remove(record.components, { title: NO_LABEL });
+        const emptyRecord = _.find(record[groupByColumn], { title: EMPTY_RECORD });
+        if (!emptyRecord || emptyRecord.count === 0) {
+            _.remove(record[groupByColumn], { title: EMPTY_RECORD });
         } else {
-            record.noLabelCount = noLabel.count;
-        }
-
-        const noComponent = _.find(record.components, { title: NO_COMPONENT });
-        if (!noComponent || noComponent.count === 0) {
-            _.remove(record.components, { title: NO_COMPONENT });
-        } else {
-            record.noComponentCount = noComponent.count;
+            record.emptyRecordCount = emptyRecord.count;
         }
         const backlogFixVersion = _.find(record.fixVersions, { title: BACKLOG_SPRINT });
         if (backlogFixVersion) {
@@ -94,20 +67,18 @@ export function extractMetadata(records) {
     return record;
 }
 
-export function populateStatistics(metadata, records, title = "Statistics") {
+export function populateStatistics(metadata, records, title = "Statistics", groupByColumn) {
     const statusResultSet = _.mapValues(_.groupBy(_.map(records, 'status')), (s) => s.length);
     const issueTypeResultSet = _.mapValues(_.groupBy(_.map(records, 'issueType')), (s) => s.length);
     const resolutionResultSet = _.mapValues(_.groupBy(_.map(records, 'resolution')), (s) => s.length);
     const total = records ? records.length : 0;
     const unresolved = _.filter(records, r => !r.resolution).length;
 
-    return {
+    const result = {
         title: `${title} / ${total - unresolved} Resolved`,
         total,
         unresolved,
-        components: _.map(metadata.components, c => {
-            return { key: c.title, count: c.count }
-        }),
+
         status: Object.keys(statusResultSet).map((key) => {
             return { key, count: statusResultSet[key] };
         }),
@@ -120,5 +91,9 @@ export function populateStatistics(metadata, records, title = "Statistics") {
         missingDueDates: _.filter(records, (c) => !c.duedate).length,
         duedatePassed: _.filter(records, (c) => !c.resolution && c.duedate && (new Date(c.duedate)) < (new Date())).length
     };
+
+    result[groupByColumn] = _.map(metadata[groupByColumn], c => { return { key: c.title, count: c.count } })
+
+    return result;
 }
 

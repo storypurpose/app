@@ -23,10 +23,10 @@ export class StoryboardComponent implements OnInit, OnDestroy {
     epicChildrenIncluded = false;
 
     showStatistics = false;
+    groupByColumn = "components";
 
     selectedItem$: Subscription;
     selectedItem: any;
-
     storyboardItem: any;
 
     constructor(public store$: Store<IssueState>) { }
@@ -50,9 +50,12 @@ export class StoryboardComponent implements OnInit, OnDestroy {
         this.selectedItem$ ? this.selectedItem$.unsubscribe() : null;
     }
 
+    onGroupByColumnChanged() {
+        this.plotIssuesOnStoryboard();
+    }
     plotIssuesOnStoryboard() {
         this.storyboardItem.children = [];
-        this.storyboardItem.metadata = initializeMetadata();
+        this.storyboardItem.metadata = initializeMetadata(this.groupByColumn);
 
         const filters = _.map(this.selectedStatuses, 'key');
         if (this.includeEpicChildren) {
@@ -61,16 +64,16 @@ export class StoryboardComponent implements OnInit, OnDestroy {
 
                 const epicChildren = this.filterByStatus(this.storyboardItem.epicChildren, filters);
                 this.storyboardItem.children = _.union(this.storyboardItem.children, epicChildren)
-                mergeMetadata(this.storyboardItem.metadata, extractMetadata(epicChildren));
+                mergeMetadata(this.storyboardItem.metadata, extractMetadata(epicChildren, this.groupByColumn), this.groupByColumn);
             }
         }
         if (this.includeRelatedIssues && this.storyboardItem.relatedLinks && this.storyboardItem.relatedLinks.length > 0) {
             this.relatedIssuesIncluded = true;
             const relatedLinks = this.filterByStatus(this.storyboardItem.relatedLinks, filters);
             this.storyboardItem.children = _.union(this.storyboardItem.children, relatedLinks)
-            mergeMetadata(this.storyboardItem.metadata, extractMetadata(relatedLinks))
+            mergeMetadata(this.storyboardItem.metadata, extractMetadata(relatedLinks, this.groupByColumn), this.groupByColumn)
         }
-        this.storyboardItem.statistics = populateStatistics(this.storyboardItem.metadata, this.storyboardItem.children);
+        this.storyboardItem.statistics = populateStatistics(this.storyboardItem.metadata, this.storyboardItem.children, "Statistics", this.groupByColumn);
         if (this.storyboardItem.statistics && this.statusLookup && this.statusLookup.length === 0) {
             this.statusLookup = this.storyboardItem.statistics.status;
         }

@@ -19,23 +19,12 @@ export class StoryboardRendererComponent implements OnInit, OnDestroy {
     projects: any;
 
     public zoom = 100;
-    column = {
-        field: 'component',
-        metadataField: 'components',
-        noFieldLabel: 'No component',
-        groupBy: 'componentWise'
-    }
-
-    // column = {
-    //     field: 'label',
-    //     metadataField: 'labels',
-    //     noFieldLabel: 'No label',
-    //     groupBy: 'labelWise'
-    // }
+    @Input() groupByColumn;
 
     constructor(public store$: Store<AppState>) {
     }
     ngOnInit(): void {
+        this.groupByColumn = this.groupByColumn || 'components';
         this.projects$ = this.store$.select(p => p.app.projects)
             .pipe(filter(p => p))
             .subscribe(list => this.projects = list);
@@ -49,8 +38,8 @@ export class StoryboardRendererComponent implements OnInit, OnDestroy {
             return [];
 
         let records = [];
-        if (fixVersion[this.column.groupBy]) {
-            const found = _.find(fixVersion[this.column.groupBy], (p) => p[this.column.field] === field.title);
+        if (fixVersion[this.groupByColumn]) {
+            const found = _.find(fixVersion[this.groupByColumn], (p) => p.key === field.title);
             if (found) {
                 records = found.values;
             }

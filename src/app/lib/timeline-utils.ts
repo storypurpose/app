@@ -62,12 +62,13 @@ export function transformToTreeChildren(children, timespanLookup, startdateCode,
                     ((duedate >= ts.firstDate && duedate <= ts.lastDate) || duedate > ts.lastDate)
             };
         });
+        const groupByColumn = "components";
         const result: any = { data: record };
         if (ec && ec.children && ec.children.length > 0) {
             result.children = transformToTreeChildren(ec.children, timespanLookup, startdateCode, expandEpic);
             if (result.data) {
                 result.data.isHeading = true;
-                result.data.statistics = statsUtil.populateStatistics(statsUtil.extractMetadata(ec.children), ec.children, record.label);
+                result.data.statistics = statsUtil.populateStatistics(statsUtil.extractMetadata(ec.children, groupByColumn), ec.children, record.label, groupByColumn);
                 result.data.statistics.extended = populateExtendedStats(result.children);
             }
             result.expanded = true;

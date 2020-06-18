@@ -1,9 +1,18 @@
-<div *ngIf="storyboardItem">
-    <button class="btn btn-link float-right" (click)="showStatistics = true">
+<div *ngIf="storyboardItem && storyboardItem.children">
+    <button class="btn btn-link float-right" (click)="showStatistics = true" *ngIf="storyboardItem.statistics">
         <fa-icon [icon]="['far', 'chart-bar']" size="lg"></fa-icon>
     </button>
+
     <div class="row mt-1">
-        <div class="offset-md-9 col-md-3">
+        <div class="col-md-2">
+            <select class="form-control form-control-sm" style="width: 150px;" [(ngModel)]="groupByColumn"
+                (change)="onGroupByColumnChanged()">
+                <option value="components">Components</option>
+                <option value="labels">Labels</option>
+            </select>
+        </div>
+
+        <div class="offset-md-8 col-md-2 text-right">
             <p-multiSelect styleClass="w-100" defaultLabel="Filter" *ngIf="statusLookup && statusLookup.length > 0"
                 [options]="statusLookup" [(ngModel)]="selectedStatuses" (onChange)="onSelectedStatusChange()"
                 optionLabel="key">
@@ -11,10 +20,11 @@
         </div>
     </div>
 
-    <app-storyboard-renderer [storyboardItem]="storyboardItem"></app-storyboard-renderer>
+    <app-storyboard-renderer [groupByColumn]="groupByColumn" [storyboardItem]="storyboardItem">
+    </app-storyboard-renderer>
 
     <p-dialog [header]="storyboardItem.statistics.title" *ngIf="storyboardItem.statistics" position="topright"
         class="bg-light" [dismissableMask]="true" [modal]=true [(visible)]="showStatistics">
-        <app-statistics [statistics]="storyboardItem.statistics"></app-statistics>
+        <app-statistics [groupByColumn]="groupByColumn" [statistics]="storyboardItem.statistics"></app-statistics>
     </p-dialog>
 </div>

@@ -16,6 +16,7 @@ export class SearchStoryboardViewComponent implements OnInit, OnDestroy {
     statusLookup = [];
 
     showStatistics = false;
+    groupByColumn = "components";
 
     issuelist$: Subscription;
     issuelist: any;
@@ -41,13 +42,17 @@ export class SearchStoryboardViewComponent implements OnInit, OnDestroy {
         this.issuelist$ ? this.issuelist$.unsubscribe() : null;
     }
 
+    onGroupByColumnChanged() {
+        this.plotStoryboard();
+    }
+
     plotStoryboard() {
         const filters = _.map(this.selectedStatuses, 'key');
 
-        this.storyboardItem.metadata = initializeMetadata();
+        this.storyboardItem.metadata = initializeMetadata(this.groupByColumn);
         this.storyboardItem.children = this.filterByStatus(this.issuelist.results, filters);
-        mergeMetadata(this.storyboardItem.metadata, extractMetadata(this.storyboardItem.children));
-        this.storyboardItem.statistics = populateStatistics(this.storyboardItem.metadata, this.storyboardItem.children);
+        mergeMetadata(this.storyboardItem.metadata, extractMetadata(this.storyboardItem.children, this.groupByColumn), this.groupByColumn);
+        this.storyboardItem.statistics = populateStatistics(this.storyboardItem.metadata, this.storyboardItem.children, "Statistics", this.groupByColumn);
 
         if (this.storyboardItem.statistics && this.statusLookup && this.statusLookup.length === 0) {
             this.statusLookup = this.storyboardItem.statistics.status;

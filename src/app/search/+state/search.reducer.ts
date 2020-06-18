@@ -41,6 +41,7 @@ export function searchReducer(state: Search, action: any): Search {
                 ? _.map(action.payload.payload.issues, p => populateFieldValuesCompact(p))
                 : [];
             const children = timelineUtil.transformToTreeChildren(issues, state.timelineView.metadata.timespan, startdateCode, false);
+            const groupByColumn = "components";
             return {
                 ...state, timelineView: {
                     ...state.timelineView, records: state.timelineView.records.map(node => {
@@ -49,7 +50,7 @@ export function searchReducer(state: Search, action: any): Search {
                                 ...node, children, data: {
                                     ...node.data,
                                     isHeading: children && children.length > 0,
-                                    statistics: populateStatistics(extractMetadata(issues), issues, node.data.label)
+                                    statistics: populateStatistics(extractMetadata(issues, groupByColumn), issues, node.data.label, groupByColumn)
                                 }
                             }
                             : node;

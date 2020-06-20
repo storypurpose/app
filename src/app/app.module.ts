@@ -58,7 +58,7 @@ import { NavbarComponent } from './components/header/navbar.component';
 import { SearchboxComponent } from './components/header/searchbox.component';
 import { CurrentProjectComponent } from './components/header/current-project.component';
 import { AppEffects } from './+state/app.effects';
-import { IssueEntryComponent } from './components/issuemanager/issue-entry.component';
+// import { IssueEntryComponent } from './components/issuemanager/issue-entry.component';
 import { SetupComponent } from './components/setup.component';
 
 export function initGapi(gapiSession: GapiSession) {
@@ -68,8 +68,8 @@ export function initGapi(gapiSession: GapiSession) {
   declarations: [
     NavbarComponent, CopyrightComponent, ToolsComponent, SearchboxComponent, CurrentProjectComponent,
 
-    AppComponent, PageNotFoundComponent,
-    IssueEntryComponent, SetupComponent,
+    AppComponent, PageNotFoundComponent, SetupComponent,
+    //IssueEntryComponent,
 
     ConnectionDetailsComponent, ProjectConfigComponent, OrganizationComponent, HierarchyFieldEditorComponent,
     ConfigurationsComponent, ExportConfigurationComponent, ImportConfigurationComponent,

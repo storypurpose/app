@@ -4,6 +4,7 @@ import { AppState } from 'src/app/+state/app.state';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-storyboard-renderer',
@@ -21,7 +22,7 @@ export class StoryboardRendererComponent implements OnInit, OnDestroy {
     public zoom = 100;
     @Input() groupByColumn;
 
-    constructor(public store$: Store<AppState>) {
+    constructor(public router: Router, public store$: Store<AppState>) {
     }
     ngOnInit(): void {
         this.groupByColumn = this.groupByColumn || 'components';
@@ -47,6 +48,9 @@ export class StoryboardRendererComponent implements OnInit, OnDestroy {
         return records;
     }
 
+    navigateToPurpose(key) {
+        this.router.navigate(['/browse', this.storyboardItem.key || key, 'purpose', key, 'details'])
+    }
     expandCollapseAll() {
         this.expandedAll = !this.expandedAll;
         if (this.storyboardItem && this.storyboardItem.metadata && this.storyboardItem.metadata.fixVersions) {
@@ -66,14 +70,15 @@ export class StoryboardRendererComponent implements OnInit, OnDestroy {
                 }
             }
 
-            issue.updated = issue.updated || { fixVersions: [] };
+            issue.memento = issue.memento || { fixVersions: [] };
             if (issue.fixVersions) {
                 issue.fixVersions.forEach(fv => {
-                    const exists = _.find(issue.updated.fixVersions, { id: fv });
+                    const exists = _.find(issue.memento.fixVersions, { id: fv });
                     if (!exists) {
                         const found = _.find(refProject.metadata.versions, { name: fv });
                         if (found) {
-                            issue.updated.fixVersions.push({ id: found.name, name: `${found.name}` + (found.releaseDate ? ` (${found.releaseDate})` : '') });
+                            console.log(issue.memento);
+                            issue.memento.fixVersions.push({ id: found.name, name: `${found.name}` + (found.releaseDate ? ` (${found.releaseDate})` : '') });
                         }
                     }
                 })
@@ -107,7 +112,7 @@ export class StoryboardRendererComponent implements OnInit, OnDestroy {
                 updatedValue: _.map(updatedValue, u => { return { name: u.id } })
             });
         } else {
-            issue.updated.fixVersions = [];
+            issue.memento.fixVersions = [];
         }
     }
 }

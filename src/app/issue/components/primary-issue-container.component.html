@@ -1,26 +1,3 @@
 <div class="main-container">
     <router-outlet></router-outlet>
-    <!-- <as-split direction="horizontal" (gutterDblClick)="toggleFullscreen()" (dragEnd)="dragEnd($event)">
-        <as-split-area [size]="columns[0].size">
-            <div *ngIf="leftPaneSize > 0">
-                <div class="sticky-title p-2">
-                    <app-issue-entry [hideIssuelistNavigator]="false" (showIssuelist)="onShowIssuelist()">
-                    </app-issue-entry>
-                </div>
-
-                <app-issue-treeview [issueKey]="issueKey" [rootNode]="rootNode"></app-issue-treeview>
-
-            </div>
-        </as-split-area>
-
-        <as-split-area [size]="columns[1].size">
-            <button class="btn btn-sm btn-link text-muted float-right" title="expand/collapse pane"
-                (click)="toggleFullscreen()">
-                <fa-icon [icon]="columns[0].size === 0 ? 'compress-arrows-alt' : 'expand-arrows-alt'"
-                    [fixedWidth]="true"></fa-icon>
-            </button>
-
-            <router-outlet></router-outlet>
-        </as-split-area>
-    </as-split> -->
 </div>

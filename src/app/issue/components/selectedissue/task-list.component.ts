@@ -36,7 +36,7 @@ export class TasklistComponent implements OnInit, OnDestroy {
 
     subtasks$: Subscription;
     subtasks: any;
-
+    loading = false;
     constructor(public store$: Store<IssueState>) {
     }
 
@@ -49,6 +49,7 @@ export class TasklistComponent implements OnInit, OnDestroy {
 
                 this.onFilterChanged();
                 this.populateStatistics();
+                this.loading = false;
             })
     }
 
@@ -65,6 +66,7 @@ export class TasklistComponent implements OnInit, OnDestroy {
             const extendedFields = _.spread(_.union)(_.map(this.issue.projectConfig.subTaskIssueTypes, 'list'));
             this.hasExtendedFields = (extendedFields && extendedFields.length > 0);
 
+            this.loading = true;
             this.store$.dispatch(new LoadSubtasksAction({ issueKey: this.issue.key, subTaskIssueTypes, extendedFields }));
         }
     }

@@ -18,6 +18,8 @@ import { ResizableContainerBase } from './resizable-container-base';
 })
 export class SelectedIssueContainerComponent extends ResizableContainerBase implements AfterViewInit, OnInit, OnDestroy {
     canNavigateToStoryboard = false;
+    primaryAndSelectIssueSame = false;
+
     combined$: Subscription;
 
     updatedField$: Subscription;
@@ -40,7 +42,7 @@ export class SelectedIssueContainerComponent extends ResizableContainerBase impl
         super(cdRef, store$);
     }
     ngOnInit(): void {
-        this.init(55);
+        this.init(50);
         this.localNodeType = CustomNodeTypes;
 
         this.updatedField$ = this.store$.select(p => p.issue.updatedField).pipe(filter(p => p && this.selectedIssue))
@@ -54,8 +56,10 @@ export class SelectedIssueContainerComponent extends ResizableContainerBase impl
 
         this.selectedIssue$ = this.store$.select(p => p.issue.selectedIssue).pipe(filter(p => p))
             .subscribe(selectedIssue => {
+                this.compactView = false;
                 this.selectedIssue = selectedIssue;
-                this.canNavigateToStoryboard = this.checkIfCanNavigateToStoryboard();
+                this.primaryAndSelectIssueSame = this.checkIsPrimaryAndSelectIssueSame();
+                this.canNavigateToStoryboard = this.primaryAndSelectIssueSame && this.selectedIssue.issueType === 'Epic';
 
                 if (!this.primaryIssue || !this.primaryIssue.key ||
                     this.selectedIssue.key.toLowerCase() !== this.primaryIssue.key.toLowerCase()) {
@@ -119,11 +123,9 @@ export class SelectedIssueContainerComponent extends ResizableContainerBase impl
         this.selectedIssue$ ? this.selectedIssue$.unsubscribe() : null;
     }
 
-    checkIfCanNavigateToStoryboard = () => {
-        return this.selectedIssue && this.selectedIssue.key &&
-            this.primaryIssue && this.primaryIssue.key &&
-            (this.selectedIssue.issueType === 'Epic' || this.primaryIssue.key.toLowerCase() === this.selectedIssue.key.toLowerCase());
-    }
+    checkIsPrimaryAndSelectIssueSame = () =>
+        this.selectedIssue && this.selectedIssue.key && this.primaryIssue && this.primaryIssue.key &&
+        this.primaryIssue.key.toLowerCase() === this.selectedIssue.key.toLowerCase();
 
     onShowIssuelist() {
         this.router.navigate(['/search/list']);

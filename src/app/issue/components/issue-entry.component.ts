@@ -9,7 +9,7 @@ import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import { IssueState } from '../+state/issue.state';
 
 @Component({
-    selector: 'app-issue-entry',
+    selector: 'app-select-issue-entry',
     templateUrl: './issue-entry.component.html'
 })
 export class IssueEntryComponent implements OnInit, OnDestroy {

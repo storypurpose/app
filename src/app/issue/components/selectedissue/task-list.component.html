@@ -1,4 +1,7 @@
-<div *ngIf="issue">
+<div *ngIf="loading">
+    <fa-icon icon="spinner" [spin]="true" aria-hidden="true" class="mr-1"></fa-icon> loading...
+</div>
+<div *ngIf="issue && !loading">
     <div class="alert bg-light pl-0 mb-0" style="font-size:medium;" *ngIf="showIssue">
 
         <app-issue-navigation-menu class="float-right" [issueKey]="issue.key"></app-issue-navigation-menu>

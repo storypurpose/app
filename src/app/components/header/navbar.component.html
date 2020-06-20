@@ -16,21 +16,20 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent" [ngbCollapse]="isCollapsed">
-            <ul class="navbar-nav mr-sm-auto">
-                <li class="nav-item">
-                    <app-current-project></app-current-project>
-                </li>
-            </ul>
-            <form class="mx-2 my-auto d-inline w-100" *ngIf="searchVisible">
-                <app-searchbox [searchVisible]="searchVisible"></app-searchbox>
+            <form class="ml-auto d-inline w-75">
+                <app-searchbox [searchVisible]="true"></app-searchbox>
             </form>
 
             <ul class="navbar-nav ml-sm-auto">
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <button class="btn btn-link" (click)="toggleSearchEditorVisibility()">
                         <fa-icon [icon]="searchVisible ? 'times' : 'search'" class="mr-1"></fa-icon>
                         <span class="d-inline d-md-none ml-2"> {{searchVisible ? 'Close' : 'Search'}}</span>
                     </button>
+                </li> -->
+
+                <li class="nav-item">
+                    <app-current-project></app-current-project>
                 </li>
 
                 <li class="navbar-text text-muted ml-2 mr-2"

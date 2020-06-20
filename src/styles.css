@@ -251,7 +251,7 @@ body .ui-toast .ui-toast-message.ui-toast-message-success {
 }
 body .ui-toast .ui-toast-message.ui-toast-message-info {
   background-color: #fff;
-  border-left: 10px solid #038FF8;
+  border-left: 10px solid #038ff8;
   color: #000;
 }
 ngx-md p {
@@ -432,7 +432,7 @@ body .ui-multiselect .ui-multiselect-trigger {
 }
 
 .issue-resolved {
-  text-decoration: line-through;
+  text-decoration: line-through !important;
 }
 
 .storyboard th {
@@ -454,4 +454,9 @@ body .ui-multiselect .ui-multiselect-trigger {
   .custom-dialog {
     width: 75vw;
   }
+}
+
+.center-text .nav-link.active {
+  background-color: #f8f8f8 !important;
+  border-bottom: 1px solid #f8f8f8;
 }

@@ -48,7 +48,7 @@
                                         <app-issue-navigation-menu [parentIssueKey]="storyboardItem.key"
                                             [issueKey]="item.key">
                                             <div
-                                                *ngIf="projects && projects.length > 0 && item.project && item.project.key  && item.project.key.length > 0">
+                                                *ngIf="projects && projects.length > 0 && item.project && item.project.key  && item.project.key.length > 0 && !item.resolution">
                                                 <div class="small p-1 bg-light text-dark mt-2">
                                                     <fa-icon icon="edit" size="fw" class="text-muted mr-"></fa-icon>
                                                     UPDATE
@@ -64,8 +64,8 @@
                                     </div>
 
                                     <div class="float-right text-muted small text-uppercase pt-1">{{item.status}}</div>
-                                    <a class="small text-uppercase" title="View purpose"
-                                        [routerLink]="['/browse', item.key, 'purpose', item.key]"
+                                    <a class="small text-uppercase text-primary" title="View purpose"
+                                        (click)="navigateToPurpose(item.key)"
                                         [ngClass]="{'issue-resolved': item.resolution}">
                                         {{item.issueType}}: {{item.key}}
                                     </a>
@@ -99,7 +99,7 @@
                                 <div class="mt-3 border bg-light rounded"
                                     *ngIf="item.isEditingFixversions && item.project && item.project.metadata && item.project.metadata.versions">
                                     <app-multilist-selector [lookupList]="item.project.metadata.versions"
-                                        [(list)]="item.updated.fixVersions" [selectOnChange]="true" [formMode]="true"
+                                        [(list)]="item.memento.fixVersions" [selectOnChange]="true" [formMode]="true"
                                         fieldTitle="Release version"
                                         (fieldValueChange)="onfixVersionsChanged($event, item)">
                                     </app-multilist-selector>

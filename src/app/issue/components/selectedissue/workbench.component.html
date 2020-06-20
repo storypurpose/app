@@ -29,7 +29,7 @@
                     <ng-template ngbNavContent>
                         <div class="pl-2 pr-2 pb-2">
                             <div class="alert alert-warning"
-                                *ngIf="groupedEpicChildren && groupedEpicChildren.length === 0">
+                                *ngIf="!groupedEpicChildren || groupedEpicChildren.length === 0">
                                 There are no issues in this epic
                             </div>
 

@@ -87,8 +87,9 @@ export class PurposeDetailsComponent implements OnInit, OnDestroy {
     }
 
     //#region toggle fullscreen
-    leftPaneSize = 20;
-    public columns: any = [{ visible: true, size: 20 }, { visible: true, size: 80 }];
+    defaultLeftPaneSize = 35;
+    leftPaneSize = this.defaultLeftPaneSize;
+    public columns: any = [{ visible: true, size: this.defaultLeftPaneSize }, { visible: true, size: (100 - this.defaultLeftPaneSize) }];
     dragEnd(e: { gutterNum: number; sizes: Array<number> }) {
         this.adjustPaneSize(e.sizes[0]);
     }
@@ -98,7 +99,7 @@ export class PurposeDetailsComponent implements OnInit, OnDestroy {
         this.columns[1].size = 100 - sizeOfLeftPane;
     }
     toggleFullscreen() {
-        this.adjustPaneSize(this.leftPaneSize === 0 ? 20 : 0);
+        this.adjustPaneSize(this.leftPaneSize === 0 ? this.defaultLeftPaneSize : 0);
     }
     //#endregion
 

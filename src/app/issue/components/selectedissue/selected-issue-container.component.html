@@ -4,20 +4,22 @@
             <fa-icon [icon]="compactView ? 'expand-alt' : 'compress-alt'"></fa-icon>
         </button>
     </div>
-    <div style="width:225px" *ngIf="!compactView">
-        <div *ngIf="!showIssueEntry">
-            <a class="text-dark text-uppercase font-weight-bold small mr-3" (click)="showIssueEntry = true">
-                <span [title]="selectedIssue.issueType">{{selectedIssue.issueType | slice:0:6}}</span>: {{selectedIssue.key}}
-                <fa-icon class="ml-1" icon="pencil-alt"></fa-icon>
-            </a>
-            <app-issue-navigation-menu icon="ellipsis-h" placement="bottom-left" [issueKey]="selectedIssue.key">
-            </app-issue-navigation-menu>
-        </div>
-        <app-issue-entry *ngIf="showIssueEntry" [hideIssuelistNavigator]="false" size="sm" [showCancel]="true"
-            (cancel)="onCancelIssueEntry($event)" (showIssuelist)="onShowIssuelist()"
-            title="Hit ENTER to navigate to issue, ESCAPE to cancel.">
-        </app-issue-entry>
-    </div>
+    <nav aria-label="breadcrumb" *ngIf="!compactView">
+        <ol class="breadcrumb small bg-light p-0 m-0">
+            <li class="breadcrumb-item" *ngIf="primaryIssue && !primaryAndSelectIssueSame">
+                <a [routerLink]="['/browse', primaryIssue.key]" class="text-uppercase">
+                    {{primaryIssue.issueType}}: {{primaryIssue.key}}
+                </a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                <span class="text-uppercase text-dark">
+                    {{selectedIssue.issueType}}: {{selectedIssue.key}}
+                </span>
+                <app-issue-navigation-menu icon="ellipsis-h" placement="bottom-left" [issueKey]="selectedIssue.key">
+                </app-issue-navigation-menu>
+            </li>
+        </ol>
+    </nav>
 
     <h2 class="font-weight-light">
         {{selectedIssue.title}}

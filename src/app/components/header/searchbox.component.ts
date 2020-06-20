@@ -4,6 +4,7 @@ import { AppState } from 'src/app/+state/app.state';
 import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
+import * as _ from 'lodash';
 
 @Component({
     selector: 'app-searchbox',
@@ -20,9 +21,6 @@ export class SearchboxComponent implements OnInit, OnDestroy {
 
     }
     ngOnInit(): void {
-        // this.query$ = this.store$.select(p => p.app.query).pipe(filter(p => p && p.length > 0))
-        //     .subscribe(query => this.query = query);
-
         this.queryParams$ = this.activatedRoute.queryParams
             .pipe(filter(p => p && p["query"] && p["query"].length > 0), map(p => p["query"]))
             .subscribe(query => this.query = query);
@@ -34,7 +32,12 @@ export class SearchboxComponent implements OnInit, OnDestroy {
     canExecuteQuery = () => this.query && this.query.trim().length > 0;
     executeQuery() {
         if (this.canExecuteQuery()) {
-            this.router.navigate(["/search/list"], { queryParams: { query: this.query } });
+            this.query = this.query.trim();
+            const splitted = _.split(this.query, /[ =]+/);
+
+            (splitted && splitted.length === 1)
+                ? this.router.navigate(["/browse", this.query])
+                : this.router.navigate(["/search/list"], { queryParams: { query: this.query } });
         }
     }
 

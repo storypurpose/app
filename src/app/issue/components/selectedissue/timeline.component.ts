@@ -27,7 +27,7 @@ export class TimelineComponent extends ResizableContainerBase implements OnInit,
     }
 
     ngOnInit(): void {
-        this.init(92);
+        this.init(86);
 
         this.selectedIssue$ = this.store$.select(p => p.issue.selectedIssue)
             .pipe(filter(p => p))

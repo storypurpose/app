@@ -1,7 +1,7 @@
 <div >
     <as-split direction="horizontal" *ngIf="issue" (gutterDblClick)="toggleFullscreen()" (dragEnd)="dragEnd($event)">
         <as-split-area [size]="columns[0].size">
-            <div class="alert" style="overflow: auto;">
+            <div class="alert mr-5" style="overflow: auto;">
                 <ngx-md [data]="issue.description"></ngx-md>
 
                 <div class="alert bg-light small mt-3 mb-3" *ngIf="issue.fixVersions && issue.fixVersions.length > 0">

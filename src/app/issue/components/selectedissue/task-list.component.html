@@ -32,12 +32,12 @@
         <div class="list-group list-group-flush list-group-flush-compact">
             <div class="list-group-item list-group-item-light">
                 <div class="clearfix">
-                    <button *ngIf="hasExtendedFields" (click)="showHideExtendedFields()"
+                    <!-- <button *ngIf="hasExtendedFields" (click)="showHideExtendedFields()"
                         class="btn btn-sm btn-link text-muted pl-0" title="Show/hide details">
                         <fa-icon size="sm" [fixedWidth]="true"
                             [icon]="hideExtendedFields ? 'angle-double-right' : 'angle-double-down'">
                         </fa-icon>
-                    </button>
+                    </button> -->
 
                     <b class="mt-1"><span class="mr-1" *ngIf="filteredItems.length > 0">
                             {{filteredItems.length}} </span>
@@ -49,7 +49,7 @@
                         <fa-icon size="sm" [icon]="tasklistFilterVisible ? 'chevron-up' : 'filter'"></fa-icon>
                     </button>
                 </div>
-                <div class="row ml-3" [ngbCollapse]="!tasklistFilterVisible">
+                <div class="row" [ngbCollapse]="!tasklistFilterVisible">
                     <div class="col-md-6" *ngIf="issueTypeStats && issueTypeStats.length > 1">
                         <select class="form-control form-control-sm" [(ngModel)]="issueTypeFilter"
                             (change)="onFilterChanged()">
@@ -68,19 +68,25 @@
                     </div>
                 </div>
             </div>
-            <div class="list-group-item" *ngFor="let record of filteredItems">
-                <button *ngIf="hasExtendedFields" (click)="record.hideExtendedFields = !record.hideExtendedFields"
-                    class="btn btn-link btn-sm text-muted pl-0 pt-0" title="Show/hide details">
-                    <fa-icon size="sm" [fixedWidth]="true"
-                        [icon]="record.hideExtendedFields ? 'angle-right' : 'angle-down'">
-                    </fa-icon>
-                </button>
-                <small class="float-right badge badge-light font-weight-light text-uppercase">{{record.status}}</small>
-                <small class="text-muted">
-                    <span class="text-uppercase">{{record.issueType}}</span>:
-                    <span [ngClass]="{'issue-resolved': record.resolution}">{{record.key}}</span>
-                </small>
 
+            <div class=" p-1 border-bottom" *ngFor="let record of filteredItems;let idx = index">
+                <div class="float-left mr-2">
+                    <!-- <button *ngIf="hasExtendedFields" (click)="record.hideExtendedFields = !record.hideExtendedFields"
+                        class="btn btn-link btn-sm text-muted pl-0 pt-0" title="Show/hide details">
+                        <fa-icon size="sm" [fixedWidth]="true"
+                            [icon]="record.hideExtendedFields ? 'angle-right' : 'angle-down'">
+                        </fa-icon>
+                    </button> -->
+                    <a (click)="openIssueAtIndex(idx)" class="text-primary"
+                        [ngClass]="{'issue-resolved': record.resolution}">
+                        <fa-icon icon="external-link-alt" size="sm"></fa-icon>
+                        {{record.key}}
+                    </a>
+                </div>
+
+                <div class="badge badge-light font-weight-light text-uppercase float-right ">
+                    {{record.status}}
+                </div>
                 <div [ngClass]="{'ml-4': hasExtendedFields}">
                     <div class=" text-no-wrap">{{record.title}}</div>
                     <div style="overflow: auto;" class="alert mt-2 p-0 rounded-0 border-0"
@@ -103,3 +109,7 @@
         No detail records found.
     </div>
 </div>
+
+<p-sidebar [(visible)]="issueDetailsVisible" [fullScreen]="true" styleClass="bg-light" [showCloseIcon]="false">
+    <app-issue-details [list]="filteredItems" [currentIndex]="currentIndex" (close)="issueDetailsVisible = false"></app-issue-details>
+</p-sidebar>

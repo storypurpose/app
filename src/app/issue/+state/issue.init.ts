@@ -12,7 +12,8 @@ export const issueInitialState: Issue = {
     hierarchicalIssue: null,
 
     subtasks: null,
-
+    comments: null,
+    
     purpose: [],
     recentlyViewedItems: [],
     recentmostItem: null,

@@ -1,0 +1,1191 @@
+{
+    "startAt": 0,
+    "maxResults": 1048576,
+    "total": 32,
+    "comments": [
+        {
+            "self": "https://jira.mediaocean.com/rest/api/2/issue/1958924/comment/3989645",
+            "id": "3989645",
+            "author": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=ewinstanley",
+                "name": "ewinstanley",
+                "key": "ewinstanley",
+                "emailAddress": "ewinstanley@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=ewinstanley&avatarId=26420",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=ewinstanley&avatarId=26420",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=ewinstanley&avatarId=26420",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=ewinstanley&avatarId=26420"
+                },
+                "displayName": "Evan Winstanley",
+                "active": true,
+                "timeZone": "Australia/Melbourne"
+            },
+            "body": "MediaTrend queries see a bit spike in memory usage.\r\n\r\n!screenshot-1.png|thumbnail! \r\n\r\nhttps://kibana.cn.mediaocean.cloud/goto/3e13084c97f4c64af861eb23f48e56c6\r\n\r\n",
+            "updateAuthor": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=ewinstanley",
+                "name": "ewinstanley",
+                "key": "ewinstanley",
+                "emailAddress": "ewinstanley@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=ewinstanley&avatarId=26420",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=ewinstanley&avatarId=26420",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=ewinstanley&avatarId=26420",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=ewinstanley&avatarId=26420"
+                },
+                "displayName": "Evan Winstanley",
+                "active": true,
+                "timeZone": "Australia/Melbourne"
+            },
+            "created": "2020-06-17T00:30:04.000-0400",
+            "updated": "2020-06-17T00:30:04.000-0400"
+        },
+        {
+            "self": "https://jira.mediaocean.com/rest/api/2/issue/1958924/comment/3989808",
+            "id": "3989808",
+            "author": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=rclay",
+                "name": "rclay",
+                "key": "rclay",
+                "emailAddress": "rclay@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?avatarId=10142",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&avatarId=10142",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&avatarId=10142",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&avatarId=10142"
+                },
+                "displayName": "Rob Clay",
+                "active": true,
+                "timeZone": "Australia/Sydney"
+            },
+            "body": "The second observation is that Ignitia web is releasing memory (garbage collector), but Cost Refresh is not releasing memory  [~ttaig] is going to help and see if he can re-create this on .3 / .4 code in his dev sandbox.",
+            "updateAuthor": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=rclay",
+                "name": "rclay",
+                "key": "rclay",
+                "emailAddress": "rclay@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?avatarId=10142",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&avatarId=10142",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&avatarId=10142",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&avatarId=10142"
+                },
+                "displayName": "Rob Clay",
+                "active": true,
+                "timeZone": "Australia/Sydney"
+            },
+            "created": "2020-06-17T01:45:57.000-0400",
+            "updated": "2020-06-17T01:45:57.000-0400"
+        },
+        {
+            "self": "https://jira.mediaocean.com/rest/api/2/issue/1958924/comment/3989858",
+            "id": "3989858",
+            "author": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=yhe",
+                "name": "yhe",
+                "key": "yhe",
+                "emailAddress": "yhe@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?avatarId=16869",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&avatarId=16869",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&avatarId=16869",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&avatarId=16869"
+                },
+                "displayName": "Ying He",
+                "active": true,
+                "timeZone": "America/New_York"
+            },
+            "body": "[~rclay], can you get your team to check again, the performance is really really slow now and there is an error occurred \r\n\r\n!image-2020-06-17-16-33-30-445.png!",
+            "updateAuthor": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=yhe",
+                "name": "yhe",
+                "key": "yhe",
+                "emailAddress": "yhe@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?avatarId=16869",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&avatarId=16869",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&avatarId=16869",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&avatarId=16869"
+                },
+                "displayName": "Ying He",
+                "active": true,
+                "timeZone": "America/New_York"
+            },
+            "created": "2020-06-17T02:34:41.000-0400",
+            "updated": "2020-06-17T02:34:41.000-0400"
+        },
+        {
+            "self": "https://jira.mediaocean.com/rest/api/2/issue/1958924/comment/3989860",
+            "id": "3989860",
+            "author": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=cchew",
+                "name": "cchew",
+                "key": "cchew",
+                "emailAddress": "cchew@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=cchew&avatarId=27421",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=cchew&avatarId=27421",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=cchew&avatarId=27421",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=cchew&avatarId=27421"
+                },
+                "displayName": "Carol Chew",
+                "active": true,
+                "timeZone": "Australia/Melbourne"
+            },
+            "body": "CIndy has reported that users are reporting poor performance again. it is very noticeable",
+            "updateAuthor": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=cchew",
+                "name": "cchew",
+                "key": "cchew",
+                "emailAddress": "cchew@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=cchew&avatarId=27421",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=cchew&avatarId=27421",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=cchew&avatarId=27421",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=cchew&avatarId=27421"
+                },
+                "displayName": "Carol Chew",
+                "active": true,
+                "timeZone": "Australia/Melbourne"
+            },
+            "created": "2020-06-17T02:34:54.000-0400",
+            "updated": "2020-06-17T02:34:54.000-0400"
+        },
+        {
+            "self": "https://jira.mediaocean.com/rest/api/2/issue/1958924/comment/3989917",
+            "id": "3989917",
+            "author": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=abapat",
+                "name": "abapat",
+                "key": "abapat",
+                "emailAddress": "abapat@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=abapat&avatarId=27428",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=abapat&avatarId=27428",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=abapat&avatarId=27428",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=abapat&avatarId=27428"
+                },
+                "displayName": "Anupam Bapat",
+                "active": true,
+                "timeZone": "Asia/Kolkata"
+            },
+            "body": "Tried impersonating the user  !impersonation.gif!\r\n\r\nThe performance looks pretty decent unless we are experiencing spikes at specific times. Seems to be not related to the application code probably. We are monitoring server to check the spikes.\r\n\r\n ",
+            "updateAuthor": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=abapat",
+                "name": "abapat",
+                "key": "abapat",
+                "emailAddress": "abapat@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=abapat&avatarId=27428",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=abapat&avatarId=27428",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=abapat&avatarId=27428",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=abapat&avatarId=27428"
+                },
+                "displayName": "Anupam Bapat",
+                "active": true,
+                "timeZone": "Asia/Kolkata"
+            },
+            "created": "2020-06-17T03:18:17.000-0400",
+            "updated": "2020-06-17T03:19:51.000-0400"
+        },
+        {
+            "self": "https://jira.mediaocean.com/rest/api/2/issue/1958924/comment/3989944",
+            "id": "3989944",
+            "author": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=adhamankar",
+                "name": "adhamankar",
+                "key": "adhamankar",
+                "emailAddress": "adhamankar@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=adhamankar&avatarId=27432",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=adhamankar&avatarId=27432",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=adhamankar&avatarId=27432",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=adhamankar&avatarId=27432"
+                },
+                "displayName": "Abhijeet Dhamankar",
+                "active": true,
+                "timeZone": "Asia/Kolkata"
+            },
+            "body": "[~yhe], is the performance consistently slow... or do you see slowness in batches? If it is intermittent, can you share the slowness pattern, in terms of timeline?",
+            "updateAuthor": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=adhamankar",
+                "name": "adhamankar",
+                "key": "adhamankar",
+                "emailAddress": "adhamankar@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=adhamankar&avatarId=27432",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=adhamankar&avatarId=27432",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=adhamankar&avatarId=27432",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=adhamankar&avatarId=27432"
+                },
+                "displayName": "Abhijeet Dhamankar",
+                "active": true,
+                "timeZone": "Asia/Kolkata"
+            },
+            "created": "2020-06-17T03:38:45.000-0400",
+            "updated": "2020-06-17T03:38:45.000-0400"
+        },
+        {
+            "self": "https://jira.mediaocean.com/rest/api/2/issue/1958924/comment/3989963",
+            "id": "3989963",
+            "author": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=yhe",
+                "name": "yhe",
+                "key": "yhe",
+                "emailAddress": "yhe@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?avatarId=16869",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&avatarId=16869",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&avatarId=16869",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&avatarId=16869"
+                },
+                "displayName": "Ying He",
+                "active": true,
+                "timeZone": "America/New_York"
+            },
+            "body": "[~adhamankar] yes, the performance is consistently slow, it was better half an hour ago, and it's slow again, you can check the video I got from our trainer , basically, the user is trying to open one estimate, and you can see the progress bar is back and forth, keeps loading. \r\n\r\n[^WeChat_20200617175605.mp4]",
+            "updateAuthor": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=yhe",
+                "name": "yhe",
+                "key": "yhe",
+                "emailAddress": "yhe@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?avatarId=16869",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&avatarId=16869",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&avatarId=16869",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&avatarId=16869"
+                },
+                "displayName": "Ying He",
+                "active": true,
+                "timeZone": "America/New_York"
+            },
+            "created": "2020-06-17T03:59:16.000-0400",
+            "updated": "2020-06-17T03:59:16.000-0400"
+        },
+        {
+            "self": "https://jira.mediaocean.com/rest/api/2/issue/1958924/comment/3989982",
+            "id": "3989982",
+            "author": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=adhamankar",
+                "name": "adhamankar",
+                "key": "adhamankar",
+                "emailAddress": "adhamankar@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=adhamankar&avatarId=27432",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=adhamankar&avatarId=27432",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=adhamankar&avatarId=27432",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=adhamankar&avatarId=27432"
+                },
+                "displayName": "Abhijeet Dhamankar",
+                "active": true,
+                "timeZone": "Asia/Kolkata"
+            },
+            "body": "[~yhe] I am right now using the system by impersonating and it is fast. No slowness observed.\r\n\r\n[~trepka] is there a way to monitor network - I suspect the issue may not be in the application. Can you also share the IIS logs on the server? I can review the logs to find any clues",
+            "updateAuthor": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=adhamankar",
+                "name": "adhamankar",
+                "key": "adhamankar",
+                "emailAddress": "adhamankar@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=adhamankar&avatarId=27432",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=adhamankar&avatarId=27432",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=adhamankar&avatarId=27432",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=adhamankar&avatarId=27432"
+                },
+                "displayName": "Abhijeet Dhamankar",
+                "active": true,
+                "timeZone": "Asia/Kolkata"
+            },
+            "created": "2020-06-17T04:21:31.000-0400",
+            "updated": "2020-06-17T04:21:31.000-0400"
+        },
+        {
+            "self": "https://jira.mediaocean.com/rest/api/2/issue/1958924/comment/3989995",
+            "id": "3989995",
+            "author": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=adhamankar",
+                "name": "adhamankar",
+                "key": "adhamankar",
+                "emailAddress": "adhamankar@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=adhamankar&avatarId=27432",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=adhamankar&avatarId=27432",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=adhamankar&avatarId=27432",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=adhamankar&avatarId=27432"
+                },
+                "displayName": "Abhijeet Dhamankar",
+                "active": true,
+                "timeZone": "Asia/Kolkata"
+            },
+            "body": "[~trepka], also share the server resource utilization details for last 4 hours - memory usage, cpu usage, task-manager view (processes running on the machine)",
+            "updateAuthor": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=adhamankar",
+                "name": "adhamankar",
+                "key": "adhamankar",
+                "emailAddress": "adhamankar@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=adhamankar&avatarId=27432",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=adhamankar&avatarId=27432",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=adhamankar&avatarId=27432",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=adhamankar&avatarId=27432"
+                },
+                "displayName": "Abhijeet Dhamankar",
+                "active": true,
+                "timeZone": "Asia/Kolkata"
+            },
+            "created": "2020-06-17T04:32:02.000-0400",
+            "updated": "2020-06-17T04:32:02.000-0400"
+        },
+        {
+            "self": "https://jira.mediaocean.com/rest/api/2/issue/1958924/comment/3990089",
+            "id": "3990089",
+            "author": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=abapat",
+                "name": "abapat",
+                "key": "abapat",
+                "emailAddress": "abapat@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=abapat&avatarId=27428",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=abapat&avatarId=27428",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=abapat&avatarId=27428",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=abapat&avatarId=27428"
+                },
+                "displayName": "Anupam Bapat",
+                "active": true,
+                "timeZone": "Asia/Kolkata"
+            },
+            "body": "Had a chat with [~yhe], the performance seems to good now. There are no activity happening currently in the system hence we need to monitor again tomorrow when the training is in progress to see if the performance issue still comes up. \r\nAlso would be good if we can check if Havas has also reported similar issue?",
+            "updateAuthor": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=abapat",
+                "name": "abapat",
+                "key": "abapat",
+                "emailAddress": "abapat@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=abapat&avatarId=27428",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=abapat&avatarId=27428",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=abapat&avatarId=27428",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=abapat&avatarId=27428"
+                },
+                "displayName": "Anupam Bapat",
+                "active": true,
+                "timeZone": "Asia/Kolkata"
+            },
+            "created": "2020-06-17T05:21:22.000-0400",
+            "updated": "2020-06-17T05:21:22.000-0400"
+        },
+        {
+            "self": "https://jira.mediaocean.com/rest/api/2/issue/1958924/comment/3990124",
+            "id": "3990124",
+            "author": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=lchen",
+                "name": "lchen",
+                "key": "lchen",
+                "emailAddress": "lchen@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?avatarId=10142",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&avatarId=10142",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&avatarId=10142",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&avatarId=10142"
+                },
+                "displayName": "Lynn Chen",
+                "active": true,
+                "timeZone": "America/New_York"
+            },
+            "body": "[~abapat]  Hi Anupam, today's training I used the CN version, if logging into an interface, especially Receivable page and WIP page, it took 2-3 minutes, progress bar back and forth. Please help to check, thanks. ",
+            "updateAuthor": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=lchen",
+                "name": "lchen",
+                "key": "lchen",
+                "emailAddress": "lchen@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?avatarId=10142",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&avatarId=10142",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&avatarId=10142",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&avatarId=10142"
+                },
+                "displayName": "Lynn Chen",
+                "active": true,
+                "timeZone": "America/New_York"
+            },
+            "created": "2020-06-17T05:42:50.000-0400",
+            "updated": "2020-06-17T05:42:50.000-0400"
+        },
+        {
+            "self": "https://jira.mediaocean.com/rest/api/2/issue/1958924/comment/3990301",
+            "id": "3990301",
+            "author": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=rclay",
+                "name": "rclay",
+                "key": "rclay",
+                "emailAddress": "rclay@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?avatarId=10142",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&avatarId=10142",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&avatarId=10142",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&avatarId=10142"
+                },
+                "displayName": "Rob Clay",
+                "active": true,
+                "timeZone": "Australia/Sydney"
+            },
+            "body": "So [~abapat] we should pay attention as well to the Cost Refresh mentioned above when we monitor progress tomorrow.  You can see the memory CR/FU that was leaking memory today with this Kibana query, right up to around the 13:40 mark when [~trepka] recycled the ignitia-api pool.  [~trepka] - did the client report an improvement in performance after the app-pool recycle that you did?\r\n\r\n \r\n [https://kibana.cn.mediaocean.cloud/app/kibana#/discover?_g=(refreshInterval:(pause:!t,value:0),time:(from:'2020-06-16T14:00:00.000Z',mode:absolute,to:'2020-06-17T13:59:59.999Z'))&_a=(columns:!(beat.hostname,memoryusage,processname,logcategory),index:a7d2b390-6982-11ea-8c89-1b2bd1e386d0,interval:auto,query:(language:lucene,query:'beat.name:%22ch-ign-prd01%22%20AND%20(logcategory:*CostRefresh%20OR%20logcategory:*CostUpdate)'),sort:!('@timestamp',asc))]",
+            "updateAuthor": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=rclay",
+                "name": "rclay",
+                "key": "rclay",
+                "emailAddress": "rclay@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?avatarId=10142",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&avatarId=10142",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&avatarId=10142",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&avatarId=10142"
+                },
+                "displayName": "Rob Clay",
+                "active": true,
+                "timeZone": "Australia/Sydney"
+            },
+            "created": "2020-06-17T07:44:32.000-0400",
+            "updated": "2020-06-17T07:45:07.000-0400"
+        },
+        {
+            "self": "https://jira.mediaocean.com/rest/api/2/issue/1958924/comment/3990486",
+            "id": "3990486",
+            "author": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=smittal",
+                "name": "smittal",
+                "key": "smittal",
+                "emailAddress": "smittal@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=smittal&avatarId=28021",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=smittal&avatarId=28021",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=smittal&avatarId=28021",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=smittal&avatarId=28021"
+                },
+                "displayName": "Shailesh Mittal",
+                "active": true,
+                "timeZone": "America/New_York"
+            },
+            "body": "The memory snapshot is of the process in general - and in this case, the Ignitia-API serve lot more API along with Cost-refresh.\r\n \r\nBelow kibana log is a 2 minute snapshot where it is evident that irrespective of costrefresh API, the memory is consistently going up.\r\n \r\nhttps://kibana.cn.mediaocean.cloud/app/kibana#/discover?_g=(refreshInterval:(pause:!t,value:0),time:(from:'2020-06-17T02:54:00.000Z',mode:absolute,to:'2020-06-17T02:56:00.000Z'))&_a=(columns:!(beat.hostname,memoryusage,processname,logcategory),index:a7d2b390-6982-11ea-8c89-1b2bd1e386d0,interval:auto,query:(language:lucene,query:'beat.name:%22ch-ign-prd01%22%20AND%20componentname:%22Ignitia%20API%22'),sort:!('@timestamp',asc))\r\n  \r\n[~ttaig] , [~rclay] , I would like to understand how did we pin point that cost-refresh is leaking the memory?  \r\n \r\nIncidentally, we did not observe similar memory leak when we executed 25 sequential cost-refresh calls for 1000 placement on the perf.server when doing performance testing of the API.",
+            "updateAuthor": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=smittal",
+                "name": "smittal",
+                "key": "smittal",
+                "emailAddress": "smittal@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=smittal&avatarId=28021",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=smittal&avatarId=28021",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=smittal&avatarId=28021",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=smittal&avatarId=28021"
+                },
+                "displayName": "Shailesh Mittal",
+                "active": true,
+                "timeZone": "America/New_York"
+            },
+            "created": "2020-06-17T09:45:02.000-0400",
+            "updated": "2020-06-17T09:45:02.000-0400"
+        },
+        {
+            "self": "https://jira.mediaocean.com/rest/api/2/issue/1958924/comment/3990576",
+            "id": "3990576",
+            "author": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=smittal",
+                "name": "smittal",
+                "key": "smittal",
+                "emailAddress": "smittal@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=smittal&avatarId=28021",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=smittal&avatarId=28021",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=smittal&avatarId=28021",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=smittal&avatarId=28021"
+                },
+                "displayName": "Shailesh Mittal",
+                "active": true,
+                "timeZone": "America/New_York"
+            },
+            "body": "Interim update:\r\n\r\nAdditionally when I sort all logs of API project based on memory usage, I continuously see memory going up irrespective of end point. Could be autofac registration issue as well.   \r\n\r\nhttps://kibana.cn.mediaocean.cloud/goto/7995d7c9c540012257e79108e71d313e",
+            "updateAuthor": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=smittal",
+                "name": "smittal",
+                "key": "smittal",
+                "emailAddress": "smittal@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=smittal&avatarId=28021",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=smittal&avatarId=28021",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=smittal&avatarId=28021",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=smittal&avatarId=28021"
+                },
+                "displayName": "Shailesh Mittal",
+                "active": true,
+                "timeZone": "America/New_York"
+            },
+            "created": "2020-06-17T10:22:42.000-0400",
+            "updated": "2020-06-17T10:22:42.000-0400"
+        },
+        {
+            "self": "https://jira.mediaocean.com/rest/api/2/issue/1958924/comment/3991379",
+            "id": "3991379",
+            "author": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=ttaig",
+                "name": "ttaig",
+                "key": "ttaig",
+                "emailAddress": "ttaig@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=ttaig&avatarId=17549",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=ttaig&avatarId=17549",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=ttaig&avatarId=17549",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=ttaig&avatarId=17549"
+                },
+                "displayName": "Tom Taig",
+                "active": true,
+                "timeZone": "Australia/Sydney"
+            },
+            "body": "[~smittal] - we did not pin point it to CR. It could be any request. The memory goes up when there are a lot of cost refreshes and the slowness issues are around the same times, but that could just be correlating memory issues with people using the system. The biggest jumps in memory are when the cost refresh happens though.",
+            "updateAuthor": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=ttaig",
+                "name": "ttaig",
+                "key": "ttaig",
+                "emailAddress": "ttaig@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=ttaig&avatarId=17549",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=ttaig&avatarId=17549",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=ttaig&avatarId=17549",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=ttaig&avatarId=17549"
+                },
+                "displayName": "Tom Taig",
+                "active": true,
+                "timeZone": "Australia/Sydney"
+            },
+            "created": "2020-06-17T19:52:35.000-0400",
+            "updated": "2020-06-17T19:53:00.000-0400"
+        },
+        {
+            "self": "https://jira.mediaocean.com/rest/api/2/issue/1958924/comment/3991381",
+            "id": "3991381",
+            "author": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=rclay",
+                "name": "rclay",
+                "key": "rclay",
+                "emailAddress": "rclay@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?avatarId=10142",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&avatarId=10142",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&avatarId=10142",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&avatarId=10142"
+                },
+                "displayName": "Rob Clay",
+                "active": true,
+                "timeZone": "Australia/Sydney"
+            },
+            "body": "So [~smittal] following on from this  [~ttaig] ran some tests on CR 2020.3.4 last night and we couldn't recreate the memory problem",
+            "updateAuthor": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=rclay",
+                "name": "rclay",
+                "key": "rclay",
+                "emailAddress": "rclay@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?avatarId=10142",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&avatarId=10142",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&avatarId=10142",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&avatarId=10142"
+                },
+                "displayName": "Rob Clay",
+                "active": true,
+                "timeZone": "Australia/Sydney"
+            },
+            "created": "2020-06-17T19:58:39.000-0400",
+            "updated": "2020-06-17T19:58:39.000-0400"
+        },
+        {
+            "self": "https://jira.mediaocean.com/rest/api/2/issue/1958924/comment/3991383",
+            "id": "3991383",
+            "author": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=ttaig",
+                "name": "ttaig",
+                "key": "ttaig",
+                "emailAddress": "ttaig@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=ttaig&avatarId=17549",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=ttaig&avatarId=17549",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=ttaig&avatarId=17549",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=ttaig&avatarId=17549"
+                },
+                "displayName": "Tom Taig",
+                "active": true,
+                "timeZone": "Australia/Sydney"
+            },
+            "body": "Yes I tried just the /scheduleheader call in a loop for an hour and the memory was fine. I will try some of the journal calls now, and move on to cost refresh",
+            "updateAuthor": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=ttaig",
+                "name": "ttaig",
+                "key": "ttaig",
+                "emailAddress": "ttaig@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=ttaig&avatarId=17549",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=ttaig&avatarId=17549",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=ttaig&avatarId=17549",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=ttaig&avatarId=17549"
+                },
+                "displayName": "Tom Taig",
+                "active": true,
+                "timeZone": "Australia/Sydney"
+            },
+            "created": "2020-06-17T20:03:42.000-0400",
+            "updated": "2020-06-17T20:03:42.000-0400"
+        },
+        {
+            "self": "https://jira.mediaocean.com/rest/api/2/issue/1958924/comment/3991589",
+            "id": "3991589",
+            "author": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=jschreuder",
+                "name": "jschreuder",
+                "key": "jschreuder",
+                "emailAddress": "jschreuder@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=jschreuder&avatarId=17536",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=jschreuder&avatarId=17536",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=jschreuder&avatarId=17536",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=jschreuder&avatarId=17536"
+                },
+                "displayName": "Josh Schreuder",
+                "active": true,
+                "timeZone": "Australia/Melbourne"
+            },
+            "body": "To check\r\n * Memory usage inside API [~ttaig]\r\n * Memory usage and CPU on database server\r\n * Multiple concurrent runs on Receivables screen (get many users to login to training tenant and open Receivables at same time)\r\n * Network connection inside training room - everyone sharing a connection = slow?\r\n * Billing / accruals runs on other tenants?\r\n ** Only 40 CI created (38 released to CAS) yesterday on tenant 1\r\n ** No accruals run on tenant 1",
+            "updateAuthor": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=jschreuder",
+                "name": "jschreuder",
+                "key": "jschreuder",
+                "emailAddress": "jschreuder@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=jschreuder&avatarId=17536",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=jschreuder&avatarId=17536",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=jschreuder&avatarId=17536",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=jschreuder&avatarId=17536"
+                },
+                "displayName": "Josh Schreuder",
+                "active": true,
+                "timeZone": "Australia/Melbourne"
+            },
+            "created": "2020-06-18T01:58:13.000-0400",
+            "updated": "2020-06-18T02:03:02.000-0400"
+        },
+        {
+            "self": "https://jira.mediaocean.com/rest/api/2/issue/1958924/comment/3992286",
+            "id": "3992286",
+            "author": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=abapat",
+                "name": "abapat",
+                "key": "abapat",
+                "emailAddress": "abapat@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=abapat&avatarId=27428",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=abapat&avatarId=27428",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=abapat&avatarId=27428",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=abapat&avatarId=27428"
+                },
+                "displayName": "Anupam Bapat",
+                "active": true,
+                "timeZone": "Asia/Kolkata"
+            },
+            "body": "This issue was observed in PRISMA also on 16 /17th too.It was found during investigation that there was a configuration issue in AWS router setup. Ops fixed it as part of ITSUP-32005 on 17th June to avoid such occurrences in future.\r\n\r\nChecked with [~yhe] today, the users are not facing any performance issue today.Users have not actually used Receivable functionality today but they havent reported any issue today. We will keep this under observation to confirm if it is the fixed as part -ITSUP-32005.-",
+            "updateAuthor": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=abapat",
+                "name": "abapat",
+                "key": "abapat",
+                "emailAddress": "abapat@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=abapat&avatarId=27428",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=abapat&avatarId=27428",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=abapat&avatarId=27428",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=abapat&avatarId=27428"
+                },
+                "displayName": "Anupam Bapat",
+                "active": true,
+                "timeZone": "Asia/Kolkata"
+            },
+            "created": "2020-06-18T08:38:23.000-0400",
+            "updated": "2020-06-18T08:38:23.000-0400"
+        },
+        {
+            "self": "https://jira.mediaocean.com/rest/api/2/issue/1958924/comment/3993231",
+            "id": "3993231",
+            "author": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=rclay",
+                "name": "rclay",
+                "key": "rclay",
+                "emailAddress": "rclay@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?avatarId=10142",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&avatarId=10142",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&avatarId=10142",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&avatarId=10142"
+                },
+                "displayName": "Rob Clay",
+                "active": true,
+                "timeZone": "Australia/Sydney"
+            },
+            "body": "Thanks [~abapat] - will be interesting toi see if that has an impact.\r\n\r\nHowever we are still observing memory problems.  [~azhang] - this is just a guess at this stage but [~ttaig] observed last night the memory growing to 5GB with no-one on the system - there were a lot of KingDee API calls, can we turn off the KindDee integration to observe the impact?  Probably good to see if we can do that in any case given this KingDee integration ticket in the next hotfix https://jira.mediaocean.com/browse/GBP-43932\r\n\r\n[~ttaig] - please add any further observations to this ticket.\r\n\r\n \r\n\r\n!image-2020-06-19-07-19-18-451.png!",
+            "updateAuthor": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=rclay",
+                "name": "rclay",
+                "key": "rclay",
+                "emailAddress": "rclay@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?avatarId=10142",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&avatarId=10142",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&avatarId=10142",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&avatarId=10142"
+                },
+                "displayName": "Rob Clay",
+                "active": true,
+                "timeZone": "Australia/Sydney"
+            },
+            "created": "2020-06-18T17:20:40.000-0400",
+            "updated": "2020-06-18T17:39:19.000-0400"
+        },
+        {
+            "self": "https://jira.mediaocean.com/rest/api/2/issue/1958924/comment/3993308",
+            "id": "3993308",
+            "author": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=yhe",
+                "name": "yhe",
+                "key": "yhe",
+                "emailAddress": "yhe@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?avatarId=16869",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&avatarId=16869",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&avatarId=16869",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&avatarId=16869"
+                },
+                "displayName": "Ying He",
+                "active": true,
+                "timeZone": "America/New_York"
+            },
+            "body": "does anyone can disable the Kingdee integration now?",
+            "updateAuthor": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=yhe",
+                "name": "yhe",
+                "key": "yhe",
+                "emailAddress": "yhe@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?avatarId=16869",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&avatarId=16869",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&avatarId=16869",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&avatarId=16869"
+                },
+                "displayName": "Ying He",
+                "active": true,
+                "timeZone": "America/New_York"
+            },
+            "created": "2020-06-18T23:04:42.000-0400",
+            "updated": "2020-06-18T23:04:42.000-0400"
+        },
+        {
+            "self": "https://jira.mediaocean.com/rest/api/2/issue/1958924/comment/3993312",
+            "id": "3993312",
+            "author": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=azhang",
+                "name": "azhang",
+                "key": "dds-na\\mberman",
+                "emailAddress": "azhang@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=dds-na%5Cmberman&avatarId=21120",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=dds-na%5Cmberman&avatarId=21120",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=dds-na%5Cmberman&avatarId=21120",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=dds-na%5Cmberman&avatarId=21120"
+                },
+                "displayName": "Andy Zhang",
+                "active": true,
+                "timeZone": "America/New_York"
+            },
+            "body": "Evan Hu at OMG side stopped KingDee Transfer Service. ",
+            "updateAuthor": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=azhang",
+                "name": "azhang",
+                "key": "dds-na\\mberman",
+                "emailAddress": "azhang@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=dds-na%5Cmberman&avatarId=21120",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=dds-na%5Cmberman&avatarId=21120",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=dds-na%5Cmberman&avatarId=21120",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=dds-na%5Cmberman&avatarId=21120"
+                },
+                "displayName": "Andy Zhang",
+                "active": true,
+                "timeZone": "America/New_York"
+            },
+            "created": "2020-06-19T00:05:31.000-0400",
+            "updated": "2020-06-19T00:05:31.000-0400"
+        },
+        {
+            "self": "https://jira.mediaocean.com/rest/api/2/issue/1958924/comment/3993829",
+            "id": "3993829",
+            "author": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=rclay",
+                "name": "rclay",
+                "key": "rclay",
+                "emailAddress": "rclay@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?avatarId=10142",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&avatarId=10142",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&avatarId=10142",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&avatarId=10142"
+                },
+                "displayName": "Rob Clay",
+                "active": true,
+                "timeZone": "Australia/Sydney"
+            },
+            "body": "So [~ttaig] discovered the APIs are caching translations PER API call.  So i think we are going to find that is the cause.  \r\n call an endpoint and translate a string 400MB memory (China Prod).  Call it ten times 2.3 GB.\r\n Tom is putting up a pull request.  I think we need to get that into an offcycle hotfix if we can.\r\n We have mitigated somewhat by turning off the KingDee API, but it will hit us up for estimate creation, cost update, and spf journals as well (so HAVAS and OMG)\r\n cc:[~ewinstanley]  [~adhamankar] [~abapat]",
+            "updateAuthor": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=rclay",
+                "name": "rclay",
+                "key": "rclay",
+                "emailAddress": "rclay@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?avatarId=10142",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&avatarId=10142",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&avatarId=10142",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&avatarId=10142"
+                },
+                "displayName": "Rob Clay",
+                "active": true,
+                "timeZone": "Australia/Sydney"
+            },
+            "created": "2020-06-22T01:01:10.000-0400",
+            "updated": "2020-06-22T01:01:39.000-0400"
+        },
+        {
+            "self": "https://jira.mediaocean.com/rest/api/2/issue/1958924/comment/3995390",
+            "id": "3995390",
+            "author": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=rclay",
+                "name": "rclay",
+                "key": "rclay",
+                "emailAddress": "rclay@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?avatarId=10142",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&avatarId=10142",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&avatarId=10142",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&avatarId=10142"
+                },
+                "displayName": "Rob Clay",
+                "active": true,
+                "timeZone": "Australia/Sydney"
+            },
+            "body": "[~abapat] - since you are the owner of the ticket can you take a look at the pull request - and drive this ticket to a resolution for a hotfix this week.  Does the solution offered solve the problem?  \r\n\r\nThere is some feedback from [~jschreuder]  here  [https://stash.mediaocean.com/projects/GLOB/repos/advantage/pull-requests/11845/overview].",
+            "updateAuthor": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=rclay",
+                "name": "rclay",
+                "key": "rclay",
+                "emailAddress": "rclay@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?avatarId=10142",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&avatarId=10142",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&avatarId=10142",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&avatarId=10142"
+                },
+                "displayName": "Rob Clay",
+                "active": true,
+                "timeZone": "Australia/Sydney"
+            },
+            "created": "2020-06-22T20:31:43.000-0400",
+            "updated": "2020-06-22T20:31:43.000-0400"
+        },
+        {
+            "self": "https://jira.mediaocean.com/rest/api/2/issue/1958924/comment/3995391",
+            "id": "3995391",
+            "author": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=ttaig",
+                "name": "ttaig",
+                "key": "ttaig",
+                "emailAddress": "ttaig@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=ttaig&avatarId=17549",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=ttaig&avatarId=17549",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=ttaig&avatarId=17549",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=ttaig&avatarId=17549"
+                },
+                "displayName": "Tom Taig",
+                "active": true,
+                "timeZone": "Australia/Sydney"
+            },
+            "body": "This is 20 minutes after restarting the web app:\r\n\r\n !memory-1.png|thumbnail! \r\n\r\ncaching taking up over 600MB\r\n\r\n !translations-cache.png|thumbnail! \r\n\r\n172 copies of the translations cache. There should only be one.\r\n\r\n",
+            "updateAuthor": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=ttaig",
+                "name": "ttaig",
+                "key": "ttaig",
+                "emailAddress": "ttaig@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=ttaig&avatarId=17549",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=ttaig&avatarId=17549",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=ttaig&avatarId=17549",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=ttaig&avatarId=17549"
+                },
+                "displayName": "Tom Taig",
+                "active": true,
+                "timeZone": "Australia/Sydney"
+            },
+            "created": "2020-06-22T20:34:13.000-0400",
+            "updated": "2020-06-22T20:35:12.000-0400"
+        },
+        {
+            "self": "https://jira.mediaocean.com/rest/api/2/issue/1958924/comment/3995518",
+            "id": "3995518",
+            "author": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=adhamankar",
+                "name": "adhamankar",
+                "key": "adhamankar",
+                "emailAddress": "adhamankar@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=adhamankar&avatarId=27432",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=adhamankar&avatarId=27432",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=adhamankar&avatarId=27432",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=adhamankar&avatarId=27432"
+                },
+                "displayName": "Abhijeet Dhamankar",
+                "active": true,
+                "timeZone": "Asia/Kolkata"
+            },
+            "body": "[~ttaig] \r\n\r\nI have following observations\r\n 1. Autofac registration was incorrect - should be SingleInstance\r\n 2. The implementation of [MemoryCacheProvider|https://stash.mediaocean.com/projects/GLOB/repos/advantage/browse/AdVantage/Bcc.Framework/Services/Caching/CacheProvider.cs#133] looks flawed - where the CreateCache does not check if the data already exists or not and simply caches it again. Which indicates the above graph i guess. \r\n3. This will not be a concern when changed to SingleInstance. \r\n4. Having said that this [Kibana Query|http://cn-elk-prd01.mo.cn:5555/app/kibana#/context/a7d2b390-6982-11ea-8c89-1b2bd1e386d0/doc/0U9I2nIBjl3SLFrXjd2Q?_a=(columns:!(beat.hostname,memoryusage,processname,logcategory),filters:!(('$state':(store:appState),meta:(alias:!n,disabled:!f,index:a7d2b390-6982-11ea-8c89-1b2bd1e386d0,key:beat.hostname,negate:!f,params:(query:ch-ign-prd01,type:phrase),type:phrase,value:ch-ign-prd01),query:(match:(beat.hostname:(query:ch-ign-prd01,type:phrase)))),('$state':(store:appState),meta:(alias:!n,disabled:!f,index:a7d2b390-6982-11ea-8c89-1b2bd1e386d0,key:componentname,negate:!f,params:(query:'Ignitia%20API',type:phrase),type:phrase,value:'Ignitia%20API'),query:(match:(componentname:(query:'Ignitia%20API',type:phrase))))),predecessorCount:5,sort:!('@timestamp',desc),successorCount:5)&_g=()] indicates, that the memory seems to be released after a certain threshold. (Garbage collected)\r\n\r\n !screenshot-2.png|thumbnail! \r\n\r\nWhile above fix is anyways needed, it does not explain the memory leak to a point where the system became slow.",
+            "updateAuthor": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=adhamankar",
+                "name": "adhamankar",
+                "key": "adhamankar",
+                "emailAddress": "adhamankar@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=adhamankar&avatarId=27432",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=adhamankar&avatarId=27432",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=adhamankar&avatarId=27432",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=adhamankar&avatarId=27432"
+                },
+                "displayName": "Abhijeet Dhamankar",
+                "active": true,
+                "timeZone": "Asia/Kolkata"
+            },
+            "created": "2020-06-23T01:25:18.000-0400",
+            "updated": "2020-06-23T01:25:18.000-0400"
+        },
+        {
+            "self": "https://jira.mediaocean.com/rest/api/2/issue/1958924/comment/3995521",
+            "id": "3995521",
+            "author": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=adhamankar",
+                "name": "adhamankar",
+                "key": "adhamankar",
+                "emailAddress": "adhamankar@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=adhamankar&avatarId=27432",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=adhamankar&avatarId=27432",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=adhamankar&avatarId=27432",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=adhamankar&avatarId=27432"
+                },
+                "displayName": "Abhijeet Dhamankar",
+                "active": true,
+                "timeZone": "Asia/Kolkata"
+            },
+            "body": "[~yhe], has the slowness issue been reported since last June 17, since ITSUP-32005 was resolved by ITOPS team?",
+            "updateAuthor": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=adhamankar",
+                "name": "adhamankar",
+                "key": "adhamankar",
+                "emailAddress": "adhamankar@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=adhamankar&avatarId=27432",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=adhamankar&avatarId=27432",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=adhamankar&avatarId=27432",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=adhamankar&avatarId=27432"
+                },
+                "displayName": "Abhijeet Dhamankar",
+                "active": true,
+                "timeZone": "Asia/Kolkata"
+            },
+            "created": "2020-06-23T01:27:06.000-0400",
+            "updated": "2020-06-23T01:27:06.000-0400"
+        },
+        {
+            "self": "https://jira.mediaocean.com/rest/api/2/issue/1958924/comment/3997072",
+            "id": "3997072",
+            "author": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=jschreuder",
+                "name": "jschreuder",
+                "key": "jschreuder",
+                "emailAddress": "jschreuder@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=jschreuder&avatarId=17536",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=jschreuder&avatarId=17536",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=jschreuder&avatarId=17536",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=jschreuder&avatarId=17536"
+                },
+                "displayName": "Josh Schreuder",
+                "active": true,
+                "timeZone": "Australia/Melbourne"
+            },
+            "body": "[~adhamankar] I think that screenshot may be showing two different API memory usage, the internal API does not have the same translation cache issue as far as I could tell when trying it locally.\r\n\r\n/platformsecurity-internal-api and /platformsecurity-api are the two shown there.",
+            "updateAuthor": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=jschreuder",
+                "name": "jschreuder",
+                "key": "jschreuder",
+                "emailAddress": "jschreuder@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=jschreuder&avatarId=17536",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=jschreuder&avatarId=17536",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=jschreuder&avatarId=17536",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=jschreuder&avatarId=17536"
+                },
+                "displayName": "Josh Schreuder",
+                "active": true,
+                "timeZone": "Australia/Melbourne"
+            },
+            "created": "2020-06-23T19:30:08.000-0400",
+            "updated": "2020-06-23T19:30:08.000-0400"
+        },
+        {
+            "self": "https://jira.mediaocean.com/rest/api/2/issue/1958924/comment/3997080",
+            "id": "3997080",
+            "author": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=rclay",
+                "name": "rclay",
+                "key": "rclay",
+                "emailAddress": "rclay@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?avatarId=10142",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&avatarId=10142",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&avatarId=10142",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&avatarId=10142"
+                },
+                "displayName": "Rob Clay",
+                "active": true,
+                "timeZone": "Australia/Sydney"
+            },
+            "body": "Irrelevant of whether this memory problem is contributing to the performance issue, having a memory leak of this scale in a production server is untenable.  This was raised in a discussion between Richard and Manu this morning.  We have committed to resolve this in this weeks hotfix.  [~abapat] as we discussed last night can you drive this forward and make sure it goes out on this weeks hotfix.\r\n\r\n \r\n\r\ncc:[~adhamankar], [~ewinstanley], [~jschreuder], [~ttaig],[~smittal], [~rpilley],[~cchew],[~abapat],[~aojha]",
+            "updateAuthor": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=rclay",
+                "name": "rclay",
+                "key": "rclay",
+                "emailAddress": "rclay@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?avatarId=10142",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&avatarId=10142",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&avatarId=10142",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&avatarId=10142"
+                },
+                "displayName": "Rob Clay",
+                "active": true,
+                "timeZone": "Australia/Sydney"
+            },
+            "created": "2020-06-23T19:51:29.000-0400",
+            "updated": "2020-06-23T19:51:29.000-0400"
+        },
+        {
+            "self": "https://jira.mediaocean.com/rest/api/2/issue/1958924/comment/3997104",
+            "id": "3997104",
+            "author": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=rclay",
+                "name": "rclay",
+                "key": "rclay",
+                "emailAddress": "rclay@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?avatarId=10142",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&avatarId=10142",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&avatarId=10142",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&avatarId=10142"
+                },
+                "displayName": "Rob Clay",
+                "active": true,
+                "timeZone": "Australia/Sydney"
+            },
+            "body": "Also pay attention to this issue from Havas  https://jira.mediaocean.com/browse/GBP-44017 escalated on Sunday  Where the Accrual circuit breaker was tripped during high memory load.   So let's address problem mentioned in my prior comment as a priority, and we can monitor the impact post deploy and go from there.  Thanks",
+            "updateAuthor": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=rclay",
+                "name": "rclay",
+                "key": "rclay",
+                "emailAddress": "rclay@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?avatarId=10142",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&avatarId=10142",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&avatarId=10142",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&avatarId=10142"
+                },
+                "displayName": "Rob Clay",
+                "active": true,
+                "timeZone": "Australia/Sydney"
+            },
+            "created": "2020-06-23T21:38:17.000-0400",
+            "updated": "2020-06-23T21:38:17.000-0400"
+        },
+        {
+            "self": "https://jira.mediaocean.com/rest/api/2/issue/1958924/comment/3997163",
+            "id": "3997163",
+            "author": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=adhamankar",
+                "name": "adhamankar",
+                "key": "adhamankar",
+                "emailAddress": "adhamankar@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=adhamankar&avatarId=27432",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=adhamankar&avatarId=27432",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=adhamankar&avatarId=27432",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=adhamankar&avatarId=27432"
+                },
+                "displayName": "Abhijeet Dhamankar",
+                "active": true,
+                "timeZone": "Asia/Kolkata"
+            },
+            "body": "[~rclay] agreed. The caching fix should go as a hotfix. Delta has merge the pr and is currently testing it as part of  https://jira.mediaocean.com/browse/GBP-44126.\r\n\r\n[~jschreuder], did not realize we have the same componentname: \"Ignitia API\" for both internal and external API. That explains the memory diff. Thanks. [~abapat] confirmed with 2020.4 the component names will be different.\r\n\r\nHere is the *[updated kibana query |http://cn-elk-prd01.mo.cn:5555/app/kibana#/context/a7d2b390-6982-11ea-8c89-1b2bd1e386d0/doc/Qs9mwHIBjl3SLFrXDZIE?_a=(columns:!(componentname,memoryusage,message),filters:!(('$state':(store:appState),meta:(alias:!n,disabled:!f,index:a7d2b390-6982-11ea-8c89-1b2bd1e386d0,key:componentname,negate:!f,params:(query:'Ignitia%20API',type:phrase),type:phrase,value:'Ignitia%20API'),query:(match:(componentname:(query:'Ignitia%20API',type:phrase))))),predecessorCount:5,sort:!('@timestamp',desc),successorCount:5)&_g=()]* with only ignitia-api where there is memory drop seems to be happening. So not necessarily a case of memory leak - although erroneous should be fixed. \r\n\r\nWill continue to further review the logs.",
+            "updateAuthor": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=adhamankar",
+                "name": "adhamankar",
+                "key": "adhamankar",
+                "emailAddress": "adhamankar@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=adhamankar&avatarId=27432",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=adhamankar&avatarId=27432",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=adhamankar&avatarId=27432",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=adhamankar&avatarId=27432"
+                },
+                "displayName": "Abhijeet Dhamankar",
+                "active": true,
+                "timeZone": "Asia/Kolkata"
+            },
+            "created": "2020-06-24T00:04:30.000-0400",
+            "updated": "2020-06-24T00:28:16.000-0400"
+        },
+        {
+            "self": "https://jira.mediaocean.com/rest/api/2/issue/1958924/comment/3997164",
+            "id": "3997164",
+            "author": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=abapat",
+                "name": "abapat",
+                "key": "abapat",
+                "emailAddress": "abapat@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=abapat&avatarId=27428",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=abapat&avatarId=27428",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=abapat&avatarId=27428",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=abapat&avatarId=27428"
+                },
+                "displayName": "Anupam Bapat",
+                "active": true,
+                "timeZone": "Asia/Kolkata"
+            },
+            "body": "[~rclay] [~adhamankar] Tracking the caching fix as part of ticket GBP-44126 ",
+            "updateAuthor": {
+                "self": "https://jira.mediaocean.com/rest/api/2/user?username=abapat",
+                "name": "abapat",
+                "key": "abapat",
+                "emailAddress": "abapat@mediaocean.com",
+                "avatarUrls": {
+                    "48x48": "https://jira.mediaocean.com/secure/useravatar?ownerId=abapat&avatarId=27428",
+                    "24x24": "https://jira.mediaocean.com/secure/useravatar?size=small&ownerId=abapat&avatarId=27428",
+                    "16x16": "https://jira.mediaocean.com/secure/useravatar?size=xsmall&ownerId=abapat&avatarId=27428",
+                    "32x32": "https://jira.mediaocean.com/secure/useravatar?size=medium&ownerId=abapat&avatarId=27428"
+                },
+                "displayName": "Anupam Bapat",
+                "active": true,
+                "timeZone": "Asia/Kolkata"
+            },
+            "created": "2020-06-24T00:06:48.000-0400",
+            "updated": "2020-06-24T00:06:48.000-0400"
+        }
+    ]
+}

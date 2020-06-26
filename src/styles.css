@@ -133,6 +133,19 @@ body .ui-sidebar {
   width: 100%;
   overflow: hidden;
 }
+.pane .pane-fullheader {
+  height: 80pt;
+  box-shadow: 0 2px 4px #aaa;
+}
+.pane .pane-fullbody {
+  top: 80pt;
+  height: calc(100% - 80pt);
+  position: absolute;
+  width: 100%;
+  margin: 0;
+  overflow: auto;
+}
+
 .pane .pane-header {
   background-color: #007bff;
   color: #fff;
@@ -459,4 +472,10 @@ body .ui-multiselect .ui-multiselect-trigger {
 .center-text .nav-link.active {
   background-color: #f8f8f8 !important;
   border-bottom: 1px solid #f8f8f8;
+}
+
+.proceed-button {
+  position: fixed;
+  bottom: 0;
+  right: 10pt;
 }

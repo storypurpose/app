@@ -11,6 +11,7 @@ export interface Issue {
   hierarchicalIssue: any;
 
   subtasks: any;
+  comments: any;
 
   purpose: any;
   recentlyViewedItems: any;

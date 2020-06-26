@@ -1,0 +1,53 @@
+<div class="pane" *ngIf="issue">
+    <div class="pane-fullheader bg-white container-fluid">
+        <button class="btn btn-link mt-3 float-left mr-2" (click)="onClose()">
+            <fa-icon [icon]="['far', 'arrow-alt-circle-left']" size="3x"></fa-icon>
+        </button>
+        <div class="btn btn-group float-right">
+            <button class="btn btn-link btn-sm" *ngIf="currentIndex > 0" (click)="navigateToPrevious()">
+                <fa-icon icon="chevron-left"></fa-icon>
+            </button>
+            <button class="btn btn-link btn-sm" *ngIf="list && currentIndex < list.length" (click)="navigateToNext()">
+                <fa-icon icon="chevron-right"></fa-icon>
+            </button>
+            <app-issue-navigation-menu class="mt-1" [issueKey]="issue.key">
+            </app-issue-navigation-menu>
+        </div>
+        <div class="pt-3">
+            <span class="text-uppercase font-weight-light">{{issue.issueType}}: {{issue.key}}</span>
+            <div [title]="issue.title" class="h4">{{issue.title}}</div>
+        </div>
+    </div>
+    <div class="pane-fullbody">
+        <div class=" container-fluid pl-5">
+            <div class="ml-5 mt-4 mr-4 mb-4">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="bg-white mt-2 p-4 rounded custom-shadow">
+                            <div class="mb-4">
+                                <ngx-md [data]="issue.description"></ngx-md>
+
+                                <div class="text-muted font-italic"
+                                    *ngIf="!issue.description || issue.description.length === 0">
+                                    No description
+                                </div>
+                            </div>
+
+                            <div *ngIf="issue.extendedFields && issue.extendedFields.length > 0">
+                                <div style="overflow: auto;" class="mb-4" *ngFor="let ef of issue.extendedFields">
+                                    <div class="text-nowrap text-muted text-uppercase">{{ef.name}}</div>
+                                    <div class="mt-1 text-dark">
+                                        <ngx-md [data]="ef.value"></ngx-md>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="offset-md-1 col-md-5">
+                        <app-comment-list [issueKey]="issue.key"></app-comment-list>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

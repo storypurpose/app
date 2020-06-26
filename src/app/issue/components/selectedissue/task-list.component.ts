@@ -59,7 +59,7 @@ export class TasklistComponent implements OnInit, OnDestroy {
 
     loadDetails() {
         this.subtasks = null;
-        if (this.issue && this.issue.projectConfig && 
+        if (this.issue && this.issue.projectConfig &&
             this.issue.projectConfig.subTaskIssueTypes && this.issue.projectConfig.subTaskIssueTypes.length > 0) {
 
             const subTaskIssueTypes = _.join(_.map(this.issue.projectConfig.subTaskIssueTypes, (ff) => `'${ff.name}'`), ',');
@@ -95,5 +95,13 @@ export class TasklistComponent implements OnInit, OnDestroy {
 
     onClose() {
         this.close.emit(true);
+    }
+
+    issueDetailsVisible = false;
+    issueDetails: any;
+    currentIndex: 0;
+    openIssueAtIndex(index) {
+        this.issueDetailsVisible = true;
+        this.currentIndex = index;
     }
 }

@@ -66,6 +66,16 @@ export function issueReducer(state: Issue, action: any): Issue {
             return { ...state, subtasks };
         }
 
+        case ActionTypes.LoadCommentsSuccess: {
+            let records = action.payload;
+            let total = 0;
+            if (action.payload && action.payload.comments) {
+                total = action.payload.total;
+                records = jiraTreeUtil.flattenComments(action.payload.comments);
+            }
+            return { ...state, comments: { total, records } };
+        }
+
         case ActionTypes.LoadSelectedIssue: {
             return { ...state, selectedIssue: null, selectedIssueKey: action.payload.issue };
         }

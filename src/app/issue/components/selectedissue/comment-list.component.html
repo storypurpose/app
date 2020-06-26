@@ -1,0 +1,23 @@
+<h5>
+    <fa-icon [icon]="['far', 'comments']" class="mr-1"></fa-icon>
+    Comments
+    <div *ngIf="comments && comments.total > 0" class="badge badge-secondary ml-1">{{comments.total}}</div>
+</h5>
+<div *ngIf="loading">
+    <fa-icon icon="spinner" [spin]="true" aria-hidden="true" class="mr-1"></fa-icon> loading...
+</div>
+<div *ngIf="!loading" style="overflow:auto">
+    <div *ngIf="!comments || comments.total === 0" class="alert alert-warning">
+        No comments
+    </div>
+
+    <div *ngIf="comments && comments.records">
+        <div *ngFor="let comment of comments.records">
+            <small class="text-uppercase">{{comment.created | date:'short'}}</small>
+            <div class="ml-3 pl-3 pb-3 pt-1 border-left" style="overflow:auto">
+                <ngx-md [data]="comment.body"></ngx-md>
+                <div class="text-muted text-uppercase small"> - {{comment.author.displayName}}</div>
+            </div>
+        </div>
+    </div>
+</div>

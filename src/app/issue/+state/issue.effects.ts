@@ -83,6 +83,16 @@ export class IssueEffects {
         )
     );
 
+    @Effect() loadComments = this.actions$.pipe(ofType(a.ActionTypes.LoadComments),
+        switchMap((action: any) =>
+            this.jiraService.getComments(action.payload)
+                .pipe(                    
+                    map(payload => ({ type: a.ActionTypes.LoadCommentsSuccess, payload })),
+                    catchError(() => of({ type: a.ActionTypes.LoadCommentsFailed }))
+                )
+        )
+    );
+
     @Effect() loadProjectConfig = this.actions$.pipe(ofType(a.ActionTypes.LoadProjectDetails),
         switchMap((action: any) =>
             this.jiraService.getProjectDetails(action.payload)

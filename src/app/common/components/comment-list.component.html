@@ -16,8 +16,29 @@
             <small class="text-uppercase">{{comment.created | date:'short'}}</small>
             <div class="ml-3 pl-3 pb-3 pt-1 border-left" style="overflow:auto">
                 <ngx-md [data]="comment.body"></ngx-md>
-                <div class="text-muted text-uppercase small"> - {{comment.author.displayName}}</div>
+                <div class="text-muted text-uppercase small" *ngIf="comment.author"> - {{comment.author.displayName}}
+                </div>
             </div>
         </div>
     </div>
+    <div class="pb-3">
+
+        <div (click)="showEditor()" *ngIf="!isEditorVisible" style="cursor:pointer"
+            class="bg-white rounded text-muted p-3" title="click to add comment">
+            <i>click to add comment</i>
+        </div>
+
+        <div *ngIf="isEditorVisible">
+            <textarea type="text" class="form-control form-control-sm" [appAutofocus]="isEditorVisible === true"
+                [(ngModel)]="newComment" (keydown.control.enter)="add()" (keydown.escape)="onCancel($event)" rows="3"
+                placeholder="add comment..."></textarea>
+
+            <div class="text-right mt-2">
+                <button class="btn btn-default btn-sm" type="button" [disabled]="!canAdd()" (click)="add()">
+                    <fa-icon icon="check"></fa-icon> Add comment
+                </button>
+            </div>
+        </div>
+    </div>
+
 </div>

@@ -53,29 +53,6 @@ export function issueReducer(state: Issue, action: any): Issue {
             };
         }
 
-        case ActionTypes.LoadSubtasks: {
-            return { ...state, subtasks: null };
-        }
-
-        case ActionTypes.LoadSubtasksSuccess: {
-            let subtasks = null;
-            if (action.payload && action.payload.result && action.payload.result.issues) {
-                subtasks = jiraTreeUtil.flattenNodes(action.payload.result.issues);
-                jiraTreeUtil.appendExtendedFields(subtasks, action.payload.extendedFields);
-            }
-            return { ...state, subtasks };
-        }
-
-        // case ActionTypes.LoadCommentsSuccess: {
-        //     let records = action.payload;
-        //     let total = 0;
-        //     if (action.payload && action.payload.comments) {
-        //         total = action.payload.total;
-        //         records = jiraTreeUtil.flattenComments(action.payload.comments);
-        //     }
-        //     return { ...state, comments: { total, records } };
-        // }
-
         case ActionTypes.LoadSelectedIssue: {
             return { ...state, selectedIssue: null, selectedIssueKey: action.payload.issue };
         }

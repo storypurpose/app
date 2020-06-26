@@ -175,13 +175,15 @@ export function getExtendedFieldValue(issue, code) {
     return (typeof field === 'object') ? field.value : field;
 }
 export function flattenComments(comments) {
-    return _.map(comments, (comment) => {
-        const node: any = _.pick(comment, ['body', 'created', 'updated']);
-        node.author = _.pick(comment.author, ['key', 'name', 'displayName']);
-        node.updateAuthor = _.pick(comment.updateAuthor, ['key', 'name', 'displayName']);
-        return node;
-    });
+    return _.map(comments, (comment) => flattenSingleComment(comment));
 }
+export function flattenSingleComment(comment: any) {
+    const node: any = _.pick(comment, ['body', 'created', 'updated']);
+    node.author = comment.author ? _.pick(comment.author, ['key', 'name', 'displayName']) : {};
+    node.updateAuthor = comment.updateAuthor ? _.pick(comment.updateAuthor, ['key', 'name', 'displayName']) : {};
+    return node;
+}
+
 export function flattenNodes(issues) {
     return _.map(issues, (item) => {
         populateFieldValues(item);

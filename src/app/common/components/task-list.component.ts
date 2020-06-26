@@ -3,8 +3,8 @@ import * as _ from 'lodash';
 import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { LoadSubtasksAction } from '../../+state/issue.actions';
-import { IssueState } from '../../+state/issue.state';
+import { CommonState } from '../+state/common.state';
+import { LoadSubtasksAction } from '../+state/common.actions';
 
 @Component({
     selector: 'app-task-list',
@@ -37,11 +37,11 @@ export class TasklistComponent implements OnInit, OnDestroy {
     subtasks$: Subscription;
     subtasks: any;
     loading = false;
-    constructor(public store$: Store<IssueState>) {
+    constructor(public store$: Store<CommonState>) {
     }
 
     ngOnInit(): void {
-        this.subtasks$ = this.store$.select(p => p.issue.subtasks)
+        this.subtasks$ = this.store$.select(p => p.common.subtasks)
             .pipe(filter(p => p))
             .subscribe(subtasks => {
                 this.subtasks = subtasks;

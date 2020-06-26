@@ -1,5 +1,6 @@
 import { Common } from './common.state';
 
 export const commonInitialState: Common = {
-    comments: null
+    comments: null,
+    subtasks: null
 };

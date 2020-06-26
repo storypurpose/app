@@ -11,7 +11,7 @@ export const issueInitialState: Issue = {
     isSelectedIssueViewCompact: false,
     hierarchicalIssue: null,
 
-    subtasks: null,
+    // subtasks: null,
     // comments: null,
     
     purpose: [],

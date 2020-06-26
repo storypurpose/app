@@ -19,4 +19,26 @@ export class CommonEffects {
         )
     )
   );
+  @Effect() addComment = this.actions$.pipe(ofType(a.ActionTypes.AddComment),
+    switchMap((action: any) =>
+      this.jiraService.addComment(action.payload)
+        .pipe(
+          map(payload => ({ type: a.ActionTypes.AddCommentSuccess, payload })),
+          catchError(() => of({ type: a.ActionTypes.AddCommentFailed }))
+        )
+    )
+  );
+
+
+  @Effect() loadSubtasks = this.actions$.pipe(ofType(a.ActionTypes.LoadSubtasks),
+    switchMap((action: any) =>
+      this.jiraService.executeJql(`issuetype in (${action.payload.subTaskIssueTypes}) AND parent=${action.payload.issueKey}`,
+        0, 100, _.map(action.payload.extendedFields, 'id'), 'test-cases.json')
+        .pipe(
+          map(result => ({ type: a.ActionTypes.LoadSubtasksSuccess, payload: { result, extendedFields: action.payload.extendedFields } })),
+          catchError(() => of({ type: a.ActionTypes.LoadSubtasksFailed }))
+        )
+    )
+  );
+
 }

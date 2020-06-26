@@ -10,7 +10,7 @@ export interface Issue {
   
   hierarchicalIssue: any;
 
-  subtasks: any;
+  // subtasks: any;
   // comments: any;
 
   purpose: any;

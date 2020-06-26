@@ -72,16 +72,16 @@ export class IssueEffects {
         )
     );
 
-    @Effect() loadSubtasks = this.actions$.pipe(ofType(a.ActionTypes.LoadSubtasks),
-        switchMap((action: any) =>
-            this.jiraService.executeJql(`issuetype in (${action.payload.subTaskIssueTypes}) AND parent=${action.payload.issueKey}`,
-                0, 100, _.map(action.payload.extendedFields, 'id'), 'test-cases.json')
-                .pipe(
-                    map(result => ({ type: a.ActionTypes.LoadSubtasksSuccess, payload: { result, extendedFields: action.payload.extendedFields } })),
-                    catchError(() => of({ type: a.ActionTypes.LoadSubtasksFailed }))
-                )
-        )
-    );
+    // @Effect() loadSubtasks = this.actions$.pipe(ofType(a.ActionTypes.LoadSubtasks),
+    //     switchMap((action: any) =>
+    //         this.jiraService.executeJql(`issuetype in (${action.payload.subTaskIssueTypes}) AND parent=${action.payload.issueKey}`,
+    //             0, 100, _.map(action.payload.extendedFields, 'id'), 'test-cases.json')
+    //             .pipe(
+    //                 map(result => ({ type: a.ActionTypes.LoadSubtasksSuccess, payload: { result, extendedFields: action.payload.extendedFields } })),
+    //                 catchError(() => of({ type: a.ActionTypes.LoadSubtasksFailed }))
+    //             )
+    //     )
+    // );
 
     // @Effect() loadComments = this.actions$.pipe(ofType(a.ActionTypes.LoadComments),
     //     switchMap((action: any) =>

@@ -9,7 +9,7 @@ import { StatisticsComponent } from './components/statistics.component';
 import { ChartsModule } from 'ng2-charts';
 import 'chartjs-plugin-labels';
 import { AutofocusDirective } from './lib/autofocus.directive';
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { MultilistSelectorComponent } from './components/multilist-selector.component';
 import { IssueNavigationMenuComponent } from './components/issue-navigation-menu.component';
 import { SliderModule } from 'primeng/slider';
@@ -26,10 +26,13 @@ import { commonInitialState } from './+state/common.init';
 import { commonReducer } from './+state/common.reducer';
 import { CommonEffects } from './+state/common.effects';
 import { IssueDetailsComponent } from './components/issue-details.component';
+import { TasklistComponent } from './components/task-list.component';
+import { SidebarModule } from 'primeng/sidebar';
 
 const components = [
   ButtonPanelComponent, StoryboardRendererComponent, StatisticsComponent, AutofocusDirective,
   MultilistSelectorComponent, IssueNavigationMenuComponent, TimelineRendererComponent, HelpLinkComponent,
+  TasklistComponent,
   CommentlistComponent, IssueDetailsComponent
 ];
 @NgModule({
@@ -42,12 +45,15 @@ const components = [
     ChartsModule,
 
     NgxMdModule,
-    
+
     DialogModule,
     TreeTableModule,
     SliderModule,
+    SidebarModule,
 
+    NgbCollapseModule,
     NgbDropdownModule,
+
     FontAwesomeModule,
 
     StoreModule.forFeature("common", commonReducer, { initialState: commonInitialState }),

@@ -20,9 +20,9 @@ export const ActionTypes = {
     // LoadCommentsFailed: type("[LoadComments] Failed"),
     // LoadCommentsSuccess: type("[LoadComments] Success"),
 
-    LoadSubtasks: type("[LoadSubtasks]"),
-    LoadSubtasksFailed: type("[LoadSubtasks] Failed"),
-    LoadSubtasksSuccess: type("[LoadSubtasks] Success"),
+    // LoadSubtasks: type("[LoadSubtasks]"),
+    // LoadSubtasksFailed: type("[LoadSubtasks] Failed"),
+    // LoadSubtasksSuccess: type("[LoadSubtasks] Success"),
 
     LoadProjectDetails: type("[LoadProjectDetails]"),
     LoadProjectDetailsFailed: type("[LoadProjectDetails] Failed"),
@@ -76,10 +76,10 @@ export class SetHierarchicalIssueAction implements Action {
     constructor(public payload: any) { }
 }
 
-export class LoadSubtasksAction implements Action {
-    type = ActionTypes.LoadSubtasks;
-    constructor(public payload: any) { }
-}
+// export class LoadSubtasksAction implements Action {
+//     type = ActionTypes.LoadSubtasks;
+//     constructor(public payload: any) { }
+// }
 
 // export class LoadCommentsAction implements Action {
 //     type = ActionTypes.LoadComments;

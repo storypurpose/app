@@ -10,7 +10,6 @@ import { RouterModule, Route } from '@angular/router';
 import { CommonComponentsModule } from '../common/common-components.module';
 import { FormsModule } from '@angular/forms';
 import { SidebarModule } from 'primeng/sidebar';
-import { TasklistComponent } from './components/selectedissue/task-list.component';
 import { ExtendedFieldsComponent } from './components/selectedissue/extended-fields.component';
 import { SelectedIssueContainerComponent } from './components/selectedissue/selected-issue-container.component';
 import { NgbDropdownModule, NgbCollapseModule, NgbNavModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
@@ -66,7 +65,7 @@ const routes: Route[] = [
     SelectedIssueHomeComponent,
     SelectedIssueContainerComponent, WorkbenchComponent, RecentlyViewedComponent,
     PurposeDetailsComponent, ExtendedFieldsComponent, StoryboardComponent, TimelineComponent,
-    TasklistComponent, GroupedIssuelistComponent
+    GroupedIssuelistComponent
   ],
   imports: [
     CommonModule,

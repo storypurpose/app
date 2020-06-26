@@ -5,6 +5,9 @@ import { ActionTypes } from './common.actions';
 
 export function commonReducer(state: Common, action: any): Common {
     switch (action.type) {
+        case ActionTypes.LoadComments: {
+            return { ...state, comments: null };
+        }
         case ActionTypes.LoadCommentsSuccess: {
             let records = action.payload;
             let total = 0;
@@ -14,6 +17,32 @@ export function commonReducer(state: Common, action: any): Common {
             }
             return { ...state, comments: { total, records } };
         }
+
+        case ActionTypes.AddCommentSuccess: {
+            const comments = state.comments || { total: 0, records: [] };
+            comments.total = comments.total + 1;
+            const comment = jiraTreeUtil.flattenSingleComment(action.payload);
+            comments.records.push(comment);
+            return {
+                ...state, comments: {
+                    ...state.comments, total: comments.total, records: comments.records
+                }
+            };
+        }
+
+        case ActionTypes.LoadSubtasks: {
+            return { ...state, subtasks: null };
+        }
+
+        case ActionTypes.LoadSubtasksSuccess: {
+            let subtasks = null;
+            if (action.payload && action.payload.result && action.payload.result.issues) {
+                subtasks = jiraTreeUtil.flattenNodes(action.payload.result.issues);
+                jiraTreeUtil.appendExtendedFields(subtasks, action.payload.extendedFields);
+            }
+            return { ...state, subtasks };
+        }
+
 
         default: return state;
     }

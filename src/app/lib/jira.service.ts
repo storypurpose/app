@@ -77,6 +77,14 @@ export class JiraService {
         const url = `issue/${key}/comment`;
         return this.httpClient.get(`${this.proxyurl}/${this.baseUrl}/${url}`, this.httpOptions);
     }
+    addComment(payload) {
+        if (this.isOnlineMode === false) {
+            return this.httpClient.get(`${this.staticFileLocation}/comments.json`, this.httpOptions)
+        }
+        const url = `issue/${payload.key}/comment`;
+        const data = { body: payload.comment }
+        return this.httpClient.post(`${this.proxyurl}/${this.baseUrl}/${url}`, data, this.httpOptions);
+    }
 
     getProjectDetails(projectKey) {
         let projectUrl$ = this.httpClient.get(`${this.proxyurl}/${this.baseUrl}/project/${projectKey}`, this.httpOptions);

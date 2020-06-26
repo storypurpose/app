@@ -4,7 +4,7 @@ import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { CommonState } from '../+state/common.state';
-import { LoadCommentsAction } from '../+state/common.actions';
+import { LoadCommentsAction, AddCommentAction } from '../+state/common.actions';
 
 @Component({
     selector: 'app-comment-list',
@@ -44,4 +44,26 @@ export class CommentlistComponent implements OnInit, OnDestroy {
             this.store$.dispatch(new LoadCommentsAction(this.issueKey));
         }
     }
+
+    isEditorVisible = false;
+    newComment = '';
+    canAdd = () => this.newComment && this.newComment.trim().length > 0;
+
+    add() {
+        if (this.canAdd()) {
+            this.store$.dispatch(new AddCommentAction({ key: this.issueKey, comment: this.newComment }));
+            this.newComment = '';
+        }
+    }
+    onCancel(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        this.newComment = ''
+        this.isEditorVisible = false;
+    }
+
+    showEditor() {
+        this.isEditorVisible = true;
+    }
+
 }

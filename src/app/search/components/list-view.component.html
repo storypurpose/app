@@ -1,17 +1,19 @@
 <table *ngIf="issuelist && issuelist.total > 0" class="table table-striped table-sm issuelist small">
     <thead>
-        <tr>
+        <tr style="background-color: #eee;">
             <th width="1%">&nbsp;</th>
             <th width="5%">Key</th>
             <th>Summary</th>
             <!-- <th width="10%" class="text-truncate" *ngFor="let ef of issuelist.extendedFields">{{ef.name}}</th> -->
             <th width="10%">Duedate</th>
-            <th width="10%">Status</th>
+            <th width="5%">Status</th>
+            <th width="1%">&nbsp;</th>
+            <td width="1%">&nbsp;</td>
         </tr>
     </thead>
 
-    <tr *ngFor="let issue of issuelist.results">
-        <td><i class="{{issue.icon}}" [title]=issue.issueType></i></td>
+    <tr *ngFor="let issue of issuelist.results;let idx = index">
+        <td><i class="{{issue.icon}} text-muted" [title]=issue.issueType></i></td>
         <td>
             <a class="text-primary text-nowrap" [ngClass]="{'issue-resolved': issue.resolution}"
                 [routerLink]="['/browse', issue.key, 'purpose', issue.key]">
@@ -20,26 +22,22 @@
         </td>
 
         <td class="text-truncate">{{issue.title}}</td>
-        <!-- <td width="10%" class="text-truncate" *ngFor="let ef of issue.extendedFields">{{printExtendedValue(ef.extendedValue)}}</td> -->
         <td class="text-truncate">{{issue.duedate | date:'MMM dd, yyyy'}}</td>
-
-        <td width="10%">{{issue.status}}</td>
+        <td class="text-truncate">{{issue.status}}</td>
+        <td>
+            <a (click)="openIssueAtIndex(idx)" class="text-primary text-nowrap ml-2"
+                [ngClass]="{'issue-resolved': issue.resolution}">
+                <fa-icon icon="external-link-alt" size="sm"></fa-icon>
+            </a>
+        </td>
+        <td>
+            <app-issue-navigation-menu [issueKey]="issue.key" class="mr-2"></app-issue-navigation-menu>
+        </td>
     </tr>
 </table>
 
-
-<!-- <div *ngIf="issuelist" class="p-3 bg-white">
-
-        <div *ngFor="let issue of issuelist.results" class="issue-list-item">
-            <a class="btn btn-link btn-sm text-dark text-left w-100 pt-0"
-                [routerLink]="['/browse', issue.key, 'purpose', issue.key]">
-                <sub class="text-primary text-uppercase">{{issue.issueType}}: {{issue.key}}</sub>
-
-                <fa-icon icon="angle-right" class="text-muted float-right mt-2"></fa-icon>
-                <div class="text-no-wrap">
-                    {{issue.title}}
-                    <span class="badge badge-light font-weight-normal">{{issue.status}}</span>
-                </div>
-            </a>
-        </div>
-    </div> -->
+<p-sidebar [(visible)]="issueDetailsVisible" [fullScreen]="true" styleClass="bg-light" [showCloseIcon]="false">
+    <app-issue-details *ngIf="issuelist" [list]="issuelist.results" [currentIndex]="currentIndex"
+        (close)="issueDetailsVisible = false">
+    </app-issue-details>
+</p-sidebar>

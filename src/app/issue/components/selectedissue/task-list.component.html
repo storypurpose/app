@@ -32,13 +32,6 @@
         <div class="list-group list-group-flush list-group-flush-compact">
             <div class="list-group-item list-group-item-light">
                 <div class="clearfix">
-                    <!-- <button *ngIf="hasExtendedFields" (click)="showHideExtendedFields()"
-                        class="btn btn-sm btn-link text-muted pl-0" title="Show/hide details">
-                        <fa-icon size="sm" [fixedWidth]="true"
-                            [icon]="hideExtendedFields ? 'angle-double-right' : 'angle-double-down'">
-                        </fa-icon>
-                    </button> -->
-
                     <b class="mt-1"><span class="mr-1" *ngIf="filteredItems.length > 0">
                             {{filteredItems.length}} </span>
                         record{{(filteredItems.length > 1 ? 's' : '')}}</b>
@@ -70,13 +63,7 @@
             </div>
 
             <div class=" p-1 border-bottom" *ngFor="let record of filteredItems;let idx = index">
-                <div class="float-left mr-2">
-                    <!-- <button *ngIf="hasExtendedFields" (click)="record.hideExtendedFields = !record.hideExtendedFields"
-                        class="btn btn-link btn-sm text-muted pl-0 pt-0" title="Show/hide details">
-                        <fa-icon size="sm" [fixedWidth]="true"
-                            [icon]="record.hideExtendedFields ? 'angle-right' : 'angle-down'">
-                        </fa-icon>
-                    </button> -->
+                <div class="float-left mr-3">
                     <a (click)="openIssueAtIndex(idx)" class="text-primary"
                         [ngClass]="{'issue-resolved': record.resolution}">
                         <fa-icon icon="external-link-alt" size="sm"></fa-icon>
@@ -87,20 +74,7 @@
                 <div class="badge badge-light font-weight-light text-uppercase float-right ">
                     {{record.status}}
                 </div>
-                <div [ngClass]="{'ml-4': hasExtendedFields}">
-                    <div class=" text-no-wrap">{{record.title}}</div>
-                    <div style="overflow: auto;" class="alert mt-2 p-0 rounded-0 border-0"
-                        *ngIf="!record.hideExtendedFields && record.extendedFields && record.extendedFields.length > 0">
-                        <table class="table table-small m-0 border-0 bg-light extended-fields">
-                            <tr *ngFor="let ef of record.extendedFields">
-                                <td class="p-1 text-nowrap text-muted" width="10%">{{ef.name}}:</td>
-                                <td class="p-1 text-dark" Markdown>
-                                    {{ef.value}}
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
+                <div class=" text-no-wrap">{{record.title}} </div>
             </div>
         </div>
     </div>
@@ -111,5 +85,6 @@
 </div>
 
 <p-sidebar [(visible)]="issueDetailsVisible" [fullScreen]="true" styleClass="bg-light" [showCloseIcon]="false">
-    <app-issue-details [list]="filteredItems" [currentIndex]="currentIndex" (close)="issueDetailsVisible = false"></app-issue-details>
+    <app-issue-details [list]="filteredItems" [currentIndex]="currentIndex" (close)="issueDetailsVisible = false">
+    </app-issue-details>
 </p-sidebar>

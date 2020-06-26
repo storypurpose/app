@@ -36,7 +36,7 @@
                             <div *ngIf="issue.extendedFields && issue.extendedFields.length > 0">
                                 <div style="overflow: auto;" class="mb-4" *ngFor="let ef of issue.extendedFields">
                                     <div class="text-nowrap text-muted text-uppercase">{{ef.name}}</div>
-                                    <div class="mt-1 text-dark">
+                                    <div class="mt-1 text-dark ml-3">
                                         <ngx-md [data]="ef.value"></ngx-md>
                                     </div>
                                 </div>

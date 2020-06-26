@@ -48,4 +48,12 @@ export class SearchListViewComponent implements OnInit, OnDestroy {
         }
         return value;
     }
+
+    issueDetailsVisible = false;
+    issueDetails: any;
+    currentIndex: 0;
+    openIssueAtIndex(index) {
+        this.issueDetailsVisible = true;
+        this.currentIndex = index;
+    }
 }

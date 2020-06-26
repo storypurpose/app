@@ -33,8 +33,6 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { TimelineComponent } from './components/selectedissue/timeline.component';
 import { TreeTableModule } from 'primeng/treetable';
 import { IssueTreeviewComponent } from './components/issue-treeview.component';
-import { IssueDetailsComponent } from './components/selectedissue/issue-details.component';
-import { CommentlistComponent } from './components/selectedissue/comment-list.component';
 
 const routes: Route[] = [
   {
@@ -68,8 +66,7 @@ const routes: Route[] = [
     SelectedIssueHomeComponent,
     SelectedIssueContainerComponent, WorkbenchComponent, RecentlyViewedComponent,
     PurposeDetailsComponent, ExtendedFieldsComponent, StoryboardComponent, TimelineComponent,
-    CommentlistComponent,
-    TasklistComponent, IssueDetailsComponent, GroupedIssuelistComponent
+    TasklistComponent, GroupedIssuelistComponent
   ],
   imports: [
     CommonModule,

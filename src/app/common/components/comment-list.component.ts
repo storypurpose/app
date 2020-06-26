@@ -3,8 +3,8 @@ import * as _ from 'lodash';
 import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { LoadSubtasksAction, LoadCommentsAction } from '../../+state/issue.actions';
-import { IssueState } from '../../+state/issue.state';
+import { CommonState } from '../+state/common.state';
+import { LoadCommentsAction } from '../+state/common.actions';
 
 @Component({
     selector: 'app-comment-list',
@@ -21,11 +21,11 @@ export class CommentlistComponent implements OnInit, OnDestroy {
     comments$: Subscription;
     comments: any;
     loading = false;
-    constructor(public store$: Store<IssueState>) {
+    constructor(public store$: Store<CommonState>) {
     }
 
     ngOnInit(): void {
-        this.comments$ = this.store$.select(p => p.issue.comments)
+        this.comments$ = this.store$.select(p => p.common.comments)
             .pipe(filter(p => p))
             .subscribe(comments => {
                 this.comments = comments;

@@ -12,7 +12,7 @@ export const issueInitialState: Issue = {
     hierarchicalIssue: null,
 
     subtasks: null,
-    comments: null,
+    // comments: null,
     
     purpose: [],
     recentlyViewedItems: [],

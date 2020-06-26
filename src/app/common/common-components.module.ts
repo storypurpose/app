@@ -17,10 +17,20 @@ import { TimelineRendererComponent } from './components/timeline-renderer.compon
 import { TreeTableModule } from 'primeng/treetable';
 import { DialogModule } from 'primeng/dialog';
 import { HelpLinkComponent } from './components/help-link.component';
+import { CommentlistComponent } from './components/comment-list.component';
+import { NgxMdModule } from 'ngx-md';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+
+import { commonInitialState } from './+state/common.init';
+import { commonReducer } from './+state/common.reducer';
+import { CommonEffects } from './+state/common.effects';
+import { IssueDetailsComponent } from './components/issue-details.component';
 
 const components = [
   ButtonPanelComponent, StoryboardRendererComponent, StatisticsComponent, AutofocusDirective,
-  MultilistSelectorComponent, IssueNavigationMenuComponent, TimelineRendererComponent, HelpLinkComponent
+  MultilistSelectorComponent, IssueNavigationMenuComponent, TimelineRendererComponent, HelpLinkComponent,
+  CommentlistComponent, IssueDetailsComponent
 ];
 @NgModule({
   exports: components,
@@ -31,12 +41,17 @@ const components = [
     RouterModule,
     ChartsModule,
 
+    NgxMdModule,
+    
     DialogModule,
     TreeTableModule,
     SliderModule,
 
     NgbDropdownModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+
+    StoreModule.forFeature("common", commonReducer, { initialState: commonInitialState }),
+    EffectsModule.forFeature([CommonEffects]),
   ],
 })
 export class CommonComponentsModule { }

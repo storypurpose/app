@@ -1,0 +1,25 @@
+<div class=" small" *ngIf="issue && issue.attachments && issue.attachments.length > 0">
+    <div class="text-muted">
+        <fa-icon icon="link" class="mr-1"></fa-icon>
+        ATTACHMENTS
+        <span class="ml-1">
+            / {{issue.attachments.length}}
+        </span>
+    </div>
+    <div class="ml-3 mb-4" *ngIf="issue.attachments">
+        <div class="table-responsive">
+            <table class="table table-sm">
+                <tbody>
+                    <tr *ngFor="let a of issue.attachments">
+                        <td width="45%" class="text-truncate">
+                            <a target="_blank" [href]="a.content">{{a.filename}}</a>
+                        </td>
+                        <td width="25%" class="text-truncate">{{a.created | date:'medium'}}</td>
+                        <td width="10%" class="text-truncate">{{a.author.displayName}}</td>
+                        <td width="10%" class="text-truncate text-right">{{a.size | filesize }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

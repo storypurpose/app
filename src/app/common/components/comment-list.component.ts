@@ -11,6 +11,8 @@ import { LoadCommentsAction, AddCommentAction } from '../+state/common.actions';
     templateUrl: './comment-list.component.html'
 })
 export class CommentlistComponent implements OnInit, OnDestroy {
+    @Input() showTitle: boolean;
+    
     _issueKey: any;
     @Input() set issueKey(value: any) {
         this._issueKey = value;

@@ -108,6 +108,14 @@ export class SelectedIssueContainerComponent extends ResizableContainerBase impl
                     extendedFieldList = _.union(extendedFieldList, issueTypeConfig.list)
                 }
             }
+
+            // if (projectConfig.subTaskIssueTypes) {
+            //     const issueTypeConfig = _.find(projectConfig.subTaskIssueTypes, { name: issueType });
+            //     if (issueTypeConfig) {
+            //         extendedFieldList = _.union(extendedFieldList, issueTypeConfig.list)
+            //     }
+            // }
+
             if (projectConfig.startdate) {
                 extendedFieldList.push(projectConfig.startdate);
             }

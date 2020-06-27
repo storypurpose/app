@@ -145,7 +145,13 @@ export function issueReducer(state: Issue, action: any): Issue {
 }
 
 function populateIssueDetails(payload: any) {
-    const issueDetails: any = jiraTreeUtil.populateFieldValuesCompactWithExtendedFields(payload.issue, payload.extendedFields);
+    const extendedFields = payload.extendedFields;
+    if (payload.projectConfig && payload.projectConfig.startdate) {
+        _.remove(extendedFields, payload.projectConfig.startdate)
+    }
+
+    const issueDetails: any = jiraTreeUtil.populateFieldValuesCompactWithExtendedFields(payload.issue, extendedFields);
+    console.log(issueDetails, extendedFields);
     if (issueDetails) {
         issueDetails.organization = payload.organization;
         issueDetails.projectConfig = payload.projectConfig;

@@ -1,15 +1,34 @@
-<div >
+<div>
     <as-split direction="horizontal" *ngIf="issue" (gutterDblClick)="toggleFullscreen()" (dragEnd)="dragEnd($event)">
         <as-split-area [size]="columns[0].size">
             <div class="alert mr-5" style="overflow: auto;">
-                <ngx-md [data]="issue.description"></ngx-md>
-
-                <div class="alert bg-light small mt-3 mb-3" *ngIf="issue.fixVersions && issue.fixVersions.length > 0">
-                    <span class="text-muted">FIX VERSION: </span>
-                    <span class="ml-1" *ngFor="let fv of issue.fixVersions">{{fv}}</span>
+                <div class="mb-4">
+                    <ngx-md [data]="issue.description"></ngx-md>
                 </div>
 
-                <app-extended-fields [issue]="issue" *ngIf="leftPaneSize > 0"></app-extended-fields>
+                <div class="small alert bg-light mb-4">
+                    <div class="row">
+                        <div class="col-md-4" *ngIf="issue.fixVersions && issue.fixVersions.length > 0">
+                            <div class="text-muted">FIX VERSION: </div>
+                            <span class="mr-2" *ngFor="let fv of issue.fixVersions">{{fv}}</span>
+                        </div>
+
+                        <div class="col-md-4" *ngIf="issue.components && issue.components.length > 0">
+                            <div class="text-muted">COMPONENTS: </div>
+                            <span class="mr-2" *ngFor="let comp of issue.components">{{comp}}</span>
+                        </div>
+
+                        <div class="col-md-4" *ngIf="issue.labels && issue.labels.length > 0">
+                            <div class="text-muted">LABELS: </div>
+                            <span class="mr-2" *ngFor="let lbl of issue.labels">{{lbl}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="leftPaneSize > 0">
+                    <app-extended-fields [issue]="issue"></app-extended-fields>
+                    <app-attachments [issue]="issue"></app-attachments>
+                </div>
             </div>
         </as-split-area>
         <as-split-area [size]="columns[1].size" [ngClass]="{'small': columns[0].size !== 0}">
@@ -56,22 +75,23 @@
                                                         {{i.status}}
                                                     </div>
                                                     <div class="badge badge-light font-weight-normal " title="Due date">
-                                                        {{i.duedate | date:'mediumDate'}}
+                                                        {{i.duedate | date:'medium'}}
                                                     </div>
                                                 </div>
                                                 <i [class]="i.icon" class="mr-1"></i>
                                                 <a (click)="selectEpicIssue(i)" class="text-primary mr-2"
-                                                [ngClass]="{'issue-resolved': i.resolution}"
-                                                >{{i.key}}</a>
+                                                    [ngClass]="{'issue-resolved': i.resolution}">{{i.key}}</a>
                                                 {{i.title}}
                                             </div>
                                         </div>
                                     </div>
 
-                                    <a class="btn btn-light btn-sm text-primary mt-4" routerLink="../storyboard">
-                                        Storyboard view
-                                        <fa-icon icon="chevron-right" size="sm"></fa-icon>
-                                    </a>
+                                    <div class="text-right mt-4">
+                                        <a class="btn btn-primary btn-sm" routerLink="../storyboard">
+                                            Storyboard view
+                                            <fa-icon icon="chevron-right" size="sm"></fa-icon>
+                                        </a>
+                                    </div>
                                 </div>
 
                                 <div *ngIf="selectedEpicIssue">
@@ -139,11 +159,24 @@
                 </li>
 
                 <li [ngbNavItem]="3">
-                    <a ngbNavLink (click)="reloadSubtasks()">Task breakup</a>
+                    <a ngbNavLink (click)="reloadSubtasks()">
+                        <fa-icon icon="list"></fa-icon>
+                        Task breakup
+                    </a>
                     <ng-template ngbNavContent>
                         <div class="pl-2 pr-2 pb-2">
-                            <app-task-list [issue]="selectedIssue" [showIssue]="false">
-                            </app-task-list>
+                            <app-task-list [issue]="selectedIssue" [showIssue]="false"></app-task-list>
+                        </div>
+                    </ng-template>
+                </li>
+                <li [ngbNavItem]="4">
+                    <a ngbNavLink (click)="reloadSubtasks()">
+                        <fa-icon [icon]="['far', 'comments']"></fa-icon>
+                        Comments
+                    </a>
+                    <ng-template ngbNavContent>
+                        <div class="pl-2 pr-5 pb-2">
+                            <app-comment-list [issueKey]="issue.key"></app-comment-list>
                         </div>
                     </ng-template>
                 </li>

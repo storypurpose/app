@@ -1,8 +1,10 @@
 <div class="bg-light container-fluid pb-2 border-bottom" *ngIf="selectedIssue">
     <div class="float-right btn-group btn-group-sm">
-        <button class="btn btn-sm btn-link text-muted" (click)="toggleView()">
+        <button class="btn btn-sm btn-link text-muted " (click)="toggleView()">
             <fa-icon [icon]="compactView ? 'expand-alt' : 'compress-alt'"></fa-icon>
         </button>
+        <app-issue-navigation-menu class="mr-2" [issueKey]="selectedIssue.key">
+        </app-issue-navigation-menu>
     </div>
     <nav aria-label="breadcrumb" *ngIf="!compactView">
         <ol class="breadcrumb small bg-light p-0 m-0">
@@ -15,8 +17,6 @@
                 <span class="text-uppercase text-dark">
                     {{selectedIssue.issueType}}: {{selectedIssue.key}}
                 </span>
-                <app-issue-navigation-menu icon="ellipsis-h" placement="bottom-left" [issueKey]="selectedIssue.key">
-                </app-issue-navigation-menu>
             </li>
         </ol>
     </nav>

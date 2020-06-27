@@ -6,7 +6,7 @@ import { AppState } from '../+state/app.state';
 import { filter } from 'rxjs/operators';
 import { of, combineLatest } from 'rxjs';
 import { ModeTypes } from '../+state/app.actions';
-
+import { fieldList, detailFields, attachmentField } from './jira-tree-utils';
 import { environment } from '../../environments/environment';
 
 export const AuthenticationModeTypes = {
@@ -21,9 +21,10 @@ export class JiraService {
     proxyurl = environment.proxyurl;
     baseUrl = "";
     restVersionEndpoint = "/rest/api/latest";
-    fieldList = ['project', 'reporter', 'assignee', 'status', 'summary', 'key', 'issuelinks', 'issuetype', 'parent',
-        'created', 'updated', 'duedate', 'resolution'];
-    detailFields = ['description', 'components', 'labels', 'fixVersions'];
+    // fieldList = ['project', 'reporter', 'assignee', 'status', 'summary', 'key', 'issuelinks', 'issuetype', 'parent',
+    //     'created', 'updated', 'duedate', 'resolution'];
+    // detailFields = ['description', 'components', 'labels', 'fixVersions'];
+    // attachmentField = ['attachment'];
     httpOptions: any;
 
     staticFileLocation = './staticfiles';
@@ -65,7 +66,7 @@ export class JiraService {
         if (this.isOnlineMode === false) {
             return this.httpClient.get(`${this.staticFileLocation}/${keyId.toLowerCase()}.json`, this.httpOptions)
         }
-        const fieldCodes = _.join(_.concat(this.fieldList, this.detailFields, extendedFields));
+        const fieldCodes = _.join(_.concat(fieldList, detailFields, attachmentField, extendedFields));
         const url = `issue/${keyId}?fields=${fieldCodes}`;
         return this.httpClient.get(`${this.proxyurl}/${this.baseUrl}/${url}`, this.httpOptions);
     }
@@ -104,7 +105,7 @@ export class JiraService {
             return this.httpClient.get(`${this.staticFileLocation}/${srcJson}`, this.httpOptions)
         }
         const startAt = pageIndex * pageSize;
-        const fieldCodes = _.join(_.concat(this.fieldList, this.detailFields, extendedFields));
+        const fieldCodes = _.join(_.concat(fieldList, detailFields, extendedFields));
         const url = `search?jql=${jql}&fields=${fieldCodes}&startAt=${startAt}&maxResult=${pageSize}`;
         return this.httpClient.get(`${this.proxyurl}/${this.baseUrl}/${url}`, this.httpOptions);
     }

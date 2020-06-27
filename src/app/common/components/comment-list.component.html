@@ -1,4 +1,4 @@
-<h5>
+<h5 *ngIf="showTitle">
     <fa-icon [icon]="['far', 'comments']" class="mr-1"></fa-icon>
     Comments
     <div *ngIf="comments && comments.total > 0" class="badge badge-secondary ml-1">{{comments.total}}</div>

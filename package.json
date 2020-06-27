@@ -46,6 +46,7 @@
     "lodash": "^4.17.15",
     "ng2-charts": "^2.3.0",
     "ngrx": "0.0.1-security",
+    "ngx-filesize": "^2.0.15",
     "ngx-md": "^8.1.6",
     "ngx-ui-switch": "^9.0.1",
     "primeicons": "^2.0.0",

@@ -1,0 +1,8 @@
+<div class="ml-3 mb-4" *ngIf="issue && issue.extendedFields && issue.extendedFields.length > 0">
+    <ng-container *ngFor="let ef of issue.extendedFields">
+        <div class="mb-2" *ngIf="ef.extendedValue && ef.extendedValue.length > 0">
+            <sub class="text-muted text-uppercase">{{ef.name}}</sub>
+            <ngx-md [ngClass]="{'small': fontSizeSmall}" [data]="ef.extendedValue"></ngx-md>
+        </div>
+    </ng-container>
+</div>

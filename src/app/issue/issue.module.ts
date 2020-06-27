@@ -7,10 +7,9 @@ import { PurposeDetailsComponent } from './components/selectedissue/purpose.comp
 import { NgxMdModule } from 'ngx-md';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RouterModule, Route } from '@angular/router';
-import { CommonComponentsModule } from '../common/common-components.module';
+import { AppCommonModule } from '../common/app-common.module';
 import { FormsModule } from '@angular/forms';
 import { SidebarModule } from 'primeng/sidebar';
-import { ExtendedFieldsComponent } from './components/selectedissue/extended-fields.component';
 import { SelectedIssueContainerComponent } from './components/selectedissue/selected-issue-container.component';
 import { NgbDropdownModule, NgbCollapseModule, NgbNavModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { WorkbenchComponent } from './components/selectedissue/workbench.component';
@@ -64,7 +63,7 @@ const routes: Route[] = [
     IssueHomeComponent, IssueContainerComponent, IssueTreeviewComponent, IssueNotEnteredComponent, IssueEntryComponent,
     SelectedIssueHomeComponent,
     SelectedIssueContainerComponent, WorkbenchComponent, RecentlyViewedComponent,
-    PurposeDetailsComponent, ExtendedFieldsComponent, StoryboardComponent, TimelineComponent,
+    PurposeDetailsComponent, StoryboardComponent, TimelineComponent,
     GroupedIssuelistComponent
   ],
   imports: [
@@ -89,7 +88,7 @@ const routes: Route[] = [
 
     AngularSplitModule,
 
-    CommonComponentsModule,
+    AppCommonModule,
     StoreModule.forFeature("issue", issueReducer, { initialState: issueInitialState }),
     EffectsModule.forFeature([IssueEffects]),
 

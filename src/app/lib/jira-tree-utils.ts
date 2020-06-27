@@ -10,6 +10,11 @@ export const TreeTemplateTypes = {
 export const populatedFieldList = ['project', 'issueParent', 'issueType', 'assignee', 'status', 'summary', 'label', 'title', 'key',
     'icon', 'duedate', 'created', 'updated', 'resolution', 'description', 'components', 'labels', 'fixVersions', 'linkType'];
 export const detailFields = ['description', 'components', 'labels', 'fixVersions'];
+export const authorFields = ['key', 'name', 'displayName'];
+export const fieldList = ['project', 'reporter', 'assignee', 'status', 'summary', 'key', 'issuelinks', 'issuetype', 'parent',
+    'created', 'updated', 'duedate', 'resolution'];
+
+export const attachmentField = ['attachment'];
 
 export const ORG_PLACEHOLDER = "my_org";
 
@@ -65,14 +70,32 @@ export function isCustomMenuType(args) {
 
 export function populateFieldValuesCompactWithExtendedFields(node, extendedFields) {
     const issueDetails: any = populateFieldValuesCompact(node);
+    issueDetails.attachments = populateAttachments(node);
+    issueDetails.extendedFields = populateExtendedFields(node, extendedFields);
+    return issueDetails;
+}
+
+function populateExtendedFields(node: any, extendedFields: any) {
+    const list = [];
     if (extendedFields && extendedFields.length > 0) {
-        issueDetails.extendedFields = [];
         extendedFields.forEach(field => {
             field.extendedValue = getExtendedFieldValue(node, field.id);
-            issueDetails.extendedFields.push(field);
+            list.push(field);
         });
     }
-    return issueDetails;
+    return list;
+}
+
+export function populateAttachments(node) {
+    if (!node || !node.fields) return [];
+
+    return _.sortBy(
+        _.map(node.fields.attachment, (a) => {
+            const record: any = _.pick(a, ['filename', 'content', 'thumbnail', 'mimeType', 'size', 'created']);
+            record.author = a.author ? _.pick(a.author, authorFields) : {};
+            return record;
+        }), 'created'
+    )
 }
 
 export function populateFieldValuesCompact(node) {
@@ -174,13 +197,14 @@ export function getExtendedFieldValue(issue, code) {
 
     return (typeof field === 'object') ? field.value : field;
 }
+
 export function flattenComments(comments) {
     return _.map(comments, (comment) => flattenSingleComment(comment));
 }
 export function flattenSingleComment(comment: any) {
     const node: any = _.pick(comment, ['body', 'created', 'updated']);
-    node.author = comment.author ? _.pick(comment.author, ['key', 'name', 'displayName']) : {};
-    node.updateAuthor = comment.updateAuthor ? _.pick(comment.updateAuthor, ['key', 'name', 'displayName']) : {};
+    node.author = comment.author ? _.pick(comment.author, authorFields) : {};
+    node.updateAuthor = comment.updateAuthor ? _.pick(comment.updateAuthor, authorFields) : {};
     return node;
 }
 

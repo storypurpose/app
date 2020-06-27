@@ -36,7 +36,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { appInitialState } from './+state/app.init';
 import { appReducer } from './+state/app.reducer';
 import { UiSwitchModule } from 'ngx-ui-switch';
-import { CommonComponentsModule } from './common/common-components.module';
+import { AppCommonModule } from './common/app-common.module';
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { environment } from '../environments/environment';
 import { ProjectConfigComponent } from './components/setup/project-config.component';
@@ -118,7 +118,7 @@ export function initGapi(gapiSession: GapiSession) {
     }),
     EffectsModule.forRoot([AppEffects]),
 
-    CommonComponentsModule,
+    AppCommonModule,
     //SearchModule,
 
     AppRoutingModule

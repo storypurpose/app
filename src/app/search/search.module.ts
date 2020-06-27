@@ -4,7 +4,7 @@ import { StoreModule } from '@ngrx/store';
 import { NgxMdModule } from 'ngx-md';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RouterModule, Route } from '@angular/router';
-import { CommonComponentsModule } from '../common/common-components.module';
+import { AppCommonModule } from '../common/app-common.module';
 import { FormsModule } from '@angular/forms';
 import { SidebarModule } from 'primeng/sidebar';
 import { TreeTableModule } from 'primeng/treetable';
@@ -57,7 +57,7 @@ const routes: Route[] = [
     AngularSplitModule,
 
     NgbModule,
-    CommonComponentsModule,
+    AppCommonModule,
 
     StoreModule.forFeature("search", searchReducer, { initialState: searchInitialState }),
     EffectsModule.forFeature([SearchEffects]),

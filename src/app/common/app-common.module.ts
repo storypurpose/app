@@ -28,10 +28,14 @@ import { CommonEffects } from './+state/common.effects';
 import { IssueDetailsComponent } from './components/issue-details.component';
 import { TasklistComponent } from './components/task-list.component';
 import { SidebarModule } from 'primeng/sidebar';
+import { ExtendedFieldsComponent } from './components/extended-fields.component';
+import { AttachmentsComponent } from './components/attachments.component';
+import { NgxFilesizeModule } from 'ngx-filesize';
 
 const components = [
   ButtonPanelComponent, StoryboardRendererComponent, StatisticsComponent, AutofocusDirective,
   MultilistSelectorComponent, IssueNavigationMenuComponent, TimelineRendererComponent, HelpLinkComponent,
+  ExtendedFieldsComponent, AttachmentsComponent,
   TasklistComponent,
   CommentlistComponent, IssueDetailsComponent
 ];
@@ -43,6 +47,8 @@ const components = [
     FormsModule,
     RouterModule,
     ChartsModule,
+
+    NgxFilesizeModule,
 
     NgxMdModule,
 
@@ -60,4 +66,4 @@ const components = [
     EffectsModule.forFeature([CommonEffects]),
   ],
 })
-export class CommonComponentsModule { }
+export class AppCommonModule { }

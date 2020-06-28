@@ -3,8 +3,24 @@
         [(ngModel)]="query" placeholder="Search by issue key or JQL" id="query" type="text"
         (keydown.enter)="executeQuery()" />
     <div class="input-group-append">
-        <button [disabled]="!canExecuteQuery()" class="btn btn-light" type="button" (click)="executeQuery()">
-            <fa-icon icon="search" [fixedWidth]="true"></fa-icon>
-        </button>
+        <div class="btn-group btn-group-sm">
+            <div ngbDropdown display="dynamic" placement="bottom-right">
+                <button class="btn btn-light border" [disabled]="!canExecuteQuery()" id="dropdownBasic1"
+                    ngbDropdownToggle>
+                    <fa-icon icon="search" [fixedWidth]="true"></fa-icon>
+                </button>
+                <div ngbDropdownMenu aria-labelledby="select view" class="dropdown-menu-right">
+                    <button ngbDropdownItem (click)="executeQuery('list')">
+                        <fa-icon icon="list" [fixedWidth]="true"></fa-icon> List view
+                    </button>
+                    <button ngbDropdownItem (click)="executeQuery('storyboard')">
+                        <fa-icon [icon]="['far', 'map']" [fixedWidth]="true"></fa-icon> Storyboard
+                    </button>
+                    <button ngbDropdownItem (click)="executeQuery('timeline')">
+                        <fa-icon icon="map-signs" [fixedWidth]="true"></fa-icon> Timeline
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

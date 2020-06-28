@@ -111,7 +111,7 @@ export class IssueEffects {
         )
     );
 
-    @Effect() updateFixVersions = this.actions$.pipe(ofType(a.ActionTypes.UpdateFieldValue),
+    @Effect() updateFieldValue = this.actions$.pipe(ofType(a.ActionTypes.UpdateFieldValue),
         switchMap((action: any) =>
             this.jiraService.updateFieldValue$(action.payload)
                 .pipe(

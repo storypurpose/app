@@ -30,14 +30,14 @@ export class SearchboxComponent implements OnInit, OnDestroy {
         this.queryParams$ ? this.queryParams$.unsubscribe() : null;
     }
     canExecuteQuery = () => this.query && this.query.trim().length > 0;
-    executeQuery() {
+    executeQuery(view = 'list') {
         if (this.canExecuteQuery()) {
             this.query = this.query.trim();
             const splitted = _.split(this.query, /[ =]+/);
 
             (splitted && splitted.length === 1)
                 ? this.router.navigate(["/browse", this.query])
-                : this.router.navigate(["/search/list"], { queryParams: { query: this.query } });
+                : this.router.navigate(["/search", view], { queryParams: { query: this.query } });
         }
     }
 

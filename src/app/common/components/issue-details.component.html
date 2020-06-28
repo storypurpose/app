@@ -45,12 +45,11 @@
     </div>
     <div class="pane-fullbody">
         <div class=" container-fluid pl-5">
-            <pre>{{issue|json}}</pre>
-
             <div class="ml-5 mt-4 mr-4 mb-4">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="bg-white p-3 mt-2 rounded custom-shadow mb-5">
+
                             <div class="p-2 mb-2 hover-container" *ngIf="!editDescription">
                                 <button class="btn btn-link btn-sm hover-button float-right"
                                     (click)="onEditDescription()">
@@ -68,7 +67,7 @@
 
                             <div class="p-2" *ngIf="editDescription">
                                 <textarea class="form-control bg-light" [appAutofocus]="editDescription"
-                                    (keydown.control.enter)="onSaveDescription()"
+                                    (keydown.control.enter)="onSaveDescription()" [(ngModel)]="descMomento"
                                     (keydown.escape)="onCancelDescription($event)" rows="8"></textarea>
                                 <div class="pt-2 text-right">
                                     <button class="btn btn-primary btn-sm mr-1" (click)="onSaveDescription()">

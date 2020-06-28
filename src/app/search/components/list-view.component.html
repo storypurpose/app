@@ -24,8 +24,9 @@
         <td class="text-truncate">{{issue.title}}</td>
         <td class="text-truncate">{{issue.duedate | date:'MMM dd, yyyy'}}</td>
         <td>
-            <div class="badge text-truncate mt-1"
-                [ngClass]="{'badge-success': issue.resolution, 'badge-warning':!issue.resolution && issue.duedateMissing}">
+            <div class="badge text-truncate mt-1" [ngClass]="{'badge-success': issue.resolution, 
+                'badge-warning':!issue.resolution && issue.duedateMissing,
+                'badge-light border':!issue.resolution && !issue.duedateMissing}">
                 {{issue.status}}
             </div>
         </td>

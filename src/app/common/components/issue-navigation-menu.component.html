@@ -4,17 +4,25 @@
             title="Issue tools">
             <fa-icon [icon]="(icon && icon.length > 0 ? icon : 'ellipsis-v')"></fa-icon>
         </a>
-        <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-menu-right">
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-menu-right pb-0">
             <a title="View purpose" ngbDropdownItem
                 [routerLink]="['/browse', parentIssueKey ? parentIssueKey : issueKey, 'purpose', issueKey, 'details']">
-                <fa-icon icon="fire" size="fw" class="text-brand">
-                </fa-icon>
-                View purpose
+                <fa-icon icon="fire" size="fw" class="text-brand"> </fa-icon> View purpose
             </a>
+
             <a target="_blank" ngbDropdownItem title="View in jira" href="{{prepareExternalUrl(issueKey)}}">
-                <fa-icon [icon]="['fab', 'jira']" size="fw" class="text-muted">
-                </fa-icon>
-                View in Jira
+                <fa-icon [icon]="['fab', 'jira']" size="fw" class="text-primary"> </fa-icon> View in Jira
+            </a>
+
+            <div class="dropdown-divider mb-0"></div>
+
+            <a title="Storyboard" ngbDropdownItem class="bg-light"
+                [routerLink]="['/browse', parentIssueKey ? parentIssueKey : issueKey, 'purpose', issueKey, 'storyboard']">
+                <fa-icon [icon]="['far', 'map']" size="fw"> </fa-icon> View on storyboard
+            </a>
+            <a title="Timeline" ngbDropdownItem class="bg-light pb-2"
+                [routerLink]="['/browse', parentIssueKey ? parentIssueKey : issueKey, 'purpose', issueKey, 'timeline']">
+                <fa-icon icon="map-signs" size="fw"> </fa-icon> View timeline
             </a>
 
             <ng-content></ng-content>

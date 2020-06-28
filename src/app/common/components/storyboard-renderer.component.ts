@@ -77,7 +77,6 @@ export class StoryboardRendererComponent implements OnInit, OnDestroy {
                     if (!exists) {
                         const found = _.find(refProject.metadata.versions, { name: fv });
                         if (found) {
-                            console.log(issue.memento);
                             issue.memento.fixVersions.push({ id: found.name, name: `${found.name}` + (found.releaseDate ? ` (${found.releaseDate})` : '') });
                         }
                     }

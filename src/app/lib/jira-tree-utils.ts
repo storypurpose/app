@@ -217,6 +217,7 @@ export function flattenNodes(issues) {
             title: item.fields.summary,
             label: _.truncate(item.fields.summary, { length: MAX_LENGTH }),
             issueType: item.issueType,
+            description: item.description,
             status: item.status,
             project: item.project,
             created: item.created,

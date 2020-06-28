@@ -59,7 +59,7 @@ export class SelectedIssueContainerComponent extends ResizableContainerBase impl
                 this.compactView = false;
                 this.selectedIssue = selectedIssue;
                 this.primaryAndSelectIssueSame = this.checkIsPrimaryAndSelectIssueSame();
-                this.canNavigateToStoryboard = this.primaryAndSelectIssueSame && this.selectedIssue.issueType === 'Epic';
+                this.canNavigateToStoryboard = this.primaryAndSelectIssueSame; // && this.selectedIssue.issueType === 'Epic';
 
                 if (!this.primaryIssue || !this.primaryIssue.key ||
                     this.selectedIssue.key.toLowerCase() !== this.primaryIssue.key.toLowerCase()) {

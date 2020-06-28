@@ -6,6 +6,7 @@ import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { CustomNodeTypes } from 'src/app/lib/jira-tree-utils';
 import { groupChildren } from 'src/app/lib/utils';
+import { UpdateFieldValueAction } from '../../+state/issue.actions';
 
 const LEFT_PANE_WIDTH = 60;
 
@@ -120,4 +121,31 @@ export class WorkbenchComponent implements OnInit, OnDestroy {
         this.selectedRelatedIssue = null;
         this.selectedIssue = this.issue;
     }
+
+    onDescriptionUpdated(eventArgs) {
+        this.store$.dispatch(new UpdateFieldValueAction(eventArgs));
+    }
+
+    editDescription = false;
+    descMomento: string;
+    onEditDescription() {
+        if (this.issue) {
+            this.descMomento = this.issue.description;
+            this.editDescription = true;
+        }
+    }
+    onSaveDescription() {
+        this.onDescriptionUpdated({ issueKey: this.issue.key, fieldName: 'description', updatedValue: this.descMomento });
+        this.issue.description = this.descMomento;
+        this.editDescription = false;
+    }
+    onCancelDescription(event) {
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        this.issue.description = this.descMomento;
+        this.editDescription = false;
+    }
 }
+

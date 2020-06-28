@@ -7,7 +7,7 @@ import { Key } from 'ts-key-enum';
     templateUrl: './issue-details.component.html'
 })
 export class IssueDetailsComponent {
-    
+    @Output() descriptionUpdated = new EventEmitter<any>();
     issue: any;
     private _currentIndex: number;
     @Input() set currentIndex(value: number) {
@@ -30,25 +30,12 @@ export class IssueDetailsComponent {
     }
 
     navigateToPrevious() {
-        this.descMomento = '';
         this.currentIndex = (this.currentIndex > 0) ? this.currentIndex - 1 : 0;
     }
 
     navigateToNext() {
-        this.descMomento = '';
         this.currentIndex = (this.list && this.currentIndex < (this.list.length - 1)) ? this.currentIndex + 1 : this.currentIndex;
     }
-    
-    // @HostListener('keydown', ['$event'])
-    // hotkeyHandler($event: any) {
-    //     if ($event.code === Key.ArrowLeft && $event.ctrlKey) {
-    //         this.navigateToPrevious();
-    //         return false;
-    //     } else if ($event.code === Key.ArrowRight && $event.ctrlKey) {
-    //         this.navigateToNext();
-    //         return false;
-    //     }
-    // }
 
     editDescription = false;
     descMomento: string;
@@ -59,6 +46,8 @@ export class IssueDetailsComponent {
         }
     }
     onSaveDescription() {
+        this.descriptionUpdated.emit({ issueKey: this.issue.key, fieldName: 'description', updatedValue: this.descMomento });
+        this.issue.description = this.descMomento;
         this.editDescription = false;
     }
     onCancelDescription(event) {
@@ -69,4 +58,15 @@ export class IssueDetailsComponent {
         this.issue.description = this.descMomento;
         this.editDescription = false;
     }
+
+    // @HostListener('keydown', ['$event'])
+    // hotkeyHandler($event: any) {
+    //     if ($event.code === Key.ArrowLeft && $event.ctrlKey) {
+    //         this.navigateToPrevious();
+    //         return false;
+    //     } else if ($event.code === Key.ArrowRight && $event.ctrlKey) {
+    //         this.navigateToNext();
+    //         return false;
+    //     }
+    // }
 }

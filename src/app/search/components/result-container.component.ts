@@ -21,8 +21,8 @@ export class SearchResultContainerComponent implements OnInit, OnDestroy {
 
     issuelist: any;
     issuelist$: Subscription;
-    query$: Subscription;
-    queryParams$: Subscription;
+
+    emptyQueryParams$: Subscription;
     combined$: Subscription;
 
     public currentPageIndex = 1;
@@ -36,23 +36,32 @@ export class SearchResultContainerComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.store$.dispatch(new ToggleQueryEditorVisibilityAction(true));
 
-        const queryParamsQ = this.activatedRoute.queryParams.pipe(filter(p => p && p["query"] && p["query"].length > 0), map(p => p["query"]));
-        const allExtendedFieldsQ = this.store$.select(p => p.app.allExtendedFields);
+        const queryContextQ = this.store$.select(p => p.search.queryContext)
+            .pipe(filter(p => p && p.query && p.query.length > 0), map(p => p.query));
+        const emptyQueryParamQ = this.activatedRoute.queryParams.pipe(filter(p => !p || !p["query"]));
+        this.emptyQueryParams$ = combineLatest(queryContextQ, emptyQueryParamQ) //redirect from storypurpose view
+            .subscribe(([query]) => {
+                this.router.navigate([], { relativeTo: this.activatedRoute, queryParams: { query } })
+            }
+            );
 
+        const queryParamsQ = this.activatedRoute.queryParams
+            .pipe(filter(p => p && p["query"] && p["query"].length > 0), map(p => p["query"]));
+        const allExtendedFieldsQ = this.store$.select(p => p.app.allExtendedFields);
         this.combined$ = combineLatest(queryParamsQ, allExtendedFieldsQ)
             .subscribe(([query, allExtendedFields]) => {
                 this.query = query;
                 this.allExtendedFields = allExtendedFields;
                 this.executeQuery();
             });
-        this.issuelist$ = this.store$.select(p => p.search.issuelist).pipe(filter(p => p))
+
+        this.issuelist$ = this.store$.select(p => p.search.issuelist)
             .subscribe(key => this.issuelist = key);
     }
     ngOnDestroy(): void {
         this.combined$ ? this.combined$.unsubscribe() : null;
         this.issuelist$ ? this.issuelist$.unsubscribe : null;
-        this.query$ ? this.query$.unsubscribe : null;
-        this.queryParams$ ? this.queryParams$.unsubscribe : null;
+        this.emptyQueryParams$ ? this.emptyQueryParams$.unsubscribe() : null;
     }
 
     parseQueryContext(value: any, parsedList) {

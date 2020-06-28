@@ -8,6 +8,11 @@
     </div>
     <nav aria-label="breadcrumb" *ngIf="!compactView">
         <ol class="breadcrumb small bg-light p-0 m-0">
+            <li class="breadcrumb-item">
+                <a [routerLink]="['/search/list']" class="text-uppercase">
+                    <fa-icon icon="search" class="mr-1"></fa-icon> Results
+                </a>
+            </li>
             <li class="breadcrumb-item" *ngIf="primaryIssue && !primaryAndSelectIssueSame">
                 <a [routerLink]="['/browse', primaryIssue.key]" class="text-uppercase">
                     {{primaryIssue.issueType}}: {{primaryIssue.key}}
@@ -20,7 +25,7 @@
 
                 <div class="badge text-truncate ml-2" [ngClass]="{'badge-success': selectedIssue.resolution, 
                 'badge-warning':!selectedIssue.resolution && selectedIssue.duedateMissing,
-                'badge-secondary':!selectedIssue.resolution && selectedIssue.duedateMissing}">
+                'badge-secondary':!selectedIssue.resolution && !selectedIssue.duedateMissing}">
                     {{selectedIssue.status}}
                 </div>
 
@@ -47,7 +52,7 @@
 
         <a class="btn btn-default border btn-sm text-nowrap" routerLink="storyboard" title="Storyboard"
             [routerLinkActive]="'active'" *ngIf="canNavigateToStoryboard">
-            <fa-icon icon="map" size="sm"></fa-icon>
+            <fa-icon [icon]="['far', 'map']" size="sm"></fa-icon>
             <span class=" ml-1">Storyboard</span>
         </a>
 

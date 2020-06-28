@@ -85,6 +85,7 @@
 </div>
 
 <p-sidebar [(visible)]="issueDetailsVisible" [fullScreen]="true" styleClass="bg-light" [showCloseIcon]="false">
-    <app-issue-details [list]="filteredItems" [currentIndex]="currentIndex" (close)="issueDetailsVisible = false">
+    <app-issue-details [list]="filteredItems" [currentIndex]="currentIndex" (close)="issueDetailsVisible = false"
+        (descriptionUpdated)="onDescriptionUpdated($event)">
     </app-issue-details>
 </p-sidebar>

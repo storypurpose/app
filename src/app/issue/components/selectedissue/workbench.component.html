@@ -2,8 +2,34 @@
     <as-split direction="horizontal" *ngIf="issue" (gutterDblClick)="toggleFullscreen()" (dragEnd)="dragEnd($event)">
         <as-split-area [size]="columns[0].size">
             <div class="alert mr-5" style="overflow: auto;">
-                <div class="mb-4">
-                    <ngx-md [data]="issue.description"></ngx-md>
+
+                <div class="p-2 mb-4 hover-container" *ngIf="!editDescription">
+                    <button class="btn btn-link btn-sm hover-button float-right"
+                        (click)="onEditDescription()">
+                        <i class="fa fa-pencil-alt text-muted"></i>
+                    </button>
+
+                    <ngx-md *ngIf="issue.description && issue.description.length > 0"
+                        [data]="issue.description"></ngx-md>
+
+                    <div class="text-muted font-italic"
+                        *ngIf="!issue.description || issue.description.length === 0">
+                        No description
+                    </div>
+                </div>
+
+                <div class="p-2" *ngIf="editDescription">
+                    <textarea class="form-control bg-light" [appAutofocus]="editDescription"
+                        (keydown.control.enter)="onSaveDescription()" [(ngModel)]="descMomento"
+                        (keydown.escape)="onCancelDescription($event)" rows="8"></textarea>
+                    <div class="pt-2 text-right">
+                        <button class="btn btn-primary btn-sm mr-1" (click)="onSaveDescription()">
+                            <fa-icon icon="check" class="mr-1"></fa-icon> Save
+                        </button>
+                        <button class="btn btn-light btn-sm" (click)="onCancelDescription(null)">
+                            <fa-icon icon="times" class="mr-1"></fa-icon> Cancel
+                        </button>
+                    </div>
                 </div>
 
                 <div class="small alert bg-light mb-4">
@@ -96,7 +122,8 @@
 
                                 <div *ngIf="selectedEpicIssue">
                                     <app-task-list [issue]="selectedEpicIssue" [showIssue]="true"
-                                        (close)="resetSelectedEpicIssue()">
+                                        (close)="resetSelectedEpicIssue()"
+                                        (descriptionUpdated)="onDescriptionUpdated($event)">
                                     </app-task-list>
                                 </div>
 
@@ -152,7 +179,8 @@
                             </div>
                             <div *ngIf="selectedRelatedIssue">
                                 <app-task-list [issue]="selectedRelatedIssue" (close)="resetSelectedRelatedIssue()"
-                                    [showIssue]="true"></app-task-list>
+                                    [showIssue]="true" (descriptionUpdated)="onDescriptionUpdated($event)">
+                                </app-task-list>
                             </div>
                         </div>
                     </ng-template>
@@ -165,7 +193,8 @@
                     </a>
                     <ng-template ngbNavContent>
                         <div class="pl-2 pr-2 pb-2">
-                            <app-task-list [issue]="selectedIssue" [showIssue]="false"></app-task-list>
+                            <app-task-list [issue]="selectedIssue" [showIssue]="false"
+                                (descriptionUpdated)="onDescriptionUpdated($event)"></app-task-list>
                         </div>
                     </ng-template>
                 </li>

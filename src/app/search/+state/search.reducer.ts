@@ -11,7 +11,8 @@ export function searchReducer(state: Search, action: any): Search {
             return { ...state, queryContext: action.payload };
         }
         case ActionTypes.LoadSearchResults: {
-            return { ...state, issuelist: [] };
+            const queryContext = action.payload;
+            return { ...state, issuelist: [], queryContext };
         }
         case ActionTypes.LoadSearchResultsSuccess: {
             return { ...state, issuelist: action.payload };

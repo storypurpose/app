@@ -151,7 +151,6 @@ function populateIssueDetails(payload: any) {
     }
 
     const issueDetails: any = jiraTreeUtil.populateFieldValuesCompactWithExtendedFields(payload.issue, extendedFields);
-    console.log(issueDetails, extendedFields);
     if (issueDetails) {
         issueDetails.organization = payload.organization;
         issueDetails.projectConfig = payload.projectConfig;

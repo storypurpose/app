@@ -7,7 +7,4 @@ import { environment } from '../../../environments/environment'
 export class HelpLinkComponent {
     @Input() tag: string;
     public helpurl = environment.helpsite
-    constructor() {
-        console.log('here');
-    }
 }

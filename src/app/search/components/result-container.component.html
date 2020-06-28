@@ -29,7 +29,7 @@
 
                 <a class="btn btn-default border text-nowrap" routerLink="storyboard" [routerLinkActive]="'active'"
                     queryParamsHandling="preserve">
-                    <fa-icon icon="map" [fixedWidth]="true"></fa-icon>
+                    <fa-icon [icon]="['far', 'map']" [fixedWidth]="true"></fa-icon>
                     Storyboard
                 </a>
 
@@ -40,8 +40,8 @@
                 </a>
             </div>
 
-            <i class="small text-muted" *ngIf="issuelist && issuelist.total > issuelist.pageSize">
-                NOTE: The views slow 50 records at a time
+            <i class="small" *ngIf="issuelist && issuelist.total > issuelist.pageSize">
+                NOTE: Displaying {{issuelist.pageSize}} records at a time
             </i>
         </div>
 
@@ -50,6 +50,7 @@
     <div class="body-container">
         <div class="w-100">
             <router-outlet></router-outlet>
+
             <h4 class="center-text font-weight-light p-3" *ngIf="issuelist && issuelist.total === 0">
                 <fa-icon icon="exclamation-triangle" class="mr-2 text-muted" size="xs"></fa-icon>
                 No Records found.

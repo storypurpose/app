@@ -12,11 +12,8 @@ import { SearchState } from '../+state/search.state';
 })
 export class SearchListViewComponent implements OnInit, OnDestroy {
 
-    query: string;
     issuelist: any;
     issuelist$: Subscription;
-    queryParams$: Subscription;
-    query$: Subscription;
 
     public currentPageIndex = 1;
 
@@ -41,7 +38,6 @@ export class SearchListViewComponent implements OnInit, OnDestroy {
     }
 
     printExtendedValue(value) {
-        console.log(Date.parse(value));
         if (!value) return '';
         if (!isNaN(Date.parse(value))) {
             return new Date(value).toDateString();

@@ -17,15 +17,19 @@
                 <span class="text-uppercase text-dark">
                     {{selectedIssue.issueType}}: {{selectedIssue.key}}
                 </span>
+
+                <div class="badge text-truncate ml-2" [ngClass]="{'badge-success': selectedIssue.resolution, 
+                'badge-warning':!selectedIssue.resolution && selectedIssue.duedateMissing,
+                'badge-secondary':!selectedIssue.resolution && selectedIssue.duedateMissing}">
+                    {{selectedIssue.status}}
+                </div>
+
             </li>
         </ol>
     </nav>
 
     <h2 class="font-weight-light">
         {{selectedIssue.title}}
-        <sup class="badge badge-light text-uppercase text-muted" style="font-size: small;">
-            {{selectedIssue.status}}
-        </sup>
     </h2>
 
     <div class="btn-group" *ngIf="!compactView">

@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 import { CustomNodeTypes, isCustomNode } from './jira-tree-utils';
 import * as statsUtil from './statistics-utils';
+import * as utils from './utils';
 
 export function populateMetadata(records, startdateCode) {
     startdateCode = startdateCode || 'created';
@@ -83,16 +84,12 @@ export function transformToTreeChildren(children, timespanLookup, startdateCode,
 
 function prepareTitle(node: any) {
     const datePrefix = node.missingStartdate ? 'CD:' : ''
-    const created = node.created ? toShortDate(new Date(node.created)) : 'No created date';
-    const duedate = node.duedate ? toShortDate(new Date(node.duedate)) : ' No duedate'
+    const created = node.created ? utils.toShortDate(new Date(node.created)) : 'No created date';
+    const duedate = node.duedate ? utils.toShortDate(new Date(node.duedate)) : ' No duedate'
     const key = node.key ? node.key + ":" : '';
     const status = node.status ? `[${node.status}]` : '';
     const resolution = node.resolution ? `[${node.resolution}]` : 'UNRESOLVED';
     return `${key} ${node.title} ${status} [${datePrefix}${created} - ${duedate}] ${resolution}`;
-}
-
-function toShortDate(date) {
-    return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
 }
 
 function monthDiff(dateFrom, dateTo) {

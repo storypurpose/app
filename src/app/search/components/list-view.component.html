@@ -23,7 +23,12 @@
 
         <td class="text-truncate">{{issue.title}}</td>
         <td class="text-truncate">{{issue.duedate | date:'MMM dd, yyyy'}}</td>
-        <td class="text-truncate">{{issue.status}}</td>
+        <td>
+            <div class="badge text-truncate mt-1"
+                [ngClass]="{'badge-success': issue.resolution, 'badge-warning':!issue.resolution && issue.duedateMissing}">
+                {{issue.status}}
+            </div>
+        </td>
         <td>
             <a (click)="openIssueAtIndex(idx)" class="text-primary text-nowrap ml-2"
                 [ngClass]="{'issue-resolved': issue.resolution}">

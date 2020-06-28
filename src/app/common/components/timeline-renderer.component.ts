@@ -1,6 +1,7 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
 import * as _ from 'lodash';
 import { isCustomNode } from 'src/app/lib/jira-tree-utils';
+import * as utils from '../../lib/utils';
 
 @Component({
     selector: 'app-timeline-renderer',
@@ -59,7 +60,7 @@ export class TimelineRendererComponent {
         return !rowData.statistics && !isCustomNode(rowData) && !rowData.resolution && (rowData.missingStartdate || rowData.missingDuedate || rowData.duedatePassed);
     }
     getMiscInfo(rowData) {
-        return `${(rowData.missingStartdate ? 'No startdate.' : '')} ${(rowData.missingDuedate ? 'No duedate.' : '')} ${(rowData.duedatePassed ? 'Duedate elapsed' : '')}`
+        return `${(rowData.missingStartdate ? 'No startdate.' : '')} ${(rowData.missingDuedate ? 'No duedate.' : '')} ${(rowData.duedatePassed ? `Duedate ${utils.toShortDate(new Date(rowData.duedate))} elapsed` : '')}`
     }
 
     isCustomTypeNode = rowData => isCustomNode(rowData);

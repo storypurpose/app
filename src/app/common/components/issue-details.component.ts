@@ -1,11 +1,13 @@
-import { Component, Input, EventEmitter, Output, HostListener } from '@angular/core';
+import { Component, Input, EventEmitter, Output, HostListener, ViewChild } from '@angular/core';
 import * as _ from 'lodash';
+import { Key } from 'ts-key-enum';
 
 @Component({
     selector: 'app-issue-details',
     templateUrl: './issue-details.component.html'
 })
 export class IssueDetailsComponent {
+    
     issue: any;
     private _currentIndex: number;
     @Input() set currentIndex(value: number) {
@@ -28,10 +30,43 @@ export class IssueDetailsComponent {
     }
 
     navigateToPrevious() {
-        this.currentIndex = this.currentIndex - 1;
+        this.descMomento = '';
+        this.currentIndex = (this.currentIndex > 0) ? this.currentIndex - 1 : 0;
     }
 
     navigateToNext() {
-        this.currentIndex = this.currentIndex + 1;
+        this.descMomento = '';
+        this.currentIndex = (this.list && this.currentIndex < (this.list.length - 1)) ? this.currentIndex + 1 : this.currentIndex;
+    }
+    
+    // @HostListener('keydown', ['$event'])
+    // hotkeyHandler($event: any) {
+    //     if ($event.code === Key.ArrowLeft && $event.ctrlKey) {
+    //         this.navigateToPrevious();
+    //         return false;
+    //     } else if ($event.code === Key.ArrowRight && $event.ctrlKey) {
+    //         this.navigateToNext();
+    //         return false;
+    //     }
+    // }
+
+    editDescription = false;
+    descMomento: string;
+    onEditDescription() {
+        if (this.issue) {
+            this.descMomento = this.issue.description;
+            this.editDescription = true;
+        }
+    }
+    onSaveDescription() {
+        this.editDescription = false;
+    }
+    onCancelDescription(event) {
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        this.issue.description = this.descMomento;
+        this.editDescription = false;
     }
 }

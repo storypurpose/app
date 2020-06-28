@@ -1,31 +1,64 @@
-<div class="pane" *ngIf="issue">
+<div class="pane" #issueDetails *ngIf="issue">
     <div class="pane-fullheader bg-white container-fluid">
         <button class="btn btn-link mt-3 float-left mr-2" (click)="onClose()">
             <fa-icon [icon]="['far', 'arrow-alt-circle-left']" size="3x"></fa-icon>
         </button>
-        <div class="btn btn-group float-right">
-            <button class="btn btn-link btn-sm" *ngIf="currentIndex > 0" (click)="navigateToPrevious()">
-                <fa-icon icon="chevron-left"></fa-icon>
-            </button>
-            <button class="btn btn-link btn-sm" *ngIf="list && currentIndex < list.length" (click)="navigateToNext()">
-                <fa-icon icon="chevron-right"></fa-icon>
-            </button>
-            <app-issue-navigation-menu class="mt-1" [issueKey]="issue.key">
-            </app-issue-navigation-menu>
+        <div class=" float-right">
+
+            <span *ngIf="list">[{{currentIndex + 1}} / {{list.length}}]</span>
+
+            <div class="btn btn-group">
+                <button class="btn btn-link btn-sm" *ngIf="currentIndex > 0" (click)="navigateToPrevious()">
+                    <fa-icon icon="chevron-left"></fa-icon>
+                </button>
+                <button class="btn btn-link btn-sm" *ngIf="list && currentIndex < (list.length - 1)"
+                    (click)="navigateToNext()">
+                    <fa-icon icon="chevron-right"></fa-icon>
+                </button>
+                <app-issue-navigation-menu class="mt-1" [issueKey]="issue.key">
+                </app-issue-navigation-menu>
+            </div>
         </div>
         <div class="pt-3">
-            <span class="text-uppercase font-weight-light">{{issue.issueType}}: {{issue.key}}</span>
+            <span class="text-uppercase font-weight-light" [ngClass]="{'issue-resolved': issue.resolution}">
+                {{issue.issueType}}: {{issue.key}}
+            </span>
+
+            <span class="badge ml-2" [ngClass]="{'badge-danger': !issue.resolution && issue.duedateMissing, 
+                'badge-secondary': !issue.resolution && !issue.duedateMissing, 
+                'badge-success':issue.resolution}">
+                {{issue.status}}
+            </span>
+
+            <span *ngIf="!issue.resolution">
+                <span *ngIf="!issue.duedate" class="text-warning ml-2">
+                    <fa-icon [icon]="['far', 'calendar-times']" title="Missing duedate"></fa-icon>
+                </span>
+                <span *ngIf="issue.duedate" class="ml-1 small" [ngClass]="{'text-danger': issue.duedateMissing}">
+                    Due by {{issue.duedate | date:'fullDate'}}
+                </span>
+            </span>
+
             <div [title]="issue.title" class="h4">{{issue.title}}</div>
         </div>
+
     </div>
     <div class="pane-fullbody">
         <div class=" container-fluid pl-5">
+            <pre>{{issue|json}}</pre>
+
             <div class="ml-5 mt-4 mr-4 mb-4">
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="bg-white mt-2 p-4 rounded custom-shadow">
-                            <div class="mb-4">
-                                <ngx-md [data]="issue.description"></ngx-md>
+                        <div class="bg-white p-3 mt-2 rounded custom-shadow mb-5">
+                            <div class="p-2 mb-2 hover-container" *ngIf="!editDescription">
+                                <button class="btn btn-link btn-sm hover-button float-right"
+                                    (click)="onEditDescription()">
+                                    <i class="fa fa-pencil-alt text-muted"></i>
+                                </button>
+
+                                <ngx-md *ngIf="issue.description && issue.description.length > 0"
+                                    [data]="issue.description"></ngx-md>
 
                                 <div class="text-muted font-italic"
                                     *ngIf="!issue.description || issue.description.length === 0">
@@ -33,7 +66,22 @@
                                 </div>
                             </div>
 
-                            <div *ngIf="issue.extendedFields && issue.extendedFields.length > 0">
+                            <div class="p-2" *ngIf="editDescription">
+                                <textarea class="form-control bg-light" [appAutofocus]="editDescription"
+                                    (keydown.control.enter)="onSaveDescription()"
+                                    (keydown.escape)="onCancelDescription($event)" rows="8"></textarea>
+                                <div class="pt-2 text-right">
+                                    <button class="btn btn-primary btn-sm mr-1" (click)="onSaveDescription()">
+                                        <fa-icon icon="check" class="mr-1"></fa-icon> Save
+                                    </button>
+                                    <button class="btn btn-light btn-sm" (click)="onCancelDescription(null)">
+                                        <fa-icon icon="times" class="mr-1"></fa-icon> Cancel
+                                    </button>
+                                </div>
+
+                            </div>
+
+                            <div class="p-2" *ngIf="issue.extendedFields && issue.extendedFields.length > 0">
                                 <div style="overflow: auto;" class="mb-4" *ngFor="let ef of issue.extendedFields">
                                     <div class="text-nowrap text-muted text-uppercase">{{ef.name}}</div>
                                     <div class="mt-1 text-dark ml-3">

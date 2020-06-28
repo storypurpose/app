@@ -17,4 +17,7 @@ export function groupChildren(children: any, groupByField: any) {
   });
 }
 
+export function toShortDate(date) {
+  return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+}
 

@@ -33,7 +33,6 @@ export class SearchTimelineViewComponent implements OnInit, OnDestroy, AfterView
         const projectsQ = this.store$.select(p => p.app.projects);
         this.combined$ = combineLatest(issuelistQ, projectsQ)
             .subscribe(([results, projects]) => {
-                console.log('projects', projects);
                 if (projects) {
                     const firstProject: any = _.head(projects); //hack take startdate field from first project
                     this.startdateField = firstProject && firstProject.startdate ? firstProject.startdate.id : 'created';

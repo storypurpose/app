@@ -136,10 +136,12 @@ body .ui-sidebar {
 .pane .pane-fullheader {
   height: 80pt;
   box-shadow: 0 2px 4px #aaa;
+  border-bottom: solid 1px #aaa;
+  overflow: auto;
 }
 .pane .pane-fullbody {
-  top: 80pt;
-  height: calc(100% - 80pt);
+  top: 84pt;
+  height: calc(100% - 86pt);
   position: absolute;
   width: 100%;
   margin: 0;
@@ -428,17 +430,24 @@ body .ui-multiselect .ui-multiselect-trigger {
   border-width: 0 0 1px 0;
   text-align: center;
   background-color: #eee;
+  padding: 0.4em 0.8em;
 }
 .timeline .ui-treetable .ui-treetable-tbody > tr > td {
   border-width: 0 1px 0 0;
   border-color: #f8f8f8;
+  padding: 0.25em 0.8em;
 }
 
+/* .treetable-label > td {
+  border-bottom: solid 1px #eee !important;
+}
+ */
 .treetable-data > td {
-  padding: 11pt 0 !important;
+  padding: 0.25em 0 !important;
 }
 .timeline-height {
-  height: 5pt;
+  height: 0.4em;
+  margin: 0.5em 0 0.6em 0;
 }
 .bg-timeline {
   background-color: #ddd;
@@ -478,4 +487,9 @@ body .ui-multiselect .ui-multiselect-trigger {
   position: fixed;
   bottom: 0;
   right: 10pt;
+}
+
+.badge {
+  font-weight: 400;
+  text-transform: uppercase;
 }

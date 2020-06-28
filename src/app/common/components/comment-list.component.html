@@ -7,10 +7,10 @@
     <fa-icon icon="spinner" [spin]="true" aria-hidden="true" class="mr-1"></fa-icon> loading...
 </div>
 <div *ngIf="!loading" style="overflow:auto">
-    <div *ngIf="!comments || comments.total === 0" class="alert alert-warning">
+    <!-- <div *ngIf="!comments || comments.total === 0" class="alert alert-warning">
         No comments
     </div>
-
+ -->
     <div *ngIf="comments && comments.records">
         <div *ngFor="let comment of comments.records">
             <small class="text-uppercase">{{comment.created | date:'short'}}</small>

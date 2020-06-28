@@ -110,6 +110,7 @@ export function populateFieldValuesCompact(node) {
             title: node.fields.summary,
             icon: getIcon(issueType),
             duedate: node.fields.duedate,
+            duedateMissing: node.fields.duedate && (new Date(node.fields.duedate) < new Date()),
             created: node.fields.created,
             updated: node.fields.updated,
             resolution: node.fields.resolution ? node.fields.resolution.name : null,

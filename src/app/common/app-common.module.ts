@@ -31,11 +31,12 @@ import { SidebarModule } from 'primeng/sidebar';
 import { ExtendedFieldsComponent } from './components/extended-fields.component';
 import { AttachmentsComponent } from './components/attachments.component';
 import { NgxFilesizeModule } from 'ngx-filesize';
+import { IssueMetafieldsComponent } from './components/issue-metafields.component';
 
 const components = [
   ButtonPanelComponent, StoryboardRendererComponent, StatisticsComponent, AutofocusDirective,
   MultilistSelectorComponent, IssueNavigationMenuComponent, TimelineRendererComponent, HelpLinkComponent,
-  ExtendedFieldsComponent, AttachmentsComponent,
+  IssueMetafieldsComponent, ExtendedFieldsComponent, AttachmentsComponent,
   TasklistComponent,
   CommentlistComponent, IssueDetailsComponent
 ];

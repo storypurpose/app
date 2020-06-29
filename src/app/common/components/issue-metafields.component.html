@@ -1,0 +1,43 @@
+<div class="row" *ngIf="issue">
+    <div class="col-md-4" *ngIf="issue.fixVersions && issue.fixVersions.length > 0">
+        <div class="text-muted">
+            FIX VERSION
+            <a (click)="fixversionsVisible = !fixversionsVisible" class="ml-1 text-primary"
+                *ngIf="issue.fixVersions && issue.fixVersions.length > 1">
+                {{issue.fixVersions.length - 1}} more
+                <fa-icon [icon]="(fixversionsVisible ? 'angle-up' : 'angle-down')"></fa-icon>
+            </a>
+        </div>
+        <div class="ml-1" *ngFor="let fv of issue.fixVersions;let idx = index">
+            <span *ngIf="idx===0 || (fixversionsVisible && idx > 0)">- {{fv}}</span>
+        </div>
+    </div>
+
+    <div class="col-md-4" *ngIf="issue.components && issue.components.length > 0">
+        <div class="text-muted">
+            COMPONENTS
+            <a (click)="componentsVisible = !componentsVisible" class="ml-1 text-primary"
+                *ngIf="issue.components && issue.components.length > 1">
+                {{issue.components.length - 1}} more
+                <fa-icon [icon]="(componentsVisible ? 'angle-up' : 'angle-down')"></fa-icon>
+            </a>
+        </div>
+        <div class="ml-1" *ngFor="let fv of issue.components;let idx = index">
+            <span *ngIf="idx===0 || (componentsVisible && idx > 0)">- {{fv}}</span>
+        </div>
+    </div>
+
+    <div class="col-md-4" *ngIf="issue.labels && issue.labels.length > 0">
+        <div class="text-muted">
+            LABELS
+            <a (click)="labelsVisible = !labelsVisible" class="ml-1 text-primary"
+                *ngIf="issue.labels && issue.labels.length > 1">
+                {{issue.labels.length - 1}} more
+                <fa-icon [icon]="(labelsVisible ? 'angle-up' : 'angle-down')"></fa-icon>
+            </a>
+        </div>
+        <div class="ml-1" *ngFor="let fv of issue.labels;let idx = index">
+            <span *ngIf="idx===0 || (labelsVisible && idx > 0)">- {{fv}}</span>
+        </div>
+    </div>
+</div>

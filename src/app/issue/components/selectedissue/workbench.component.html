@@ -3,17 +3,15 @@
         <as-split-area [size]="columns[0].size">
             <div class="alert mr-5" style="overflow: auto;">
 
-                <div class="p-2 mb-4 hover-container" *ngIf="!editDescription">
-                    <button class="btn btn-link btn-sm hover-button float-right"
-                        (click)="onEditDescription()">
+                <div class="p-2 mb-4" [ngClass]="{'hover-container': !issue.resolution}" *ngIf="!editDescription">
+                    <button class="btn btn-link btn-sm hover-button float-right" (click)="onEditDescription()">
                         <i class="fa fa-pencil-alt text-muted"></i>
                     </button>
 
-                    <ngx-md *ngIf="issue.description && issue.description.length > 0"
-                        [data]="issue.description"></ngx-md>
+                    <ngx-md *ngIf="issue.description && issue.description.length > 0" [data]="issue.description">
+                    </ngx-md>
 
-                    <div class="text-muted font-italic"
-                        *ngIf="!issue.description || issue.description.length === 0">
+                    <div class="text-muted font-italic" *ngIf="!issue.description || issue.description.length === 0">
                         No description
                     </div>
                 </div>
@@ -33,22 +31,7 @@
                 </div>
 
                 <div class="small alert bg-light mb-4">
-                    <div class="row">
-                        <div class="col-md-4" *ngIf="issue.fixVersions && issue.fixVersions.length > 0">
-                            <div class="text-muted">FIX VERSION: </div>
-                            <span class="mr-2" *ngFor="let fv of issue.fixVersions">{{fv}}</span>
-                        </div>
-
-                        <div class="col-md-4" *ngIf="issue.components && issue.components.length > 0">
-                            <div class="text-muted">COMPONENTS: </div>
-                            <span class="mr-2" *ngFor="let comp of issue.components">{{comp}}</span>
-                        </div>
-
-                        <div class="col-md-4" *ngIf="issue.labels && issue.labels.length > 0">
-                            <div class="text-muted">LABELS: </div>
-                            <span class="mr-2" *ngFor="let lbl of issue.labels">{{lbl}}</span>
-                        </div>
-                    </div>
+                    <app-issue-metafields [issue]="issue"></app-issue-metafields>
                 </div>
 
                 <div *ngIf="leftPaneSize > 0">

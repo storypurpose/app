@@ -5,7 +5,7 @@
         </button>
         <div class=" float-right">
 
-            <span *ngIf="list">[{{currentIndex + 1}} / {{list.length}}]</span>
+            <span *ngIf="list">{{currentIndex + 1}} / {{list.length}}</span>
 
             <div class="btn btn-group">
                 <button class="btn btn-link btn-sm" *ngIf="currentIndex > 0" (click)="navigateToPrevious()">
@@ -15,11 +15,12 @@
                     (click)="navigateToNext()">
                     <fa-icon icon="chevron-right"></fa-icon>
                 </button>
-                <app-issue-navigation-menu class="mt-1" [issueKey]="issue.key">
-                </app-issue-navigation-menu>
             </div>
+            <app-issue-navigation-menu style="position: fixed;top:8pt;right:10pt;" [issueKey]="issue.key">
+            </app-issue-navigation-menu>
+
         </div>
-        <div class="pt-3">
+        <div class="pt-2">
             <span class="text-uppercase font-weight-light" [ngClass]="{'issue-resolved': issue.resolution}">
                 {{issue.issueType}}: {{issue.key}}
             </span>
@@ -31,7 +32,7 @@
             </span>
 
             <span *ngIf="!issue.resolution">
-                <span *ngIf="!issue.duedate" class="text-warning ml-2">
+                <span *ngIf="!issue.duedate" class="text-danger ml-2">
                     <fa-icon [icon]="['far', 'calendar-times']" title="Missing duedate"></fa-icon>
                 </span>
                 <span *ngIf="issue.duedate" class="ml-1 small" [ngClass]="{'text-danger': issue.duedateMissing}">
@@ -45,12 +46,17 @@
     </div>
     <div class="pane-fullbody">
         <div class=" container-fluid pl-5">
-            <div class="ml-5 mt-4 mr-4 mb-4">
+            <div class="ml-5 mr-4 mb-4">
                 <div class="row">
                     <div class="col-md-6">
+                        <div class="mt-2 mb-3 small">
+                            <app-issue-metafields [issue]="issue"></app-issue-metafields>
+                        </div>
+
                         <div class="bg-white p-3 mt-2 rounded custom-shadow mb-5">
 
-                            <div class="p-2 mb-2 hover-container" *ngIf="!editDescription">
+                            <div class="p-2 mb-2" [ngClass]="{'hover-container': !issue.resolution}"
+                                *ngIf="!editDescription">
                                 <button class="btn btn-link btn-sm hover-button float-right"
                                     (click)="onEditDescription()">
                                     <i class="fa fa-pencil-alt text-muted"></i>
@@ -91,7 +97,9 @@
                         </div>
                     </div>
                     <div class="offset-md-1 col-md-5">
-                        <app-comment-list [issueKey]="issue.key" [showTitle]="true"></app-comment-list>
+                        <div class="mt-4">
+                            <app-comment-list [issueKey]="issue.key" [showTitle]="true"></app-comment-list>
+                        </div>
                     </div>
                 </div>
             </div>

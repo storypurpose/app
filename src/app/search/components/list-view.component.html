@@ -7,7 +7,6 @@
             <!-- <th width="10%" class="text-truncate" *ngFor="let ef of issuelist.extendedFields">{{ef.name}}</th> -->
             <th width="10%">Duedate</th>
             <th width="5%">Status</th>
-            <th width="1%">&nbsp;</th>
             <td width="1%">&nbsp;</td>
         </tr>
     </thead>
@@ -15,10 +14,15 @@
     <tr *ngFor="let issue of issuelist.results;let idx = index">
         <td><i class="{{issue.icon}} text-muted" [title]=issue.issueType></i></td>
         <td>
-            <a class="text-primary text-nowrap" [ngClass]="{'issue-resolved': issue.resolution}"
-                [routerLink]="['/browse', issue.key, 'purpose', issue.key]">
+            <a (click)="openIssueAtIndex(idx)" class="text-primary text-nowrap"
+                [ngClass]="{'issue-resolved': issue.resolution}">
                 {{issue.key}}
+                <!-- <fa-icon icon="external-link-alt" size="xs"></fa-icon> -->
             </a>
+
+            <!-- <a class="text-primary text-nowrap" [ngClass]="{'issue-resolved': issue.resolution}"
+                [routerLink]="['/browse', issue.key, 'purpose', issue.key]">
+            </a> -->
         </td>
 
         <td class="text-truncate">{{issue.title}}</td>
@@ -29,12 +33,6 @@
                 'badge-light border':!issue.resolution && !issue.duedateMissing}">
                 {{issue.status}}
             </div>
-        </td>
-        <td>
-            <a (click)="openIssueAtIndex(idx)" class="text-primary text-nowrap ml-2"
-                [ngClass]="{'issue-resolved': issue.resolution}">
-                <fa-icon icon="external-link-alt" size="sm"></fa-icon>
-            </a>
         </td>
         <td>
             <app-issue-navigation-menu [issueKey]="issue.key" class="mr-2"></app-issue-navigation-menu>

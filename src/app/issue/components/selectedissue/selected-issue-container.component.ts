@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import { CustomNodeTypes, searchTreeByKey } from 'src/app/lib/jira-tree-utils';
 import {
     UpdateOrganizationPurposeAction, SetSelectedIssueAction,
-    LoadSelectedIssueAction, LoadSelectedIssueEpicChildrenAction, LoadSelectedIssueRelatedLinksAction, ChangeSelectedIssueViewAction
+    LoadSelectedIssueAction, LoadSelectedIssueEpicChildrenAction, LoadSelectedIssueRelatedLinksAction, ChangeSelectedIssueViewAction, UpdateFieldValueAction
 } from '../../+state/issue.actions';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IssueState } from '../../+state/issue.state';
@@ -149,5 +149,30 @@ export class SelectedIssueContainerComponent extends ResizableContainerBase impl
     showIssueEntry = false;
     onCancelIssueEntry(args) {
         this.showIssueEntry = false
+    }
+
+    onTitleUpdated(eventArgs) {
+        this.store$.dispatch(new UpdateFieldValueAction(eventArgs));
+    }
+    editTitle = false;
+    titleMomento: string;
+    onEditTitle() {
+        if (this.selectedIssue) {
+            this.titleMomento = this.selectedIssue.title;
+            this.editTitle = true;
+        }
+    }
+    onSaveTitle() {
+        this.onTitleUpdated({ issueKey: this.selectedIssue.key, fieldName: 'summary', updatedValue: this.titleMomento });
+        this.selectedIssue.title = this.titleMomento;
+        this.editTitle = false;
+    }
+    onCancelTitle(event) {
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        this.selectedIssue.Title = this.titleMomento;
+        this.editTitle = false;
     }
 }

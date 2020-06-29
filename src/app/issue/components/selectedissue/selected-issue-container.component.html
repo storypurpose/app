@@ -33,9 +33,26 @@
         </ol>
     </nav>
 
-    <h2 class="font-weight-light">
+    <!-- [ngClass]="{'hover-container': !selectedIssue.resolution}" -->
+    <h2 class="font-weight-light"  *ngIf="!editTitle">
+        <button class="btn btn-link btn-sm hover-button float-right" (click)="onEditTitle()">
+            <i class="fa fa-pencil-alt text-muted"></i>
+        </button>
+
         {{selectedIssue.title}}
     </h2>
+    <div class="input-group mb-1" *ngIf="editTitle">
+        <text class="form-control" [appAutofocus]="editTitle" (keydown.control.enter)="onSaveTitle()"
+            [(ngModel)]="titleMomento" (keydown.escape)="onCancelTitle($event)"></text>
+        <div class="input-group-append">
+            <button class="btn btn-primary btn-sm" (click)="onSaveTitle()">
+                <fa-icon icon="check" [fixedWidth]="true"></fa-icon>
+            </button>
+            <button class="btn btn-secondary btn-sm" (click)="onCancelTitle(null)">
+                <fa-icon icon="times" [fixedWidth]="true"></fa-icon>
+            </button>
+        </div>
+    </div>
 
     <div class="btn-group" *ngIf="!compactView">
         <a class="btn btn-default border btn-sm text-nowrap" [routerLink]="['details']" title="View purpose"

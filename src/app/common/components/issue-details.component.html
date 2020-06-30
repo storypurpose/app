@@ -55,7 +55,7 @@
 
                         <div class="bg-white p-3 mt-2 rounded custom-shadow mb-5">
 
-                            <div class="p-2 mb-2" [ngClass]="{'hover-container': !issue.resolution}"
+                            <div class="p-2 mb-2" [ngClass]="{'hover-container': enableEdits && !issue.resolution}"
                                 *ngIf="!editDescription">
                                 <button class="btn btn-link btn-sm hover-button float-right"
                                     (click)="onEditDescription()">

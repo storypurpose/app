@@ -33,19 +33,17 @@
         </ol>
     </nav>
 
-    <!-- [ngClass]="{'hover-container': !selectedIssue.resolution}" -->
-    <h2 class="font-weight-light"  *ngIf="!editTitle">
+    <h2 class="font-weight-light mb-0" [ngClass]="{'hover-container': !selectedIssue.resolution}" *ngIf="!editTitle">
         <button class="btn btn-link btn-sm hover-button float-right" (click)="onEditTitle()">
             <i class="fa fa-pencil-alt text-muted"></i>
         </button>
-
         {{selectedIssue.title}}
     </h2>
     <div class="input-group mb-1" *ngIf="editTitle">
-        <text class="form-control" [appAutofocus]="editTitle" (keydown.control.enter)="onSaveTitle()"
-            [(ngModel)]="titleMomento" (keydown.escape)="onCancelTitle($event)"></text>
+        <input class="form-control" [appAutofocus]="editTitle" (keydown.enter)="onSaveTitle()"
+            [(ngModel)]="titleMemento" (keydown.escape)="onCancelTitle($event)">
         <div class="input-group-append">
-            <button class="btn btn-primary btn-sm" (click)="onSaveTitle()">
+            <button class="btn btn-primary btn-sm" (click)="onSaveTitle()" [disabled]="!canSaveTitle()">
                 <fa-icon icon="check" [fixedWidth]="true"></fa-icon>
             </button>
             <button class="btn btn-secondary btn-sm" (click)="onCancelTitle(null)">

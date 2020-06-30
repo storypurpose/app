@@ -7,6 +7,7 @@ import { Key } from 'ts-key-enum';
     templateUrl: './issue-details.component.html'
 })
 export class IssueDetailsComponent {
+    @Input() enableEdits;
     @Output() descriptionUpdated = new EventEmitter<any>();
     issue: any;
     private _currentIndex: number;

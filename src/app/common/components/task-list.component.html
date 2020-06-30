@@ -22,7 +22,7 @@
         </div>
     </div>
 
-    <div *ngIf="filteredItems && filteredItems.length > 0">
+    <div *ngIf="filteredItems && filteredItems.length > 0" class=" mb-5">
 
         <!-- <button class="btn btn-link btn-sm" *ngIf="!hasExtendedFields">
             <fa-icon icon="question-circle" size="sm"></fa-icon>
@@ -79,13 +79,13 @@
         </div>
     </div>
 
-    <div class="alert alert-warning mt-2" *ngIf="filteredItems && filteredItems.length === 0">
+    <div class="alert alert-warning mt-2 mb-5" *ngIf="filteredItems && filteredItems.length === 0">
         No detail records found.
     </div>
 </div>
 
 <p-sidebar [(visible)]="issueDetailsVisible" [fullScreen]="true" styleClass="bg-light" [showCloseIcon]="false">
-    <app-issue-details [list]="filteredItems" [currentIndex]="currentIndex" (close)="issueDetailsVisible = false"
-        (descriptionUpdated)="onDescriptionUpdated($event)">
+    <app-issue-details [list]="filteredItems" [currentIndex]="currentIndex" [enableEdits]="true"
+        (close)="issueDetailsVisible = false" (descriptionUpdated)="onDescriptionUpdated($event)">
     </app-issue-details>
 </p-sidebar>

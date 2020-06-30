@@ -42,7 +42,7 @@ export class SelectedIssueContainerComponent extends ResizableContainerBase impl
         super(cdRef, store$);
     }
     ngOnInit(): void {
-        this.init(50);
+        this.init(45);
         this.localNodeType = CustomNodeTypes;
 
         this.updatedField$ = this.store$.select(p => p.issue.updatedField).pipe(filter(p => p && this.selectedIssue))
@@ -155,24 +155,28 @@ export class SelectedIssueContainerComponent extends ResizableContainerBase impl
         this.store$.dispatch(new UpdateFieldValueAction(eventArgs));
     }
     editTitle = false;
-    titleMomento: string;
+    titleMemento: string;
     onEditTitle() {
+        console.log('this.selectedIssue', this.selectedIssue);
         if (this.selectedIssue) {
-            this.titleMomento = this.selectedIssue.title;
+            this.titleMemento = this.selectedIssue.title;
             this.editTitle = true;
         }
     }
+    canSaveTitle = () => this.titleMemento && this.titleMemento.length > 0;
     onSaveTitle() {
-        this.onTitleUpdated({ issueKey: this.selectedIssue.key, fieldName: 'summary', updatedValue: this.titleMomento });
-        this.selectedIssue.title = this.titleMomento;
-        this.editTitle = false;
+        if (this.canSaveTitle()) {
+            this.onTitleUpdated({ issueKey: this.selectedIssue.key, fieldName: 'summary', updatedValue: this.titleMemento });
+            this.selectedIssue.title = this.titleMemento;
+            this.editTitle = false;
+        }
     }
     onCancelTitle(event) {
         if (event) {
             event.preventDefault();
             event.stopPropagation();
         }
-        this.selectedIssue.Title = this.titleMomento;
+        this.selectedIssue.Title = this.titleMemento;
         this.editTitle = false;
     }
 }

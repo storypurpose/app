@@ -12,7 +12,6 @@ import { Router } from '@angular/router';
 })
 export class StoryboardRendererComponent implements OnInit, OnDestroy {
     @Output() fieldValueChange = new EventEmitter<any>();
-
     @Input() storyboardItem: any;
     expandedAll = true;
 
@@ -21,6 +20,7 @@ export class StoryboardRendererComponent implements OnInit, OnDestroy {
 
     public zoom = 100;
     @Input() groupByColumn;
+    @Output() itemSelected = new EventEmitter<any>();
 
     constructor(public router: Router, public store$: Store<AppState>) {
     }
@@ -48,8 +48,10 @@ export class StoryboardRendererComponent implements OnInit, OnDestroy {
         return records;
     }
 
-    navigateToPurpose(key) {
-        this.router.navigate(['/browse', this.storyboardItem.key || key, 'purpose', key, 'details'])
+    navigate(issueKey) {
+        const parentKey = this.storyboardItem.key || issueKey;
+        this.itemSelected.emit({ parentKey, issueKey })
+        //this.router.navigate(['/browse', parentKey, 'purpose', issueKey, 'details'])
     }
     expandCollapseAll() {
         this.expandedAll = !this.expandedAll;

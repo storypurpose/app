@@ -8,8 +8,8 @@
                 <fa-icon [icon]="(fixversionsVisible ? 'angle-up' : 'angle-down')"></fa-icon>
             </a>
         </div>
-        <div class="ml-1" *ngFor="let fv of issue.fixVersions;let idx = index">
-            <span *ngIf="idx===0 || (fixversionsVisible && idx > 0)">- {{fv}}</span>
+        <div class="ml-1 text-truncate" *ngFor="let fv of issue.fixVersions;let idx = index">
+            <span *ngIf="idx===0 || (fixversionsVisible && idx > 0)" [title]="fv">- {{fv}}</span>
         </div>
     </div>
 
@@ -22,8 +22,8 @@
                 <fa-icon [icon]="(componentsVisible ? 'angle-up' : 'angle-down')"></fa-icon>
             </a>
         </div>
-        <div class="ml-1" *ngFor="let fv of issue.components;let idx = index">
-            <span *ngIf="idx===0 || (componentsVisible && idx > 0)">- {{fv}}</span>
+        <div class="ml-1 text-truncate" *ngFor="let fv of issue.components;let idx = index">
+            <span *ngIf="idx===0 || (componentsVisible && idx > 0)" [title]="fv">- {{fv}}</span>
         </div>
     </div>
 
@@ -36,8 +36,8 @@
                 <fa-icon [icon]="(labelsVisible ? 'angle-up' : 'angle-down')"></fa-icon>
             </a>
         </div>
-        <div class="ml-1" *ngFor="let fv of issue.labels;let idx = index">
-            <span *ngIf="idx===0 || (labelsVisible && idx > 0)">- {{fv}}</span>
+        <div class="ml-1 text-truncate" *ngFor="let fv of issue.labels;let idx = index">
+            <span *ngIf="idx===0 || (labelsVisible && idx > 0)" [title]="fv">- {{fv}}</span>
         </div>
     </div>
 </div>

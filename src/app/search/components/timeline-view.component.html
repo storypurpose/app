@@ -1,5 +1,10 @@
 <div #content class="issuelist">
     <app-timeline-renderer *ngIf="timeline" [timeline]="timeline" (nodeExpand)="onNodeExpand($event)"
-        [contentHeight]="contentHeight">
-        </app-timeline-renderer>
+        [contentHeight]="contentHeight" (itemSelected)="onItemSelected($event)">
+    </app-timeline-renderer>
 </div>
+<p-sidebar [(visible)]="issueDetailsVisible" [fullScreen]="true" styleClass="bg-light" [showCloseIcon]="false">
+    <app-issue-details *ngIf="issuelist && issuelist.results" [list]="issuelist.results" [(currentIndex)]="currentIndex"
+        (close)="issueDetailsVisible = false" [enableEdits]="true" (fieldUpdated)="onFieldUpdated($event)">
+    </app-issue-details>
+</p-sidebar>

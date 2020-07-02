@@ -41,7 +41,7 @@
 </table>
 
 <p-sidebar [(visible)]="issueDetailsVisible" [fullScreen]="true" styleClass="bg-light" [showCloseIcon]="false">
-    <app-issue-details *ngIf="issuelist" [list]="issuelist.results" [currentIndex]="currentIndex"
-        (close)="issueDetailsVisible = false">
+    <app-issue-details *ngIf="issuelist && issuelist.results" [list]="issuelist.results" [(currentIndex)]="currentIndex"
+        (close)="issueDetailsVisible = false" [enableEdits]="true" (fieldUpdated)="onFieldUpdated($event)">
     </app-issue-details>
 </p-sidebar>

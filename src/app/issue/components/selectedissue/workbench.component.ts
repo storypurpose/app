@@ -130,26 +130,5 @@ export class WorkbenchComponent implements OnInit, OnDestroy {
         this.onFieldUpdated({ issueKey: this.issue.key, fieldName: 'description', updatedValue: eventArgs.updated });
         this.issue.description = eventArgs.updated;
     }
-    // editDescription = false;
-    // descMomento: string;
-    // onEditDescription() {
-    //     if (this.issue) {
-    //         this.descMomento = this.issue.description;
-    //         this.editDescription = true;
-    //     }
-    // }
-    // onSaveDescription() {
-    //     this.onFieldUpdated({ issueKey: this.issue.key, fieldName: 'description', updatedValue: this.descMomento });
-    //     this.issue.description = this.descMomento;
-    //     this.editDescription = false;
-    // }
-    // onCancelDescription(event) {
-    //     if (event) {
-    //         event.preventDefault();
-    //         event.stopPropagation();
-    //     }
-    //     this.issue.description = this.descMomento;
-    //     this.editDescription = false;
-    // }
 }
 

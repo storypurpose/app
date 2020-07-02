@@ -64,8 +64,8 @@
                                     </div>
 
                                     <div class="float-right text-muted small text-uppercase pt-1">{{item.status}}</div>
-                                    <a class="small text-uppercase text-primary" title="View purpose"
-                                        (click)="navigateToPurpose(item.key)"
+                                    <a class="small text-uppercase text-primary" style="cursor: pointer;"
+                                        title="View details" (click)="navigate(item.key)"
                                         [ngClass]="{'issue-resolved': item.resolution}">
                                         {{item.issueType}}: {{item.key}}
                                     </a>

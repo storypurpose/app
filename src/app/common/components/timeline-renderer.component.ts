@@ -9,6 +9,7 @@ import * as utils from '../../lib/utils';
 })
 
 export class TimelineRendererComponent {
+    @Output() itemSelected = new EventEmitter<any>();
     @Output() nodeExpand = new EventEmitter<any>();
     @Input() contentHeight: number;
 
@@ -64,4 +65,10 @@ export class TimelineRendererComponent {
     }
 
     isCustomTypeNode = rowData => isCustomNode(rowData);
+
+    navigate(issueKey) {
+        const parentKey = issueKey;
+        this.itemSelected.emit({ parentKey, issueKey })
+        //this.router.navigate(['/browse', parentKey, 'purpose', issueKey, 'details'])
+    }
 }

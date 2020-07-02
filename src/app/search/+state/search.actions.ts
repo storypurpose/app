@@ -16,8 +16,11 @@ export const ActionTypes = {
 
     LoadSearchResultTimelineNode: type("[LoadSearchResultTimelineNode]"),
     LoadSearchResultTimelineNodeFailed: type("[LoadSearchResultTimelineNode] Failed"),
-    LoadSearchResultTimelineNodeSuccess: type("[LoadSearchResultTimelineNode] Success")
+    LoadSearchResultTimelineNodeSuccess: type("[LoadSearchResultTimelineNode] Success"),
 
+    UpdateSearchFieldValue: type("[UpdateSearchFieldValue]"),
+    UpdateSearchFieldValueFailed: type("[UpdateSearchFieldValue] Failed"),
+    UpdateSearchFieldValueSuccess: type("[UpdateSearchFieldValue] Success"),
 }
 
 export class PopulateSearchResultTimelineViewAction implements Action {
@@ -42,6 +45,10 @@ export class LoadSavedSearchlistAction implements Action {
     type = ActionTypes.LoadSavedSearchlist;
     constructor(public payload: any) { }
 }
+export class UpdateSearchFieldValueAction implements Action {
+    type = ActionTypes.UpdateSearchFieldValue;
+    constructor(public payload: any) { }
+}
 
 export type Actions =
     PopulateSearchResultTimelineViewAction
@@ -50,4 +57,6 @@ export type Actions =
     | SetQueryContextAction
     | LoadSearchResultsAction
     | LoadSavedSearchlistAction
+
+    | UpdateSearchFieldValueAction
     ;

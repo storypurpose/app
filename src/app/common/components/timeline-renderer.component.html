@@ -26,8 +26,9 @@
                 <div class="text-truncate">
                     <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
                     <i class="{{rowData.icon}} text-muted"></i>
-                    <a [routerLink]="['/browse', rowData.key]" [ngClass]="{'issue-resolved': rowData.resolution}"
-                        class="ml-1 small" *ngIf="!isCustomTypeNode(rowData)">{{rowData.key}}</a>
+
+                    <a (click)="navigate(rowData.key)" [ngClass]="{'issue-resolved': rowData.resolution}"
+                        class="ml-1 small text-primary" *ngIf="!isCustomTypeNode(rowData)">{{rowData.key}}</a>
                 </div>
             </td>
             <td class="text-truncate small" width="300px">
@@ -37,8 +38,7 @@
                 <a *ngIf="rowData.statistics" class="text-primary" (click)="onShowStatistics(rowData.statistics)">
                     <fa-icon icon="chart-bar" title="show statistics"></fa-icon>
                 </a>
-                <fa-icon icon="exclamation-circle" *ngIf="hasMiscInfo(rowData)"
-                    [title]="getMiscInfo(rowData)" size="sm"
+                <fa-icon icon="exclamation-circle" *ngIf="hasMiscInfo(rowData)" [title]="getMiscInfo(rowData)" size="sm"
                     [ngClass]="{'text-muted': rowData.missingDuedate, 'text-warning': rowData.duedatePassed}"></fa-icon>
             </td>
         </tr>

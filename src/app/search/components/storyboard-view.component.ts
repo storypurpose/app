@@ -6,43 +6,46 @@ import { filter } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { initializeMetadata, mergeMetadata, extractMetadata, populateStatistics } from 'src/app/lib/statistics-utils';
 import { SearchState } from '../+state/search.state';
-
+import { Viewbase } from './view-base';
 @Component({
     selector: 'app-storyboard-view',
     templateUrl: './storyboard-view.component.html'
 })
-export class SearchStoryboardViewComponent implements OnInit, OnDestroy {
+export class SearchStoryboardViewComponent extends Viewbase implements OnInit, OnDestroy {
     selectedStatuses: any = [];
     statusLookup = [];
 
     showStatistics = false;
     groupByColumn = "components";
 
-    issuelist$: Subscription;
-    issuelist: any;
-
     public storyboardItem: any;
 
     public constructor(public activatedRoute: ActivatedRoute,
         public store$: Store<SearchState>) {
+        super(store$);
     }
 
     ngOnInit(): void {
         this.storyboardItem = { query: null, children: [] };
-
-        this.issuelist$ = this.store$.select(p => p.search.issuelist)
-            .pipe(filter(p => p))
-            .subscribe(list => {
-                this.issuelist = list;
-                this.plotStoryboard();
-            });
+        this.subscribeIssuelist();
+        // this.issuelist$ = this.store$.select(p => p.search.issuelist)
+        //     .pipe(filter(p => p))
+        //     .subscribe(list => {
+        //         this.issuelist = list;
+        //         this.plotStoryboard();
+        //     });
     }
 
     ngOnDestroy(): void {
-        this.issuelist$ ? this.issuelist$.unsubscribe() : null;
+        this.unsubscribeIssuelist();
+        // this.issuelist$ ? this.issuelist$.unsubscribe() : null;
     }
 
     onGroupByColumnChanged() {
+        this.plotStoryboard();
+    }
+
+    onIssuelistLoaded(): void {
         this.plotStoryboard();
     }
 

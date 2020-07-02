@@ -20,7 +20,8 @@
         </div>
     </div>
 
-    <app-storyboard-renderer [groupByColumn]="groupByColumn" [storyboardItem]="storyboardItem">
+    <app-storyboard-renderer (itemSelected)="onItemSelected($event)" [groupByColumn]="groupByColumn"
+        [storyboardItem]="storyboardItem">
     </app-storyboard-renderer>
 
     <p-dialog [header]="storyboardItem.statistics.title" *ngIf="storyboardItem.statistics" position="topright"
@@ -28,3 +29,9 @@
         <app-statistics [groupByColumn]="groupByColumn" [statistics]="storyboardItem.statistics"></app-statistics>
     </p-dialog>
 </div>
+
+<p-sidebar [(visible)]="issueDetailsVisible" [fullScreen]="true" styleClass="bg-light" [showCloseIcon]="false">
+    <app-issue-details *ngIf="issuelist && issuelist.results" [list]="issuelist.results" [(currentIndex)]="currentIndex"
+        (close)="issueDetailsVisible = false" [enableEdits]="true" (fieldUpdated)="onFieldUpdated($event)">
+    </app-issue-details>
+</p-sidebar>

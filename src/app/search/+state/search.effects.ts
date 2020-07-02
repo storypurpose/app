@@ -58,4 +58,13 @@ export class SearchEffects {
         )
     );
 
+    @Effect() updateSearchFieldValue = this.actions$.pipe(ofType(a.ActionTypes.UpdateSearchFieldValue),
+        switchMap((action: any) =>
+            this.jiraService.updateFieldValue$(action.payload)
+                .pipe(
+                    map(() => ({ type: a.ActionTypes.UpdateSearchFieldValueSuccess, payload: action.payload })),
+                    catchError(() => of({ type: a.ActionTypes.UpdateSearchFieldValueFailed }))
+                )
+        )
+    );
 }

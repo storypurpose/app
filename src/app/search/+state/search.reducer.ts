@@ -17,6 +17,18 @@ export function searchReducer(state: Search, action: any): Search {
         case ActionTypes.LoadSearchResultsSuccess: {
             return { ...state, issuelist: action.payload };
         }
+        // case ActionTypes.UpdateSearchFieldValueSuccess: {
+        //     const updatedField = action.payload;
+        //     return {
+        //         ...state, issuelist: {
+        //             ...state.issuelist, results: state.issuelist.results.map(node => {
+        //                 return (node.key === updatedField.issueKey)
+        //                     ? node[updatedField.fieldname] = updatedField.updatedValue
+        //                     : node;
+        //             })
+        //         }
+        //     };
+        // }
 
         case ActionTypes.LoadSavedSearchlist: {
             return { ...state, savedSearchlist: [] };

@@ -346,7 +346,7 @@ ngx-md h3,
 }
 .btn-default.disabled,
 .btn-default.disabled:hover {
-  opacity: 100% !important;
+  opacity: 95% !important;
   background-color: #e8e8e8;
   color: #888;
 }

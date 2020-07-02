@@ -18,6 +18,7 @@ export class IssueDetailsComponent {
     get currentIndex() {
         return this._currentIndex;
     }
+    @Output() currentIndexChange = new EventEmitter<any>();
 
     @Input() list: any;
 
@@ -32,10 +33,12 @@ export class IssueDetailsComponent {
 
     navigateToPrevious() {
         this.currentIndex = (this.currentIndex > 0) ? this.currentIndex - 1 : 0;
+        this.currentIndexChange.emit(this.currentIndex);
     }
 
     navigateToNext() {
         this.currentIndex = (this.list && this.currentIndex < (this.list.length - 1)) ? this.currentIndex + 1 : this.currentIndex;
+        this.currentIndexChange.emit(this.currentIndex);
     }
 
     onTitleUpdated(eventArgs) {

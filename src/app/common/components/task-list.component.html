@@ -86,6 +86,6 @@
 
 <p-sidebar [(visible)]="issueDetailsVisible" [fullScreen]="true" styleClass="bg-light" [showCloseIcon]="false">
     <app-issue-details [list]="filteredItems" [currentIndex]="currentIndex" [enableEdits]="true"
-        (close)="issueDetailsVisible = false" (descriptionUpdated)="onDescriptionUpdated($event)">
+        (close)="issueDetailsVisible = false" (fieldUpdated)="onFieldUpdated($event)">
     </app-issue-details>
 </p-sidebar>

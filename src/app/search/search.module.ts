@@ -25,6 +25,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { EffectsModule } from '@ngrx/effects';
 import { SearchEffects } from './+state/search.effects';
 import { SearchTimelineViewComponent } from './components/timeline-view.component';
+import { SharedLibModule } from '../shared-lib/shared-lib.module';
 
 const routes: Route[] = [
   {
@@ -45,6 +46,9 @@ const routes: Route[] = [
     CommonModule,
     RouterModule,
     FormsModule,
+
+    SharedLibModule,
+    
     NgxMdModule,
     FontAwesomeModule,
 

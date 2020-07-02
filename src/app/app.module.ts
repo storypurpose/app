@@ -60,6 +60,7 @@ import { CurrentProjectComponent } from './components/header/current-project.com
 import { AppEffects } from './+state/app.effects';
 // import { IssueEntryComponent } from './components/issuemanager/issue-entry.component';
 import { SetupComponent } from './components/setup.component';
+import { SharedLibModule } from './shared-lib/shared-lib.module';
 
 export function initGapi(gapiSession: GapiSession) {
   return () => gapiSession.initClient();
@@ -69,7 +70,6 @@ export function initGapi(gapiSession: GapiSession) {
     NavbarComponent, CopyrightComponent, ToolsComponent, SearchboxComponent, CurrentProjectComponent,
 
     AppComponent, PageNotFoundComponent, SetupComponent,
-    //IssueEntryComponent,
 
     ConnectionDetailsComponent, ProjectConfigComponent, OrganizationComponent, HierarchyFieldEditorComponent,
     ConfigurationsComponent, ExportConfigurationComponent, ImportConfigurationComponent,
@@ -81,6 +81,9 @@ export function initGapi(gapiSession: GapiSession) {
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
+
+    SharedLibModule,
+
     LoadingBarHttpClientModule,
 
     FontAwesomeModule,

@@ -3,32 +3,9 @@
         <as-split-area [size]="columns[0].size">
             <div class="alert mr-5" style="overflow: auto;">
 
-                <div class="p-2 mb-4" [ngClass]="{'hover-container': !issue.resolution}" *ngIf="!editDescription">
-                    <button class="btn btn-link btn-sm hover-button float-right" (click)="onEditDescription()">
-                        <i class="fa fa-pencil-alt text-muted"></i>
-                    </button>
-
-                    <ngx-md *ngIf="issue.description && issue.description.length > 0" [data]="issue.description">
-                    </ngx-md>
-
-                    <div class="text-muted font-italic" *ngIf="!issue.description || issue.description.length === 0">
-                        No description
-                    </div>
-                </div>
-
-                <div class="p-2" *ngIf="editDescription">
-                    <textarea class="form-control bg-light" [appAutofocus]="editDescription"
-                        (keydown.control.enter)="onSaveDescription()" [(ngModel)]="descMomento"
-                        (keydown.escape)="onCancelDescription($event)" rows="8"></textarea>
-                    <div class="pt-2 text-right">
-                        <button class="btn btn-primary btn-sm mr-1" (click)="onSaveDescription()">
-                            <fa-icon icon="check" class="mr-1"></fa-icon> Save
-                        </button>
-                        <button class="btn btn-light btn-sm" (click)="onCancelDescription(null)">
-                            <fa-icon icon="times" class="mr-1"></fa-icon> Cancel
-                        </button>
-                    </div>
-                </div>
+                <uicontrols-textarea [text]="issue.description" [forceSave]="true" styleClass=" mb-4"
+                    [canEdit]="!issue.resolution" (textUpdated)="onDescUpdated($event)">
+                </uicontrols-textarea>
 
                 <div class="small alert bg-light mb-4">
                     <app-issue-metafields [issue]="issue"></app-issue-metafields>
@@ -38,6 +15,20 @@
                     <app-extended-fields [issue]="issue"></app-extended-fields>
                     <app-attachments [issue]="issue"></app-attachments>
                 </div>
+
+                <div class="proceed-button text-right">
+                    <div class="btn btn-group btn-group-sm">
+                        <a class="btn btn-sm btn-primary" routerLink="../details">
+                            <fa-icon icon="arrow-circle-left" size="sm" class="mr-1"></fa-icon>
+                            Purpose view
+                        </a>
+                        <a class="btn btn-sm btn-default disabled">
+                            Detail view
+                            <!-- <fa-icon icon="arrow-circle-right" size="sm" class="ml-1"></fa-icon> -->
+                        </a>
+                    </div>
+                </div>
+
             </div>
         </as-split-area>
         <as-split-area [size]="columns[1].size" [ngClass]="{'small': columns[0].size !== 0}">
@@ -105,8 +96,7 @@
 
                                 <div *ngIf="selectedEpicIssue">
                                     <app-task-list [issue]="selectedEpicIssue" [showIssue]="true"
-                                        (close)="resetSelectedEpicIssue()"
-                                        (descriptionUpdated)="onDescriptionUpdated($event)">
+                                        (close)="resetSelectedEpicIssue()" (fieldUpdated)="onFieldUpdated($event)">
                                     </app-task-list>
                                 </div>
 
@@ -162,7 +152,7 @@
                             </div>
                             <div *ngIf="selectedRelatedIssue">
                                 <app-task-list [issue]="selectedRelatedIssue" (close)="resetSelectedRelatedIssue()"
-                                    [showIssue]="true" (descriptionUpdated)="onDescriptionUpdated($event)">
+                                    [showIssue]="true" (fieldUpdated)="onFieldUpdated($event)">
                                 </app-task-list>
                             </div>
                         </div>
@@ -177,7 +167,7 @@
                     <ng-template ngbNavContent>
                         <div class="pl-2 pr-2 pb-2">
                             <app-task-list [issue]="selectedIssue" [showIssue]="false"
-                                (descriptionUpdated)="onDescriptionUpdated($event)"></app-task-list>
+                                (fieldUpdated)="onFieldUpdated($event)"></app-task-list>
                         </div>
                     </ng-template>
                 </li>

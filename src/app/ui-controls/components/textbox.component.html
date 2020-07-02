@@ -1,0 +1,19 @@
+<div [title]="text" [class]="styleClass" [ngClass]="{'hover-container': canEdit}" *ngIf="!edit">
+    <button class="btn btn-link btn-sm hover-button float-right" (click)="onEdit()">
+        <i class="fa fa-pencil-alt text-muted"></i>
+    </button>
+    {{text}}
+</div>
+
+<div class="input-group mb-1" *ngIf="edit">
+    <input class="form-control" [appAutofocus]="edit" (keydown.enter)="onSave()" [(ngModel)]="textMemento"
+        (keydown.escape)="onCancel($event)">
+    <div class="input-group-append">
+        <button class="btn btn-primary" (click)="onSave()" [disabled]="!canSave()">
+            <fa-icon icon="check" [fixedWidth]="true"></fa-icon>
+        </button>
+        <button class="btn btn-default" (click)="onCancel(null)">
+            <fa-icon icon="times" [fixedWidth]="true"></fa-icon>
+        </button>
+    </div>
+</div>

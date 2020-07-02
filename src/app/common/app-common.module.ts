@@ -8,7 +8,6 @@ import { FormsModule } from '@angular/forms';
 import { StatisticsComponent } from './components/statistics.component';
 import { ChartsModule } from 'ng2-charts';
 import 'chartjs-plugin-labels';
-import { AutofocusDirective } from './lib/autofocus.directive';
 import { NgbDropdownModule, NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { MultilistSelectorComponent } from './components/multilist-selector.component';
 import { IssueNavigationMenuComponent } from './components/issue-navigation-menu.component';
@@ -32,9 +31,11 @@ import { ExtendedFieldsComponent } from './components/extended-fields.component'
 import { AttachmentsComponent } from './components/attachments.component';
 import { NgxFilesizeModule } from 'ngx-filesize';
 import { IssueMetafieldsComponent } from './components/issue-metafields.component';
+import { UIControlsModule } from '../ui-controls/ui-controls.module';
+import { SharedLibModule } from '../shared-lib/shared-lib.module';
 
 const components = [
-  ButtonPanelComponent, StoryboardRendererComponent, StatisticsComponent, AutofocusDirective,
+  ButtonPanelComponent, StoryboardRendererComponent, StatisticsComponent,
   MultilistSelectorComponent, IssueNavigationMenuComponent, TimelineRendererComponent, HelpLinkComponent,
   IssueMetafieldsComponent, ExtendedFieldsComponent, AttachmentsComponent,
   TasklistComponent,
@@ -44,7 +45,7 @@ const components = [
   exports: components,
   declarations: components,
   imports: [
-    CommonModule,
+    CommonModule,    
     FormsModule,
     RouterModule,
     ChartsModule,
@@ -52,7 +53,9 @@ const components = [
     NgxFilesizeModule,
 
     NgxMdModule,
-
+    SharedLibModule,
+    UIControlsModule,
+    
     DialogModule,
     TreeTableModule,
     SliderModule,

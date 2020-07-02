@@ -1,104 +1,115 @@
 <div class="pane" #issueDetails *ngIf="issue">
     <div class="pane-fullheader bg-white container-fluid">
-        <button class="btn btn-link mt-3 float-left mr-2" (click)="onClose()">
-            <fa-icon [icon]="['far', 'arrow-alt-circle-left']" size="3x"></fa-icon>
-        </button>
-        <div class=" float-right">
-
-            <span *ngIf="list">{{currentIndex + 1}} / {{list.length}}</span>
-
-            <div class="btn btn-group">
-                <button class="btn btn-link btn-sm" *ngIf="currentIndex > 0" (click)="navigateToPrevious()">
-                    <fa-icon icon="chevron-left"></fa-icon>
-                </button>
-                <button class="btn btn-link btn-sm" *ngIf="list && currentIndex < (list.length - 1)"
-                    (click)="navigateToNext()">
-                    <fa-icon icon="chevron-right"></fa-icon>
+        <div class="row">
+            <div class="col-md-1">
+                <button class="btn btn-link mt-3 mr-2" (click)="onClose()">
+                    <fa-icon [icon]="['far', 'arrow-alt-circle-left']" size="3x"></fa-icon>
                 </button>
             </div>
-            <app-issue-navigation-menu style="position: fixed;top:8pt;right:10pt;" [issueKey]="issue.key">
-            </app-issue-navigation-menu>
+            <div class="col-md-11">
+                <div class=" float-right">
+                    <span *ngIf="list">{{currentIndex + 1}} / {{list.length}}</span>
 
-        </div>
-        <div class="pt-2">
-            <span class="text-uppercase font-weight-light" [ngClass]="{'issue-resolved': issue.resolution}">
-                {{issue.issueType}}: {{issue.key}}
-            </span>
+                    <div class="btn btn-group">
+                        <button class="btn btn-link btn-sm" *ngIf="currentIndex > 0" (click)="navigateToPrevious()">
+                            <fa-icon icon="chevron-left"></fa-icon>
+                        </button>
+                        <button class="btn btn-link btn-sm" *ngIf="list && currentIndex < (list.length - 1)"
+                            (click)="navigateToNext()">
+                            <fa-icon icon="chevron-right"></fa-icon>
+                        </button>
+                    </div>
+                    <app-issue-navigation-menu style="position: fixed;top:8pt;right:10pt;" [issueKey]="issue.key">
+                    </app-issue-navigation-menu>
 
-            <span class="badge ml-2" [ngClass]="{'badge-danger': !issue.resolution && issue.duedateMissing, 
-                'badge-secondary': !issue.resolution && !issue.duedateMissing, 
-                'badge-success':issue.resolution}">
-                {{issue.status}}
-            </span>
+                </div>
+                <div class="pt-2">
+                    <span class="text-uppercase font-weight-light" [ngClass]="{'issue-resolved': issue.resolution}">
+                        {{issue.issueType}}: {{issue.key}}
+                    </span>
 
-            <span *ngIf="!issue.resolution">
-                <span *ngIf="!issue.duedate" class="text-danger ml-2">
-                    <fa-icon [icon]="['far', 'calendar-times']" title="Missing duedate"></fa-icon>
-                </span>
-                <span *ngIf="issue.duedate" class="ml-1 small" [ngClass]="{'text-danger': issue.duedateMissing}">
-                    Due by {{issue.duedate | date:'fullDate'}}
-                </span>
-            </span>
+                    <span class="badge ml-2" [ngClass]="{'badge-danger': !issue.resolution && issue.duedateMissing, 
+                        'badge-secondary': !issue.resolution && !issue.duedateMissing, 
+                        'badge-success':issue.resolution}">
+                        {{issue.status}}
+                    </span>
 
-            <div [title]="issue.title" class="h4">{{issue.title}}</div>
+                    <span *ngIf="!issue.resolution">
+                        <span *ngIf="!issue.duedate" class="text-danger ml-2">
+                            <fa-icon [icon]="['far', 'calendar-times']" title="Missing duedate"></fa-icon>
+                        </span>
+                        <span *ngIf="issue.duedate" class="ml-1 small"
+                            [ngClass]="{'text-danger': issue.duedateMissing}">
+                            Due by {{issue.duedate | date:'fullDate'}}
+                        </span>
+                    </span>
+
+                    <uicontrols-textbox [text]="issue.title" styleClass="h4"
+                        [canEdit]="enableEdits && !issue.resolution" (textUpdated)="onTitleUpdated($event)">
+                    </uicontrols-textbox>
+                </div>
+            </div>
         </div>
 
     </div>
     <div class="pane-fullbody">
-        <div class=" container-fluid pl-5">
-            <div class="ml-5 mr-4 mb-4">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="mt-2 mb-3 small">
-                            <app-issue-metafields [issue]="issue"></app-issue-metafields>
+        <div class=" container-fluid">
+            <div class="row">
+                <div class="offset-md-1 col-md-5">
+                    <div class="mt-2 mb-3 small">
+                        <app-issue-metafields [issue]="issue"></app-issue-metafields>
+                    </div>
+
+                    <div class="bg-white p-3 mt-2 rounded custom-shadow mb-5">
+                        <div class=" p-2">
+                            <uicontrols-textarea [text]="issue.description" styleClass=" mb-4" [forceSave]="true"
+                                [canEdit]="enableEdits && !issue.resolution" (textUpdated)="onDescUpdated($event)">
+                            </uicontrols-textarea>
                         </div>
 
-                        <div class="bg-white p-3 mt-2 rounded custom-shadow mb-5">
 
-                            <div class="p-2 mb-2" [ngClass]="{'hover-container': enableEdits && !issue.resolution}"
-                                *ngIf="!editDescription">
-                                <button class="btn btn-link btn-sm hover-button float-right"
-                                    (click)="onEditDescription()">
-                                    <i class="fa fa-pencil-alt text-muted"></i>
+                        <!-- <div class="p-2 mb-2" [ngClass]="{'hover-container': enableEdits && !issue.resolution}"
+                            *ngIf="!editDescription">
+                            <button class="btn btn-link btn-sm hover-button float-right" (click)="onEditDescription()">
+                                <i class="fa fa-pencil-alt text-muted"></i>
+                            </button>
+
+                            <ngx-md *ngIf="issue.description && issue.description.length > 0"
+                                [data]="issue.description"></ngx-md>
+
+                            <div class="text-muted font-italic"
+                                *ngIf="!issue.description || issue.description.length === 0">
+                                No description
+                            </div>
+                        </div>
+
+                        <div class="p-2" *ngIf="editDescription">
+                            <textarea class="form-control bg-light" [appAutofocus]="editDescription"
+                                (keydown.control.enter)="onSaveDescription()" [(ngModel)]="descMemento"
+                                (keydown.escape)="onCancelDescription($event)" rows="8"></textarea>
+                            <div class="pt-2 text-right">
+                                <button class="btn btn-primary btn-sm mr-1" (click)="onSaveDescription()">
+                                    <fa-icon icon="check" class="mr-1"></fa-icon> Save
                                 </button>
-
-                                <ngx-md *ngIf="issue.description && issue.description.length > 0"
-                                    [data]="issue.description"></ngx-md>
-
-                                <div class="text-muted font-italic"
-                                    *ngIf="!issue.description || issue.description.length === 0">
-                                    No description
-                                </div>
+                                <button class="btn btn-light btn-sm" (click)="onCancelDescription(null)">
+                                    <fa-icon icon="times" class="mr-1"></fa-icon> Cancel
+                                </button>
                             </div>
-
-                            <div class="p-2" *ngIf="editDescription">
-                                <textarea class="form-control bg-light" [appAutofocus]="editDescription"
-                                    (keydown.control.enter)="onSaveDescription()" [(ngModel)]="descMomento"
-                                    (keydown.escape)="onCancelDescription($event)" rows="8"></textarea>
-                                <div class="pt-2 text-right">
-                                    <button class="btn btn-primary btn-sm mr-1" (click)="onSaveDescription()">
-                                        <fa-icon icon="check" class="mr-1"></fa-icon> Save
-                                    </button>
-                                    <button class="btn btn-light btn-sm" (click)="onCancelDescription(null)">
-                                        <fa-icon icon="times" class="mr-1"></fa-icon> Cancel
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="p-2" *ngIf="issue.extendedFields && issue.extendedFields.length > 0">
-                                <div style="overflow: auto;" class="mb-4" *ngFor="let ef of issue.extendedFields">
-                                    <div class="text-nowrap text-muted text-uppercase">{{ef.name}}</div>
-                                    <div class="mt-1 text-dark ml-3">
-                                        <ngx-md [data]="ef.value"></ngx-md>
-                                    </div>
+                        </div>
+ -->
+                        <div class="p-2" *ngIf="issue.extendedFields && issue.extendedFields.length > 0">
+                            <div style="overflow: auto;" class="mb-4" *ngFor="let ef of issue.extendedFields">
+                                <div class="text-nowrap text-muted text-uppercase">{{ef.name}}</div>
+                                <div class="mt-1 text-dark ml-3">
+                                    <ngx-md [data]="ef.value"></ngx-md>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="offset-md-1 col-md-5">
-                        <div class="mt-4">
-                            <app-comment-list [issueKey]="issue.key" [showTitle]="true"></app-comment-list>
-                        </div>
+                </div>
+                <div class="offset-md-1 col-md-5">
+                    <div class="mt-4">
+                        <app-comment-list [issueKey]="issue.key" [showTitle]="true"></app-comment-list>
                     </div>
                 </div>
             </div>

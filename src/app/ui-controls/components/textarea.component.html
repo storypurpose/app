@@ -1,0 +1,26 @@
+<div [class]="styleClass" [ngClass]="{'hover-container': canEdit}" *ngIf="!edit">
+    <button class="btn btn-link btn-sm hover-button float-right" (click)="onEdit()">
+        <i class="fa fa-pencil-alt text-muted"></i>
+    </button>
+
+    <ngx-md *ngIf="text && text.length > 0" [data]="text">
+    </ngx-md>
+
+    <div class="text-muted font-italic" *ngIf="!text || text.length === 0">
+        No description
+    </div>
+</div>
+
+<div class="p-2" *ngIf="edit">
+    <textarea class="form-control bg-light" [appAutofocus]="edit"
+        (keydown.control.enter)="onSave()" [(ngModel)]="textMemento"
+        (keydown.escape)="onCancel($event)" rows="8"></textarea>
+    <div class="pt-2 text-right">
+        <button class="btn btn-primary btn-sm mr-1" (click)="onSave()">
+            <fa-icon icon="check" class="mr-1"></fa-icon> Save
+        </button>
+        <button class="btn btn-light btn-sm" (click)="onCancel(null)">
+            <fa-icon icon="times" class="mr-1"></fa-icon> Cancel
+        </button>
+    </div>
+</div>

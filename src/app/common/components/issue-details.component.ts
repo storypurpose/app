@@ -8,7 +8,7 @@ import { Key } from 'ts-key-enum';
 })
 export class IssueDetailsComponent {
     @Input() enableEdits;
-    @Output() descriptionUpdated = new EventEmitter<any>();
+    @Output() fieldUpdated = new EventEmitter<any>();
     issue: any;
     private _currentIndex: number;
     @Input() set currentIndex(value: number) {
@@ -38,36 +38,13 @@ export class IssueDetailsComponent {
         this.currentIndex = (this.list && this.currentIndex < (this.list.length - 1)) ? this.currentIndex + 1 : this.currentIndex;
     }
 
-    editDescription = false;
-    descMomento: string;
-    onEditDescription() {
-        if (this.issue) {
-            this.descMomento = this.issue.description;
-            this.editDescription = true;
-        }
-    }
-    onSaveDescription() {
-        this.descriptionUpdated.emit({ issueKey: this.issue.key, fieldName: 'description', updatedValue: this.descMomento });
-        this.issue.description = this.descMomento;
-        this.editDescription = false;
-    }
-    onCancelDescription(event) {
-        if (event) {
-            event.preventDefault();
-            event.stopPropagation();
-        }
-        this.issue.description = this.descMomento;
-        this.editDescription = false;
+    onTitleUpdated(eventArgs) {
+        this.fieldUpdated.emit({ issueKey: this.issue.key, fieldName: 'summary', updatedValue: eventArgs.updated });
+        this.issue.title = eventArgs.updated;
     }
 
-    // @HostListener('keydown', ['$event'])
-    // hotkeyHandler($event: any) {
-    //     if ($event.code === Key.ArrowLeft && $event.ctrlKey) {
-    //         this.navigateToPrevious();
-    //         return false;
-    //     } else if ($event.code === Key.ArrowRight && $event.ctrlKey) {
-    //         this.navigateToNext();
-    //         return false;
-    //     }
-    // }
+    onDescUpdated(eventArgs) {
+        this.fieldUpdated.emit({ issueKey: this.issue.key, fieldName: 'description', updatedValue: eventArgs.updated });
+        this.issue.description = eventArgs.updated;
+    }
 }

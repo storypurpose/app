@@ -32,8 +32,10 @@
             </li>
         </ol>
     </nav>
-
-    <h2 class="font-weight-light mb-0" [ngClass]="{'hover-container': !selectedIssue.resolution}" *ngIf="!editTitle">
+    <uicontrols-textbox [text]="selectedIssue.title" styleClass="h2 font-weight-light mb-0 text-truncate"
+        [canEdit]="!selectedIssue.resolution" (textUpdated)="onTitleUpdated($event)">
+    </uicontrols-textbox>
+    <!-- <h2 class="font-weight-light mb-0" [ngClass]="{'hover-container': !selectedIssue.resolution}" *ngIf="!editTitle">
         <button class="btn btn-link btn-sm hover-button float-right" (click)="onEditTitle()">
             <i class="fa fa-pencil-alt text-muted"></i>
         </button>
@@ -50,7 +52,7 @@
                 <fa-icon icon="times" [fixedWidth]="true"></fa-icon>
             </button>
         </div>
-    </div>
+    </div> -->
 
     <div class="btn-group" *ngIf="!compactView">
         <a class="btn btn-default border btn-sm text-nowrap" [routerLink]="['details']" title="View purpose"
@@ -59,11 +61,11 @@
             <span class=" ml-1">Purpose</span>
         </a>
 
-        <a class="btn btn-default border btn-sm text-nowrap" routerLink="workbench" title="Workbench"
+        <!-- <a class="btn btn-default border btn-sm text-nowrap" routerLink="workbench" title="Workbench"
             [routerLinkActive]="'active'">
             <fa-icon [icon]="['far','window-restore']" size="sm"></fa-icon>
             <span class=" ml-1">Workbench</span>
-        </a>
+        </a> -->
 
         <a class="btn btn-default border btn-sm text-nowrap" routerLink="storyboard" title="Storyboard"
             [routerLinkActive]="'active'" *ngIf="canNavigateToStoryboard">

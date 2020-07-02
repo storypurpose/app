@@ -122,30 +122,34 @@ export class WorkbenchComponent implements OnInit, OnDestroy {
         this.selectedIssue = this.issue;
     }
 
-    onDescriptionUpdated(eventArgs) {
+    onFieldUpdated(eventArgs) {
         this.store$.dispatch(new UpdateFieldValueAction(eventArgs));
     }
 
-    editDescription = false;
-    descMomento: string;
-    onEditDescription() {
-        if (this.issue) {
-            this.descMomento = this.issue.description;
-            this.editDescription = true;
-        }
+    onDescUpdated(eventArgs) {
+        this.onFieldUpdated({ issueKey: this.issue.key, fieldName: 'description', updatedValue: eventArgs.updated });
+        this.issue.description = eventArgs.updated;
     }
-    onSaveDescription() {
-        this.onDescriptionUpdated({ issueKey: this.issue.key, fieldName: 'description', updatedValue: this.descMomento });
-        this.issue.description = this.descMomento;
-        this.editDescription = false;
-    }
-    onCancelDescription(event) {
-        if (event) {
-            event.preventDefault();
-            event.stopPropagation();
-        }
-        this.issue.description = this.descMomento;
-        this.editDescription = false;
-    }
+    // editDescription = false;
+    // descMomento: string;
+    // onEditDescription() {
+    //     if (this.issue) {
+    //         this.descMomento = this.issue.description;
+    //         this.editDescription = true;
+    //     }
+    // }
+    // onSaveDescription() {
+    //     this.onFieldUpdated({ issueKey: this.issue.key, fieldName: 'description', updatedValue: this.descMomento });
+    //     this.issue.description = this.descMomento;
+    //     this.editDescription = false;
+    // }
+    // onCancelDescription(event) {
+    //     if (event) {
+    //         event.preventDefault();
+    //         event.stopPropagation();
+    //     }
+    //     this.issue.description = this.descMomento;
+    //     this.editDescription = false;
+    // }
 }
 

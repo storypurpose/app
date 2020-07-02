@@ -31,6 +31,8 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { TimelineComponent } from './components/selectedissue/timeline.component';
 import { TreeTableModule } from 'primeng/treetable';
 import { IssueTreeviewComponent } from './components/issue-treeview.component';
+import { SharedLibModule } from '../shared-lib/shared-lib.module';
+import { UIControlsModule } from '../ui-controls/ui-controls.module';
 
 const routes: Route[] = [
   {
@@ -70,6 +72,10 @@ const routes: Route[] = [
     CommonModule,
     RouterModule,
     FormsModule,
+
+    SharedLibModule,
+    UIControlsModule,
+    
     NgxMdModule,
 
     TreeModule,

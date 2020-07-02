@@ -42,11 +42,17 @@
             </div>
 
             <div class="clearfix">&nbsp;</div>
-            <div class="proceed-button text-right m-3">
-                <a class="btn btn-sm btn-primary" routerLink="../workbench">
-                    view details
-                    <fa-icon icon="arrow-circle-right" size="sm" class="ml-1"></fa-icon>
-                </a>
+            <div class="proceed-button text-right">
+                <div class="btn btn-group btn-group-sm">
+                    <a class="btn btn-sm btn-default disabled">
+                        <!-- <fa-icon icon="arrow-circle-left" size="sm" class="mr-1"></fa-icon> -->
+                        Purpose view
+                    </a>
+                    <a class="btn btn-sm btn-primary" routerLink="../workbench">
+                        Detail view
+                        <fa-icon icon="arrow-circle-right" size="sm" class="ml-1"></fa-icon>
+                    </a>
+                </div>
             </div>
         </div>
     </as-split-area>

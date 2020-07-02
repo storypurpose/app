@@ -344,6 +344,12 @@ ngx-md h3,
 .btn-default:hover {
   background-color: #c8c8c8;
 }
+.btn-default.disabled,
+.btn-default.disabled:hover {
+  opacity: 100% !important;
+  background-color: #e8e8e8;
+  color: #888;
+}
 .btn-default:not(:disabled):not(.disabled).active,
 .btn-default:not(:disabled):not(.disabled):active,
 .show > .btn-default.dropdown-toggle {

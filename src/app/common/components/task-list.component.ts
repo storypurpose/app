@@ -21,6 +21,7 @@ export class TasklistComponent implements OnInit, OnDestroy {
     @Input() showIssue: boolean;
     @Output() close = new EventEmitter<any>();
     @Output() descriptionUpdated = new EventEmitter<any>();
+    @Output() fieldUpdated = new EventEmitter<any>();
 
     tasklistFilterVisible = false;
     childIssueType = '';
@@ -106,7 +107,8 @@ export class TasklistComponent implements OnInit, OnDestroy {
         this.currentIndex = index;
     }
 
-    onDescriptionUpdated(eventArgs) {
-        this.descriptionUpdated.emit(eventArgs);
+    onFieldUpdated(eventArgs) {
+        this.fieldUpdated.emit(eventArgs);
     }
+
 }

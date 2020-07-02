@@ -42,7 +42,7 @@ export class SelectedIssueContainerComponent extends ResizableContainerBase impl
         super(cdRef, store$);
     }
     ngOnInit(): void {
-        this.init(45);
+        this.init(40);
         this.localNodeType = CustomNodeTypes;
 
         this.updatedField$ = this.store$.select(p => p.issue.updatedField).pipe(filter(p => p && this.selectedIssue))
@@ -152,31 +152,36 @@ export class SelectedIssueContainerComponent extends ResizableContainerBase impl
     }
 
     onTitleUpdated(eventArgs) {
-        this.store$.dispatch(new UpdateFieldValueAction(eventArgs));
+        this.store$.dispatch(new UpdateFieldValueAction({
+            issueKey: this.selectedIssue.key,
+            fieldName: 'summary',
+            updatedValue: eventArgs.updated
+        }));
+        this.selectedIssue.title = eventArgs.updated;
     }
-    editTitle = false;
-    titleMemento: string;
-    onEditTitle() {
-        console.log('this.selectedIssue', this.selectedIssue);
-        if (this.selectedIssue) {
-            this.titleMemento = this.selectedIssue.title;
-            this.editTitle = true;
-        }
-    }
-    canSaveTitle = () => this.titleMemento && this.titleMemento.length > 0;
-    onSaveTitle() {
-        if (this.canSaveTitle()) {
-            this.onTitleUpdated({ issueKey: this.selectedIssue.key, fieldName: 'summary', updatedValue: this.titleMemento });
-            this.selectedIssue.title = this.titleMemento;
-            this.editTitle = false;
-        }
-    }
-    onCancelTitle(event) {
-        if (event) {
-            event.preventDefault();
-            event.stopPropagation();
-        }
-        this.selectedIssue.Title = this.titleMemento;
-        this.editTitle = false;
-    }
+
+    // editTitle = false;
+    // titleMemento: string;
+    // onEditTitle() {
+    //     if (this.selectedIssue) {
+    //         this.titleMemento = this.selectedIssue.title;
+    //         this.editTitle = true;
+    //     }
+    // }
+    // canSaveTitle = () => this.titleMemento && this.titleMemento.length > 0;
+    // onSaveTitle() {
+    //     if (this.canSaveTitle()) {
+    //         this.onTitleUpdated({ issueKey: this.selectedIssue.key, fieldName: 'summary', updatedValue: this.titleMemento });
+    //         this.selectedIssue.title = this.titleMemento;
+    //         this.editTitle = false;
+    //     }
+    // }
+    // onCancelTitle(event) {
+    //     if (event) {
+    //         event.preventDefault();
+    //         event.stopPropagation();
+    //     }
+    //     this.selectedIssue.Title = this.titleMemento;
+    //     this.editTitle = false;
+    // }
 }

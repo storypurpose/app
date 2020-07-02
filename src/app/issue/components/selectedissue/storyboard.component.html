@@ -9,27 +9,27 @@
                 </select>
             </div>
             <div class="col-md-3 offset-lg-1 col-lg-2">
-                <ng-container
-                    *ngIf="(storyboardItem.epicChildren && storyboardItem.epicChildren.length > 0) || (storyboardItem.relatedLinks && storyboardItem.relatedLinks.length > 0)">
-                    <div *ngIf="storyboardItem.epicChildren && storyboardItem.epicChildren.length > 0">
-                        <input type="checkbox" [(ngModel)]="includeEpicChildren" (change)="plotIssuesOnStoryboard()">
-                        <b class="badge badge-success ml-1">{{storyboardItem.epicChildren.length}}</b> issues in this
-                        epic
-                    </div>
-                    <div *ngIf="storyboardItem.relatedLinks && storyboardItem.relatedLinks.length > 0">
-                        <input type="checkbox" [(ngModel)]="includeRelatedIssues" (change)="plotIssuesOnStoryboard()">
-                        <b class="badge badge-success ml-1">{{storyboardItem.relatedLinks.length}}</b> related issues
-                    </div>
-                </ng-container>
+                <div [ngClass]="{'mt-2': !storyboardItem.relatedLinks || storyboardItem.relatedLinks.length === 0}"
+                    *ngIf="storyboardItem.epicChildren && storyboardItem.epicChildren.length > 0">
+                    <input type="checkbox" [(ngModel)]="includeEpicChildren" (change)="plotIssuesOnStoryboard()">
+                    <b class="badge badge-success ml-1">{{storyboardItem.epicChildren.length}}</b> issues in this
+                    epic
+                </div>
+                <div [ngClass]="{'mt-2': !storyboardItem.epicChildren || storyboardItem.epicChildren.length === 0}"
+                    *ngIf="storyboardItem.relatedLinks && storyboardItem.relatedLinks.length > 0">
+                    <input type="checkbox" [(ngModel)]="includeRelatedIssues" (change)="plotIssuesOnStoryboard()">
+                    <b class="badge badge-success ml-1">{{storyboardItem.relatedLinks.length}}</b> related issues
+                </div>
             </div>
             <div class="col-md-3 col-lg-4 text-truncate">
-                <ng-container
-                    *ngIf="storyboardItem.metadata && (storyboardItem.metadata.backlogCount > 0 || storyboardItem.metadata.emptyRecordCount > 0)">
-                    <div *ngIf="storyboardItem.metadata.backlogCount > 0" class="mr-4">
+                <ng-container *ngIf="storyboardItem.metadata">
+                    <div [ngClass]="{'mt-2': storyboardItem.metadata.emptyRecordCount === 0}"
+                        *ngIf="storyboardItem.metadata.backlogCount > 0" class="mr-4">
                         <span class="badge badge-warning">{{storyboardItem.metadata.backlogCount}}</span>
                         unplanned issues.
                     </div>
-                    <div *ngIf="storyboardItem.metadata.emptyRecordCount > 0">
+                    <div [ngClass]="{'mt-2': storyboardItem.metadata.backlogCount === 0}"
+                        *ngIf="storyboardItem.metadata.emptyRecordCount > 0">
                         <span class="badge badge-warning">{{storyboardItem.metadata.emptyRecordCount}}</span>
                         issues with unassigned {{groupByColumn}}.
                     </div>

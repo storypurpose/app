@@ -50,11 +50,19 @@
         </div>
     </div>
     <app-storyboard-renderer [groupByColumn]="groupByColumn" [storyboardItem]="storyboardItem"
-        (fieldValueChange)="onFieldValueChanged($event)">
+        (itemSelected)="onItemSelected($event)" (fieldValueChange)="onFieldUpdated($event)">
     </app-storyboard-renderer>
 
     <p-dialog [header]="storyboardItem.statistics.title" *ngIf="storyboardItem && storyboardItem.statistics"
         position="right" class="bg-light" [dismissableMask]="true" [modal]=true [(visible)]="showStatistics">
         <app-statistics [groupByColumn]="groupByColumn" [statistics]="storyboardItem.statistics"></app-statistics>
     </p-dialog>
+
+    <p-sidebar [(visible)]="issueDetailsVisible" [fullScreen]="true" styleClass="bg-light" [showCloseIcon]="false">
+        <app-issue-details *ngIf="storyboardItem && storyboardItem.children" [list]="storyboardItem.children"
+            [(currentIndex)]="currentIndex" (close)="issueDetailsVisible = false" [enableEdits]="true"
+            (fieldUpdated)="onFieldUpdated($event)">
+        </app-issue-details>
+    </p-sidebar>
+
 </div>

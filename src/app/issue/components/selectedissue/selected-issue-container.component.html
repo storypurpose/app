@@ -17,7 +17,8 @@
                 </a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
-                <span class="text-uppercase text-dark">
+                <span class="text-uppercase text-dark" [title]="selectedIssue.resolution"
+                    [ngClass]="{'issue-resolved': selectedIssue.resolution}">
                     {{selectedIssue.issueType}}: {{selectedIssue.key}}
                 </span>
 
@@ -36,49 +37,43 @@
     <uicontrols-textbox [text]="selectedIssue.title" styleClass="h2 font-weight-light mb-0 text-truncate"
         [canEdit]="!selectedIssue.resolution" (textUpdated)="onTitleUpdated($event)">
     </uicontrols-textbox>
-    <!-- <h2 class="font-weight-light mb-0" [ngClass]="{'hover-container': !selectedIssue.resolution}" *ngIf="!editTitle">
-        <button class="btn btn-link btn-sm hover-button float-right" (click)="onEditTitle()">
-            <i class="fa fa-pencil-alt text-muted"></i>
-        </button>
-        {{selectedIssue.title}}
-    </h2>
-    <div class="input-group mb-1" *ngIf="editTitle">
-        <input class="form-control" [appAutofocus]="editTitle" (keydown.enter)="onSaveTitle()"
-            [(ngModel)]="titleMemento" (keydown.escape)="onCancelTitle($event)">
-        <div class="input-group-append">
-            <button class="btn btn-primary btn-sm" (click)="onSaveTitle()" [disabled]="!canSaveTitle()">
-                <fa-icon icon="check" [fixedWidth]="true"></fa-icon>
-            </button>
-            <button class="btn btn-secondary btn-sm" (click)="onCancelTitle(null)">
-                <fa-icon icon="times" [fixedWidth]="true"></fa-icon>
-            </button>
+
+    <div class="row" *ngIf="!compactView">
+        <div class="col-md-6">
+            <div class="btn-group">
+                <a class="btn btn-default border btn-sm text-nowrap" [routerLink]="['details']" title="View purpose"
+                    [routerLinkActive]="'active'">
+                    <fa-icon icon="fire" size="sm" class="text-brand"></fa-icon>
+                    <span class=" ml-1">Purpose</span>
+                </a>
+
+                <!-- <a class="btn btn-default border btn-sm text-nowrap" routerLink="workbench" title="Workbench"
+                    [routerLinkActive]="'active'">
+                    <fa-icon [icon]="['far','window-restore']" size="sm"></fa-icon>
+                    <span class=" ml-1">Workbench</span>
+                </a> -->
+
+                <a class="btn btn-default border btn-sm text-nowrap" routerLink="storyboard" title="Storyboard"
+                    [routerLinkActive]="'active'" *ngIf="canNavigateToStoryboard">
+                    <fa-icon [icon]="['far', 'map']" size="sm"></fa-icon>
+                    <span class=" ml-1">Storyboard</span>
+                </a>
+
+                <a class="btn btn-default border btn-sm text-nowrap" routerLink="timeline" title="Timeline"
+                    [routerLinkActive]="'active'" *ngIf="canNavigateToStoryboard">
+                    <fa-icon icon="map-signs" size="sm"></fa-icon>
+                    <span class=" ml-1">Timeline</span>
+                </a>
+            </div>
         </div>
-    </div> -->
-
-    <div class="btn-group" *ngIf="!compactView">
-        <a class="btn btn-default border btn-sm text-nowrap" [routerLink]="['details']" title="View purpose"
-            [routerLinkActive]="'active'">
-            <fa-icon icon="fire" size="sm" class="text-brand"></fa-icon>
-            <span class=" ml-1">Purpose</span>
-        </a>
-
-        <!-- <a class="btn btn-default border btn-sm text-nowrap" routerLink="workbench" title="Workbench"
-            [routerLinkActive]="'active'">
-            <fa-icon [icon]="['far','window-restore']" size="sm"></fa-icon>
-            <span class=" ml-1">Workbench</span>
-        </a> -->
-
-        <a class="btn btn-default border btn-sm text-nowrap" routerLink="storyboard" title="Storyboard"
-            [routerLinkActive]="'active'" *ngIf="canNavigateToStoryboard">
-            <fa-icon [icon]="['far', 'map']" size="sm"></fa-icon>
-            <span class=" ml-1">Storyboard</span>
-        </a>
-
-        <a class="btn btn-default border btn-sm text-nowrap" routerLink="timeline" title="Timeline"
-            [routerLinkActive]="'active'" *ngIf="canNavigateToStoryboard">
-            <fa-icon icon="map-signs" size="sm"></fa-icon>
-            <span class=" ml-1">Timeline</span>
-        </a>
+        <div class="col-md-6 text-right" *ngIf="!selectedIssue.resolution">
+            <!-- <button class="btn btn-sm btn-link mr-1">
+                <fa-icon icon="plus" size="sm" class="mr-1"></fa-icon> Create issue
+            </button>
+            <button class="btn btn-sm btn-link">
+                <fa-icon icon="link" size="sm" class="mr-1"></fa-icon> Link issue
+            </button> -->
+        </div>
     </div>
 
 </div>

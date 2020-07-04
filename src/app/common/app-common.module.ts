@@ -33,12 +33,13 @@ import { NgxFilesizeModule } from 'ngx-filesize';
 import { IssueMetafieldsComponent } from './components/issue-metafields.component';
 import { UIControlsModule } from '../ui-controls/ui-controls.module';
 import { SharedLibModule } from '../shared-lib/shared-lib.module';
+import { GroupedIssuesComponent } from './components/grouped-issues.component';
 
 const components = [
   ButtonPanelComponent, StoryboardRendererComponent, StatisticsComponent,
   MultilistSelectorComponent, IssueNavigationMenuComponent, TimelineRendererComponent, HelpLinkComponent,
   IssueMetafieldsComponent, ExtendedFieldsComponent, AttachmentsComponent,
-  TasklistComponent,
+  TasklistComponent, GroupedIssuesComponent,
   CommentlistComponent, IssueDetailsComponent
 ];
 @NgModule({

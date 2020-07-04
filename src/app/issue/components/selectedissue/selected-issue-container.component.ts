@@ -42,7 +42,7 @@ export class SelectedIssueContainerComponent extends ResizableContainerBase impl
         super(cdRef, store$);
     }
     ngOnInit(): void {
-        this.init(40);
+        this.init(45);
         this.localNodeType = CustomNodeTypes;
 
         this.updatedField$ = this.store$.select(p => p.issue.updatedField).pipe(filter(p => p && this.selectedIssue))

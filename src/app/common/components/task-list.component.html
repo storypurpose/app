@@ -2,14 +2,15 @@
     <fa-icon icon="spinner" [spin]="true" aria-hidden="true" class="mr-1"></fa-icon> loading...
 </div>
 <div *ngIf="issue && !loading">
-    <div class="alert bg-light pl-0 mb-0" style="font-size:medium;" *ngIf="showIssue">
+    <div class="alert bg-light pl-0 mb-0" *ngIf="showIssue">
 
-        <app-issue-navigation-menu class="float-right" [issueKey]="issue.key"></app-issue-navigation-menu>
+        <app-issue-navigation-menu [spread]="true" class="float-right" [issueKey]="issue.key">
+        </app-issue-navigation-menu>
 
         <button class="btn btn-sm btn-link mr-2" (click)="onClose()">
             <fa-icon icon="chevron-left" size="lg"></fa-icon>
         </button>
-        <span class="pt-2">
+        <span class="pt-2" style="font-size:medium;">
             <span class="mr-1" [ngClass]="{'issue-resolved': issue.resolution}">{{issue.key}}:</span>
             {{issue.title}}
         </span>

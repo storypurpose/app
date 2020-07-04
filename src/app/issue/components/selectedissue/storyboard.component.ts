@@ -56,7 +56,6 @@ export class StoryboardComponent implements OnInit, OnDestroy {
     plotIssuesOnStoryboard() {
         this.storyboardItem.children = [];
         this.storyboardItem.metadata = initializeMetadata(this.groupByColumn);
-
         const filters = _.map(this.selectedStatuses, 'key');
         if (this.includeEpicChildren) {
             if (this.storyboardItem.epicChildren && this.storyboardItem.epicChildren.length > 0) {
@@ -84,11 +83,28 @@ export class StoryboardComponent implements OnInit, OnDestroy {
             ? _.filter(list, (r) => _.find(filters, f => f === r.status) !== undefined)
             : list;
 
-    onFieldValueChanged(eventArgs) {
-        this.store$.dispatch(new UpdateFieldValueAction(eventArgs));
-    }
-
     onSelectedStatusChange(eventArgs) {
         this.plotIssuesOnStoryboard();
+    }
+
+    issueDetailsVisible = false;
+    issuelist: any;
+    currentIndex = 0;
+
+    public openIssueAtIndex(index) {
+        this.issueDetailsVisible = true;
+        this.currentIndex = index;
+    }
+
+    onItemSelected(eventArgs) {
+        if (this.storyboardItem.children && eventArgs && eventArgs.issueKey) {
+            const foundIndex = _.findIndex(this.storyboardItem.children, { key: eventArgs.issueKey });
+            if (foundIndex >= 0) {
+                this.openIssueAtIndex(foundIndex);
+            }
+        }
+    }
+    onFieldUpdated(eventArgs) {
+        this.store$.dispatch(new UpdateFieldValueAction(eventArgs));
     }
 }

@@ -1,5 +1,5 @@
-<div *ngIf="!selectedRelatedIssue">
-    <div *ngFor="let child of groupedRelatedLinks">
+<div *ngIf="!selectedIssue">
+    <div *ngFor="let child of groupedIssues">
         <div class="text-muted text-uppercase mt-1 mb-1">
             <button class="btn btn-sm btn-link text-left text-dark" [ngClass]="{'w-100 btn-light ': child.visible}"
                 (click)="child.visible = !child.visible">
@@ -11,8 +11,6 @@
         </div>
         <div *ngIf="child.visible" class="mb-4">
             <div class="ml-3 p-1 border-bottom text-no-wrap" [title]="i.issueType" *ngFor="let i of child.children">
-                <!-- <app-issue-navigation-menu class="float-right" [issueKey]="i.key">
-                </app-issue-navigation-menu> -->
                 <div class="text-uppercase float-right mt-1">
                     <div class="badge badge-light ml-2 font-weight-normal " title="status">
                         {{i.status}}
@@ -22,15 +20,15 @@
                     </div>
                 </div>
                 <i [class]="i.icon" class="mr-1"></i>
-                <a (click)="selectRelatedIssue(i)" class="text-primary mr-2"
+                <a (click)="selectIssue(i)" class="text-primary mr-2"
                     [ngClass]="{'issue-resolved': i.resolution}">{{i.key}}</a>
                 {{i.title}}
             </div>
         </div>
     </div>
 </div>
-<div *ngIf="selectedRelatedIssue">
-    <app-task-list [issue]="selectedRelatedIssue" (close)="resetSelectedRelatedIssue()" [showIssue]="true"
+<div *ngIf="selectedIssue">
+    <app-task-list [issue]="selectedIssue" (close)="resetIssue()" [showIssue]="true"
         (fieldUpdated)="onFieldUpdated($event)">
     </app-task-list>
 </div>

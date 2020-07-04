@@ -30,13 +30,13 @@ export abstract class Viewbase {
         this.issuelist$ ? this.issuelist$.unsubscribe : null;
     }
 
+    onFieldUpdated(eventArgs) {
+        this.store$.dispatch(new UpdateSearchFieldValueAction(eventArgs));
+    }
+
     public openIssueAtIndex(index) {
         this.issueDetailsVisible = true;
         this.currentIndex = index;
-    }
-
-    onFieldUpdated(eventArgs) {
-        this.store$.dispatch(new UpdateSearchFieldValueAction(eventArgs));
     }
 
     onItemSelected(eventArgs) {

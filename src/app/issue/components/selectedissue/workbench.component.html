@@ -2,7 +2,7 @@
     <as-split direction="horizontal" *ngIf="issue" (gutterDblClick)="toggleFullscreen()" (dragEnd)="dragEnd($event)">
         <as-split-area [size]="columns[0].size">
             <div class="alert mr-5" style="overflow: auto;">
-
+                            
                 <uicontrols-textarea [text]="issue.description" [forceSave]="true" styleClass=" mb-4"
                     [canEdit]="!issue.resolution" (textUpdated)="onDescUpdated($event)">
                 </uicontrols-textarea>
@@ -53,7 +53,11 @@
                             </div>
 
                             <div *ngIf="groupedEpicChildren && groupedEpicChildren.length > 0">
-                                <div *ngIf="!selectedEpicIssue">
+                                <app-grouped-issues [groupedIssues]="groupedEpicChildren"
+                                    [projectConfig]="issue.projectConfig" (fieldUpdated)="onFieldUpdated($event)">
+                                </app-grouped-issues>
+
+                                <!-- <div *ngIf="!selectedEpicIssue">
                                     <div *ngFor="let child of groupedEpicChildren">
                                         <div class="text-muted text-uppercase mt-1 mb-1">
                                             <button class="btn btn-sm btn-link text-left text-dark"
@@ -103,7 +107,7 @@
                                     <app-task-list [issue]="selectedEpicIssue" [showIssue]="true"
                                         (close)="resetSelectedEpicIssue()" (fieldUpdated)="onFieldUpdated($event)">
                                     </app-task-list>
-                                </div>
+                                </div> -->
 
                             </div>
                         </div>
@@ -120,9 +124,9 @@
                     </a>
                     <ng-template ngbNavContent>
                         <div class="pl-2 pr-2 pb-2">
-                            <app-related-issues [groupedRelatedLinks]="groupedRelatedLinks"
+                            <app-grouped-issues [groupedIssues]="groupedRelatedLinks"
                                 [projectConfig]="issue.projectConfig" (fieldUpdated)="onFieldUpdated($event)">
-                            </app-related-issues>
+                            </app-grouped-issues>
                             <!-- <div *ngIf="!selectedRelatedIssue">
                                 <div *ngFor="let child of groupedRelatedLinks">
                                     <div class="text-muted text-uppercase mt-1 mb-1">

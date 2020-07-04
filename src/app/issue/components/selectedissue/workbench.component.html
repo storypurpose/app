@@ -61,7 +61,9 @@
                                                 (click)="child.visible = !child.visible">
                                                 <fa-icon [icon]="child.visible ? 'angle-down' : 'angle-right'" size="sm"
                                                     [fixedWidth]="true"></fa-icon>
-                                                <span class="ml-2">{{child.label}} / {{child.total}}</span>
+                                                <span class="ml-2">{{child.label}}
+                                                    <span *ngIf="child.children"> / {{child.children.length}}</span>
+                                                </span>
                                             </button>
                                         </div>
                                         <div *ngIf="child.visible" class="mb-4">
@@ -86,11 +88,14 @@
                                         </div>
                                     </div>
 
-                                    <div class="text-right mt-4">
-                                        <a class="btn btn-primary btn-sm" routerLink="../storyboard">
-                                            Storyboard view
-                                            <fa-icon icon="chevron-right" size="sm"></fa-icon>
-                                        </a>
+                                    <div class="m-4 alert bg-light">
+                                        Plan and prioritize all related stories on a storyboard
+                                        <div class="text-right">
+                                            <a class="btn btn-default btn-sm" routerLink="../storyboard">
+                                                Go to storyboard
+                                                <fa-icon icon="arrow-right" size="sm"></fa-icon>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -115,14 +120,11 @@
                     </a>
                     <ng-template ngbNavContent>
                         <div class="pl-2 pr-2 pb-2">
-
-                            <!-- <app-grouped-issue-list [issues]="issue.relatedLinks" groupBy="linkType"
-                                [projectConfig]="issue.projectConfig">
-                            </app-grouped-issue-list> -->
-
-                            <div *ngIf="!selectedRelatedIssue">
+                            <app-related-issues [groupedRelatedLinks]="groupedRelatedLinks"
+                                [projectConfig]="issue.projectConfig" (fieldUpdated)="onFieldUpdated($event)">
+                            </app-related-issues>
+                            <!-- <div *ngIf="!selectedRelatedIssue">
                                 <div *ngFor="let child of groupedRelatedLinks">
-
                                     <div class="text-muted text-uppercase mt-1 mb-1">
                                         <button class="btn btn-sm btn-link text-left text-dark"
                                             [ngClass]="{'w-100 btn-light ': child.visible}"
@@ -154,7 +156,7 @@
                                 <app-task-list [issue]="selectedRelatedIssue" (close)="resetSelectedRelatedIssue()"
                                     [showIssue]="true" (fieldUpdated)="onFieldUpdated($event)">
                                 </app-task-list>
-                            </div>
+                            </div> -->
                         </div>
                     </ng-template>
                 </li>

@@ -89,31 +89,15 @@ export class StoryboardRendererComponent implements OnInit, OnDestroy {
         }
     }
 
-    editTitle(item) {
-        item.memento = { title: item.title };
-        item.editTitle = true;
-    }
-    cancelEditTitle(item) {
-        if (item.memento) {
-            item.title = item.memento.title;
-            item.memento.title = undefined;
-        }
-        item.editTitle = false;
-    }
-    onTitleChanged(issue) {
-        this.fieldValueChange.emit({ issueKey: issue.key, fieldName: 'summary', updatedValue: issue.title });
-        issue.editTitle = false;
-    }
-
-    onfixVersionsChanged(updatedValue, issue) {
-        issue.isEditingFixversions = false;
-        if (updatedValue) {
-            this.fieldValueChange.emit({
-                issueKey: issue.key, fieldName: 'fixVersions',
-                updatedValue: _.map(updatedValue, u => { return { name: u.id } })
-            });
-        } else {
-            issue.memento.fixVersions = [];
-        }
-    }
+    // onfixVersionsChanged(updatedValue, issue) {
+    //     issue.isEditingFixversions = false;
+    //     if (updatedValue) {
+    //         this.fieldValueChange.emit({
+    //             issueKey: issue.key, fieldName: 'fixVersions',
+    //             updatedValue: _.map(updatedValue, u => { return { name: u.id } })
+    //         });
+    //     } else {
+    //         issue.memento.fixVersions = [];
+    //     }
+    // }
 }

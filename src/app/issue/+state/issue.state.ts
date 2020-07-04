@@ -18,6 +18,8 @@ export interface Issue {
   recentmostItem: any;
 
   updatedField: any;
+
+  issueLinkTypes: any;
 }
 
 export interface IssueState {

@@ -76,11 +76,11 @@ export class WorkbenchComponent implements OnInit, OnDestroy {
         this.adjustPaneSize(this.leftPaneSize === 0 ? LEFT_PANE_WIDTH : 0);
     }
 
-    resetSelectedRelatedIssue = () => this.selectedRelatedIssue = null;
-    selectRelatedIssue(ri) {
-        this.selectedRelatedIssue = ri;
-        this.selectedRelatedIssue.projectConfig = this.issue.projectConfig;
-    }
+    // resetSelectedRelatedIssue = () => this.selectedRelatedIssue = null;
+    // selectRelatedIssue(ri) {
+    //     this.selectedRelatedIssue = ri;
+    //     this.selectedRelatedIssue.projectConfig = this.issue.projectConfig;
+    // }
 
     resetSelectedEpicIssue = () => this.selectedEpicIssue = null;
     selectEpicIssue(ri) {

@@ -26,13 +26,13 @@ import { IssueHomeComponent } from './components/home.component';
 import { IssueEntryComponent } from './components/issue-entry.component';
 import { IssueNotEnteredComponent } from './components/issue-not-entered.component';
 import { SelectedIssueHomeComponent } from './components/selectedissue/home.component';
-import { GroupedIssuelistComponent } from './components/selectedissue/grouped-issue-list.component';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { TimelineComponent } from './components/selectedissue/timeline.component';
 import { TreeTableModule } from 'primeng/treetable';
 import { IssueTreeviewComponent } from './components/issue-treeview.component';
 import { SharedLibModule } from '../shared-lib/shared-lib.module';
 import { UIControlsModule } from '../ui-controls/ui-controls.module';
+import { RelatedIssuesComponent } from './components/selectedissue/related-issues.component';
 
 const routes: Route[] = [
   {
@@ -64,9 +64,9 @@ const routes: Route[] = [
   declarations: [
     IssueHomeComponent, IssueContainerComponent, IssueTreeviewComponent, IssueNotEnteredComponent, IssueEntryComponent,
     SelectedIssueHomeComponent,
-    SelectedIssueContainerComponent, WorkbenchComponent, RecentlyViewedComponent,
-    PurposeDetailsComponent, StoryboardComponent, TimelineComponent,
-    GroupedIssuelistComponent
+    SelectedIssueContainerComponent, 
+    WorkbenchComponent, RelatedIssuesComponent, RecentlyViewedComponent,
+    PurposeDetailsComponent, StoryboardComponent, TimelineComponent
   ],
   imports: [
     CommonModule,

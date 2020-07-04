@@ -201,15 +201,6 @@ function populatePrimaryIssueRelatedLinks(state: Issue, action: any) {
 
     const relatedLinks = state.primaryIssue.relatedLinks;
     if (action.payload && action.payload.issues) {
-
-        // const groupedIssueLinks = _.filter(state.primaryIssue.children, { issueType: CustomNodeTypes.RelatedLink });
-        // groupedIssueLinks.forEach(gil => {
-        //     gil.children.forEach(c => {
-
-        //     })
-        // })
-
-
         if (relatedLinks) {
             const records = _.map(action.payload.issues, (item) => _.pick(jiraTreeUtil.populateFieldValuesCompact(item), jiraTreeUtil.populatedFieldList));
             relatedLinks.forEach(u => {

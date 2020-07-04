@@ -7,16 +7,17 @@ export const issueInitialState: Issue = {
     selectedIssueKey: '',
     selectedIssue: null,
     timelineView: null,
-    
+
     isSelectedIssueViewCompact: false,
     hierarchicalIssue: null,
 
     // subtasks: null,
     // comments: null,
-    
+
     purpose: [],
     recentlyViewedItems: [],
     recentmostItem: null,
 
-    updatedField: null
+    updatedField: null,
+    issueLinkTypes: []
 };

@@ -45,7 +45,7 @@ export function getIcon(issueType) {
         case CustomNodeTypes.Project: return "fa fa-bookmark fa-sm fa-fw text-info";
         case CustomNodeTypes.Epic: return "fa fa-copy fa-sm fa-fw ";
         case CustomNodeTypes.Story: return "far fa-file-alt fa-sm fa-fw ";
-        case CustomNodeTypes.Task: return "fa fa-check fa-sm fa-fw";
+        case CustomNodeTypes.Task: return "fa fa-receipt fa-sm fa-fw text-muted";
         case CustomNodeTypes.TestSuite: return "fa fa-flask fa-sm fa-fw text-muted";
         default: return "far fa-file fa-sm fa-fw"
     }

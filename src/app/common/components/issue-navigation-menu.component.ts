@@ -14,6 +14,7 @@ export class IssueNavigationMenuComponent implements OnInit, OnDestroy {
     @Input() issueKey: string;
     @Input() icon: string;
     @Input() placement: string;
+    @Input() spread: boolean;
 
     connectionDetails$: Subscription;
     connectionDetails: any;

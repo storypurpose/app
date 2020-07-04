@@ -344,9 +344,12 @@ ngx-md h3,
 .btn-default:hover {
   background-color: #c8c8c8;
 }
+.btn.disabled,
+.btn:disabled {
+  opacity: 95% !important;
+}
 .btn-default.disabled,
 .btn-default.disabled:hover {
-  opacity: 95% !important;
   background-color: #e8e8e8;
   color: #888;
 }
@@ -498,4 +501,12 @@ body .ui-multiselect .ui-multiselect-trigger {
 .badge {
   font-weight: 400;
   text-transform: uppercase;
+}
+.rotate-45 {
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 }

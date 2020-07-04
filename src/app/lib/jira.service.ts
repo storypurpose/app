@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import * as _ from "lodash";
 import { Store } from '@ngrx/store';
 import { AppState } from '../+state/app.state';
-import { filter } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { of, combineLatest } from 'rxjs';
 import { ModeTypes } from '../+state/app.actions';
 import { fieldList, detailFields, attachmentField } from './jira-tree-utils';
@@ -126,5 +126,14 @@ export class JiraService {
         } else {
             return of(null);
         }
+    }
+
+    getIssueLinkTypes(srcJson = null) {
+        if (this.isOnlineMode === false && srcJson && srcJson.length > 0) {
+            return this.httpClient.get(`${this.staticFileLocation}/${srcJson}`, this.httpOptions)
+        }
+        const url = `issueLinkType`;
+        return this.httpClient.get(`${this.proxyurl}/${this.baseUrl}/${url}`, this.httpOptions)
+            .pipe(map(p => _.pick(p, ['name', 'inward', 'outward'])));
     }
 }

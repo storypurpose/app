@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Effect, Actions, ofType } from '@ngrx/effects';
-import { switchMap, map, catchError } from 'rxjs/operators';
+import { switchMap, map, catchError, filter } from 'rxjs/operators';
 import * as a from './common.actions';
 import { of } from 'rxjs';
 import { JiraService } from 'src/app/lib/jira.service';
 import * as _ from 'lodash';
+import { getIssuetypeIcon } from 'src/app/lib/jira-tree-utils';
 
 @Injectable()
 export class CommonEffects {
@@ -49,6 +50,16 @@ export class CommonEffects {
         )
     )
   );
+  @Effect() addIssueLink = this.actions$.pipe(ofType(a.ActionTypes.AddIssueLink),
+    switchMap((action: any) =>
+      this.jiraService.addIssueLink(action.payload)
+        .pipe(
+          map(payload => ({ type: a.ActionTypes.AddIssueLinkSuccess, payload })),
+          catchError(() => of({ type: a.ActionTypes.AddIssueLinkFailed }))
+        )
+    )
+  );
+
 
   @Effect() loadCreateIssueMetadata = this.actions$.pipe(ofType(a.ActionTypes.LoadCreateIssueMetadata),
     switchMap((action: any) =>
@@ -60,9 +71,25 @@ export class CommonEffects {
     )
   );
 
+  @Effect() loadIssueLookup = this.actions$.pipe(ofType(a.ActionTypes.LoadIssueLookup),
+    switchMap((action: any) => {
+      return this.jiraService.executeIssueLookup(action.payload, 'issuelist.json')
+        .pipe(
+          filter((p: any) => p && p.issues),
+          map((p: any) => _.map(p.issues, p => {
+            const issuetype = p.fields.issuetype.name;
+            return { key: p.key, title: p.fields.summary, issuetype, icon: getIssuetypeIcon(issuetype) }
+          })),
+          map(payload => ({ type: a.ActionTypes.LoadIssueLookupSuccess, payload })),
+          catchError(() => of({ type: a.ActionTypes.LoadIssueLookupFailed }))
+        )
+    })
+  );
+
+
   private transformCreateIssueMetadata(fields: any): any[] {
     const result = _.filter(_.toArray(fields), { required: true });
-    
+
     return result;
   }
 }

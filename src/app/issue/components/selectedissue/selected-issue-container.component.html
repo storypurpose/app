@@ -67,9 +67,9 @@
             </div>
         </div>
         <div class="col-md-6 text-right" *ngIf="!selectedIssue.resolution">
-            <button class="btn btn-sm btn-link mr-1" (click)="createIssueVisible = true">
+            <!-- <button class="btn btn-sm btn-link mr-1" (click)="createIssueVisible = true">
                 <fa-icon icon="plus" size="sm" class="mr-1"></fa-icon> Create issue
-            </button>
+            </button> -->
             <button class="btn btn-sm btn-link" (click)="linkIssueVisible = true">
                 <fa-icon icon="link" size="sm" class="mr-1"></fa-icon> Link issue
             </button>
@@ -82,12 +82,12 @@
     <router-outlet></router-outlet>
 </div>
 
-<p-sidebar [(visible)]="createIssueVisible" styleClass="ui-sidebar-md" position="right"
+<!-- <p-sidebar [(visible)]="createIssueVisible" styleClass="ui-sidebar-md" position="right"
     (onHide)="createIssueCompleted($event)">
     <app-create-issue *ngIf="selectedIssue && selectedIssue.project" [project]="selectedIssue.project"
         (close)="createIssueCompleted($event)" (issueCreated)="onIssueCreated($event)">
     </app-create-issue>
-</p-sidebar>
+</p-sidebar> -->
 
 <p-sidebar [(visible)]="linkIssueVisible" styleClass="ui-sidebar-md" position="right"
     (onHide)="linkIssueCompleted($event)">

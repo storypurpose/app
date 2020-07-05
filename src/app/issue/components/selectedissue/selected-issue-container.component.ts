@@ -162,19 +162,15 @@ export class SelectedIssueContainerComponent extends ResizableContainerBase impl
 
     linkIssueVisible = false;
     linkIssueCompleted(eventArgs) {
-        console.log('linkIssueCompleted', eventArgs);
         this.linkIssueVisible = false;
     }
     onIssueLinked(eventArgs) {
-        console.log('onIssueLinked', eventArgs);
     }
 
     createIssueVisible = false;
     createIssueCompleted(eventArgs) {
-        console.log('createIssueCompleted', eventArgs);
         this.linkIssueVisible = false;
     }
     onIssueCreated(eventArgs) {
-        console.log('onCreateIssue', eventArgs);
     }
 }

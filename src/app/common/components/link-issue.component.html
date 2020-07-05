@@ -10,26 +10,27 @@
             </div>
 
             <div class="form-group">
-                <label>Search issue to link:</label>
-                <div class="input-group input-group-sm">
-                    <input type="text" class="form-control form-control-sm" [(ngModel)]="record.inwardIssue">
-                    <div class="input-group-append">
-                        <button class="btn btn-default">
-                            <fa-icon icon="search"></fa-icon> Search
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
                 <label>Link type:</label>
                 <select *ngIf="issueLinkTypes" style="max-width: 200pt;" class="form-control form-control-sm"
                     [(ngModel)]="record.linktype">
                     <ng-container *ngFor="let lt of issueLinkTypes">
-                        <option [value]="lt.inward">{{lt.inward}}</option>
-                        <option [value]="lt.outward">{{lt.outward}}</option>
+                        <option [value]="lt.name +':outward'">{{lt.outward}}</option>
+                        <option [value]="lt.name +':inward'" *ngIf="lt.inward !== lt.outward">{{lt.inward}}</option>
                     </ng-container>
                 </select>
+            </div>
+
+            <div class="form-group">
+                <label>Search issue to link:</label>
+                <div class="ui-fluid">
+                    <p-autoComplete [(ngModel)]="record.linkedIssue" [suggestions]="issueLookup" [forceSelection]="true"
+                        placeholder="issue key or summary/title" (completeMethod)="search($event)" field="title">
+                        <ng-template let-issue pTemplate="item">
+                            <i [class]="issue.icon" class="mr-1"></i>
+                            {{issue.key}}: {{issue.title}}
+                        </ng-template>
+                    </p-autoComplete>
+                </div>
             </div>
 
             <div class="form-group">
@@ -41,6 +42,6 @@
     </div>
 
     <div class="pane-footer">
-        <app-button-panel (save)="onSave()" (close)="onClose()" (reset)="onReset()"></app-button-panel>
+        <app-button-panel [canSave]="canSave()" (save)="onSave()" (close)="onClose()" (reset)="onReset()"></app-button-panel>
     </div>
 </div>

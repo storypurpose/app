@@ -22,10 +22,6 @@ export class JiraService {
     proxyurl = environment.proxyurl;
     baseUrl = "";
     restVersionEndpoint = "/rest/api/latest";
-    // fieldList = ['project', 'reporter', 'assignee', 'status', 'summary', 'key', 'issuelinks', 'issuetype', 'parent',
-    //     'created', 'updated', 'duedate', 'resolution'];
-    // detailFields = ['description', 'components', 'labels', 'fixVersions'];
-    // attachmentField = ['attachment'];
     httpOptions: any;
 
     staticFileLocation = './staticfiles';
@@ -110,6 +106,22 @@ export class JiraService {
         const url = `search?jql=${jql}&fields=${fieldCodes}&startAt=${startAt}&maxResult=${pageSize}`;
         return this.httpClient.get(`${this.proxyurl}/${this.baseUrl}/${url}`, this.httpOptions);
     }
+    executeIssueLookup(payload, srcJson = null) {
+        if (this.isOnlineMode === false && srcJson && srcJson.length > 0) {
+            return this.httpClient.get(`${this.staticFileLocation}/${srcJson}`, this.httpOptions)
+        }
+        const isJiraKey = new RegExp('^[a-zA-Z]+-[0-9]+$');
+        let jql = `summary~'${payload.query}'`;
+        if (isJiraKey.test(payload.query)) {
+            jql = `${jql} or key=${payload.query}`
+        }
+        if (payload.projectKey && payload.projectKey.length > 0) {
+            jql = `project=${payload.projectKey} and (${jql})`;
+        }
+        const fieldCodes = ['summary', 'issuetype']
+        const url = `search?jql=${jql}&fields=${fieldCodes}&startAt=0&maxResult=50`;
+        return this.httpClient.get(`${this.proxyurl}/${this.baseUrl}/${url}`, this.httpOptions);
+    }
 
     favouriteSearches(srcJson = null) {
         if (this.isOnlineMode === false && srcJson && srcJson.length > 0) {
@@ -141,6 +153,46 @@ export class JiraService {
                 tap(list => _.map(list, p => _.pick(p, ['name', 'inward', 'outward'])))
             );
     }
+
+    addIssueLink(payload) {
+        if (this.isOnlineMode === false) {
+            return this.httpClient.get(`${this.staticFileLocation}/comments.json`, this.httpOptions)
+        }
+        const url = 'issueLink';
+        const data = this.transformToIssueLink(payload);
+        return this.httpClient.post(`${this.proxyurl}/${this.baseUrl}/${url}`, data, this.httpOptions);
+    }
+
+    transformToIssueLink(record) {
+        const payload = {
+            outwardIssue: { key: "" },
+            comment: { body: "" },
+            inwardIssue: { key: "" },
+            type: { name: "" }
+        }
+        if (record.comment) {
+            payload.comment.body = record.comment;
+        }
+        if (record.linktype) {
+            const splitted = record.linktype.split(':');
+            if (splitted && splitted.length == 2) {
+                payload.type.name = splitted[0];
+                if (splitted[1] === 'inward') {
+                    if (record.linkedIssue) {
+                        payload.inwardIssue.key = record.linkedIssue.key;
+                    }
+                    payload.outwardIssue.key = record.sourceIssue.key;
+                } else if (splitted[1] === 'outward') {
+                    if (record.linkedIssue) {
+                        payload.outwardIssue.key = record.linkedIssue.key;
+                    }
+                    payload.inwardIssue.key = record.sourceIssue.key;
+                }
+            }
+        }
+        return payload;
+    }
+
     getCreateIssueMetadata(projectCode, srcJson = null) {
         const issuetypeName = 'Story';
         if (this.isOnlineMode === false && srcJson && srcJson.length > 0) {

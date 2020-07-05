@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { StatisticsComponent } from './components/statistics.component';
 import { ChartsModule } from 'ng2-charts';
 import 'chartjs-plugin-labels';
-import { NgbDropdownModule, NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbCollapseModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { MultilistSelectorComponent } from './components/multilist-selector.component';
 import { IssueNavigationMenuComponent } from './components/issue-navigation-menu.component';
 import { SliderModule } from 'primeng/slider';
@@ -27,6 +27,7 @@ import { CommonEffects } from './+state/common.effects';
 import { IssueDetailsComponent } from './components/issue-details.component';
 import { TasklistComponent } from './components/task-list.component';
 import { SidebarModule } from 'primeng/sidebar';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ExtendedFieldsComponent } from './components/extended-fields.component';
 import { AttachmentsComponent } from './components/attachments.component';
 import { NgxFilesizeModule } from 'ngx-filesize';
@@ -64,9 +65,11 @@ const components = [
     TreeTableModule,
     SliderModule,
     SidebarModule,
+    AutoCompleteModule,
 
     NgbCollapseModule,
     NgbDropdownModule,
+    NgbTypeaheadModule,
 
     FontAwesomeModule,
 

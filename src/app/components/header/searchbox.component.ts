@@ -33,7 +33,7 @@ export class SearchboxComponent implements OnInit, OnDestroy {
     executeQuery(view = 'list') {
         if (this.canExecuteQuery()) {
             this.query = this.query.trim();
-            const splitted = _.split(this.query, /[ =]+/);
+            const splitted = _.split(this.query, /[ =~]+/);
 
             (splitted && splitted.length === 1)
                 ? this.router.navigate(["/browse", this.query])

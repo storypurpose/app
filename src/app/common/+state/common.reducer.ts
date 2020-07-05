@@ -45,8 +45,16 @@ export function commonReducer(state: Common, action: any): Common {
         case ActionTypes.LoadIssueLinkTypesSuccess: {
             return { ...state, issueLinkTypes: action.payload };
         }
+        case ActionTypes.AddIssueLinkSuccess: {
+            return { ...state, issueLinkAdded: action.payload };
+        }
+
         case ActionTypes.LoadCreateIssueMetadataSuccess: {
             return { ...state, createIssueMetadata: action.payload };
+        }
+
+        case ActionTypes.LoadIssueLookupSuccess: {
+            return { ...state, issueLookup: action.payload };
         }
 
         default: return state;

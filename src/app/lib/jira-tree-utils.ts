@@ -35,7 +35,7 @@ export const CustomNodeTypes = {
     Task: "Task"
 };
 
-export function getIcon(issueType) {
+export function getIssuetypeIcon(issueType) {
     switch (issueType) {
         case CustomNodeTypes.Organization:
         case CustomNodeTypes.Hierarchy: return "";
@@ -49,7 +49,6 @@ export function getIcon(issueType) {
         case CustomNodeTypes.TestSuite: return "fa fa-flask fa-sm fa-fw text-muted";
         default: return "far fa-file fa-sm fa-fw"
     }
-    return '';
 }
 
 export function isCustomNode(args) {
@@ -108,7 +107,7 @@ export function populateFieldValuesCompact(node) {
             status: node.fields.status ? node.fields.status.name : 'unknown',
             label: _.truncate(node.fields.summary, { length: MAX_LENGTH }),
             title: node.fields.summary,
-            icon: getIcon(issueType),
+            icon: getIssuetypeIcon(issueType),
             duedate: node.fields.duedate,
             duedateMissing: node.fields.duedate && (new Date(node.fields.duedate) < new Date()),
             created: node.fields.created,
@@ -136,7 +135,7 @@ export function populateFieldValues(node) {
         node.status = node.fields.status ? node.fields.status.name : 'unknown';
         node.label = _.truncate(node.fields.summary, { length: MAX_LENGTH });
         node.title = node.fields.summary;
-        node.icon = getIcon(node.issueType);
+        node.icon = getIssuetypeIcon(node.issueType);
         node.duedate = node.fields.duedate;
         node.created = node.fields.created;
         node.updated = node.fields.updated;
@@ -270,7 +269,7 @@ export function createOrganizationNode(organization) {
             type: TreeTemplateTypes.Heading,
             menuType: CustomNodeTypes.Organization,
             issueType: CustomNodeTypes.Organization,
-            icon: getIcon(CustomNodeTypes.Organization),
+            icon: getIssuetypeIcon(CustomNodeTypes.Organization),
             expanded: true,
             editable: false,
             selectable: false
@@ -300,7 +299,7 @@ export function createProjectNode(project: any) {
         description: project.description,
         issueType: CustomNodeTypes.Project,
         menuType: CustomNodeTypes.Project,
-        icon: getIcon(CustomNodeTypes.Project),
+        icon: getIssuetypeIcon(CustomNodeTypes.Project),
         expanded: true,
         selectable: false
     };
@@ -323,7 +322,7 @@ export function createHierarchyNode(found: any): any {
         title: found.extendedValue,
         label: found.extendedValue,
         description: found.description,
-        icon: getIcon(CustomNodeTypes.Hierarchy),
+        icon: getIssuetypeIcon(CustomNodeTypes.Hierarchy),
         issueType: found.name,
         hfKey: found.id,
         children: [],

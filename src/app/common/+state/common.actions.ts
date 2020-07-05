@@ -14,13 +14,21 @@ export const ActionTypes = {
     LoadSubtasksFailed: type("[LoadSubtasks] Failed"),
     LoadSubtasksSuccess: type("[LoadSubtasks] Success"),
 
+    LoadCreateIssueMetadata: type("[LoadCreateIssueMetadata]"),
+    LoadCreateIssueMetadataFailed: type("[LoadCreateIssueMetadata] Failed"),
+    LoadCreateIssueMetadataSuccess: type("[LoadCreateIssueMetadata] Success"),
+
     LoadIssueLinkTypes: type("[LoadIssueLinkTypes]"),
     LoadIssueLinkTypesFailed: type("[LoadIssueLinkTypes] Failed"),
     LoadIssueLinkTypesSuccess: type("[LoadIssueLinkTypes] Success"),
 
-    LoadCreateIssueMetadata: type("[LoadCreateIssueMetadata]"),
-    LoadCreateIssueMetadataFailed: type("[LoadCreateIssueMetadata] Failed"),
-    LoadCreateIssueMetadataSuccess: type("[LoadCreateIssueMetadata] Success"),
+    AddIssueLink: type("[AddIssueLink]"),
+    AddIssueLinkFailed: type("[AddIssueLink] Failed"),
+    AddIssueLinkSuccess: type("[AddIssueLink] Success"),
+
+    LoadIssueLookup: type("[LoadIssueLookup]"),
+    LoadIssueLookupFailed: type("[LoadIssueLookup] Failed"),
+    LoadIssueLookupSuccess: type("[LoadIssueLookup] Success"),
 }
 
 export class LoadCommentsAction implements Action {
@@ -41,16 +49,30 @@ export class LoadIssueLinkTypesAction implements Action {
     type = ActionTypes.LoadIssueLinkTypes;
     constructor(public payload: any) { }
 }
+export class AddIssueLinkAction implements Action {
+    type = ActionTypes.AddIssueLink;
+    constructor(public payload: any) { }
+}
 
 export class LoadCreateIssueMetadataAction implements Action {
     type = ActionTypes.LoadCreateIssueMetadata;
     constructor(public payload: any) { }
 }
+
+export class LoadIssueLookupAction implements Action {
+    type = ActionTypes.LoadIssueLookup;
+    constructor(public payload: any) { }
+}
+
 export type Actions =
     LoadCommentsAction
     | AddCommentAction
     | LoadSubtasksAction
 
     | LoadIssueLinkTypesAction
+    | AddIssueLinkAction
+
     | LoadCreateIssueMetadataAction
+
+    | LoadIssueLookupAction
     ;

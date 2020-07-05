@@ -29,7 +29,6 @@ export class CommonEffects {
     )
   );
 
-
   @Effect() loadSubtasks = this.actions$.pipe(ofType(a.ActionTypes.LoadSubtasks),
     switchMap((action: any) =>
       this.jiraService.executeJql(`issuetype in (${action.payload.subTaskIssueTypes}) AND parent=${action.payload.issueKey}`,
@@ -41,4 +40,29 @@ export class CommonEffects {
     )
   );
 
+  @Effect() loadIssueLinkTypes = this.actions$.pipe(ofType(a.ActionTypes.LoadIssueLinkTypes),
+    switchMap((action: any) =>
+      this.jiraService.getIssueLinkTypes()
+        .pipe(
+          map(payload => ({ type: a.ActionTypes.LoadIssueLinkTypesSuccess, payload })),
+          catchError(() => of({ type: a.ActionTypes.LoadIssueLinkTypesFailed }))
+        )
+    )
+  );
+
+  @Effect() loadCreateIssueMetadata = this.actions$.pipe(ofType(a.ActionTypes.LoadCreateIssueMetadata),
+    switchMap((action: any) =>
+      this.jiraService.getCreateIssueMetadata(action.payload)
+        .pipe(
+          map(fields => ({ type: a.ActionTypes.LoadCreateIssueMetadataSuccess, payload: this.transformCreateIssueMetadata(fields) })),
+          catchError(() => of({ type: a.ActionTypes.LoadCreateIssueMetadataFailed }))
+        )
+    )
+  );
+
+  private transformCreateIssueMetadata(fields: any): any[] {
+    const result = _.filter(_.toArray(fields), { required: true });
+    
+    return result;
+  }
 }

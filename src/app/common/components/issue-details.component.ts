@@ -1,6 +1,5 @@
-import { Component, Input, EventEmitter, Output, HostListener, ViewChild } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 import * as _ from 'lodash';
-import { Key } from 'ts-key-enum';
 
 @Component({
     selector: 'app-issue-details',

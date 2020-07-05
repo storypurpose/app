@@ -42,7 +42,12 @@ export function commonReducer(state: Common, action: any): Common {
             }
             return { ...state, subtasks };
         }
-
+        case ActionTypes.LoadIssueLinkTypesSuccess: {
+            return { ...state, issueLinkTypes: action.payload };
+        }
+        case ActionTypes.LoadCreateIssueMetadataSuccess: {
+            return { ...state, createIssueMetadata: action.payload };
+        }
 
         default: return state;
     }

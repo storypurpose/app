@@ -160,28 +160,21 @@ export class SelectedIssueContainerComponent extends ResizableContainerBase impl
         this.selectedIssue.title = eventArgs.updated;
     }
 
-    // editTitle = false;
-    // titleMemento: string;
-    // onEditTitle() {
-    //     if (this.selectedIssue) {
-    //         this.titleMemento = this.selectedIssue.title;
-    //         this.editTitle = true;
-    //     }
-    // }
-    // canSaveTitle = () => this.titleMemento && this.titleMemento.length > 0;
-    // onSaveTitle() {
-    //     if (this.canSaveTitle()) {
-    //         this.onTitleUpdated({ issueKey: this.selectedIssue.key, fieldName: 'summary', updatedValue: this.titleMemento });
-    //         this.selectedIssue.title = this.titleMemento;
-    //         this.editTitle = false;
-    //     }
-    // }
-    // onCancelTitle(event) {
-    //     if (event) {
-    //         event.preventDefault();
-    //         event.stopPropagation();
-    //     }
-    //     this.selectedIssue.Title = this.titleMemento;
-    //     this.editTitle = false;
-    // }
+    linkIssueVisible = false;
+    linkIssueCompleted(eventArgs) {
+        console.log('linkIssueCompleted', eventArgs);
+        this.linkIssueVisible = false;
+    }
+    onIssueLinked(eventArgs) {
+        console.log('onIssueLinked', eventArgs);
+    }
+
+    createIssueVisible = false;
+    createIssueCompleted(eventArgs) {
+        console.log('createIssueCompleted', eventArgs);
+        this.linkIssueVisible = false;
+    }
+    onIssueCreated(eventArgs) {
+        console.log('onCreateIssue', eventArgs);
+    }
 }

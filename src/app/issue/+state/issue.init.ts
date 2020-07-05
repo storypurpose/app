@@ -18,6 +18,5 @@ export const issueInitialState: Issue = {
     recentlyViewedItems: [],
     recentmostItem: null,
 
-    updatedField: null,
-    issueLinkTypes: []
+    updatedField: null
 };

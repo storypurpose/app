@@ -34,19 +34,22 @@ import { IssueMetafieldsComponent } from './components/issue-metafields.componen
 import { UIControlsModule } from '../ui-controls/ui-controls.module';
 import { SharedLibModule } from '../shared-lib/shared-lib.module';
 import { GroupedIssuesComponent } from './components/grouped-issues.component';
+import { LinkIssueComponent } from './components/link-issue.component';
+import { CreateIssueComponent } from './components/create-issue.component';
 
 const components = [
   ButtonPanelComponent, StoryboardRendererComponent, StatisticsComponent,
   MultilistSelectorComponent, IssueNavigationMenuComponent, TimelineRendererComponent, HelpLinkComponent,
   IssueMetafieldsComponent, ExtendedFieldsComponent, AttachmentsComponent,
   TasklistComponent, GroupedIssuesComponent,
-  CommentlistComponent, IssueDetailsComponent
+  CommentlistComponent, IssueDetailsComponent,
+  LinkIssueComponent, CreateIssueComponent
 ];
 @NgModule({
   exports: components,
   declarations: components,
   imports: [
-    CommonModule,    
+    CommonModule,
     FormsModule,
     RouterModule,
     ChartsModule,
@@ -56,7 +59,7 @@ const components = [
     NgxMdModule,
     SharedLibModule,
     UIControlsModule,
-    
+
     DialogModule,
     TreeTableModule,
     SliderModule,

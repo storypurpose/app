@@ -19,7 +19,6 @@ export interface Issue {
 
   updatedField: any;
 
-  issueLinkTypes: any;
 }
 
 export interface IssueState {

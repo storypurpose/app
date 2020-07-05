@@ -3,11 +3,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import * as _ from "lodash";
 import { Store } from '@ngrx/store';
 import { AppState } from '../+state/app.state';
-import { filter, map } from 'rxjs/operators';
+import { filter, map, tap, find } from 'rxjs/operators';
 import { of, combineLatest } from 'rxjs';
 import { ModeTypes } from '../+state/app.actions';
 import { fieldList, detailFields, attachmentField } from './jira-tree-utils';
 import { environment } from '../../environments/environment';
+import { values } from 'lodash';
 
 export const AuthenticationModeTypes = {
     JiraCloud: 0,
@@ -134,6 +135,26 @@ export class JiraService {
         }
         const url = `issueLinkType`;
         return this.httpClient.get(`${this.proxyurl}/${this.baseUrl}/${url}`, this.httpOptions)
-            .pipe(map(p => _.pick(p, ['name', 'inward', 'outward'])));
+            .pipe(
+                filter((p: any) => p && p.issueLinkTypes),
+                map(p => p.issueLinkTypes),
+                tap(list => _.map(list, p => _.pick(p, ['name', 'inward', 'outward'])))
+            );
+    }
+    getCreateIssueMetadata(projectCode, srcJson = null) {
+        const issuetypeName = 'Story';
+        if (this.isOnlineMode === false && srcJson && srcJson.length > 0) {
+            return this.httpClient.get(`${this.staticFileLocation}/${srcJson}`, this.httpOptions)
+        }
+        const url = `issue/createmeta?projectKeys=${projectCode}&issuetypeNames=${issuetypeName}&expand=projects.issuetypes.fields`;
+        return this.httpClient.get(`${this.proxyurl}/${this.baseUrl}/${url}`, this.httpOptions)
+            .pipe(
+                filter((p: any) => p && p.projects),
+                map(p => p.projects.find(project => project.key === projectCode)),
+                tap(p => p = p || { issuetypes: [] }),
+                map(p => p.issuetypes.find(it => it.name === issuetypeName)),
+                tap(p => p = p || { fields: {} }),
+                map(p => p.fields)
+            );
     }
 }

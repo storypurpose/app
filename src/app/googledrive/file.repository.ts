@@ -49,7 +49,7 @@ export class FileRepository {
             if (!file.Shared) {
                 promises.push(
                     gapi.client.drive.permissions.create({
-                        resource: permission,
+                        // resource: permission,
                         fileId: file.Id
                     }));
             }

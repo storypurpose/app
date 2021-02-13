@@ -4,11 +4,11 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "deploy": "npm version patch && ng deploy --cname=jira.storypurpose.info --name='adhamankar' --repo=https://github.com/adhamankar/storypurpose.git"
+    "deploy": "npm version patch && ng deploy --base-href=/app/"
   },
   "private": true,
   "dependencies": {

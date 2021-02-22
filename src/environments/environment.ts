@@ -10,7 +10,7 @@ export const environment = {
   VERSION: version,
   gacode: '',
   proxyurl: 'https://ad-cors.herokuapp.com',
-  helpsite: 'https://blog.storypurpose.info'
+  helpsite: 'https://storypurpose.github.io/blog'
 };
 
 /*
